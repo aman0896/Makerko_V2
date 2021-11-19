@@ -1,0 +1,22 @@
+.sidetab {
+    height: 50px;
+    width: 160px;
+    color: #5044fd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.1s ease-in-out;
+    border: 0.1px solid #e5e5e5;
+}
+
+.sidetab-active,
+.sidetab:hover {
+    height: 50px;
+    width: 160px;
+    color: white;
+    background-color: #5044fd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.1s ease-in-out;
+}

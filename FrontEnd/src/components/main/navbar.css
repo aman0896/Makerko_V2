@@ -1,0 +1,138 @@
+.navbar-background {
+    background: #5044fd;
+    color: white;
+    height: auto;
+}
+
+.dropdown-menu {
+    background-color: white !important;
+    border-radius: 0px !important;
+    margin-top: -1px !important;
+    padding: 0px;
+}
+.dropdown-menu > li > a {
+    color: #5044fd;
+}
+.dropdown-menu > li > a:hover {
+    color: white;
+    background-color: #5044fd;
+}
+.dropdown-item :hover {
+    background-color: #5044fd;
+    color: white;
+}
+
+.nav-item:hover .dropdown-menu {
+    display: block;
+    padding: 0px;
+    background-color: white !important;
+}
+/* .nav-item .dropdown-menu {
+    display: none;
+    height: 100px;
+    width: 140px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0px;
+} */
+/* Vector */
+
+.btn-nav {
+    background-color: white;
+    color: #5044fd;
+    font-weight: 600;
+}
+
+.icon-container {
+    font-size: 24px;
+    background-color: white;
+    border-radius: 50%;
+
+    color: #5044fd;
+    height: 45px;
+    width: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.bell-icon {
+    padding-right: 15px;
+}
+
+@media (max-width: 1200px) {
+    .profile {
+        margin-top: 20px;
+        margin-left: 10px;
+    }
+    .quotebutton {
+        margin-top: 10px;
+    }
+    #navbar-nav {
+        margin-left: 10px;
+    }
+    .nav-link {
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+        padding-left: 10px;
+        border-bottom: 0.5px solid #5044fd !important;
+    }
+    .navbar-brand {
+        padding: 10px !important;
+    }
+    .navbar-button .navbar-toggler {
+        color: white;
+        border-color: white;
+        padding: 10px !important;
+    }
+    .bell-icon {
+        padding-bottom: 15px;
+    }
+}
+
+.navbar-button .navbar-toggler {
+    color: white;
+    border-color: white;
+}
+
+.navbar-button .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+.navbar-button a {
+    color: white;
+}
+
+.nav-link {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 0.5px solid #5044fd !important;
+    display: flex;
+    align-items: center;
+}
+
+.active-link {
+    color: black !important;
+}
+.deactive-link {
+    color: white !important;
+}
+
+.nav-link:hover {
+    background-color: white; /*will change background-color of element on hover */
+    color: #5044fd !important; /*will change color of text within the element on hover */
+    transition: ease-in-out all 0.4s;
+    -moz-transition: ease-in-out all 0.4s;
+    -webkit-transition: ease-in-out all 0.4s;
+    border-bottom: 0.5px solid #5044fd !important;
+}
+
+#active-link {
+    color: black;
+}
+#deactive-link {
+    color: white;
+}
+
+.navbar-brand {
+    padding: 0px;
+}

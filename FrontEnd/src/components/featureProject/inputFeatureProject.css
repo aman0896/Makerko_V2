@@ -1,0 +1,32 @@
+.feature-project {
+  margin: 1em auto 2em;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 90%;
+  font-size: 0.9rem;
+}
+
+.feature-project label {
+  font-size: 0.9rem;
+}
+
+.feature-project input {
+  height: 50px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.pdf-input {
+  width: 60%;
+}
+@media (max-width: 1000px) {
+  .pdf-input {
+    width: auto;
+  }
+}
+/* .feature-project input {
+    width: 400px;
+    height: 50px;
+    border-radius: 5px;
+} */

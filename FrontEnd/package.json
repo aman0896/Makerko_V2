@@ -1,0 +1,100 @@
+{
+    "name": "fabhubs",
+    "version": "0.1.0",
+    "private": true,
+    "homepage": "/",
+    "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^27.0.0",
+        "@ckeditor/ckeditor5-react": "^3.0.0",
+        "@fortawesome/fontawesome-svg-core": "^1.2.34",
+        "@fortawesome/free-brands-svg-icons": "^5.15.2",
+        "@fortawesome/free-regular-svg-icons": "^5.15.3",
+        "@fortawesome/free-solid-svg-icons": "^5.15.3",
+        "@fortawesome/react-fontawesome": "^0.1.14",
+        "@material-ui/core": "^4.11.2",
+        "@material-ui/icons": "^4.11.2",
+        "@testing-library/jest-dom": "^5.11.6",
+        "@testing-library/react": "^11.2.2",
+        "@testing-library/user-event": "^12.2.2",
+        "axios": "^0.21.1",
+        "babel-plugin-transform-remove-console": "^6.9.4",
+        "bootstrap": "^4.5.3",
+        "caniuse-lite": "^1.0.30001237",
+        "crypto-js": "^4.0.0",
+        "dotenv": "^8.2.0",
+        "feather-icons-react": "^0.4.3",
+        "file-saver": "^2.0.5",
+        "formik": "^2.2.6",
+        "jquery": "^3.5.1",
+        "jsonwebtoken": "^8.5.1",
+        "leaflet": "^1.7.1",
+        "leaflet-geosearch": "^3.3.0",
+        "mobx": "^6.0.4",
+        "mobx-react": "^7.0.5",
+        "node-sass": "^5.0.0",
+        "popper.js": "^1.16.1",
+        "react": "^17.0.1",
+        "react-bootstrap": "^1.4.0",
+        "react-cookie": "^4.0.3",
+        "react-cropper": "^2.1.8",
+        "react-custom-scrollbars": "^4.2.1",
+        "react-doc-viewer": "^0.1.5",
+        "react-dom": "^17.0.1",
+        "react-dropdown": "^1.9.0",
+        "react-dropzone": "^11.2.4",
+        "react-file-viewer": "^1.2.1",
+        "react-fontawesome": "^1.7.1",
+        "react-horizontal-scrolling-menu": "^0.7.10",
+        "react-html-parser": "^2.0.2",
+        "react-icons": "^4.2.0",
+        "react-image-lightbox": "^5.1.4",
+        "react-leaflet": "^2.4.0",
+        "react-leaflet-search": "^2.0.1",
+        "react-medium-image-zoom": "^3.1.3",
+        "react-password-toggle-icon": "^1.1.5",
+        "react-pdf": "^5.3.2",
+        "react-phone-input-2": "^2.13.9",
+        "react-ratings-declarative": "^3.4.1",
+        "react-router-dom": "^5.2.0",
+        "react-router-hash-link": "^2.4.3",
+        "react-scripts": "4.0.1",
+        "react-scroll": "^1.8.1",
+        "react-select": "^3.2.0",
+        "react-slick": "^0.28.1",
+        "react-star-ratings": "^2.3.0",
+        "react-toastify": "^7.0.4",
+        "save": "^2.4.0",
+        "slick-carousel": "^1.8.1",
+        "universal-cookie": "^4.0.4",
+        "web-push": "^3.4.5",
+        "web-vitals": "^0.2.4",
+        "yup": "^0.32.9"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "local-ip-url": "^1.0.3"
+    }
+}

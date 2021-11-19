@@ -1,0 +1,18 @@
+#icon {
+  position: absolute;
+  top:35%;
+  right:5%;
+  color: black;
+
+  font-size: 20px;
+}
+#passwordbox {
+  position: relative;
+
+ 
+}
+#icon:hover {
+  cursor: pointer;
+}
+
+

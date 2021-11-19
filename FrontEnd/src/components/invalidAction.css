@@ -1,0 +1,16 @@
+.action input {
+    width: 320px;
+}
+
+#lable {
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: #5044fd;
+    font-size: 14px;
+    padding:8px 16px 8px 16px;
+}
