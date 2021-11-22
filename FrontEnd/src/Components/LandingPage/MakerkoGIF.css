@@ -1,0 +1,10 @@
+.gif-container {
+    padding: 10px;
+    display: flex;
+    height: 60px;
+    background-color: black;
+    color: white;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+}

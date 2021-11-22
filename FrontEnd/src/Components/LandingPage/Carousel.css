@@ -1,0 +1,12 @@
+.slick-dots li button:before {
+    font-family: "slick";
+    font-size: 15px;
+    line-height: 10px;
+    color: white;
+    opacity: 0.3;
+}
+
+.slick-dots li.slick-active button:before {
+    font-size: 15px;
+    color: white;
+}
