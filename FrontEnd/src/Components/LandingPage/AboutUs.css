@@ -1,0 +1,25 @@
+.aboutus-container {
+    display: flex;
+    justify-content: center;
+    background-color: black;
+    width: 100%;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.aboutus-sub-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 90%;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.aboutus-heading {
+    color: #0000ff;
+    font-weight: bold;
+    text-align: center;
+}
