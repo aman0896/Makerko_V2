@@ -1,8 +1,31 @@
-
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
 }
 .required {
-  color: red;
+    color: red;
+}
+
+@font-face {
+    font-family: "pilatExtendedBold";
+    src: local("pilatExtendedBold"),
+        url(./assets/font/PilatExtended-Bold.woff) format("woff");
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                            'embedded-opentype', and 'svg' */
+}
+
+.header {
+    font-family: "pilatExtendedBold";
+    font-size: 24px;
+    line-height: 18px;
+    letter-spacing: 0.2;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+}
+
+.mainComponent {
+    margin-left: 165px;
+    margin-top: 136px;
+    margin-right: 122px;
+    margin-bottom: 112px;
 }

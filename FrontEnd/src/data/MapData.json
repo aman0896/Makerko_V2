@@ -1,0 +1,20 @@
+{
+    "makers" : [
+        {
+            "latitude": "27.685880489484212",
+            "longitude": "85.32144788186963",
+            "name": "Pro-Mech Minds & Engineering Services Pvt.Ltd.",
+            "location": "Jwagal, Lalitpur 44600, Nepal",
+            "contact": "+977 1-5261170",
+            "officeHour": "9:00 AM - 5:30 PM"
+        },
+        {
+            "latitude": "27.686965188941837",
+            "longitude": "85.31763645303363",
+            "name": "Zener Technologies",
+            "location": "Kupondole, Lalitpur 44700, Nepal",
+            "contact": "+977 9815401344",
+            "officeHour": "10:00 AM - 5:00 PM"
+        }        
+    ]
+}
