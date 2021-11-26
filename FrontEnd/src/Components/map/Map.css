@@ -1,3 +1,79 @@
-.overMap {
-    z-index: "2000 !important";
+.mapContainer {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.mapBlock {
+    height: 450px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.mapOverlayContainer {
+    position: absolute;
+    width: 350px;
+    height: 450px;
+    top: 0;
+    left: 0px;
+    z-index: 9990;
+    background-color: white;
+    overflow-y: scroll;
+}
+
+.mapOverlayImageBlock {
+    position: relative;
+    height: 225px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-width: 2px;
+    border-color: #a0a0a0;
+    border-style: solid;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.mapOverlayTextBlock {
+    position: relative;
+    min-height: 225px;
+    background-color: #0000ff;
+    padding: 10px;
+}
+.mapOverlayContainer::-webkit-scrollbar {
+    display: none;
+    width: 5px;
+}
+.mapOverlayContainer::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(190, 190, 190);
+    border-radius: 10px;
+    position: absolute;
+}
+.mapOverlayContainer::-webkit-scrollbar-thumb {
+    background: grey;
+    border-radius: 10px;
+}
+
+.mapOverlayClose {
+    display: none;
+}
+
+@media screen and (max-width: 540px) {
+    .mapOverlayContainer {
+        width: 100%;
+    }
+    .mapOverlayClose {
+        position: absolute;
+        color: grey;
+        font-size: 30px;
+        z-index: 9998;
+        cursor: pointer;
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        padding-right: 10px;
+        padding-top: 10px;
+    }
 }
