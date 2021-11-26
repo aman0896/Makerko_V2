@@ -19,7 +19,7 @@
     width: 90%;
 }
 .main-sub-box-4 h2 {
-    color: #0000ff;
+    color: var(--primary);
     margin-bottom: 30px;
 }
 
@@ -29,7 +29,7 @@
 
 .main-sub-box-4 a {
     text-decoration: underline;
-    color: #0000ff;
+    color: var(--primary);
 }
 
 .makers-col {
@@ -47,7 +47,7 @@
 
 .divider {
     width: 1px;
-    background-color: black;
+    background-color: var(--dark);
     left: 50%;
     height: inherit;
 }
@@ -59,7 +59,7 @@
     justify-content: center;
     width: 100%;
     height: 400px;
-    background-color: black;
+    background-color: var(--dark);
 }
 
 @media screen and (max-width: 768px) {
@@ -72,7 +72,7 @@
         width: 100%;
     }
     .main-sub-box-4 h2 {
-        color: #0000ff;
+        color: var(--primary);
         margin-bottom: 30px;
     }
 
@@ -91,7 +91,7 @@
     .divider {
         margin: 20px;
         width: 100%;
-        background-color: black;
+        background-color: var(--dark);
         height: 1px;
     }
 }

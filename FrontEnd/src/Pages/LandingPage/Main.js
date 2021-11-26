@@ -11,6 +11,7 @@ import aboutUs from "../../config/AboutUs.json";
 import "./Main.css";
 import partners from "../../config/Partners.json";
 import PartnersAndCollaboration from "../../Components/LandingPage/PartnersAndCollaboration";
+import Button, { Button2 } from "../../Components/Button";
 
 function Main() {
     const slides = data;
@@ -57,15 +58,10 @@ function Main() {
                                 capabilities, products, services, materials and
                                 rates by visiting their portfolio.
                             </p>
-                            <button
-                                style={{
-                                    width: "200px",
-                                    height: "50px",
-                                    marginBottom: "30px",
-                                }}
-                            >
+                            <Button2 type="button" buttonSize="button2--medium">
                                 Explores MAKERS
-                            </button>
+                            </Button2>
+
                             <a href="#">
                                 Are you a Maker? Sign Up to build your portfolio
                             </a>
@@ -82,15 +78,9 @@ function Main() {
                                 applying manufacturing technologies to bring
                                 good to humanity.
                             </p>
-                            <button
-                                style={{
-                                    width: "200px",
-                                    height: "50px",
-                                    marginBottom: "30px",
-                                }}
-                            >
+                            <Button2 type="button" buttonSize="button2--medium">
                                 View Projects
-                            </button>
+                            </Button2>
                             <a href="#">
                                 Share your innovation/ product/ project to
                                 feature in our platform.
