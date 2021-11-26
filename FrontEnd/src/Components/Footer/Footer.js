@@ -44,7 +44,7 @@ function FooterContainer() {
                     </Footer.Column>
                 </Footer.Row>
                 <Footer.Horizontal />
-                <div>
+                <div className="pl-3 pr-3">
                     <Footer.Copyright className="text-white">
                         Copyright(c) Makerko 2021
                     </Footer.Copyright>

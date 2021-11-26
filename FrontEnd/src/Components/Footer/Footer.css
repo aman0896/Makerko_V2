@@ -1,5 +1,5 @@
 .footer-container {
-    background-color: black;
+    background-color: var(--dark);
     padding: 40px 0px;
     width: 100%;
     height: auto;
@@ -41,46 +41,46 @@
 .footer-title {
     font-size: 18px;
     line-height: 25px;
-    color: #0000ff;
+    color: var(--primary);
     margin-bottom: 20px;
     font-weight: bold;
 }
 
 .footer-link {
-    color: #fff;
+    color: var(--white);
     margin-bottom: 5px;
     font-size: 14px;
     text-decoration: none;
 }
 
 .footer-link:hover {
-    color: #0000ff;
+    color: var(--primary);
     transition: 0.2s ease-in;
     cursor: pointer;
     text-decoration: none;
 }
 
 .footer-horizontalline {
-    border: 1px solid white;
+    border: 1px solid var(--white);
     width: 100%;
     margin-bottom: 0;
 }
 
 .footer-copyright {
-    color: white;
+    color: var(--white);
 }
 
 .footer-termspolicy {
-    color: white;
+    color: var(--white);
     float: right;
 }
 
 .footer-termsandpolicy {
-    color: white;
+    color: var(--white);
     text-decoration: underline;
 }
 .footer-termsandpolicy:hover {
-    color: #0000ff;
+    color: var(--primary);
     transition: 0.2s ease-in;
     cursor: pointer;
 }
