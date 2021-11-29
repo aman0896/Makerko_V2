@@ -59,7 +59,10 @@ function Main() {
                                 rates by visiting their portfolio.
                             </p>
                             <Button2 type="button" buttonSize="button2--medium">
-                                Explores MAKERS
+                                <span>Explores </span>
+                                <span style={{ color: colors.primary }}>
+                                    MAKERS
+                                </span>
                             </Button2>
 
                             <a href="#">
@@ -79,7 +82,10 @@ function Main() {
                                 good to humanity.
                             </p>
                             <Button2 type="button" buttonSize="button2--medium">
-                                View Projects
+                                <span>View </span>
+                                <span style={{ color: colors.primary }}>
+                                    PROJECTS
+                                </span>
                             </Button2>
                             <a href="#">
                                 Share your innovation/ product/ project to
