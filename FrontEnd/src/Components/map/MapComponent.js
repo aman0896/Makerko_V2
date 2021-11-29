@@ -1,4 +1,4 @@
-import { Map, TileLayer, ZoomControl } from "react-leaflet";
+import { Map, TileLayer, ZoomControl, ScaleControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
 import Logo from "../../assets/logo/Logo.png";
@@ -6,6 +6,8 @@ import { useState } from "react";
 import MapOverlayComponent from "./MapOverlayComponent";
 import MapSearchComponent from "./MapSearchComponent";
 import MapMarkerComponent from "./MapMarkerComponent";
+import MarkerClusterGroup from "react-leaflet-markercluster";
+import { Marker } from "react-leaflet";
 
 export default function MapComponent(props) {
     const [maker, setMaker] = useState(null);
@@ -30,7 +32,7 @@ export default function MapComponent(props) {
                 logo={Logo}
             />
             <Map
-                className="mapBlock"
+                className="mapBlock markercluster-map"
                 center={[28.3949, 84]}
                 zoom={7}
                 scrollWheelZoom={true}
@@ -41,6 +43,7 @@ export default function MapComponent(props) {
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
+                <ScaleControl position="bottomright" />
                 <ZoomControl position="bottomright" />
                 <MapMarkerComponent
                     data={props.data}

@@ -1,19 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+import Filter from "../../Components/filter/Filter";
+import { GetFilters } from "../../Components/filter/GetFilters";
 import MapComponent from "../../Components/map/MapComponent";
 import "./Map.css";
 const mapData = require("../../data/MapData.json");
 
 export default function Map() {
-    console.log(mapData.makers, "data");
+    const [mapSearch, setMapSearch] = useState();
+    const handleSearch = (event) => {
+        setMapSearch(event.target.value);
+    };
+    const { filterItems, requestFilter } = GetFilters(mapData.makers);
+
+    const parentCallBack = (childData) => {
+        if (childData && childData.param !== null) {
+            requestFilter(childData);
+        } else {
+            requestFilter(childData);
+        }
+    };
+    console.log(filterItems, "Filter items");
     return (
         <>
             <div className="mainComponent" style={{ position: "relative" }}>
                 <div className="headerBlock">
                     <label className="header">makers map</label>
-                    <input
-                        type="text"
-                        placeholder="Search"
-                        className="mapSearch"
+                    <Filter
+                        type="string"
+                        filterTypeName="StringOperator"
+                        filterColumn="name"
+                        tableData={mapData.makers}
+                        data={filterItems}
+                        parentCallBack={parentCallBack}
                     />
                 </div>
                 <MapComponent data={mapData.makers} />
