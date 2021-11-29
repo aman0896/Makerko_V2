@@ -10,7 +10,7 @@ const validationSchema = Yup.object().shape({
 
     lastName: Yup.string().required('Last Name is required'),
     phoneNumber: Yup.string().required('Phone Number is required'),
-    country: Yup.string().required('Country is required'),
+    address: Yup.string().required('Address is required'),
     email: Yup.string().required('Email is required').email('Invalid Email'),
     password: Yup.string()
         .required('Password is required')
@@ -32,7 +32,7 @@ const InitialValues = {
     firstName: '',
     lastName: '',
     phoneNumber: '',
-    country: '',
+    address: '',
     email: '',
     password: '',
     confirm_pass: '',
@@ -103,9 +103,9 @@ function Register() {
                                     </div>
                                     <div className='col-lg'>
                                         <FormikController
-                                            name='country'
+                                            name='address'
                                             control='input'
-                                            placeholder='Enter Country'
+                                            placeholder='Enter Address'
                                         />
                                     </div>
                                 </div>
@@ -129,24 +129,19 @@ function Register() {
                                     isPassword
                                 />
 
-                                {/* <TermsCondition
-                                    checked={checked}
-                                    setChecked={setChecked}
-                                /> */}
-
                                 <FormikController
                                     name='termsCondition'
                                     control='checkbox'
                                 />
 
-                                <div className='d-flex justify-content-center mt-4'>
+                                <div className='d-flex justify-content-end mt-4'>
                                     <FormikController
                                         title='Sign Up'
                                         type='submit'
                                         control='submit'
                                     />
                                 </div>
-                                <div className='d-flex justify-content-center mt-2'>
+                                <div className='d-flex justify-content-end mt-2'>
                                     <div className='text-center small'>
                                         Already have an account?
                                         <a

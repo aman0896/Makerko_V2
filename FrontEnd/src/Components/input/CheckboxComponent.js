@@ -30,16 +30,16 @@ function CheckboxComponent(props) {
                         fontSize: '15px',
                     }}
                 >
-                    I agree with{' '}
-                    <Link
+                    I agree with the
+                    <a
                         // to="/"
+                        className='ml-1'
                         style={{
                             color: colors.primary,
-                            textDecoration: 'underline',
                         }}
                     >
                         Terms and Conditions
-                    </Link>
+                    </a>
                 </span>
             </label>
             {/* <ErrorMessage

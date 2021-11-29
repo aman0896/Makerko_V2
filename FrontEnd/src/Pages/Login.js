@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FormikComponent from '../Components/formik/FormikComponent';
 import FormikController from '../Components/formik/FormikController';
 import './Login.css';
 import * as Yup from 'yup';
 import { colors } from '../Values/colors';
+import ModalChoice from '../Components/modal/ModalChoice';
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required('Email is required').email('Invalid Email'),
@@ -19,8 +20,21 @@ const validationSchema = Yup.object().shape({
 const InitialValues = { email: '', password: '' };
 
 function Login() {
+    const [showModal, setShowModal] = useState(false);
     const handleSubmit = (values) => {
         console.log(values, 'values');
+    };
+    const showModalChoice = () => {
+        setShowModal(true);
+    };
+    const handleClose = () => {
+        setShowModal(false);
+    };
+    const onClickClient = () => {
+        window.location.href = '/register';
+    };
+    const onClickMaker = () => {
+        window.location.href = '/makers-register';
     };
     return (
         <div
@@ -48,7 +62,7 @@ function Login() {
                             }}
                         />
                         <div className='details'>Enter your details</div>
-                        <div className='w-75'>
+                        <div className='width'>
                             <FormikComponent
                                 initialValues={InitialValues}
                                 onSubmit={handleSubmit}
@@ -90,9 +104,8 @@ function Login() {
                                         <a
                                             type='button'
                                             className='font-weight-bold ml-1'
-                                            data-toggle='modal'
-                                            data-target='#signup'
                                             style={{ color: colors.primary }}
+                                            onClick={showModalChoice}
                                         >
                                             Sign up
                                         </a>
@@ -103,6 +116,15 @@ function Login() {
                     </div>
                 </div>
             </div>
+            <ModalChoice
+                show={showModal}
+                handleClose={handleClose}
+                onClickButton1={onClickClient}
+                onClickButton2={onClickMaker}
+                title='Sign Up as:'
+                btnTitle1='Client'
+                btnTitle2='Maker'
+            />
         </div>
     );
 }

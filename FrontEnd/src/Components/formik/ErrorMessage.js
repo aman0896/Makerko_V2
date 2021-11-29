@@ -1,8 +1,9 @@
 import React from 'react';
+import { colors } from '../../Values/colors';
 
 function ErrorMessage(props) {
     const errorStyle = {
-        color: '#ff7f7f',
+        color: colors.red,
         fontSize: 14,
     };
     if (!props.error || !props.visible) return null;

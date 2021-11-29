@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { colors } from '../../Values/colors';
 import ErrorMessage from '../formik/ErrorMessage';
 import eye from './eye.svg';
 import eyeoff from './eyeoff.svg';
@@ -21,9 +22,18 @@ export default function InputComponent(props) {
         setData(event.target.value);
         props.setFieldValue(props.name, event.target.value);
     };
+    console.log('errors', props.errors);
 
     return (
         <div className='mb-2'>
+            {props.label && (
+                <label
+                    className='mb-1 font-weight-bold'
+                    style={{ fontSize: 14 }}
+                >
+                    {props.label}
+                </label>
+            )}
             <div style={{ position: 'relative' }}>
                 <input
                     type={
@@ -48,6 +58,12 @@ export default function InputComponent(props) {
                             props.handleBlur(props.name);
                         }
                     }}
+                    style={
+                        props.errors[props.name] &&
+                        props.touched[props.name] && {
+                            borderColor: colors.red,
+                        }
+                    }
                 />
                 {props.isPassword && (
                     <img

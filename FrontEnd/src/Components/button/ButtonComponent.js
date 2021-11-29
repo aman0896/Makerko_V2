@@ -1,4 +1,3 @@
-import { Button } from '@material-ui/core';
 import React from 'react';
 import { colors } from '../../Values/colors';
 
@@ -12,7 +11,7 @@ export default function ButtonComponent(props) {
     return (
         <button
             className={props.className ? props.className : 'btn'}
-            onClick={props.handleSubmit}
+            onClick={props.handleSubmit ? props.handleSubmit : props.onClick}
             style={props.style ? props.style : btnStyle}
             type={props.type ? props.type : 'button'}
         >
