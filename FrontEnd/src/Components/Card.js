@@ -11,7 +11,7 @@ function Card({
     cardStyle,
 }) {
     return (
-        <div className="card-bank text-center m-2" style={cardStyle}>
+        <div className="card-bank text-center" style={cardStyle}>
             <img className="mb-4" src={data.image} style={imageStyle} />
             {path === "aboutUs" && (
                 <div
