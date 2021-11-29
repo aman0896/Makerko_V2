@@ -101,6 +101,7 @@
 }
 
 .button2-container--large {
+    background-color: var(--white);
     width: 270px;
     height: 60px;
     border: 1px solid var(--dark);
@@ -117,10 +118,11 @@
 }
 
 .button2--large {
+    background-color: var(--white);
     margin-left: 2px;
     margin-top: -4px;
-    width: 154px;
-    height: 42px;
+    width: 270px;
+    height: 60px;
     border: 1px solid var(--dark);
-    font-size: 18px;
+    font-size: 24px;
 }
