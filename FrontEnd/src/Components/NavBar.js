@@ -15,7 +15,7 @@ function NavBar() {
         <nav className="NavbarItems">
             <div className="navbar-container">
                 <Link className="navbar-logo">
-                    <h2>Makerko</h2>
+                    <h2>MAKERKO</h2>
                 </Link>
 
                 <div className="menu-icon" onClick={onhambergerClick}>
@@ -31,13 +31,13 @@ function NavBar() {
                     }
                 >
                     <li>
-                        <Link className="navbar-links">Makers</Link>
+                        <Link className="navbar-links">MAKERS</Link>
                     </li>
                     <li>
-                        <Link className="navbar-links">Project</Link>
+                        <Link className="navbar-links">PROJECT</Link>
                     </li>
                     <li>
-                        <Link className="navbar-links">Blogs</Link>
+                        <Link className="navbar-links">BLOGS</Link>
                     </li>
                 </ul>
 

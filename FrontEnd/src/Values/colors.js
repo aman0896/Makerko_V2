@@ -8,4 +8,5 @@ export const colors = {
     warning: "#ffc107",
     danger: "#dc3545",
     light: "#f8f9fa",
+    red: "#ff7f7f",
 };
