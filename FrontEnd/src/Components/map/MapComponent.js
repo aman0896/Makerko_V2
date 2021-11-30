@@ -25,32 +25,35 @@ export default function MapComponent(props) {
     };
 
     return (
-        <div className="mapContainer">
-            <MapOverlayComponent
-                handleClick={() => setMaker(null)}
-                data={maker}
-                logo={Logo}
-            />
-            <Map
-                className="mapBlock markercluster-map"
-                center={[28.3949, 84]}
-                zoom={7}
-                scrollWheelZoom={true}
-                zoomControl={false}
-                onclick={() => setMaker(null)}
-            >
-                <TileLayer
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        <>
+            <div className="mapContainer">
+                <MapOverlayComponent
+                    handleClick={() => setMaker(null)}
+                    data={maker}
+                    logo={Logo}
                 />
-                <ScaleControl position="bottomright" />
-                <ZoomControl position="bottomright" />
-                <MapMarkerComponent
-                    data={props.data}
-                    handleClick={handleClickMarker}
-                />
-                <MapSearchComponent />
-            </Map>
-        </div>
+                <Map
+                    className="mapBlock markercluster-map"
+                    center={[28.3949, 84]}
+                    zoom={7}
+                    scrollWheelZoom={true}
+                    zoomControl={false}
+                    onclick={() => setMaker(null)}
+                >
+                    <TileLayer
+                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <ScaleControl position="bottomright" />
+                    <ZoomControl position="bottomright" />
+                    <MapMarkerComponent
+                        data={props.data}
+                        handleClick={handleClickMarker}
+                    />
+                    {console.log(props.search, "line 53 map component")}
+                    <MapSearchComponent search={props.search} />
+                </Map>
+            </div>
+        </>
     );
 }

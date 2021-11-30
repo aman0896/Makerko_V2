@@ -3,45 +3,44 @@ import FilterOperator from "./FilterOperator";
 import FilterInput from "./FilterInput";
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
-import { makeStyles } from "@material-ui/core/styles";
 import Grow from "@material-ui/core/Grow";
-import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: "flex",
-    },
-    paper: {
-        marginRight: theme.spacing(2),
-    },
-}));
+import "./Filter.css";
 
 export default function Filter(props) {
-    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+    const anchorRef = React.useRef(null);
 
-    // function handleListKeyDown(event) {
-    //     if (event.key === "Tab") {
-    //         event.preventDefault();
-    //         setOpen(false);
-    //     }
-    // }
+    const handleClick = (data) => {
+        setOpen(false);
+        props.handleSearch(data);
+    };
 
-    // return focus to the button when we transitioned from !open -> open
-    // const prevOpen = React.useRef(open);
-    // React.useEffect(() => {
-    //     if (prevOpen.current === true && open === false) {
-    //         anchorRef.current.focus();
-    //     }
+    const handleToggle = (event) => {
+        if (event.target.value && open === false) {
+            setOpen(true);
+        } else {
+            if (event.target.value === "") {
+                setOpen(false);
+            }
+        }
+    };
 
-    //     prevOpen.current = open;
-    // }, [open]);
+    const handleClose = (event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+
+        setOpen(false);
+    };
 
     return (
         <>
             {/* Input value type for filter */}
             <FilterInput
+                anchorRef={anchorRef}
+                handleToggle={handleToggle}
                 data={props.type}
                 filteredData={props.data}
                 operatorData={FilterOperator(props.filterTypeName)}
@@ -49,6 +48,59 @@ export default function Filter(props) {
                 tableData={props.tableData}
                 parentCallBack={props.parentCallBack}
             />
+            <Popper
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                placement="bottom-start"
+                transition
+                disablePortal
+                style={{ width: 300, zIndex: 9998 }}
+            >
+                {({ TransitionProps, placement }) => (
+                    <Grow
+                        {...TransitionProps}
+                        style={{
+                            transformOrigin:
+                                placement === "bottom-start"
+                                    ? "left top"
+                                    : "left bottom",
+                        }}
+                    >
+                        <Paper>
+                            <ClickAwayListener onClickAway={handleClose}>
+                                <MenuList className="">
+                                    {props.data?.length > 0 ? (
+                                        props.data.map((item, index) => (
+                                            <div
+                                                key={item.name}
+                                                className={`p-2 filterItem ${
+                                                    index + 1 ===
+                                                    props.data.length
+                                                        ? ""
+                                                        : "border-bottom"
+                                                }`}
+                                                onClick={() =>
+                                                    handleClick(item)
+                                                }
+                                            >
+                                                {item.name}
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div
+                                            className="text-center"
+                                            onClick={handleClose}
+                                        >
+                                            Not Found
+                                        </div>
+                                    )}
+                                </MenuList>
+                            </ClickAwayListener>
+                        </Paper>
+                    </Grow>
+                )}
+            </Popper>
         </>
     );
 }

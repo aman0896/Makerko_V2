@@ -6,9 +6,10 @@ import "./Map.css";
 const mapData = require("../../data/MapData.json");
 
 export default function Map() {
-    const [mapSearch, setMapSearch] = useState();
-    const handleSearch = (event) => {
-        setMapSearch(event.target.value);
+    const [mapSearch, setMapSearch] = useState(null);
+    const handleSearch = (data) => {
+        console.log(data, "map page search line 11");
+        setMapSearch(data);
     };
     const { filterItems, requestFilter } = GetFilters(mapData.makers);
 
@@ -30,11 +31,12 @@ export default function Map() {
                         filterTypeName="StringOperator"
                         filterColumn="name"
                         tableData={mapData.makers}
+                        handleSearch={handleSearch}
                         data={filterItems}
                         parentCallBack={parentCallBack}
                     />
                 </div>
-                <MapComponent data={mapData.makers} />
+                <MapComponent data={mapData.makers} search={mapSearch} />
                 <div className="d-flex justify-content-end mt-4">
                     <button type="button" className="btn btn-outline-primary">
                         Cancel

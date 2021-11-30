@@ -78,24 +78,31 @@ export default function FilterInput(props) {
         string: (
             <div>
                 <input
-                    ref={anchorRef}
-                    type="text"
-                    aria-controls={open ? "menu-list-grow" : undefined}
+                    ref={props.anchorRef}
+                    id="composition-button"
+                    aria-controls={props.open ? "composition-menu" : undefined}
+                    aria-expanded={props.open ? "true" : undefined}
                     aria-haspopup="true"
+                    type="text"
                     placeholder="Search"
                     className="mapSearch"
                     onChange={(event) => {
                         filterSet(event);
-                        handleToggle(event);
+                        props.handleToggle(event);
                     }}
                     value={filterValue}
                 />
-                <div
+                {/* <Popper
+                    open={open}
                     anchorEl={anchorRef.current}
                     style={{
                         width: 300,
                         zIndex: 9998,
                     }}
+                    role={undefined}
+                    placement="bottom-start"
+                    transition
+                    disablePortal
                 >
                     {({ TransitionProps, placement }) => (
                         <Grow
@@ -147,7 +154,7 @@ export default function FilterInput(props) {
                             </Paper>
                         </Grow>
                     )}
-                </div>
+                </Popper> */}
             </div>
             // <InputComponent
             //     className="mx-2"
