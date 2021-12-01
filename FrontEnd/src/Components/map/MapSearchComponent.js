@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { LatLng } from "leaflet";
 import Search from "react-leaflet-search";
 import { markerIcon } from "./MapIconComponent";
@@ -25,39 +25,23 @@ const customPopup = (SearchInfo) => {
     );
 };
 
-export default function MapSearchComponent(props) {
-    const [lat, setLat] = useState(null);
-    const [lng, setLng] = useState(null);
+export default function MapSearchComponent({ search }) {
+    const { latitude, longitude } = search;
+    const [state, setState] = useState({
+        lat: null,
+        lng: null,
+    });
 
     useEffect(() => {
-        if (lat !== null || lng !== null) {
-            setLat(null);
-            setLng(null);
-        } else {
-            if (props.search) {
-                setLat(props.search.latitude);
-                setLng(props.search.longitude);
-                // setLatLng({
-                //     lat: props.search.latitude,
-                //     lng: props.search.longitude,
-                // });
-                console.log("inside useEffect");
-            }
+        if (latitude) {
+            setState({ ...state, ["lat"]: latitude, ["lng"]: longitude });
         }
-    }, [props.search]);
-
-    useEffect(() => {
-        if (lat === null || lng === null) {
-            console.log(lat, "lat");
-            setLat(null);
-            setLng(null);
-        }
-    }, [lat, lng]);
-
+    }, []);
+    // console.log(props.search, "line 28 map seach");
     return (
         <>
-            {lat && (
-                <>
+            {state.lat && (
+                <div>
                     <Search
                         position="topright"
                         inputPlaceholder="Custom placeholder"
@@ -67,7 +51,7 @@ export default function MapSearchComponent(props) {
                         openSearchOnLoad={false}
                         search={
                             // console.log(lat, lng, "lat and lng");
-                            new LatLng(lat, lng)
+                            new LatLng(state.lat, state.lng)
                         }
                         // these searchbounds would limit results to only Turkey.
                         providerOptions={{
@@ -95,9 +79,9 @@ export default function MapSearchComponent(props) {
                             </Marker>
                         )}
                     </Search>
-                    {console.log(lat, lng, "lat and lng")}
+                    {/* {console.log(lat, lng, "lat and lng")} */}
                     {console.log("count")}
-                </>
+                </div>
             )}
         </>
     );

@@ -14,12 +14,14 @@ export default function Map() {
     const { filterItems, requestFilter } = GetFilters(mapData.makers);
 
     const parentCallBack = (childData) => {
+        // console.log(childData, "child data");
         if (childData && childData.param !== null) {
             requestFilter(childData);
         } else {
             requestFilter(childData);
         }
     };
+
     console.log(filterItems, "Filter items");
     return (
         <>

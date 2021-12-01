@@ -11,6 +11,19 @@ import "./Filter.css";
 export default function Filter(props) {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
+    // const [d, setD] = React.useState();
+
+    // React.useEffect(() => {
+    //     fetch(
+    //         `https://nominatim.openstreetmap.org/search?format=json&limit=10&q=${"pokhara"}`
+    //     )
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             console.log(data, "search data");
+    //             // setData(data);
+    //             setD(data);
+    //         });
+    // }, []);
 
     const handleClick = (data) => {
         setOpen(false);
@@ -69,11 +82,20 @@ export default function Filter(props) {
                     >
                         <Paper>
                             <ClickAwayListener onClickAway={handleClose}>
-                                <MenuList className="">
+                                <MenuList
+                                    style={{
+                                        overflowY: "scroll",
+                                        maxHeight: 300,
+                                    }}
+                                >
                                     {props.data?.length > 0 ? (
                                         props.data.map((item, index) => (
                                             <div
-                                                key={item.name}
+                                                key={
+                                                    item.name
+                                                        ? item.name
+                                                        : item["display_name"]
+                                                }
                                                 className={`p-2 filterItem ${
                                                     index + 1 ===
                                                     props.data.length
@@ -84,7 +106,9 @@ export default function Filter(props) {
                                                     handleClick(item)
                                                 }
                                             >
-                                                {item.name}
+                                                {item.name
+                                                    ? item.name
+                                                    : item["display_name"]}
                                             </div>
                                         ))
                                     ) : (
