@@ -1,0 +1,35 @@
+/* .cke_chrome {
+  border-radius: 10px;
+  border: 1px solid #fa0000;
+  border-width: thin;
+}
+
+.cke_top {
+  border-radius: 10px 10px 0px 0px;
+}
+
+.cke_bottom {
+  border-radius: 0px 0px 10px 10px;
+} */
+
+.ck-editor__editable {
+  min-height: 200px;
+}
+
+.cke_chrome {
+  border-radius: 10px;
+  border: 1px solid #d30f0f !important;
+  border-width: thin;
+}
+
+.cke_top {
+  border-radius: 10px 10px 0px 0px;
+}
+
+.cke_bottom {
+  border-radius: 0px 0px 10px 10px;
+}
+
+/* .ck-editor {
+  border: 1px solid #d30f0f !important;
+} */

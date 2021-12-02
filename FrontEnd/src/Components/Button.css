@@ -1,128 +1,126 @@
 .button {
-    font-weight: 400;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
+  font-weight: 400;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
 }
 
 .button:active {
-    background-color: var(--primary);
-    opacity: 0.8;
+  background-color: var(--primary);
+  opacity: 0.8;
 }
 
 .button--primary--solid {
-    background-color: var(--primary);
-    color: var(--white);
-    border: none;
+  background-color: var(--primary);
+  color: var(--white);
+  border: none;
 }
 .button--success--solid {
-    background-color: var(--success);
-    color: var(--white);
-    border: none;
+  background-color: var(--success);
+  color: var(--white);
+  border: none;
 }
 .button--warning--solid {
-    background-color: var(--warning);
-    color: var(--white);
-    border: none;
+  background-color: var(--warning);
+  color: var(--white);
+  border: none;
 }
 .button--danger--solid {
-    background-color: var(--danger);
-    color: var(--white);
-    border: none;
+  background-color: var(--danger);
+  color: var(--white);
+  border: none;
 }
 .button--primary--outline {
-    background-color: transparent;
-    border: 2px solid var(--primary);
-    color: var(--primary);
+  background-color: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
 }
 .button--success--outline {
-    background-color: transparent;
-    border: 2px solid var(--success);
-    color: var(--success);
+  background-color: transparent;
+  border: 2px solid var(--success);
+  color: var(--success);
 }
 .button--warning--outline {
-    background-color: transparent;
-    border: 2px solid var(--warning);
-    color: var(--warning);
+  background-color: transparent;
+  border: 2px solid var(--warning);
+  color: var(--warning);
 }
 .button--danger--outline {
-    background-color: transparent;
-    border: 2px solid var(--danger);
-    color: var(--danger);
+  background-color: transparent;
+  border: 2px solid var(--danger);
+  color: var(--danger);
 }
 
 .button--small {
-    width: 100px;
-    height: 40px;
-    font-size: 14px;
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
 }
 
 .button--medium {
-    width: 150px;
-    height: 50px;
-    font-size: 18px;
+  width: 150px;
+  height: 50px;
+  font-size: 14px;
 }
 
 .button--large {
-    width: 200px;
-    height: 60px;
-    font-size: 22px;
+  width: 200px;
+  height: 60px;
+  font-size: 16px;
 }
 
 .button2 {
-    font-weight: 400;
-    cursor: pointer;
+  font-weight: 400;
+  cursor: pointer;
 }
 
 .button2-container--medium {
-    width: 154px;
-    height: 42px;
-    border: 1px solid var(--dark);
-    margin-bottom: 20px;
+  width: 154px;
+  height: 42px;
+  border: 1px solid var(--dark);
+  margin-bottom: 20px;
 }
 
 .button2-sub-container--medium {
-    background-color: var(--white);
-    margin-left: 2px;
-    margin-top: -4px;
-    width: 154px;
-    height: 42px;
-    border: 1px solid var(--dark);
+  background-color: var(--white);
+  margin-left: 2px;
+  margin-top: -4px;
+  width: 154px;
+  height: 42px;
+  border: 1px solid var(--dark);
 }
 
 .button2--medium {
-    background-color: var(--white);
-    margin-left: 2px;
-    margin-top: -4px;
-    width: 154px;
-    height: 42px;
-    border: 1px solid var(--dark);
-    font-size: 14px;
+  background-color: var(--white);
+  margin-left: 2px;
+  margin-top: -4px;
+  width: 154px;
+  height: 42px;
+  border: 1px solid var(--dark);
+  font-size: 14px;
 }
 
 .button2-container--large {
-    background-color: var(--white);
-    width: 270px;
-    height: 60px;
-    border: 1px solid var(--dark);
-    margin-bottom: 20px;
+  width: 270px;
+  height: 60px;
+  border: 1px solid var(--dark);
+  margin-bottom: 20px;
 }
 
 .button2-sub-container--large {
-    background-color: var(--white);
-    margin-left: 2px;
-    margin-top: -4px;
-    width: 270px;
-    height: 60px;
-    border: 1px solid var(--dark);
+  margin-left: 2px;
+  margin-top: -4px;
+  width: 270px;
+  height: 60px;
+  border: 1px solid var(--dark);
 }
 
 .button2--large {
-    background-color: var(--white);
-    margin-left: 2px;
-    margin-top: -4px;
-    width: 270px;
-    height: 60px;
-    border: 1px solid var(--dark);
-    font-size: 24px;
+  background-color: var(--white);
+  margin-left: 2px;
+  margin-top: -4px;
+  width: 270px;
+  height: 60px;
+  border: 1px solid var(--dark);
+  font-size: 24px;
 }
