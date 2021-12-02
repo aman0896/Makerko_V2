@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { colors } from "../Values/colors";
+import { Link, useHistory } from "react-router-dom";
 import "./NavBar.css";
 import { FiUser } from "react-icons/fi";
-import { getData } from "../commonApi/CommonApi";
-import { currentUserLink } from "../commonApi/Link";
+import { getData, getDataWithNoParams } from "../commonApi/CommonApi";
+import { currentUserLink, logout } from "../commonApi/Link";
 
 function NavBar({ isAuth, currentUser, userType }) {
     const [hambergerClicked, isHambergerClicked] = useState(false);
@@ -66,7 +65,7 @@ function NavBar({ isAuth, currentUser, userType }) {
                 </ul>
 
                 <div>
-                    {isAuth ? (
+                    {isAuth && currentUserData ? (
                         <ProfileAvatarLogout
                             userName={currentUserData.First_Name}
                             userId={currentUser}
@@ -113,6 +112,30 @@ function ProfileAvatarLogin() {
 }
 
 function ProfileAvatarLogout({ userName, userId, userType }) {
+    const history = useHistory();
+
+    const onClickEdit_CustomerProfile = () => {
+        history.push({ pathname: `/customer-profile/${userId}` });
+    };
+
+    const onClickEdit_MakerProfile = () => {
+        history.push({ pathname: `/maker-profile/${userId}` });
+    };
+
+    const onclickLogout = () => {
+        getDataWithNoParams(
+            logout,
+            (onSuccess) => {
+                console.log(onSuccess, "logout");
+                if (onSuccess.status === 202) {
+                    history.push({ pathname: "/" });
+                    history.go();
+                }
+            },
+            (onFail) => {}
+        );
+    };
+
     return (
         <>
             <div data-toggle="dropdown" className="dropdown navbar-login">
@@ -122,18 +145,18 @@ function ProfileAvatarLogout({ userName, userId, userType }) {
             <div className="dropdown-menu dropdown-menu-lg-right dropdown-menu-style">
                 <a
                     className="dropdown-item  dropdown-item-style"
-                    // onClick={
-                    // userType === "customer"
-                    //     ? onClickEditCustomerProfile
-                    //     : onClickEditProfileMaker
-                    // }
+                    onClick={
+                        userType === "customer"
+                            ? onClickEdit_CustomerProfile
+                            : onClickEdit_MakerProfile
+                    }
                 >
                     <FiUser size="22px" />
                     <span className="ml-1">My Profile</span>
                 </a>
                 <a
                     className="dropdown-item dropdown-item-style"
-                    // onClick={onclickLogout}
+                    onClick={onclickLogout}
                 >
                     <i className="fas fa-sign-out-alt mr-2"></i> Log Out
                 </a>
