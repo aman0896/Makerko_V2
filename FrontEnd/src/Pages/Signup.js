@@ -7,7 +7,7 @@ import { colors } from "../Values/colors";
 import { SignupValidationSchema } from "./Form/ValidationSchema";
 import { postData } from "../commonApi/CommonApi";
 import { signup } from "../commonApi/Link";
-import ReactToastify from "../Components/ReactToastify";
+import { Toast } from "../Components/ReactToastify";
 
 const InitialValues = {
     firstName: "",
@@ -22,12 +22,6 @@ const InitialValues = {
 
 function Signup() {
     const history = useHistory();
-    const [toast, setToast] = useState({
-        message: "",
-        textColor: "",
-        closeTime: "",
-        type: "",
-    });
     const handleSubmit = (values) => {
         console.log(values, "values");
         postData(
@@ -36,13 +30,7 @@ function Signup() {
             (onSuccess) => {
                 console.log(onSuccess, "registration Success");
                 if (onSuccess.data.emailExist === true) {
-                    setToast({
-                        ...toast,
-                        message: "Email already exits",
-                        type: "error",
-                        closeTime: 3000,
-                        textColor: colors.white,
-                    });
+                    Toast("Email already exits", "error", 3000, colors.white);
                 }
                 const { hash } = onSuccess.data;
                 history.push({
@@ -170,12 +158,6 @@ function Signup() {
                     </div>
                 </div>
             </div>
-            <ReactToastify
-                message={toast.message}
-                textColor={toast.textColor}
-                closeTime={toast.closeTime}
-                type={toast.type}
-            />
         </div>
     );
 }
