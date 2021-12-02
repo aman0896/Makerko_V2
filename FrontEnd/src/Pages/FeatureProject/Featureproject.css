@@ -1,0 +1,34 @@
+.project-title {
+  color: var(--primary);
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.project-main-container {
+  display: flex;
+  flex-direction: column;
+  padding: 100px;
+}
+.project-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.project-col-1 {
+  display: flex;
+  flex-direction: column;
+  padding-right: 11px;
+  width: 30%;
+}
+.project-col-2 {
+  display: flex;
+  flex-direction: column;
+
+  width: 50%;
+}
+.project-col-3 {
+  display: flex;
+  justify-content: space-between;
+}

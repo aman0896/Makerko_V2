@@ -1,161 +1,97 @@
-// import React from "react";
-// import InputComponent from "../input/InputComponent";
-// import BrowseFileComponent from "../browseFile/BrowseFileComponent";
-// import SelectOptionComponent from "../selectOption/SelectOptionComponent";
-// import NumberComponent from "../number/NumberComponent";
-// import { useFormikContext } from "formik";
-// import ButtonComponent from "../button/ButtonComponent";
-// import LoadingButtonComponent from "../button/LoadingButtonComponent";
-// import TimePickerComponent from "../picker/TimePickerComponent";
-// import SelectMutliOptionComponent from "../selectOption/SelectMutliOptionComponent";
-// import DatePickerComponent from "../picker/DatePickerComponent";
-// import BrowseFile from "../BrowseFile";
-
-// function FormikController(props) {
-//   const { control, ...rest } = props;
-//   const { setFieldValue, handleSubmit, setFieldTouched, errors, touched } =
-//     useFormikContext();
-
-//   switch (control) {
-//     case "input":
-//       return (
-//         <InputComponent
-//           setFieldValue={setFieldValue}
-//           errors={errors}
-//           touched={touched}
-//           handleBlur={setFieldTouched}
-//           {...rest}
-//         />
-//       );
-
-//     case "selectOption":
-//       return (
-//         <SelectOptionComponent
-//           setFieldValue={setFieldValue}
-//           errors={errors}
-//           touched={touched}
-//           handleBlur={setFieldTouched}
-//           {...rest}
-//         />
-//       );
-
-//     case "selectMultiOption":
-//       return (
-//         <SelectMutliOptionComponent
-//           setFieldValue={setFieldValue}
-//           errors={errors}
-//           touched={touched}
-//           handleBlur={setFieldTouched}
-//           {...rest}
-//         />
-//       );
-
-//     case "number":
-//       return (
-//         <NumberComponent
-//           setFieldValue={setFieldValue}
-//           errors={errors}
-//           touched={touched}
-//           handleBlur={setFieldTouched}
-//           {...rest}
-//         />
-//       );
-
-//     case "time":
-//       return (
-//         <TimePickerComponent
-//           setFieldValue={setFieldValue}
-//           errors={errors}
-//           touched={touched}
-//           handleBlur={setFieldTouched}
-//           {...rest}
-//         />
-//       );
-
-//     case "image":
-//       return (
-//         <BrowseFileComponent
-//           setFieldValue={setFieldValue}
-//           errors={errors}
-//           touched={touched}
-//           handleBlur={setFieldTouched}
-//           {...rest}
-//         />
-//       );
-//     case "file":
-//       return (
-//         <BrowseFile
-//           setFieldValue={setFieldValue}
-//           errors={errors}
-//           touched={touched}
-//           handleBlur={setFieldTouched}
-//           {...rest}
-//         />
-//       );
-
-//     case "submit":
-//       return <ButtonComponent handleSubmit={handleSubmit} {...rest} />;
-
-//     case "loadingSubmit":
-//       return <LoadingButtonComponent handleSubmit={handleSubmit} {...rest} />;
-
-//     case "date":
-//       return (
-//         <DatePickerComponent
-//           setFieldValue={setFieldValue}
-//           errors={errors}
-//           touched={touched}
-//           handleBlur={setFieldTouched}
-//           {...rest}
-//         />
-//       );
-
-//     default:
-//       return null;
-//   }
-// }
-
-// export default FormikController;
-
-import { useFormikContext } from 'formik';
-import React from 'react';
-import InputComponent from '../input/InputComponent';
-import ButtonComponent from '../button/ButtonComponent';
-import CheckboxComponent from '../input/CheckboxComponent';
+import { useFormikContext } from "formik";
+import React from "react";
+import InputComponent from "../input/InputComponent";
+import Button from "../Button";
+import CheckboxComponent from "../input/CheckboxComponent";
+import DropDown from "../input/DropDown";
+import CkEditorComponent from "../ckeditor/CkEditorComponent";
+import BrowseFileComponent from "../browseFile/BrowseFileComponent";
+import BrowseMultipleFileComponent from "../browseFile/BrowseMultipleFileComponent";
 
 function FormikController(props) {
-    const { control, ...rest } = props;
-    const { setFieldValue, handleSubmit, setFieldTouched, errors, touched } =
-        useFormikContext();
+  const { control, ...rest } = props;
+  const { setFieldValue, handleSubmit, setFieldTouched, errors, touched } =
+    useFormikContext();
 
-    switch (control) {
-        case 'input':
-            return (
-                <InputComponent
-                    setFieldValue={setFieldValue}
-                    errors={errors}
-                    touched={touched}
-                    handleBlur={setFieldTouched}
-                    {...rest}
-                />
-            );
-        case 'checkbox':
-            return (
-                <CheckboxComponent
-                    setFieldValue={setFieldValue}
-                    errors={errors}
-                    touched={touched}
-                    handleBlur={setFieldTouched}
-                    {...rest}
-                />
-            );
+  switch (control) {
+    case "input":
+      return (
+        <InputComponent
+          setFieldValue={setFieldValue}
+          errors={errors}
+          touched={touched}
+          handleBlur={setFieldTouched}
+          {...rest}
+        />
+      );
+    case "checkbox":
+      return (
+        <CheckboxComponent
+          setFieldValue={setFieldValue}
+          errors={errors}
+          touched={touched}
+          handleBlur={setFieldTouched}
+          {...rest}
+        />
+      );
+    case "select":
+      return (
+        <DropDown
+          setFieldValue={setFieldValue}
+          errors={errors}
+          touched={touched}
+          handleBlur={setFieldTouched}
+          {...rest}
+        />
+      );
 
-        case 'submit':
-            return <ButtonComponent handleSubmit={handleSubmit} {...rest} />;
+    case "ckEditor":
+      return (
+        <CkEditorComponent
+          setFieldValue={setFieldValue}
+          errors={errors}
+          touched={touched}
+          handleBlur={setFieldTouched}
+          {...rest}
+        />
+      );
 
-        default:
-            return null;
-    }
+    case "file":
+      return (
+        <BrowseFileComponent
+          setFieldValue={setFieldValue}
+          errors={errors}
+          touched={touched}
+          handleBlur={setFieldTouched}
+          {...rest}
+        />
+      );
+    case "multipleFile":
+      return (
+        <BrowseMultipleFileComponent
+          setFieldValue={setFieldValue}
+          errors={errors}
+          touched={touched}
+          handleBlur={setFieldTouched}
+          {...rest}
+        />
+      );
+
+    case "submit":
+      return (
+        <Button
+          onClick={handleSubmit}
+          {...rest}
+          buttonStyle="button--primary--solid"
+          buttonSize="button--small"
+        >
+          {props.title}
+        </Button>
+      );
+
+    default:
+      return null;
+  }
 }
 
 export default FormikController;

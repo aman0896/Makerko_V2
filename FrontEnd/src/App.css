@@ -1,6 +1,19 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Syne', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Syne", sans-serif;
+}
+
+:root {
+  --white: #ffffff;
+  --dark: #000000;
+  --primary: #0000ff;
+  --secondary: #c4c4c4;
+  --success: #28a745;
+  --info: #17a2b8;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light: #f8f9fa;
+  --gray: "#C4C4C4";
 }
