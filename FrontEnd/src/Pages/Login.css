@@ -4,13 +4,20 @@
     letter-spacing: 0.2px;
     font-weight: bold;
 }
-.section {
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
+
 .width {
     width: 75%;
 }
+
+.text-verify {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+/* .text-verify:hover {
+    color: var(--primary);
+    text-decoration: underline;
+} */
 
 @media screen and (max-width: 1230px) {
     .section {

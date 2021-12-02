@@ -54,19 +54,19 @@
 .button--small {
     width: 100px;
     height: 40px;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .button--medium {
     width: 150px;
     height: 50px;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .button--large {
     width: 200px;
     height: 60px;
-    font-size: 16px;
+    font-size: 22px;
 }
 
 .button2 {
@@ -101,6 +101,7 @@
 }
 
 .button2-container--large {
+    background-color: var(--white);
     width: 270px;
     height: 60px;
     border: 1px solid var(--dark);
@@ -117,10 +118,11 @@
 }
 
 .button2--large {
+    background-color: var(--white);
     margin-left: 2px;
     margin-top: -4px;
-    width: 154px;
-    height: 42px;
+    width: 270px;
+    height: 60px;
     border: 1px solid var(--dark);
-    font-size: 18px;
+    font-size: 24px;
 }

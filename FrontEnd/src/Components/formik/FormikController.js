@@ -117,11 +117,11 @@
 
 // export default FormikController;
 
-import { useFormikContext } from 'formik';
-import React from 'react';
-import InputComponent from '../input/InputComponent';
-import ButtonComponent from '../button/ButtonComponent';
-import CheckboxComponent from '../input/CheckboxComponent';
+import { useFormikContext } from "formik";
+import React from "react";
+import InputComponent from "../input/InputComponent";
+import ButtonComponent from "../button/ButtonComponent";
+import CheckboxComponent from "../input/CheckboxComponent";
 
 function FormikController(props) {
     const { control, ...rest } = props;
@@ -129,7 +129,7 @@ function FormikController(props) {
         useFormikContext();
 
     switch (control) {
-        case 'input':
+        case "input":
             return (
                 <InputComponent
                     setFieldValue={setFieldValue}
@@ -139,7 +139,7 @@ function FormikController(props) {
                     {...rest}
                 />
             );
-        case 'checkbox':
+        case "checkbox":
             return (
                 <CheckboxComponent
                     setFieldValue={setFieldValue}
@@ -150,7 +150,7 @@ function FormikController(props) {
                 />
             );
 
-        case 'submit':
+        case "submit":
             return <ButtonComponent handleSubmit={handleSubmit} {...rest} />;
 
         default:

@@ -1,166 +1,147 @@
-const bcrypt = require('bcrypt');
-const { PasswordCheck } = require('../Utils');
-const saltRound = 10;
-const JWT_AUTH_TOKEN = process.env.JWT_AUTH_TOKEN;
-const jwt = require('jsonwebtoken');
+const express = require("express");
+const { DBQuery } = require("../DBController/DatabaseQuery");
 
-module.exports = function (app, db) {
-    app.post('/login', (req, res) => {
-        const email = req.body.email;
-        const password = req.body.password;
-        var date = new Date();
-        date.setHours(date.getHours() + 1);
-        UserCheck(email, password, db, (err, response) => {
-            if (err) {
-                console.log(err);
-                if (err.verified != undefined && err.verified == false) {
-                    console.log(err.verified, 'verified');
-                    res.send({ userVerified: false });
-                } else if (
-                    err.userLoggedIn != undefined &&
-                    err.userLoggedIn == false
-                ) {
-                    res.send({ userLoggedIn: false });
-                    console.log(err.userLoggedIn, 'login');
-                }
-            } else {
-                console.log(response);
-                var accessToken = response.accessToken;
-                res.status(202)
-                    .cookie('uid', accessToken, {
-                        sameSite: 'strict',
-                        path: '/',
-                        expires: date,
-                        httpOnly: true,
-                    })
-                    .send({
-                        userLoggedIn: true,
-                        userVerified: true,
-                    });
+//db initialization
+const db = require("../DBController/DBConnect");
+const { SignJWt } = require("../Utils/jwt");
+const { PasswordCheck } = require("../Utils/passwordSecurity");
+
+const router = express.Router();
+
+router.post("/login", (req, res) => {
+    console.log(req.body, "body");
+    const email = req.body.email;
+    const password = req.body.password;
+    var date = new Date();
+    date.setHours(date.getHours() + 1);
+    UserCheck(email, password, (err, response) => {
+        if (err) {
+            console.log(err);
+            if (err.verified != undefined && err.verified == false) {
+                console.log(err.verified, "verified");
+                res.send({ userVerified: false });
+            } else if (
+                err.userLoggedIn != undefined &&
+                err.userLoggedIn == false
+            ) {
+                res.send({ userLoggedIn: false });
+                console.log(err.userLoggedIn, "login");
+            } else if (!err.emailExist) {
+                res.send({ emailExist: false });
             }
-        });
+        } else {
+            console.log(response, "responsetoken");
+            var accessToken = response.accessToken;
+            res.status(202)
+                .cookie("u_id", accessToken, {
+                    sameSite: "strict",
+                    path: "/",
+                    expires: date,
+                    httpOnly: true,
+                })
+                .send({
+                    userLoggedIn: true,
+                    userVerified: true,
+                });
+        }
     });
-};
+});
+
+module.exports = router;
 
 //#region user login authentication
-async function UserCheck(inputEmail, inputPassword, db, sendResponse) {
-    var user = await EmailExistCheck(inputEmail, db);
-    console.log(user, 'emailExist');
-    if (user.emailExist && user.userType == 'customer') {
-        PasswordCheck(inputPassword, user.password, (err, result) => {
-            if (err) console.log(err, 'usercheck');
-            else {
-                if (result) {
-                    if (user.emailVerfication == 1) {
-                        let userInfo = {
-                            uid: user.uid,
-                            loggedIn: true,
-                            userStatus: user.userType,
-                        };
-                        const accessToken = jwt.sign(
-                            { data: userInfo },
-                            JWT_AUTH_TOKEN
-                        );
-                        sendResponse(null, { accessToken: accessToken });
-                    } else {
-                        sendResponse({ verified: false }, null);
-                    }
-                } else {
-                    sendResponse({ userLoggedIn: false }, null);
-                }
+async function UserCheck(inputEmail, inputPassword, sendResponse) {
+    var user = await EmailExistCheck(inputEmail);
+    console.log(user, "emailExist");
+    if (user.emailExist && user.userType == "customer") {
+        const isPasswordMatch = await PasswordCheck(
+            inputPassword,
+            user.password
+        );
+        console.log(isPasswordMatch, "passwordcheck");
+        if (isPasswordMatch) {
+            if (user.emailVerfication == 1) {
+                let userInfo = {
+                    uid: user.uid,
+                    loggedIn: true,
+                    userType: user.userType,
+                };
+                const accessToken = SignJWt(userInfo);
+                sendResponse(null, { accessToken: accessToken });
+            } else {
+                sendResponse({ verified: false }, null);
             }
-        });
-    } else if (user.emailExist && user.userType == 'maker') {
-        PasswordCheck(inputPassword, user.password, (err, result) => {
-            if (err) console.log(err, 'usercheck');
-            else {
-                if (result) {
-                    if (user.emailVerfication == 'Verified') {
-                        let userInfo = {
-                            uid: user.uid,
-                            loggedIn: true,
-                            userStatus: user.userType,
-                        };
-                        const accessToken = jwt.sign(
-                            { data: userInfo },
-                            JWT_AUTH_TOKEN
-                        );
-                        sendResponse(null, { accessToken: accessToken });
-                    } else {
-                        sendResponse({ verified: false }, null);
-                    }
-                } else {
-                    sendResponse({ userLoggedIn: false }, null);
-                }
+        } else {
+            sendResponse({ userLoggedIn: false }, null);
+        }
+    } else if (user.emailExist && user.userType == "maker") {
+        const isPasswordMatch = await PasswordCheck(
+            inputPassword,
+            user.password
+        );
+        if (isPasswordMatch) {
+            if (user.emailVerfication == "Verified") {
+                let userInfo = {
+                    uid: user.uid,
+                    loggedIn: true,
+                    userStatus: user.userType,
+                };
+                const accessToken = SignJWt(userInfo);
+                sendResponse(null, { accessToken: accessToken });
+            } else {
+                sendResponse({ verified: false }, null);
             }
-        });
+        } else {
+            sendResponse({ userLoggedIn: false }, null);
+        }
     } else {
-        sendResponse({ userLoggedIn: false }, null);
-        console.log('email or password did not match');
+        sendResponse({ emailExist: false }, null);
+        console.log("email or password did not match");
     }
 }
 //#endregion
 
-//#region Get all customer List from db
-function DBCustomerList(db) {
-    let sql = 'SELECT * FROM customer';
-    var customerList = db.query(sql, (err, result) => {
-        if (err) console.log(err, 'DBCustomerList');
-        else {
-            return result;
-        }
-    });
-    return customerList;
-}
-//#endregion
-
-//#region  get all maker list from db
-function DBMakerList(db) {}
-//#endregion
-
 //#region check if customer email exist in db
-function EmailExistCheck(inputEmail, db) {
-    return new Promise((resolve) => {
-        const customerSQLQuery =
-            'SELECT Customer_ID, Email, Password, Verified FROM customer WHERE Email = ?';
-        const makerSQLQuery =
-            'SELECT Manufacturer_ID, Email, Password, Email_Verification FROM manufacturer WHERE Email = ?';
-        db.query(customerSQLQuery, [inputEmail], (err, result) => {
+async function EmailExistCheck(inputEmail) {
+    const customerSQLQuery =
+        "SELECT Customer_ID, Email, Password, Verified FROM customer WHERE Email = ?";
+    const makerSQLQuery =
+        "SELECT Manufacturer_ID, Email, Password, Email_Verification FROM manufacturer WHERE Email = ?";
+
+    return new Promise((resolve, reject) => {
+        DBQuery(customerSQLQuery, [inputEmail], function (err, result) {
+            console.log(result, "result");
             if (err) {
-                console.log(err, 'emailexistcheck');
-                return resolve(false);
+                return console.log(err, "login error");
+            }
+            if (result.length > 0) {
+                let userData = {
+                    emailExist: true,
+                    uid: result[0].Customer_ID,
+                    userType: "customer",
+                    password: result[0].Password,
+                    emailVerfication: result[0].Verified,
+                };
+                resolve(userData);
             } else {
-                if (result.length > 0) {
-                    console.log(result);
-                    return resolve({
-                        emailExist: true,
-                        uid: result[0].Customer_ID,
-                        userType: 'customer',
-                        password: result[0].Password,
-                        emailVerfication: result[0].Verified,
-                    });
-                } else {
-                    db.query(makerSQLQuery, [inputEmail], (err, result) => {
-                        if (err) {
-                            console.log(err, 'makersqlQuerty');
-                            return resolve(false);
-                        } else {
-                            if (result.length > 0) {
-                                console.log();
-                                return resolve({
-                                    emailExist: true,
-                                    uid: result[0].Manufacturer_ID,
-                                    userType: 'maker',
-                                    password: result[0].Password,
-                                    emailVerfication:
-                                        result[0].Email_Verification,
-                                });
-                            } else {
-                                return resolve(false);
-                            }
-                        }
-                    });
-                }
+                DBQuery(makerSQLQuery, [inputEmail], function (err, result) {
+                    if (err) return console.log(err, "maker login error");
+                    if (result.length > 0) {
+                        console.log(result, "makerresult");
+                        let userData = {
+                            emailExist: true,
+                            uid: result[0].Manufacturer_ID,
+                            userType: "maker",
+                            password: result[0].Password,
+                            emailVerfication: result[0].Email_Verification,
+                        };
+                        resolve(userData);
+                    } else {
+                        resolve({
+                            emailExist: false,
+                        });
+                    }
+                });
             }
         });
     });
