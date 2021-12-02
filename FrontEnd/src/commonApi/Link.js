@@ -24,8 +24,14 @@ export const makerSignup = "account/makerSignup";
 //verification
 export const otpVerification = "account/verify";
 
+//send-otp
+export const sendOTP = "account/send-otp";
+
 //isLoggedIn
 export const isLoggedIn = "account/isLoggedIn";
 
 //current userdata
 export const currentUserLink = "account/currentUser";
+
+//logout
+export const logout = "account/logout";
