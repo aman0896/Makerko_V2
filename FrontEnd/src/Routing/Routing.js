@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FooterContainer from "../Components/Footer/FooterContainer";
 import NavBar from "../Components/NavBar";
+import ReactToastify from "../Components/ReactToastify";
 import Main from "../Pages/LandingPage/Main";
 import Login from "../Pages/Login";
 import MakersSignup from "../Pages/MakersSignup";
@@ -20,7 +21,7 @@ function Routing({ isAuth, currentUser, userType }) {
                 />
                 <Switch>
                     {/* <Main /> */}
-                    <Route exact path="/" component={Main} exact />
+                    <Route exact path="/" component={Main} />
                     <Route exact path="/account/login" component={Login} />
                     <Route exact path="/account/signup" component={Signup} />
                     <Route
@@ -41,6 +42,7 @@ function Routing({ isAuth, currentUser, userType }) {
                 </Switch>
                 <FooterContainer />
             </Router>
+            <ReactToastify />
         </div>
     );
 }
