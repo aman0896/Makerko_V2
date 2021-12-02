@@ -1,22 +1,24 @@
 const jwt = require("jsonwebtoken");
 
-const auth_token =
-    "89742d737df048f8ee36b0cb8b9f51fdabbd83fda7a1bcc363af4a3f4a3723324abcc873a7d4df7e6b3a9270f2011555071c9d2781bbe7ffe1bc60b5cbca1e5c";
+const Auth_Token = process.env.JWT_AUTH_TOKEN;
 
 function SignJWt(data) {
-    const token = jwt.sign(data, auth_token);
+    const token = jwt.sign(data, Auth_Token);
     return token;
 }
 
 function VerifyToken(req, res, next) {
-    const authToken = req.headers["authorization"];
-    console.log(authToken, "authtoken", req.headers);
-    if (authToken) {
-        jwt.verify(authToken, auth_token, (err, result) => {
-            if (err) return res.json({ success: false, msg: "not found" });
+    // const authToken = req.headers["authorization"];
+    // console.log(authToken, "authtoken", req.headers);
+    const accessToken = req.cookies.u_id;
+    if (accessToken) {
+        jwt.verify(accessToken, Auth_Token, (err, result) => {
+            if (err) return res.json({ loggedIn: false });
             req.user = result;
             next();
         });
+    } else {
+        return res.json({ loggedIn: false });
     }
 }
 module.exports = { SignJWt, VerifyToken };
