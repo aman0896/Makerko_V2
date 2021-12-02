@@ -36,19 +36,18 @@ const validationSchema = Yup.object().shape({
     [true],
     "Please accept the terms and conditions to continue."
   ),
-  files: Yup.mixed()
-    .required("Photos  of project is required")
+  files: Yup.mixed().required("Photos  of project is required"),
 
-    .test(
-      "len",
-      "No of photos must be between 3 and 10",
-      (value) => value.length <= 10
-    )
-    .test(
-      "len",
-      "No of photos must be between 3 and 10",
-      (value) => value.length >= 3
-    ),
+  // .test(
+  //   "len",
+  //   "No of photos must be between 3 and 10",
+  //   (value) => value.length <= 10
+  // )
+  // .test(
+  //   "len",
+  //   "No of photos must be between 3 and 10",
+  //   (value) => value.length >= 3
+  // ),
   // .test(
   //   "fileFormat",
   //   "Unsupported File Format",
@@ -183,6 +182,7 @@ function FeatureProjectAdd() {
                 <Button
                   buttonStyle="button--primary--outline"
                   buttonSize="button--small"
+                  type="button"
                 >
                   Cancel
                 </Button>

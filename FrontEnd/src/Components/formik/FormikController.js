@@ -81,9 +81,9 @@ function FormikController(props) {
       return (
         <Button
           onClick={handleSubmit}
-          {...rest}
           buttonStyle="button--primary--solid"
           buttonSize="button--small"
+          {...rest}
         >
           {props.title}
         </Button>
