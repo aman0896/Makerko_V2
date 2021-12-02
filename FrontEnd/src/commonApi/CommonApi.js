@@ -18,6 +18,7 @@ export function getData(link, params, onSuccess, onFail) {
 }
 
 export function getDataWithNoParams(link, onSuccess, onFail) {
+    Axios.defaults.withCredentials = true;
     Axios.get(mainHost + link, {
         headers: { "content-type": "application/json" },
     })
