@@ -7,7 +7,11 @@ function FooterContainer() {
             <Footer.Wrapper>
                 <Footer.Row>
                     <Footer.LogoColumn>
-                        <Footer.Logo src="./makerko.png" alt="logo" />
+                        <Footer.Logo
+                            src="http://localhost:3000/assests/makerkowhite.png"
+                            alt="logo"
+                            preview=""
+                        />
                     </Footer.LogoColumn>
                     <Footer.Column>
                         <Footer.Title>Explore</Footer.Title>
