@@ -4,6 +4,7 @@ const { DBQuery } = require("../DBController/DatabaseQuery");
 //db initialization
 const db = require("../DBController/DBConnect");
 const { SignJWt } = require("../Utils/jwt");
+const { CreateHash } = require("../Utils/OTP");
 const { PasswordCheck } = require("../Utils/passwordSecurity");
 
 const router = express.Router();
@@ -45,6 +46,16 @@ router.post("/login", (req, res) => {
                 });
         }
     });
+});
+
+router.post("/send-otp", async (req, res) => {
+    console.log("check", "check");
+    const email = req.body.email;
+    const hash = await CreateHash(email);
+    console.log(hash, "hash");
+    if (hash) {
+        res.json({ hash: hash, message: "OTP has been sent to you email" });
+    }
 });
 
 module.exports = router;
