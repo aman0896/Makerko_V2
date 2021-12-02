@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormikComponent from "../Components/formik/FormikComponent";
 import FormikController from "../Components/formik/FormikController";
 import "./Login.css";
@@ -6,20 +6,14 @@ import { colors } from "../Values/colors";
 import ModalChoice from "../Components/modal/ModalChoice";
 import { LoginValidationSchema } from "./Form/ValidationSchema";
 import { postData } from "../commonApi/CommonApi";
-import { login } from "../commonApi/Link";
+import { login, sendOTP } from "../commonApi/Link";
 import { useHistory } from "react-router";
-import ReactToastify from "../Components/ReactToastify";
+import { Toast } from "../Components/ReactToastify";
 
 const InitialValues = { email: "", password: "" };
 
 function Login() {
     const history = useHistory();
-    const [toast, setToast] = useState({
-        message: "",
-        textColor: "",
-        closeTime: "",
-        type: "",
-    });
     const [showModal, setShowModal] = useState(false);
     const [verifyHidden, setVerifyHidden] = useState(true);
     const [email, setEmail] = useState();
@@ -34,22 +28,20 @@ function Login() {
                     const { userLoggedIn, userVerified, emailExist } =
                         onSuccess.data;
                     if (emailExist === false) {
-                        setToast({
-                            ...toast,
-                            message: "User does not exist",
-                            type: "error",
-                            closeTime: 3000,
-                            textColor: colors.white,
-                        });
+                        Toast(
+                            "User does not exist",
+                            "error",
+                            3000,
+                            colors.white
+                        );
+                        return;
                     } else if (userLoggedIn && userVerified) {
-                        console.log("login success");
-                        setToast({
-                            ...toast,
-                            message: "Login Successful",
-                            type: "success",
-                            closeTime: 3000,
-                            textColor: colors.white,
-                        });
+                        Toast(
+                            "Login Successful",
+                            "success",
+                            3000,
+                            colors.white
+                        );
                         setTimeout(() => {
                             history.push({
                                 pathname: "/",
@@ -58,25 +50,27 @@ function Login() {
                                 },
                             });
                             history.go();
-                        }, 5000);
+                        }, 3000);
+                        return;
                     } else if (!userLoggedIn && userVerified == undefined) {
-                        setToast({
-                            ...toast,
-                            message: "email or password do not match",
-                            type: "error",
-                            closeTime: 3000,
-                            textColor: colors.white,
-                        });
+                        Toast(
+                            "email or password do not match",
+                            "error",
+                            3000,
+                            colors.white
+                        );
+                        return;
                     } else if (!userVerified && userLoggedIn == undefined) {
-                        setToast({
-                            ...toast,
-                            message: "Email not verified",
-                            type: "error",
-                            closeTime: 3000,
-                            textColor: colors.white,
-                        });
+                        Toast(
+                            "Account not verified",
+                            "error",
+                            3000,
+                            colors.white
+                        );
+
                         setVerifyHidden(false);
                         setEmail(values.email);
+                        return;
                     }
                 }
             },
@@ -98,24 +92,22 @@ function Login() {
 
     const onClickVerify = (event) => {
         event.preventDefault();
-        postData();
-        // axios
-        //     .post(`${window.host}/verify-login`, {
-        //         email: this.state.email,
-        //     })
-        //     .then((response) => {
-        //         if (response.data) {
-        //             const { hash, message } = response.data;
-        //             toast(message);
-        //             setTimeout(() => {
-        //                 this.props.history.push({
-        //                     pathname: `/verify`,
-        //                     search: `?email=${this.state.email}&hash=${hash}`,
-        //                 });
-        //                 this.props.history.go(0);
-        //             }, 2000);
-        //         }
-        //     });
+        postData(
+            sendOTP,
+            { email: email },
+            (onSuccess) => {
+                const { hash, message } = onSuccess.data;
+                Toast(message, "info", 2000);
+                setTimeout(() => {
+                    history.push({
+                        pathname: `/account/verify`,
+                        search: `?email=${email}&hash=${hash}`,
+                    });
+                    history.go(0);
+                }, 2000);
+            },
+            (onFail) => {}
+        );
     };
 
     return (
@@ -191,7 +183,7 @@ function Login() {
                                         }}
                                         className="mt-2"
                                     >
-                                        Click here to verify
+                                        Click here to verify your account
                                     </a>
                                 </div>
                                 <div className="d-flex justify-content-center mt-2">
@@ -220,12 +212,6 @@ function Login() {
                 title="Sign Up as:"
                 btnTitle1="Client"
                 btnTitle2="Maker"
-            />
-            <ReactToastify
-                message={toast.message}
-                type={toast.type}
-                closeTime={toast.closeTime}
-                textColor={toast.textColor}
             />
         </div>
     );
