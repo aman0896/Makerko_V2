@@ -1,14 +1,29 @@
 const db = require("../DBController/DBConnect");
 
+//DBQuery with Data
 function DBQuery(sqlQuery, data, callback) {
+    console.log("db check");
     db.query(sqlQuery, data, (err, result) => {
         if (err) {
-            console.log(err, "dbqueryerror");
-            throw err;
+            return callback(err, null);
         } else {
-            callback(result);
+            return callback(null, result);
         }
     });
 }
 
-module.exports = DBQuery;
+//DBQuery without data
+function DBQuery2(sqlQuery) {
+    return new Promise((resolve) => {
+        db.query(sqlQuery, (err, result) => {
+            if (err) {
+                console.log(err, "dbqueryerror");
+                throw err;
+            } else {
+                resolve(result);
+            }
+        });
+    });
+}
+
+module.exports = { DBQuery, DBQuery2 };
