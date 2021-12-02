@@ -10,9 +10,15 @@ function ModalChoice(props) {
     <Modal show={props.show} onHide={props.handleClose} centered>
       <Modal.Body className="my-4">
         <div className="row">
-          <div className="col-sm border-right py-sm-4">
+          <div
+            className="col-sm  py-sm-5 h-100"
+            style={{ borderRight: `1px solid ${colors.gray}` }}
+          >
             <div className="d-flex  justify-content-sm-end justify-content-center align-items-center">
-              <img src="/assests/Makerko.png" />
+              <img
+                src="/assests/Makerko.png"
+                style={{ width: 120, height: 120 }}
+              />
             </div>
           </div>
           <div className="col-sm py-sm-4">
@@ -21,7 +27,7 @@ function ModalChoice(props) {
 
               <Button
                 buttonStyle="button--primary--solid"
-                buttonSize="button--small"
+                buttonSize="button--medium"
                 onClick={props.onClickButton1}
               >
                 {props.btnTitle1}
@@ -34,7 +40,7 @@ function ModalChoice(props) {
 
               <Button
                 buttonStyle="button--primary--solid"
-                buttonSize="button--small"
+                buttonSize="button--medium"
                 onClick={props.onClickButton2}
               >
                 {props.btnTitle2}

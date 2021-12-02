@@ -5,6 +5,7 @@ import "./NavBar.css";
 import { FiUser } from "react-icons/fi";
 import { getData } from "../commonApi/CommonApi";
 import { currentUserLink } from "../commonApi/Link";
+import ModalChoice from "./modal/ModalChoice";
 
 function NavBar({ isAuth, currentUser, userType }) {
   const [hambergerClicked, isHambergerClicked] = useState(false);
@@ -35,7 +36,7 @@ function NavBar({ isAuth, currentUser, userType }) {
   return (
     <nav className="NavbarItems">
       <div className="navbar-container">
-        <Link className="navbar-logo">
+        <Link className="navbar-logo" to={{ pathname: "/" }}>
           <h2>Makerko</h2>
         </Link>
 
@@ -73,6 +74,23 @@ function NavBar({ isAuth, currentUser, userType }) {
 export default NavBar;
 
 function ProfileAvatarLogin() {
+  const [showModal, setShowModal] = useState(false);
+
+  const showModalChoice = () => {
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+  };
+
+  const onClickClient = () => {
+    window.location.href = "/account/signup";
+  };
+
+  const onClickMaker = () => {
+    window.location.href = "/account/makers-signup";
+  };
   return (
     <>
       <div data-toggle="dropdown" className="dropdown navbar-login">
@@ -85,15 +103,21 @@ function ProfileAvatarLogin() {
         </a>
         <a
           className="dropdown-item dropdown-item-style"
-          href="/account/signup"
+          onClick={showModalChoice}
           type="button"
-          data-toggle="modal"
-          data-target="#signup"
         >
-          {" "}
           Sign Up
         </a>
       </div>
+      <ModalChoice
+        show={showModal}
+        handleClose={handleClose}
+        onClickButton1={onClickClient}
+        onClickButton2={onClickMaker}
+        title="Sign Up as:"
+        btnTitle1="Client"
+        btnTitle2="Maker"
+      />
     </>
   );
 }

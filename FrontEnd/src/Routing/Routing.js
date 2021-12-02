@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FooterContainer from "../Components/Footer/FooterContainer";
 import NavBar from "../Components/NavBar";
+import CreateFeatureProject from "../Pages/FeatureProject/CreateFeatureProject";
 import Main from "../Pages/LandingPage/Main";
 import Login from "../Pages/Login";
 import MakersSignup from "../Pages/MakersSignup";
@@ -15,13 +16,13 @@ function Routing({ isAuth, currentUser, userType }) {
       <Router>
         <NavBar isAuth={isAuth} currentUser={currentUser} userType={userType} />
         <Switch>
-          {/* <Main /> */}
-          <Route exact path="/" component={Main} exact />
+          <Route exact path="/" component={Main} />
           <Route exact path="/account/login" component={Login} />
           <Route exact path="/account/signup" component={Signup} />
           <Route exact path="/account/makers-signup" component={MakersSignup} />
           <Route exact path="/account/verify" component={OTPVerification} />
           <Route exact path="/verify-success" component={VerificationSuccess} />
+          <Route exact path="/new-project" component={CreateFeatureProject} />
         </Switch>
         <FooterContainer />
       </Router>
