@@ -49,8 +49,8 @@ app.use("/account", signup);
 const otpVerification = require("./routes/OTPVerification");
 app.use("/account", otpVerification);
 
-const checkUserLoggedIn = require("./routes/CheckUserLoggedIn");
-app.use("/account", checkUserLoggedIn);
+const user = require("./routes/User");
+app.use("/account", user);
 //#endregion
 
 //Serve the static files from the React app
