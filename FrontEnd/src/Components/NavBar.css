@@ -91,20 +91,24 @@
     color: var(--white);
     height: 45px;
     width: 45px;
+    cursor: pointer;
 }
 
 .dropdown-menu-style {
     text-align: center;
+    cursor: pointer;
 }
 
 .dropdown-item-style {
     color: var(--primary);
     transition: all 0.2s ease-in;
+    cursor: pointer;
 }
 .dropdown-item-style:hover {
     color: var(--white);
     background-color: var(--primary);
     transition: all 0.2s ease-in;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 1230px) {
