@@ -10,6 +10,7 @@ import OTPVerification from "../Pages/OTPVerification";
 import Signup from "../Pages/Signup";
 import VerificationSuccess from "../Pages/VerificationSuccess";
 import FileUpload from "../Test/FileUpload";
+import CreateFeatureProject from "../Pages/FeatureProject/CreateFeatureProject";
 
 function Routing({ isAuth, currentUser, userType }) {
     return (
