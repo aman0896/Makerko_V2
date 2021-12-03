@@ -18,9 +18,9 @@ router.get("/currentUser", async (req, res) => {
     console.log(customerData, "data");
     const makerData = await GetUserData(makerSqlQuery, req.query.uid);
     if (customerData.length > 0) {
-        res.json({ customerData });
+        res.json({ currentUserData: customerData });
     } else if (makerData.length > 0) {
-        res.json({ makerData });
+        res.json({ currentUserData: makerData });
     }
 });
 
