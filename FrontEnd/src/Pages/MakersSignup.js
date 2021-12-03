@@ -4,10 +4,13 @@ import FormikController from "../Components/formik/FormikController";
 import "./Login.css";
 import { colors } from "../Values/colors";
 import { MakersValidationSchema } from "./Form/ValidationSchema";
+import { postData } from "../commonApi/CommonApi";
+import { makerSignup } from "../commonApi/Link";
+import { useHistory } from "react-router";
+import { Toast } from "../Components/ReactToastify";
 
 const InitialValues = {
     companyName: "",
-    lastName: "",
     phoneNumber: "",
     address: "",
     contactPerson: "",
@@ -15,12 +18,66 @@ const InitialValues = {
     password: "",
     confirm_password: "",
     termsCondition: false,
+    companyStatus: "",
+    delivery: "",
+    website: "",
 };
 
-function MakersSignup() {
+function MakersRegister() {
+    const history = useHistory();
+
     const handleSubmit = (values) => {
         console.log(values, "values");
+        postData(
+            makerSignup,
+            values,
+            (onSuccess) => {
+                if (onSuccess.data) {
+                    if (onSuccess.data.emailExist === true) {
+                        Toast(
+                            "Email already exits",
+                            "error",
+                            3000,
+                            colors.white
+                        );
+                        return;
+                    }
+                    const { hash } = onSuccess.data;
+                    history.push({
+                        pathname: `/account/verify`,
+                        search: `?email=${values.email}&hash=${hash}`,
+                        //send data to verify page
+                    });
+                }
+            },
+            (onFail) => {}
+        );
     };
+
+    const companyStatus = [
+        {
+            value: 1,
+            type: "Registered Company",
+        },
+        {
+            value: 2,
+            type: "Individual/Hobbyist",
+        },
+    ];
+    const deliveryOption = [
+        {
+            value: 1,
+            type: "Within 20km^2",
+        },
+        {
+            value: 2,
+            type: "All Nepal",
+        },
+        {
+            value: 3,
+            type: "Pickup",
+        },
+    ];
     return (
         <div
             style={{
@@ -66,10 +123,13 @@ function MakersSignup() {
                                     </div>
                                     <div className="col-lg">
                                         <FormikController
-                                            name="lastName"
-                                            control="input"
-                                            placeholder="Last Name"
-                                            label="Company Name"
+                                            name="companyStatus"
+                                            control="select"
+                                            label="Company Status"
+                                            options={companyStatus}
+                                            getOptionLabel={(options) =>
+                                                options.type
+                                            }
                                         />
                                     </div>
                                 </div>
@@ -142,9 +202,12 @@ function MakersSignup() {
                                     <div className="col-lg">
                                         <FormikController
                                             name="delivery"
-                                            control="input"
-                                            // placeholder='Confirm Password'
+                                            control="select"
                                             label="Delivery"
+                                            options={deliveryOption}
+                                            getOptionLabel={(options) =>
+                                                options.type
+                                            }
                                         />
                                     </div>
                                 </div>
@@ -189,4 +252,4 @@ function MakersSignup() {
     );
 }
 
-export default MakersSignup;
+export default MakersRegister;
