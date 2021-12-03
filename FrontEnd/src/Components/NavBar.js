@@ -6,6 +6,7 @@ import { getData, getDataWithNoParams } from "../commonApi/CommonApi";
 import { currentUserLink, logout } from "../commonApi/Link";
 
 function NavBar({ isAuth, currentUser, userType }) {
+    console.log(isAuth, currentUser, userType, "data");
     const [hambergerClicked, isHambergerClicked] = useState(false);
     const [currentUserData, setCurrentUserData] = useState();
 
@@ -19,11 +20,7 @@ function NavBar({ isAuth, currentUser, userType }) {
                 currentUserLink,
                 { uid: currentUser },
                 (onSuccess) => {
-                    console.log(
-                        onSuccess.data.customerData[0],
-                        "currentUserDAta"
-                    );
-                    setCurrentUserData(onSuccess.data.customerData[0]);
+                    setCurrentUserData(onSuccess.data.currentUserData[0]);
                 },
                 (onFail) => {}
             );
@@ -67,7 +64,11 @@ function NavBar({ isAuth, currentUser, userType }) {
                 <div>
                     {isAuth && currentUserData ? (
                         <ProfileAvatarLogout
-                            userName={currentUserData.First_Name}
+                            userName={
+                                userType === "maker"
+                                    ? currentUserData.Company_Name
+                                    : currentUserData.First_Name
+                            }
                             userId={currentUser}
                             userType={userType}
                         />
