@@ -9,6 +9,7 @@ import MakersSignup from "../Pages/MakersSignup";
 import OTPVerification from "../Pages/OTPVerification";
 import Signup from "../Pages/Signup";
 import VerificationSuccess from "../Pages/VerificationSuccess";
+import FileUpload from "../Test/FileUpload";
 
 function Routing({ isAuth, currentUser, userType }) {
     return (
@@ -39,8 +40,8 @@ function Routing({ isAuth, currentUser, userType }) {
                         path="/verify-success"
                         component={VerificationSuccess}
                     />
+                    <Route exact path="/file" component={FileUpload} />
                 </Switch>
-                <FooterContainer />
             </Router>
             <ReactToastify />
         </div>
