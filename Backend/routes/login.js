@@ -95,7 +95,7 @@ async function UserCheck(inputEmail, inputPassword, sendResponse) {
                 let userInfo = {
                     uid: user.uid,
                     loggedIn: true,
-                    userStatus: user.userType,
+                    userType: user.userType,
                 };
                 const accessToken = SignJWt(userInfo);
                 sendResponse(null, { accessToken: accessToken });
