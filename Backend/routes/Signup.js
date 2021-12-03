@@ -23,7 +23,10 @@ router.post("/signup", async (req, res) => {
     var index = data.findIndex((item) => item.Email === email);
     if (index == -1) {
         PasswordEncryption(password, (err, hash) => {
-            req.body.password = hash;
+            if (err) {
+                console.log(err, "password hasing error");
+                return err;
+            }
             const params = [
                 firstName,
                 lastName,
@@ -33,10 +36,7 @@ router.post("/signup", async (req, res) => {
                 address,
                 0,
             ];
-            if (err) {
-                console.log(err, "password hasing error");
-                return err;
-            }
+
             DBQuery(sqlQuery, params, async function (err, result) {
                 if (err) {
                     if (err.errno == 1062) {
