@@ -4,6 +4,7 @@ import "./NavBar.css";
 import { FiUser } from "react-icons/fi";
 import { getData, getDataWithNoParams } from "../commonApi/CommonApi";
 import { currentUserLink, logout } from "../commonApi/Link";
+import ModalChoice from "./modal/ModalChoice";
 
 function NavBar({ isAuth, currentUser, userType }) {
     console.log(isAuth, currentUser, userType, "data");
