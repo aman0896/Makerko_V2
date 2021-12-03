@@ -22,15 +22,16 @@ const InitialValues = {
 
 function Signup() {
     const history = useHistory();
+
     const handleSubmit = (values) => {
         console.log(values, "values");
         postData(
             signup,
             values,
             (onSuccess) => {
-                console.log(onSuccess, "registration Success");
                 if (onSuccess.data.emailExist === true) {
                     Toast("Email already exits", "error", 3000, colors.white);
+                    return;
                 }
                 const { hash } = onSuccess.data;
                 history.push({
