@@ -51,7 +51,14 @@ app.use("/account", otpVerification);
 
 const user = require("./routes/User");
 app.use("/account", user);
+
+const makerSignup = require("./routes/MakerSignup");
+app.use("/account", makerSignup);
 //#endregion
+
+app.post("/file", (req, res) => {
+    console.log(req.files, "file");
+});
 
 //Serve the static files from the React app
 app.use(
