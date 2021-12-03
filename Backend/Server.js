@@ -4,6 +4,8 @@ const server = require("http").createServer(app);
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 require("dotenv").config();
+var multer = require("multer");
+var fs = require("fs");
 
 //project path define
 const path = require("path");
@@ -57,11 +59,10 @@ app.use("/account", makerSignup);
 
 const FeatureProject = require("./routes/FeatureProject");
 app.use("/project", FeatureProject);
-//#endregion
 
-app.post("/file", (req, res) => {
-    console.log(req.files, "file");
-});
+const Profile = require("./routes/Profile");
+app.use("/profile", Profile);
+//#endregion
 
 //Serve the static files from the React app
 app.use(
