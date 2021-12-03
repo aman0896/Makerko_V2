@@ -1,20 +1,20 @@
-.details {
-  font-size: 14px;
-  margin: 10px 0px;
-  letter-spacing: 0.2px;
-  font-weight: bold;
+.sub-title {
+    font-size: 14px;
+    margin: 10px 0px;
+    letter-spacing: 0.2px;
+    font-weight: bold;
 }
 .section {
-  margin-top: 0px;
-  margin-bottom: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 .width {
-  width: 75%;
+    width: 75%;
 }
 
 .text-verify {
-  color: var(--primary);
-  text-decoration: underline;
+    color: var(--primary);
+    text-decoration: underline;
 }
 
 /* .text-verify:hover {
@@ -23,11 +23,15 @@
 } */
 
 @media screen and (max-width: 1230px) {
-  .section {
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
-  .width {
-    width: 100%;
-  }
+    .section {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    .width {
+        width: 100%;
+    }
+}
+
+.border {
+    border-style: dashed;
 }
