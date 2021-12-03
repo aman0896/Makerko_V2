@@ -22,17 +22,14 @@ const db = require("./DBController/DBConnect");
 // var hostAddress = "http://192.168.1.103:5000";
 
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    res.header(
-        "Access-Control-Allow-Methods",
-        "PUT, POST, GET, DELETE, OPTIONS"
-    );
-    next();
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS");
+  next();
 });
 app.use(express.json());
 app.use(bodyParser.json()); // support json encoded bodies
@@ -60,22 +57,22 @@ app.use("/project", FeatureProject);
 //#endregion
 
 app.post("/file", (req, res) => {
-    console.log(req.files, "file");
+  console.log(req.files, "file");
 });
 
 //Serve the static files from the React app
 app.use(
-    "/counselling/triage/",
-    express.static(path.join(projectPath, "build"))
+  "/counselling/triage/",
+  express.static(path.join(projectPath, "build"))
 );
 
 //Handle any request that don't match the ones above
 const root = path.join(projectPath, "build");
 
 app.get("*", (req, res) => {
-    res.sendFile("index.html", { root });
+  res.sendFile("index.html", { root });
 });
 
 server.listen(3001, () => {
-    console.log("running server");
+  console.log("running server");
 });
