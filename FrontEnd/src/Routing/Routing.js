@@ -24,7 +24,7 @@ function Routing({ isAuth, currentUser, userType }) {
           <Route exact path="/verify-success" component={VerificationSuccess} />
           <Route exact path="/new-project" component={CreateFeatureProject} />
         </Switch>
-        <FooterContainer />
+        {/* <FooterContainer /> */}
       </Router>
     </div>
   );

@@ -5,30 +5,20 @@
   font-weight: bold;
 }
 
-.project-main-container {
-  display: flex;
-  flex-direction: column;
-  padding: 100px;
-}
-.project-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.termsAndCondition {
+  margin-top: 200px;
 }
 
-.project-col-1 {
-  display: flex;
-  flex-direction: column;
-  padding-right: 11px;
-  width: 30%;
+.description {
+  margin-top: 137px;
 }
-.project-col-2 {
-  display: flex;
-  flex-direction: column;
 
-  width: 50%;
-}
-.project-col-3 {
-  display: flex;
-  justify-content: space-between;
+@media screen and (max-width: 992px) {
+  .termsAndCondition {
+    margin-top: 0px;
+  }
+
+  .description {
+    margin-top: 0px;
+  }
 }

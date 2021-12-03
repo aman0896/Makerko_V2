@@ -29,3 +29,6 @@ export const isLoggedIn = "account/isLoggedIn";
 
 //current userdata
 export const currentUserLink = "account/currentUser";
+
+//create project
+export const createProject = "project/create";

@@ -142,7 +142,7 @@ function Login() {
                 // height: 19,
               }}
             />
-            <div className="details">Enter your details</div>
+            <div className="sub-title">Enter your details</div>
             <div className="width">
               <FormikComponent
                 initialValues={InitialValues}
