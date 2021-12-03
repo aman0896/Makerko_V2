@@ -30,6 +30,7 @@ function CheckboxComponent(props) {
         }}
       />
       <label htmlFor={props.name} className="form-check-label">
+        {console.log("label", props.label)}
         <span
           style={{
             fontSize: "15px",
@@ -46,7 +47,7 @@ function CheckboxComponent(props) {
           >
             Terms and Conditions
           </a>
-          {` ${props.label}`}
+          {props.label && props.label}
         </span>
       </label>
       {/* <ErrorMessage
