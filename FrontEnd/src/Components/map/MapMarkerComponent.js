@@ -26,7 +26,11 @@ export default function MapMarkerComponent(props) {
                             parseFloat(item.longitude),
                         ]}
                         icon={markerIcon}
-                        onclick={() => props.handleClick(item)}
+                        eventHandlers={{
+                            click: () => {
+                                props.handleClick(item);
+                            },
+                        }}
                     >
                         {/* <Popup>
                         <PopUpComponent data={item} />
