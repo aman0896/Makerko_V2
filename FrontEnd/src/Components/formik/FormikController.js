@@ -4,9 +4,9 @@ import InputComponent from "../input/InputComponent";
 import Button from "../Button";
 import CheckboxComponent from "../input/CheckboxComponent";
 import DropDown from "../input/DropDown";
-// import CkEditorComponent from "../ckeditor/CkEditorComponent";
-// import BrowseFileComponent from "../browseFile/BrowseFileComponent";
-// import BrowseMultipleFileComponent from "../browseFile/BrowseMultipleFileComponent";
+import CkEditorComponent from "../ckeditor/CkEditorComponent";
+import BrowseFileComponent from "../browseFile/BrowseFileComponent";
+import BrowseMultipleFileComponent from "../browseFile/BrowseMultipleFileComponent";
 
 function FormikController(props) {
     const { control, ...rest } = props;
@@ -45,37 +45,37 @@ function FormikController(props) {
                 />
             );
 
-        // case "ckEditor":
-        //     return (
-        //         <CkEditorComponent
-        //             setFieldValue={setFieldValue}
-        //             errors={errors}
-        //             touched={touched}
-        //             handleBlur={setFieldTouched}
-        //             {...rest}
-        //         />
-        //     );
+        case "ckEditor":
+            return (
+                <CkEditorComponent
+                    setFieldValue={setFieldValue}
+                    errors={errors}
+                    touched={touched}
+                    handleBlur={setFieldTouched}
+                    {...rest}
+                />
+            );
 
-        // case "file":
-        //     return (
-        //         <BrowseFileComponent
-        //             setFieldValue={setFieldValue}
-        //             errors={errors}
-        //             touched={touched}
-        //             handleBlur={setFieldTouched}
-        //             {...rest}
-        //         />
-        //     );
-        // case "multipleFile":
-        //     return (
-        //         <BrowseMultipleFileComponent
-        //             setFieldValue={setFieldValue}
-        //             errors={errors}
-        //             touched={touched}
-        //             handleBlur={setFieldTouched}
-        //             {...rest}
-        //         />
-        //     );
+        case "file":
+            return (
+                <BrowseFileComponent
+                    setFieldValue={setFieldValue}
+                    errors={errors}
+                    touched={touched}
+                    handleBlur={setFieldTouched}
+                    {...rest}
+                />
+            );
+        case "multipleFile":
+            return (
+                <BrowseMultipleFileComponent
+                    setFieldValue={setFieldValue}
+                    errors={errors}
+                    touched={touched}
+                    handleBlur={setFieldTouched}
+                    {...rest}
+                />
+            );
 
         case "submit":
             return (

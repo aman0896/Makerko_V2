@@ -34,7 +34,7 @@ function NavBar({ isAuth, currentUser, userType }) {
     return (
         <nav className="NavbarItems">
             <div className="navbar-container">
-                <Link className="navbar-logo">
+                <Link className="navbar-logo" to={{ pathname: "/" }}>
                     <h2>Makerko</h2>
                 </Link>
 
@@ -84,6 +84,23 @@ function NavBar({ isAuth, currentUser, userType }) {
 export default NavBar;
 
 function ProfileAvatarLogin() {
+    const [showModal, setShowModal] = useState(false);
+
+    const showModalChoice = () => {
+        setShowModal(true);
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
+    };
+
+    const onClickClient = () => {
+        window.location.href = "/account/signup";
+    };
+
+    const onClickMaker = () => {
+        window.location.href = "/account/makers-signup";
+    };
     return (
         <>
             <div data-toggle="dropdown" className="dropdown navbar-login">
@@ -99,15 +116,21 @@ function ProfileAvatarLogin() {
                 </a>
                 <a
                     className="dropdown-item dropdown-item-style"
-                    href="/account/signup"
+                    onClick={showModalChoice}
                     type="button"
-                    data-toggle="modal"
-                    data-target="#signup"
                 >
-                    {" "}
                     Sign Up
                 </a>
             </div>
+            <ModalChoice
+                show={showModal}
+                handleClose={handleClose}
+                onClickButton1={onClickClient}
+                onClickButton2={onClickMaker}
+                title="Sign Up as:"
+                btnTitle1="Client"
+                btnTitle2="Maker"
+            />
         </>
     );
 }
@@ -164,37 +187,4 @@ function ProfileAvatarLogout({ userName, userId, userType }) {
             </div>
         </>
     );
-}
-
-// [
-//     { name: "Sign In", link: "/login" },
-//     { name: "Sign Up", link: "/signup" },
-// ]
-{
-    /* <li className="dropdown nav-item">
-    <a data-toggle="dropdown">
-        <div className="icon-container">{username.charAt(0)}</div>
-    </a>
-
-    <ul className="dropdown-menu dropdown-menu-lg-right p-0">
-        <li>
-            <a
-                className="dropdown-item p-2 pl-4"
-                onClick={
-                    userType === "customer"
-                        ? onClickEditCustomerProfile
-                        : onClickEditProfileMaker
-                }
-            >
-                <FiUser size="22px" /> <span className="ml-1">My Profile</span>
-            </a>
-        </li>
-
-        <li>
-            <a className="dropdown-item p-2 pl-4 " onClick={onclickLogout}>
-                <i className="fas fa-sign-out-alt mr-2"></i> Log Out
-            </a>
-        </li>
-    </ul>
-</li>; */
 }

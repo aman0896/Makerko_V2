@@ -35,3 +35,6 @@ export const currentUserLink = "account/currentUser";
 
 //logout
 export const logout = "account/logout";
+
+//create project
+export const createProject = "project/create";

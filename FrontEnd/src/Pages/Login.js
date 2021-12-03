@@ -113,7 +113,7 @@ function Login() {
     return (
         <div
             style={{
-                height: "80",
+                height: window.innerHeight - 80,
             }}
         >
             <div className="row m-0 h-100">
@@ -135,7 +135,7 @@ function Login() {
                                 // height: 19,
                             }}
                         />
-                        <div className="details">Enter your details</div>
+                        <div className="sub-title">Enter your details</div>
                         <div className="width">
                             <FormikComponent
                                 initialValues={InitialValues}

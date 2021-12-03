@@ -18,9 +18,8 @@ export function getData(link, params, onSuccess, onFail) {
 }
 
 export function getDataWithNoParams(link, onSuccess, onFail) {
-    Axios.defaults.withCredentials = true;
     Axios.get(mainHost + link, {
-        headers: { "content-type": "application/json" },
+        headers: { "Content-Type": "application/json" },
     })
         .then((res) => res)
         .then((res) => {
@@ -31,9 +30,24 @@ export function getDataWithNoParams(link, onSuccess, onFail) {
         });
 }
 
+// Without FormData
 export function postData(link, data, onSuccess, onFail) {
     Axios.post(mainHost + link, data, {
-        headers: { "content-type": "application/json" },
+        headers: { "Content-Type": "application/json" },
+    })
+        .then((res) => res)
+        .then((res) => {
+            onSuccess(res);
+        })
+        .catch((err) => {
+            onFail(err);
+        });
+}
+
+// With FormData
+export function postDataWithFormData(link, formData, onSuccess, onFail) {
+    Axios.post(mainHost + link, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
     })
         .then((res) => res)
         .then((res) => {

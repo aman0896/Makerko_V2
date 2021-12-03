@@ -40,6 +40,11 @@ function Routing({ isAuth, currentUser, userType }) {
                         path="/verify-success"
                         component={VerificationSuccess}
                     />
+                    <Route
+                        exact
+                        path="/new-project"
+                        component={CreateFeatureProject}
+                    />
                     <Route exact path="/file" component={FileUpload} />
                 </Switch>
             </Router>

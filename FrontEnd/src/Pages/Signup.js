@@ -68,7 +68,7 @@ function Signup() {
                                 // height: 19,
                             }}
                         />
-                        <div className="details">
+                        <div className="sub-title">
                             Enter your details to get started
                         </div>
                         <div className="">

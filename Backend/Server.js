@@ -54,6 +54,9 @@ app.use("/account", user);
 
 const makerSignup = require("./routes/MakerSignup");
 app.use("/account", makerSignup);
+
+const FeatureProject = require("./routes/FeatureProject");
+app.use("/project", FeatureProject);
 //#endregion
 
 app.post("/file", (req, res) => {
