@@ -4,7 +4,6 @@ import * as Yup from "yup";
 export const MakersValidationSchema = Yup.object().shape({
     companyName: Yup.string().required("First Name is required"),
 
-    lastName: Yup.string().required("Last Name is required"),
     phoneNumber: Yup.string().required("Phone Number is required"),
     address: Yup.string().required("Address is required"),
     contactPerson: Yup.string().required("Contact Person Name is required"),
@@ -23,6 +22,8 @@ export const MakersValidationSchema = Yup.object().shape({
         [true],
         "Please accept the terms and conditions to continue."
     ),
+    companyStatus: Yup.object().required("Company Status is required."),
+    delivery: Yup.object().required("Delivery is required."),
 });
 
 //Signup Validation Schema
