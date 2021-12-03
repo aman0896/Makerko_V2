@@ -19,7 +19,7 @@ export const login = "account/login";
 export const signup = "account/signup";
 
 //maker signup
-export const makerSignup = "account/makerSignup";
+export const makerSignup = "account/maker-signup";
 
 //verification
 export const otpVerification = "account/verify";
