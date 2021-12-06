@@ -1,12 +1,13 @@
-import { useFormikContext } from "formik";
-import React from "react";
-import InputComponent from "../input/InputComponent";
-import Button from "../Button";
-import CheckboxComponent from "../input/CheckboxComponent";
-import DropDown from "../input/DropDown";
-import CkEditorComponent from "../ckeditor/CkEditorComponent";
-import BrowseFileComponent from "../browseFile/BrowseFileComponent";
-import BrowseMultipleFileComponent from "../browseFile/BrowseMultipleFileComponent";
+import { useFormikContext } from 'formik';
+import React from 'react';
+import InputComponent from '../input/InputComponent';
+import Button from '../Button';
+import CheckboxComponent from '../input/CheckboxComponent';
+import DropDown from '../input/DropDown';
+import CkEditorComponent from '../ckeditor/CkEditorComponent';
+import BrowseFileComponent from '../browseFile/BrowseFileComponent';
+import BrowseMultipleFileComponent from '../browseFile/BrowseMultipleFileComponent';
+import TeaxtAreaComponent from '../input/TextAreaComponent';
 
 function FormikController(props) {
     const { control, ...rest } = props;
@@ -14,7 +15,7 @@ function FormikController(props) {
         useFormikContext();
 
     switch (control) {
-        case "input":
+        case 'input':
             return (
                 <InputComponent
                     setFieldValue={setFieldValue}
@@ -24,7 +25,17 @@ function FormikController(props) {
                     {...rest}
                 />
             );
-        case "checkbox":
+        case 'textarea':
+            return (
+                <TeaxtAreaComponent
+                    setFieldValue={setFieldValue}
+                    errors={errors}
+                    touched={touched}
+                    handleBlur={setFieldTouched}
+                    {...rest}
+                />
+            );
+        case 'checkbox':
             return (
                 <CheckboxComponent
                     setFieldValue={setFieldValue}
@@ -34,7 +45,7 @@ function FormikController(props) {
                     {...rest}
                 />
             );
-        case "select":
+        case 'select':
             return (
                 <DropDown
                     setFieldValue={setFieldValue}
@@ -45,7 +56,7 @@ function FormikController(props) {
                 />
             );
 
-        case "ckEditor":
+        case 'ckEditor':
             return (
                 <CkEditorComponent
                     setFieldValue={setFieldValue}
@@ -56,7 +67,7 @@ function FormikController(props) {
                 />
             );
 
-        case "file":
+        case 'file':
             return (
                 <BrowseFileComponent
                     setFieldValue={setFieldValue}
@@ -66,7 +77,7 @@ function FormikController(props) {
                     {...rest}
                 />
             );
-        case "multipleFile":
+        case 'multipleFile':
             return (
                 <BrowseMultipleFileComponent
                     setFieldValue={setFieldValue}
@@ -77,7 +88,7 @@ function FormikController(props) {
                 />
             );
 
-        case "submit":
+        case 'submit':
             return (
                 <Button
                     onClick={handleSubmit}
