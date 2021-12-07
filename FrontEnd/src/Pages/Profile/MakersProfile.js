@@ -8,24 +8,44 @@ import './Profile.css';
 import ChangePasswordComponent from '../../Components/Password/ChangePasswordComponent';
 
 const ValidationSchema = Yup.object().shape({
-    firstName: Yup.string().required('First Name is required'),
-    lastName: Yup.string().required('Last Name is required'),
+    companyName: Yup.string().required('First Name is required'),
     phoneNumber: Yup.string().required('Phone Number is required'),
     address: Yup.string().required('Address is required'),
+    contactPerson: Yup.string().required('Contact Person Name is required'),
     email: Yup.string().required('Email is required').email('Invalid Email'),
-    bio: Yup.string().required('Bio is required'),
+    companyStatus: Yup.object().required('Company Status is required.'),
+
+    website: Yup.string().matches(
+        /(https?:\/\/)?(www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)|(https?:\/\/)?(www\.)?(?!ww)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/,
+        'Invalid Website'
+    ),
+    brief_description: Yup.string().required('Brief Description is required'),
+    additional_details: Yup.string().required('Additional Details is required'),
 });
 
 const InitialValues = {
-    firstName: '',
-    lastName: '',
+    companyName: '',
     phoneNumber: '',
     address: '',
+    contactPerson: '',
     email: '',
-    bio: '',
+    website: '',
+    brief_description: '',
+    additional_details: '',
 };
 
-function CustomerProfile() {
+function MakersProfile() {
+    const companyStatus = [
+        {
+            value: 1,
+            type: 'Registered Company',
+        },
+        {
+            value: 2,
+            type: 'Individual/Hobbyist',
+        },
+    ];
+
     const handleSubmit = (values) => {
         console.log(values, 'values');
     };
@@ -34,7 +54,7 @@ function CustomerProfile() {
         <div
             className="container-fluid"
             style={{
-                width: width <= 800 ? '95%' : '60%',
+                width: width <= 800 ? '95%' : '50%',
             }}
         >
             <div className="d-flex align-items-center flex-column my-4">
@@ -58,8 +78,8 @@ function CustomerProfile() {
                 </div>
 
                 <div className="profile-name">
-                    {'Ashmita'}&nbsp;
-                    {'Gorkhali'}
+                    {'Zener'}&nbsp;
+                    {'Technologies'}
                 </div>
             </div>
             <div className="section-heading mb-3">Edit Profile</div>
@@ -71,22 +91,25 @@ function CustomerProfile() {
                 <div className="row">
                     <div className="col-lg">
                         <FormikController
-                            label="First Name"
-                            name="firstName"
+                            label="Company Name"
+                            name="companyName"
                             control="input"
-                            placeholder="First Name"
+                            placeholder="Company Name"
                             type="text"
-                            setInitial="Ashmita"
+                            setInitial="Zener Technologies"
                         />
                     </div>
                     <div className="col-lg offset-lg-1">
                         <FormikController
-                            label="Last Name"
-                            name="lastName"
-                            control="input"
-                            placeholder="Last Name"
-                            type="text"
-                            setInitial="Gorkhali"
+                            name="companyStatus"
+                            control="select"
+                            label="Company Status"
+                            options={companyStatus}
+                            getOptionLabel={(options) => options.type}
+                            setInitial={{
+                                value: 1,
+                                type: 'Registered Company',
+                            }}
                         />
                     </div>
                 </div>
@@ -103,24 +126,43 @@ function CustomerProfile() {
                     </div>
                     <div className="col-lg offset-lg-1">
                         <FormikController
-                            label="Address"
-                            name="address"
+                            name="contactPerson"
                             control="input"
-                            placeholder="Enter Address"
-                            type="text"
-                            setInitial="Sanepa,Lalitpur"
+                            placeholder="Enter Contact Person Name"
+                            label="Contact Person"
+                            setInitial="Ram Chandra Thapa"
                         />
                     </div>
                 </div>
                 <div className="row mt-3">
-                    <div className="col-lg-6">
+                    <div className="col-lg">
                         <FormikController
                             label="Email"
                             name="email"
                             control="input"
                             placeholder="Email Address"
                             type="email"
-                            setInitial="ashmii.stha@gmail.com"
+                            setInitial="zener@gmail.com"
+                        />
+                    </div>
+                    <div className="col-lg offset-lg-1">
+                        <FormikController
+                            name="address"
+                            control="input"
+                            placeholder="Enter Address"
+                            label="Address"
+                            setInitial="Lalitpur"
+                        />
+                    </div>
+                </div>
+                <div className="row mt-3">
+                    <div className="col-lg">
+                        <FormikController
+                            name="website"
+                            control="input"
+                            placeholder="Enter website"
+                            label="Website"
+                            setInitial="zener.com"
                         />
                     </div>
                     <div className="col-lg offset-lg-1"></div>
@@ -128,12 +170,20 @@ function CustomerProfile() {
                 <div className="row mt-3">
                     <div className="col-lg">
                         <FormikController
-                            label="Bio"
-                            name="bio"
+                            label="Brief Description"
+                            name="brief_description"
                             control="textarea"
-                            placeholder="Enter Address"
-                            type="text"
-                            setInitial="Software Developer"
+                            placeholder="Brief Description of Company"
+                            setInitial="Description"
+                        />
+                    </div>
+                    <div className="col-lg offset-lg-1">
+                        <FormikController
+                            name="additional_details"
+                            control="textarea"
+                            placeholder="Additional Details"
+                            label="Additional Details"
+                            setInitial="Details"
                         />
                     </div>
                 </div>
@@ -151,4 +201,4 @@ function CustomerProfile() {
     );
 }
 
-export default CustomerProfile;
+export default MakersProfile;

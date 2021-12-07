@@ -25,6 +25,16 @@ function FormikController(props) {
                     {...rest}
                 />
             );
+        case "textarea":
+            return (
+                <TeaxtAreaComponent
+                    setFieldValue={setFieldValue}
+                    errors={errors}
+                    touched={touched}
+                    handleBlur={setFieldTouched}
+                    {...rest}
+                />
+            );
         case "checkbox":
             return (
                 <CheckboxComponent

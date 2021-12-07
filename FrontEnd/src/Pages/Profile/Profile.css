@@ -1,5 +1,6 @@
 .avatar-file {
     position: absolute;
+
     font-size: 50px;
     opacity: 0;
     right: 0;
@@ -8,6 +9,7 @@
 
 .icon-edit {
     position: absolute;
+
     border-radius: 50%;
     left: 125px;
     top: 130px;
@@ -33,7 +35,7 @@
     border-radius: 50%;
     object-fit: cover;
     backface-visibility: hidden;
-    border: 1px solid black;
+    /* //border: 0.5px solid rgb(68, 63, 63); */
 }
 
 .profile-name {
@@ -46,5 +48,5 @@
     font-weight: bold;
     color: var(--primary);
     font-size: 30px;
-    font-family: "Montserrat", sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }

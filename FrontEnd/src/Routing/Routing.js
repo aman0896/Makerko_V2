@@ -13,6 +13,7 @@ import CustomerProfile from "../Pages/Profile/CustomerProfile";
 import Signup from "../Pages/Signup";
 import VerificationSuccess from "../Pages/VerificationSuccess";
 import FileUpload from "../Test/FileUpload";
+import MakersProfile from "../Pages/Profile/MakersProfile";
 
 function Routing({ isAuth, currentUser, userType }) {
     return (
@@ -55,6 +56,12 @@ function Routing({ isAuth, currentUser, userType }) {
                         component={CustomerProfile}
                     />
                     <Route exact path="/get-quote" component={GetAQuote} />
+
+                    <Route
+                        exact
+                        path="/profile/maker"
+                        component={MakersProfile}
+                    />
                 </Switch>
             </Router>
             <ReactToastify />
