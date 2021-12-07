@@ -1,0 +1,11 @@
+.vr-divider {
+    width: 1px;
+    left: 50%;
+    height: inherit;
+}
+
+.hr-divider {
+    width: auto;
+    height: 5px;
+    margin: 15px;
+}

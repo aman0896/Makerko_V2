@@ -49,7 +49,7 @@ const CustomSlide = ({ slide }) => {
     const styles = {
         objectFit: "cover",
         width: "100%",
-        height: window.innerHeight - 100,
+        height: window.innerHeight / 2,
     };
 
     return (

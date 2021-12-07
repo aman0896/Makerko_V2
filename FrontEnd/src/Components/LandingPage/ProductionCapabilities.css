@@ -1,0 +1,32 @@
+.main-container {
+    display: flex;
+    justify-content: center;
+    background-color: black;
+    width: 100%;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.sub-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 90%;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.heading {
+    color: #0000ff;
+    font-weight: bold;
+    text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+    .heading {
+        text-align: center;
+        font-size: 1.5rem;
+    }
+}
