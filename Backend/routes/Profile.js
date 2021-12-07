@@ -3,7 +3,7 @@ const express = require("express");
 const path = require("path");
 const projectPath = path.dirname(process.cwd());
 var fs = require("fs");
-const { SingleFileUpload } = require("../Utils/FileUpload");
+const { SingleFileUpload } = require("../Utils/MultarFileUpload");
 const FileDownload = require("../Utils/FileDownload");
 const router = express.Router();
 
