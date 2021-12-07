@@ -62,6 +62,9 @@ app.use("/project", FeatureProject);
 
 const Profile = require("./routes/Profile");
 app.use("/profile", Profile);
+
+const DropZone = require("./routes/DropZone");
+app.use("/dropzone", DropZone);
 //#endregion
 
 //Serve the static files from the React app
