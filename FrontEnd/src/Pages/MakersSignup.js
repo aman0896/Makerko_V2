@@ -24,7 +24,7 @@ const InitialValues = {
     website: "",
 };
 
-function MakersRegister() {
+function MakersSignup() {
     const history = useHistory();
 
     const handleSubmit = (values) => {
@@ -253,4 +253,4 @@ function MakersRegister() {
     );
 }
 
-export default MakersRegister;
+export default MakersSignup;
