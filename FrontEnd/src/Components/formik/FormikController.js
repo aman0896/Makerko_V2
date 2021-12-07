@@ -7,6 +7,7 @@ import DropDown from "../input/DropDown";
 import CkEditorComponent from "../ckeditor/CkEditorComponent";
 import BrowseFileComponent from "../browseFile/BrowseFileComponent";
 import BrowseMultipleFileComponent from "../browseFile/BrowseMultipleFileComponent";
+import DropZone from "../input/DropZone";
 
 function FormikController(props) {
     const { control, ...rest } = props;
@@ -69,6 +70,17 @@ function FormikController(props) {
         case "multipleFile":
             return (
                 <BrowseMultipleFileComponent
+                    setFieldValue={setFieldValue}
+                    errors={errors}
+                    touched={touched}
+                    handleBlur={setFieldTouched}
+                    {...rest}
+                />
+            );
+
+        case "dropzone":
+            return (
+                <DropZone
                     setFieldValue={setFieldValue}
                     errors={errors}
                     touched={touched}
