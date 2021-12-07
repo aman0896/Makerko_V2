@@ -38,3 +38,6 @@ export const logout = "account/logout";
 
 //create project
 export const createProject = "project/create";
+
+//dropzone file-drop
+export const dropzone = "dropzone/file-drop";
