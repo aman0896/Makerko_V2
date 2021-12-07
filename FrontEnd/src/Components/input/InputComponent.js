@@ -80,6 +80,17 @@ export default function InputComponent(props) {
                         }}
                     />
                 )}
+                {props.isUnit && (
+                    <span
+                        style={{
+                            position: "absolute",
+                            top: "30%",
+                            right: "5%",
+                        }}
+                    >
+                        {props.unit}
+                    </span>
+                )}
             </div>
             <ErrorMessage
                 error={props.errors[props.name]}
