@@ -57,3 +57,32 @@ export function postDataWithFormData(link, formData, onSuccess, onFail) {
             onFail(err);
         });
 }
+
+// post data with progress event
+export function postDataWithCofig(
+    link,
+    formData,
+    setUploadPercentage,
+    onSuccess,
+    onFail
+) {
+    Axios.post(mainHost + link, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+            setUploadPercentage(
+                parseInt(
+                    Math.round(
+                        (progressEvent.loaded * 100) / progressEvent.total
+                    )
+                )
+            );
+        },
+    })
+        .then((res) => res)
+        .then((res) => {
+            onSuccess(res);
+        })
+        .catch((err) => {
+            onFail(err);
+        });
+}
