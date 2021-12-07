@@ -93,20 +93,14 @@ export const ProjectValidationSchema = Yup.object().shape({
         "Please accept the terms and conditions to continue."
     ),
     files: Yup.mixed().required("Photos  of project is required"),
+});
 
-    // .test(
-    //   "len",
-    //   "No of photos must be between 3 and 10",
-    //   (value) => value.length <= 10
-    // )
-    // .test(
-    //   "len",
-    //   "No of photos must be between 3 and 10",
-    //   (value) => value.length >= 3
-    // ),
-    // .test(
-    //   "fileFormat",
-    //   "Unsupported File Format",
-    //   (value) => value[0] && SUPPORTED_FORMATS.includes(value[0].type)
-    // ),
+//Signup Validation Schema
+export const GetAQuoteValidationSchema = Yup.object().shape({
+    method: Yup.object().required("Method is required"),
+
+    material: Yup.object().required("Material is required"),
+    thickness: Yup.string().required("Thickness is required"),
+    quantity: Yup.string().required("Quantity is required"),
+    file: Yup.object().required("No file Uploaded"),
 });
