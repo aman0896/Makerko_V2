@@ -1,52 +1,50 @@
 .avatar-file {
-  position: absolute;
-
-  font-size: 50px;
-  opacity: 0;
-  right: 0;
-  top: 0;
+    position: absolute;
+    font-size: 50px;
+    opacity: 0;
+    right: 0;
+    top: 0;
 }
 
 .icon-edit {
-  position: absolute;
-
-  border-radius: 50%;
-  left: 125px;
-  top: 130px;
-  height: 45px;
-  width: 45px;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--primary);
-  color: white;
+    position: absolute;
+    border-radius: 50%;
+    left: 125px;
+    top: 130px;
+    height: 45px;
+    width: 45px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary);
+    color: white;
 }
 
 .change-image {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  position: relative;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    position: relative;
 }
 
 .image-profile {
-  height: 100%;
-  width: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  backface-visibility: hidden;
-  border: 1px solid black;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    backface-visibility: hidden;
+    border: 1px solid black;
 }
 
 .profile-name {
-  font-weight: bold;
-  font-size: 1.5rem;
-  margin: 1.5rem 0 0.5rem 0;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 1.5rem 0 0.5rem 0;
 }
 
 .section-heading {
-  font-weight: bold;
-  color: var(--primary);
-  font-size: 30px;
-  font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    color: var(--primary);
+    font-size: 30px;
+    font-family: "Montserrat", sans-serif;
 }
