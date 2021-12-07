@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { colors } from '../../Values/colors';
-import ErrorMessage from '../formik/ErrorMessage';
+import React, { useEffect, useState } from "react";
+import { colors } from "../../Values/colors";
+import ErrorMessage from "../formik/ErrorMessage";
 
 export default function TeaxtAreaComponent(props) {
     const [data, setData] = useState();
@@ -30,7 +30,7 @@ export default function TeaxtAreaComponent(props) {
             <div>
                 <textarea
                     className={
-                        props.className ? props.className : 'form-control'
+                        props.className ? props.className : "form-control"
                     }
                     placeholder={props.placeholder}
                     value={props.value ? props.value : data}

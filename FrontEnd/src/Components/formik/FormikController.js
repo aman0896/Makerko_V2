@@ -8,6 +8,7 @@ import CkEditorComponent from "../ckeditor/CkEditorComponent";
 import BrowseFileComponent from "../browseFile/BrowseFileComponent";
 import BrowseMultipleFileComponent from "../browseFile/BrowseMultipleFileComponent";
 import DropZone from "../input/DropZone";
+import TeaxtAreaComponent from "../input/TextAreaComponent";
 
 function FormikController(props) {
     const { control, ...rest } = props;

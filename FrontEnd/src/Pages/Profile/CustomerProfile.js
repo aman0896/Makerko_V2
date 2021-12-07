@@ -1,47 +1,47 @@
-import React from 'react';
-import * as Yup from 'yup';
-import FormikComponent from '../../Components/formik/FormikComponent';
-import FormikController from '../../Components/formik/FormikController';
-import { useWindowDimensions } from '../../Functions';
-import { MdEdit } from 'react-icons/md';
-import './Profile.css';
-import ChangePasswordComponent from '../../Components/Password/ChangePasswordComponent';
+import React from "react";
+import * as Yup from "yup";
+import FormikComponent from "../../Components/formik/FormikComponent";
+import FormikController from "../../Components/formik/FormikController";
+import { useWindowDimensions } from "../../Functions";
+import { MdEdit } from "react-icons/md";
+import "./Profile.css";
+import ChangePasswordComponent from "../../Components/Password/ChangePasswordComponent";
 
 const ValidationSchema = Yup.object().shape({
-    firstName: Yup.string().required('First Name is required'),
-    lastName: Yup.string().required('Last Name is required'),
-    phoneNumber: Yup.string().required('Phone Number is required'),
-    address: Yup.string().required('Address is required'),
-    email: Yup.string().required('Email is required').email('Invalid Email'),
-    bio: Yup.string().required('Bio is required'),
+    firstName: Yup.string().required("First Name is required"),
+    lastName: Yup.string().required("Last Name is required"),
+    phoneNumber: Yup.string().required("Phone Number is required"),
+    address: Yup.string().required("Address is required"),
+    email: Yup.string().required("Email is required").email("Invalid Email"),
+    bio: Yup.string().required("Bio is required"),
 });
 
 const InitialValues = {
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
-    address: '',
-    email: '',
-    bio: '',
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    address: "",
+    email: "",
+    bio: "",
 };
 
 function CustomerProfile() {
     const handleSubmit = (values) => {
-        console.log(values, 'values');
+        console.log(values, "values");
     };
     const { width } = useWindowDimensions();
     return (
         <div
             className="container-fluid"
             style={{
-                width: width <= 800 ? '95%' : '60%',
+                width: width <= 800 ? "95%" : "60%",
             }}
         >
             <div className="d-flex align-items-center flex-column my-4">
                 <div className="change-image">
                     <img
                         className="image-profile"
-                        src={'http://localhost:3000/assests/user.png'}
+                        src={"http://localhost:3000/assests/user.png"}
                     />
 
                     <div className="icon-edit">
@@ -52,14 +52,14 @@ function CustomerProfile() {
                         className="avatar-file h-100 w-100"
                         type="file"
                         name="file"
-                        accept={'.jpg, .jpeg, .png'}
+                        accept={".jpg, .jpeg, .png"}
                         //onChange={handleOnchangeimage}
                     />
                 </div>
 
                 <div className="profile-name">
-                    {'Ashmita'}&nbsp;
-                    {'Gorkhali'}
+                    {"Ashmita"}&nbsp;
+                    {"Gorkhali"}
                 </div>
             </div>
             <div className="section-heading mb-3">Edit Profile</div>
