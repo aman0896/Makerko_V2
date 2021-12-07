@@ -74,7 +74,11 @@ export default function MapComponent(props) {
                         data={props.data}
                         handleClick={handleClickMarker}
                     />
-                    <MapDraggableMarker />
+                    {props.currentPosition && (
+                        <MapDraggableMarker
+                            currentPosition={props.currentPosition}
+                        />
+                    )}
                     <LocationSeeker search={props.search} />
                     {/* <MapLeafletGeosearch /> */}
                 </MapContainer>

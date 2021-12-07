@@ -1,11 +1,17 @@
-import React, { useState, useRef, useMemo, useCallback } from "react";
-import { Marker, Popup } from "react-leaflet";
+import React, {
+    useState,
+    useRef,
+    useMemo,
+    useCallback,
+    useEffect,
+} from "react";
+import { Marker, Popup, useMap } from "react-leaflet";
 import { markerIcon } from "./MapIconComponent";
 
-function MapDraggableMarker() {
+function MapDraggableMarker(props) {
     const center = {
-        lat: 51.505,
-        lng: -0.09,
+        lat: props.currentPosition ? props.currentPosition.latitude : 51.505,
+        lng: props.currentPosition ? props.currentPosition.longitude : -0.09,
     };
     const [draggable, setDraggable] = useState(true);
     const [position, setPosition] = useState(center);
@@ -25,6 +31,20 @@ function MapDraggableMarker() {
     const toggleDraggable = useCallback(() => {
         setDraggable((d) => !d);
     }, []);
+
+    const map = useMap();
+
+    useEffect(() => {
+        map.locate().on("locationfound", function (e) {
+            console.log(e.latlng, "map.locate");
+            // setPosition(e.latlng);
+            // map.flyTo(e.latlng, map.getZoom());
+            // const radius = e.accuracy;
+            // const circle = L.circle(e.latlng, radius);
+            // circle.addTo(map);
+            // setBbox(e.bounds.toBBoxString().split(","));
+        });
+    }, [map]);
 
     return (
         <Marker

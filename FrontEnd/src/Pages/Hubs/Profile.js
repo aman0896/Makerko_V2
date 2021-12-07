@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useWindowDimensions } from "../../functions/Functions";
 import myImage from "../../Values/Images";
 import "./Profile.css";

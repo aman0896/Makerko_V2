@@ -12,8 +12,8 @@ function Routing() {
                 <NavBar />
                 {/* <Main /> */}
                 <Route path="/home" component={Main} />
-                {/* <Route path="/" component={Map} /> */}
-                <Route path="/" component={Profile} />
+                <Route path="/" component={Map} />
+                {/* <Route path="/" component={Profile} /> */}
             </Router>
         </div>
     );
