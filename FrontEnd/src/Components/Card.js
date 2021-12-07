@@ -9,10 +9,16 @@ function Card({
     titleStyle,
     descriptionStyle,
     cardStyle,
+    handleClick,
 }) {
     return (
         <div className="card-bank text-center" style={cardStyle}>
-            <img className="mb-4" src={data.image} style={imageStyle} />
+            <img
+                className="mb-4"
+                src={data.image}
+                style={imageStyle}
+                onClick={handleClick}
+            />
             {path === "aboutUs" && (
                 <div
                     className="hr-divider"

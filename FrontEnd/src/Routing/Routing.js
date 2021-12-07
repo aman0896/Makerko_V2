@@ -28,8 +28,8 @@ function Routing({ isAuth, currentUser, userType }) {
                 />
                 <Switch>
                     {/* <Main /> */}
-                    <Route exact path="/" component={Main} />
-                    <Route exact path="/account/login" component={Login} />
+                    <Route exact path="/home" component={Main} />
+                    {/* <Route exact path="/account/login" component={Login} />
                     <Route exact path="/account/signup" component={Signup} />
                     <Route
                         exact
@@ -64,7 +64,7 @@ function Routing({ isAuth, currentUser, userType }) {
                         path="/profile/maker"
                         component={MakersProfile}
                     />
-                    <Route path="/" component={Map} />
+                    <Route path="/" component={Map} /> */}
                     <Route path="/" component={Profile} />
                 </Switch>
             </Router>

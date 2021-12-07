@@ -1,10 +1,121 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Button from "../../Components/Button";
+import ButtonComponent from "../../Components/button/ButtonComponent";
+import CardViewComponent from "../../Components/card/CardViewComponent";
+import SlideView from "../../Components/SlideView";
+import TableComponent from "../../Components/table/TableComponent";
 import { useWindowDimensions } from "../../functions/Functions";
+import { colors } from "../../Values/colors";
 import myImage from "../../Values/Images";
 import "./Profile.css";
 
+const profileData = require("../../data/ProfileData.json");
+
+const projects = [
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Project Sunset",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Project Sunset",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Project Sunset",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Project Sunset",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+];
+
+const blog = [
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+];
+
+const cardStyle = {
+    background: "white",
+    borderRadius: "5px",
+    overflow: "hidden",
+    height: "392px",
+    width: "98%",
+};
+
+const column = [
+    {
+        field: "materials",
+        header: "Materials",
+    },
+    {
+        field: "thickness",
+        header: "Thickness",
+    },
+    {
+        field: "costUnit",
+        header: "Cost Unit",
+    },
+    {
+        field: "unitRate",
+        header: "Unit Rate",
+    },
+    {
+        field: "leadTime",
+        header: "Lead Time",
+    },
+];
+
 export default function Profile() {
     const { height, width } = useWindowDimensions();
+    const [imageView, setImageView] = useState(false);
+
+    const toggleImageView = () => {
+        console.log("image view ", imageView);
+        setImageView(!imageView);
+    };
     return (
         <div className="bg-dark" style={{ minHeight: height - 80 }}>
             <img
@@ -118,7 +229,137 @@ export default function Profile() {
                         Tech Hub #COVIDaction Local Production Local Solution
                         awardee – 2020.
                     </p>
+                    <>
+                        <h1>Manufacturing Services</h1>
+                        <div className="mb-5">
+                            <div
+                                style={{
+                                    backgroundColor: "#A0A0A0",
+                                    borderTopLeftRadius: 10,
+                                    borderTopRightRadius: 10,
+                                }}
+                                className="p-0 m-0 border"
+                            >
+                                <h2 className="mx-5 w-100">3D Printing</h2>
+                            </div>
+                            <TableComponent
+                                column={column}
+                                data={profileData.profile}
+                            />
+                        </div>
+                        <div
+                            style={{
+                                backgroundColor: "#A0A0A0",
+                                borderTopLeftRadius: 10,
+                                borderTopRightRadius: 10,
+                            }}
+                            className="p-0 m-0 border"
+                        >
+                            <h2 className="mx-5 w-100">3D Printing</h2>
+                        </div>
+                        <TableComponent
+                            column={column}
+                            data={profileData.profile}
+                        />
+                    </>
+
+                    <div className="mt-5">
+                        <Button
+                            // className="heading"
+                            style={{
+                                backgroundColor: colors.white,
+                                color: colors.primary,
+                                fontSize: 14,
+                                fontWeight: 700,
+                                textTransform: "uppercase",
+                            }}
+                        >
+                            Projects
+                        </Button>
+
+                        <div className="d-flex flex-column flex-md-row justify-content-between">
+                            {projects &&
+                                projects.slice(0, 2).map((item, index) => (
+                                    <CardViewComponent
+                                        key={index}
+                                        imageStyle={{
+                                            // height: 280,
+                                            // height:
+                                            //     width >= 1024 ? width / 5 : 280,
+                                            // width:
+                                            //     width >= 1024
+                                            //         ? width / 5 + 100
+                                            //         : 200,
+                                            // width: 380,
+                                            backgroundImage: `url(${item.image})`,
+                                        }}
+                                        title={item.title}
+                                        description={item.description}
+                                    />
+                                ))}
+                        </div>
+                    </div>
+
+                    <div className="mt-5">
+                        <Button
+                            // className="heading"
+                            style={{
+                                backgroundColor: colors.white,
+                                color: colors.primary,
+                                fontSize: 14,
+                                fontWeight: 700,
+                                textTransform: "uppercase",
+                            }}
+                        >
+                            Blogs
+                        </Button>
+
+                        <div className="d-flex flex-row justify-content-between">
+                            {blog &&
+                                blog.slice(0, 2).map((item, index) => (
+                                    <CardViewComponent
+                                        key={index}
+                                        imageStyle={{
+                                            backgroundImage: `url(${item.image})`,
+                                        }}
+                                        title={item.title}
+                                        description={item.description}
+                                    />
+                                ))}
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>Found what you are looking for?</p>
+                        <Button
+                            // className="heading"
+                            // className="w-50"
+                            buttonStyle="button--white--solid"
+                            buttonSize={
+                                width < 768
+                                    ? "button--large--100"
+                                    : "button--large--50"
+                            }
+                            // style={{
+                            //     backgroundColor: colors.white,
+                            //     color: colors.primary,
+                            //     fontSize: 14,
+                            //     fontWeight: 700,
+                            //     width: width < 768 ? "100%" : "50%",
+                            // }}
+                        >
+                            <b>Get A Quote</b>
+                        </Button>
+                    </div>
                 </div>
+                <div className="bg-primary text-white text-center w-100 p-3">
+                    <p style={{ fontSize: "38px" }}>
+                        "Wow what great service, I love it! It's is the most
+                        valuable business resource we have EVER purchased. We
+                        can't understand how we've been living without it."
+                    </p>
+                </div>
+
                 <div style={{ display: width < 768 ? "block" : "none" }}>
                     <div>Fabrication Services</div>
                     <div className="row text-center">
@@ -141,6 +382,13 @@ export default function Profile() {
                     <div>Contact</div>
                 </div>
             </div>
+            <SlideView
+                slides={blog}
+                imageStyle={{ height: "100%", width: "100%" }}
+                cardStyle={cardStyle}
+                imageView={imageView}
+                setImageView={toggleImageView}
+            />
         </div>
     );
 }

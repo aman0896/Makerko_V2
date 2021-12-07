@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Card from "./Card";
 import Slider from "react-slick";
+import Lightbox from "react-image-lightbox";
 
 function SlideView({
     path,
@@ -9,6 +10,8 @@ function SlideView({
     imageStyle,
     titleStyle,
     descriptionStyle = null,
+    setImageView,
+    imageView,
 }) {
     var settings = {
         dots: false,
@@ -42,7 +45,14 @@ function SlideView({
         ],
     };
 
+    const [photoIndex, setPhotoIndex] = useState();
+
     const slidesView = slides.map((slide, index) => {
+        const onImageClick = (index) => {
+            console.log(index, "inside slide vies");
+            setImageView();
+            setPhotoIndex(index);
+        };
         return (
             <CustomSlide
                 path={path}
@@ -52,12 +62,42 @@ function SlideView({
                 imageStyle={imageStyle}
                 titleStyle={titleStyle}
                 descriptionStyle={descriptionStyle}
+                handleClick={() => onImageClick(index)}
             />
         );
     });
 
+    const modalStyles = {
+        content: { marginTop: "70px" },
+    };
+
     return (
         <div>
+            {console.log(slides, photoIndex, "image")}
+            {imageView && (
+                <Lightbox
+                    reactModalStyle={modalStyles}
+                    mainSrc={`${slides[photoIndex].filePath}`}
+                    nextSrc={`${
+                        slides[(photoIndex + 1) % slides.length].filePath
+                    }`}
+                    prevSrc={`${
+                        slides[(photoIndex + slides.length - 1) % slides.length]
+                            .filePath
+                    }`}
+                    onCloseRequest={() => setImageView(false)}
+                    onMovePrevRequest={() =>
+                        setPhotoIndex(
+                            (photoIndex + slides.length - 1) % slides.length
+                        )
+                    }
+                    onMoveNextRequest={() =>
+                        setPhotoIndex((photoIndex + 1) % slides.length)
+                    }
+                    imagePadding={50}
+                    reactModalStyle={modalStyles}
+                />
+            )}
             <Slider {...settings}>{slidesView}</Slider>
         </div>
     );
@@ -72,6 +112,7 @@ const CustomSlide = ({
     imageStyle,
     titleStyle,
     descriptionStyle,
+    handleClick,
 }) => {
     const [isSwiping, setSwiping] = useState(false);
     const [isDrag, setDrag] = useState(false);
@@ -101,6 +142,7 @@ const CustomSlide = ({
                 imageStyle={imageStyle}
                 titleStyle={titleStyle}
                 descriptionStyle={descriptionStyle}
+                handleClick={handleClick}
             />
         </div>
     );
