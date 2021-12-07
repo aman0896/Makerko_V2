@@ -8,4 +8,8 @@ export const colors = {
     warning: "#ffc107",
     danger: "#dc3545",
     light: "#f8f9fa",
+    red: "#ff7f7f",
+    black: "#000000",
+    gray: "#C4C4C4",
+    placeholder: "#A0A0A0",
 };

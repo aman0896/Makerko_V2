@@ -5,6 +5,16 @@
     font-family: "Syne", sans-serif;
 }
 
+.heading {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+}
+
+.sub-heading {
+    font-family: "Syne", sans-serif;
+    font-weight: bold;
+}
+
 :root {
     --white: #ffffff;
     --dark: #000000;
@@ -15,4 +25,5 @@
     --warning: #ffc107;
     --danger: #dc3545;
     --light: #f8f9fa;
+    --gray: "#C4C4C4";
 }

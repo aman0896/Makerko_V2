@@ -1,0 +1,11 @@
+.parent-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.children-container {
+    width: 90%;
+    justify-content: center;
+    margin-top: 25px;
+}

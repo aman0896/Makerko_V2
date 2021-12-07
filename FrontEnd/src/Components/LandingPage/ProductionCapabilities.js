@@ -2,6 +2,7 @@ import React from "react";
 import "./ProductionCapabilities.css";
 import SlideView from "../SlideView";
 import { colors } from "../../Values/colors";
+import { Button2 } from "../Button";
 
 function ProductionCapabilities({ productionType }) {
     const imageStyle = {
@@ -36,12 +37,16 @@ function ProductionCapabilities({ productionType }) {
                     titleStyle={titleStyle}
                     descriptionStyle={descriptionStyle}
                 />
-                <div className="m-2" style={{ color: colors.white }}>
-                    <span>
+                <div className="mt-5 m-3 d-flex justify-content-between">
+                    <span style={{ color: colors.white }}>
                         Other Local manufacturing: Injection Molding / Tool and
                         Die Making / Casting / Metal Fabrication / Wood Working
                     </span>
-                    <button className="btn-primary ml-3">Get a Quote</button>
+                    <span>
+                        <Button2 buttonSize="button2--large">
+                            Get a Quote
+                        </Button2>
+                    </span>
                 </div>
             </div>
         </div>
