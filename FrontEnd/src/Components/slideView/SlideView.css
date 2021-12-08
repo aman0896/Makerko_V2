@@ -1,0 +1,18 @@
+.slick-prev:before,
+.slick-next:before {
+    /* font-family: "slick"; */
+    font-size: 20px;
+    line-height: 1;
+
+    opacity: 1;
+    /* color: rgb(177, 31, 31); */
+
+    /* -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale; */
+}
+
+.slick-prev.slick-disabled:before,
+.slick-next.slick-disabled:before {
+    opacity: 0.25;
+    color: blue;
+}

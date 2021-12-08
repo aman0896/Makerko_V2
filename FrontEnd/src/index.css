@@ -23,7 +23,7 @@ code {
                             'embedded-opentype', and 'svg' */
 }
 
-.header {
+/* .header {
     font-family: "pilatExtendedBold";
     font-size: 24px;
     line-height: 18px;
@@ -36,7 +36,7 @@ code {
     font-size: 20px;
     line-height: 20px;
     letter-spacing: 0.1;
-}
+} */
 
 .mainComponent {
     margin-left: 165px;

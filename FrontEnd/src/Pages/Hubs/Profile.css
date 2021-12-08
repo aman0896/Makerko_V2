@@ -1,4 +1,19 @@
 .stack-top {
     z-index: 9;
     margin-top: -250px;
+    max-width: 400px;
+    min-width: 200px;
+}
+
+.webLogo {
+    height: 150px;
+    width: 150px;
+    display: flex;
+    background-color: black;
+}
+
+.mobileLogo {
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }

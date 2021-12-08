@@ -12,7 +12,7 @@
     padding: 35px;
 }
 
-@media screen and (max-width: 1920px) {
+@media screen and (max-width: 2140px) {
     .imageStyle {
         /* height: 380px; */
         height: 27vw + 100;

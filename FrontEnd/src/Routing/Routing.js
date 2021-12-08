@@ -16,6 +16,7 @@ import FileUpload from "../Test/FileUpload";
 import MakersProfile from "../Pages/Profile/MakersProfile";
 import Profile from "../Pages/Hubs/Profile";
 import Map from "../Pages/Map/Map";
+import LightBox from "../Pages/Hubs/Lightbox";
 
 function Routing({ isAuth, currentUser, userType }) {
     return (
@@ -66,6 +67,7 @@ function Routing({ isAuth, currentUser, userType }) {
                     />
                     <Route path="/" component={Map} /> */}
                     <Route path="/" component={Profile} />
+                    {/* <Route path="/" component={LightBox} /> */}
                 </Switch>
             </Router>
             <ReactToastify />

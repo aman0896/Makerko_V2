@@ -1,18 +1,21 @@
 import React, { useState } from "react";
-import Card from "./Card";
+import Card from "../Card";
 import Slider from "react-slick";
 import Lightbox from "react-image-lightbox";
+import "./SlideView.css";
 
 function SlideView({
+    className,
     path,
     cardStyle,
     slides,
     imageStyle,
     titleStyle,
     descriptionStyle = null,
-    setImageView,
-    imageView,
+    showImage,
 }) {
+    const [photoIndex, setPhotoIndex] = useState(0);
+    const [imageView, setImageView] = useState(false);
     var settings = {
         dots: false,
         infinite: false,
@@ -20,6 +23,8 @@ function SlideView({
         slidesToShow: 4,
         slidesToScroll: 4,
         arrows: false,
+        // nextArrow: <NextArrow />,
+        // prevArrow: <PrevArrow />,
         responsive: [
             {
                 breakpoint: 1024,
@@ -45,47 +50,45 @@ function SlideView({
         ],
     };
 
-    const [photoIndex, setPhotoIndex] = useState();
-
+    const onImageClick = (index) => {
+        setImageView(true);
+        setPhotoIndex(index);
+    };
+    const onCloseClick = () => {
+        setImageView(false);
+    };
     const slidesView = slides.map((slide, index) => {
-        const onImageClick = (index) => {
-            console.log(index, "inside slide vies");
-            setImageView();
-            setPhotoIndex(index);
-        };
         return (
-            <CustomSlide
-                path={path}
-                cardStyle={cardStyle}
-                key={index}
-                slide={slide}
-                imageStyle={imageStyle}
-                titleStyle={titleStyle}
-                descriptionStyle={descriptionStyle}
-                handleClick={() => onImageClick(index)}
-            />
+            <div className={className}>
+                <CustomSlide
+                    path={path}
+                    cardStyle={cardStyle}
+                    key={index}
+                    slide={slide}
+                    imageStyle={imageStyle}
+                    titleStyle={titleStyle}
+                    descriptionStyle={descriptionStyle}
+                    handleClick={() => onImageClick(index)}
+                />
+            </div>
         );
     });
 
     const modalStyles = {
-        content: { marginTop: "70px" },
+        content: { marginTop: "80px" },
     };
 
     return (
         <div>
-            {console.log(slides, photoIndex, "image")}
-            {imageView && (
+            {imageView && showImage && (
                 <Lightbox
-                    reactModalStyle={modalStyles}
-                    mainSrc={`${slides[photoIndex].filePath}`}
-                    nextSrc={`${
-                        slides[(photoIndex + 1) % slides.length].filePath
-                    }`}
-                    prevSrc={`${
+                    mainSrc={slides[photoIndex].image}
+                    nextSrc={slides[(photoIndex + 1) % slides.length].image}
+                    prevSrc={
                         slides[(photoIndex + slides.length - 1) % slides.length]
-                            .filePath
-                    }`}
-                    onCloseRequest={() => setImageView(false)}
+                            .image
+                    }
+                    onCloseRequest={onCloseClick}
                     onMovePrevRequest={() =>
                         setPhotoIndex(
                             (photoIndex + slides.length - 1) % slides.length
@@ -94,7 +97,6 @@ function SlideView({
                     onMoveNextRequest={() =>
                         setPhotoIndex((photoIndex + 1) % slides.length)
                     }
-                    imagePadding={50}
                     reactModalStyle={modalStyles}
                 />
             )}
@@ -104,6 +106,20 @@ function SlideView({
 }
 
 export default SlideView;
+
+// const NextArrow = (props) => {
+//     const { className, style, onClick } = props;
+//     return (
+//         <div className={className} style={style} onClick={onClick}>
+//             next
+//         </div>
+//     );
+// };
+
+// const PrevArrow = (props) => {
+//     const { className, style, onClick } = props;
+//     return <div className={className} style={{ ...style }} onClick={onClick} />;
+// };
 
 const CustomSlide = ({
     path,
@@ -142,7 +158,7 @@ const CustomSlide = ({
                 imageStyle={imageStyle}
                 titleStyle={titleStyle}
                 descriptionStyle={descriptionStyle}
-                handleClick={handleClick}
+                handleClick={isDrag && handleClick}
             />
         </div>
     );

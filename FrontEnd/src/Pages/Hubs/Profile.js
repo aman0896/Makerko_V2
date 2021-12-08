@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../Components/Button";
-import ButtonComponent from "../../Components/button/ButtonComponent";
 import CardViewComponent from "../../Components/card/CardViewComponent";
-import SlideView from "../../Components/SlideView";
+import SlideView from "../../Components/slideView/SlideView";
 import TableComponent from "../../Components/table/TableComponent";
 import { useWindowDimensions } from "../../functions/Functions";
 import { colors } from "../../Values/colors";
 import myImage from "../../Values/Images";
 import "./Profile.css";
+import { HiPhone } from "react-icons/hi";
+import { MdMail } from "react-icons/md";
+import StarRating, {
+    StarRatingAverage,
+} from "../../Components/starRating/StarRating";
+import {
+    QuoteButton,
+    ServicesComponent,
+    TextIconComponent,
+} from "./ProfileComponent";
 
 const profileData = require("../../data/ProfileData.json");
 
@@ -77,6 +86,41 @@ const blog = [
     },
 ];
 
+const images = [
+    { image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg" },
+    {
+        image: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+    },
+    {
+        image: "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_960_720.jpg",
+    },
+    {
+        image: "https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+    },
+    { image: "https://www.w3schools.com/howto/img_snow.jpg" },
+    {
+        image: "https://media.istockphoto.com/photos/picturesque-morning-in-plitvice-national-park-colorful-spring-scene-picture-id1093110112?k=20&m=1093110112&s=612x612&w=0&h=3OhKOpvzOSJgwThQmGhshfOnZTvMExZX2R91jNNStBY=",
+    },
+];
+
+const services = [
+    {
+        name: "CNC Carving",
+    },
+    {
+        name: "Vaccum Forming",
+    },
+    {
+        name: "3D Printing",
+    },
+];
+
+const otherServices = [
+    {
+        name: "Plasma Cutting",
+    },
+];
+
 const cardStyle = {
     background: "white",
     borderRadius: "5px",
@@ -110,14 +154,8 @@ const column = [
 
 export default function Profile() {
     const { height, width } = useWindowDimensions();
-    const [imageView, setImageView] = useState(false);
-
-    const toggleImageView = () => {
-        console.log("image view ", imageView);
-        setImageView(!imageView);
-    };
     return (
-        <div className="bg-dark" style={{ minHeight: height - 80 }}>
+        <div style={{ minHeight: height - 80, backgroundColor: colors.dark }}>
             <img
                 src={myImage.cover}
                 style={{ width: "100%", height: height / 2 }}
@@ -129,24 +167,9 @@ export default function Profile() {
                     style={{ display: width < 768 ? "none" : "block" }}
                 >
                     <div className="ml-md-5 d-flex align-items-center flex-column">
-                        <div
-                            className="bg-white stack-top px-3"
-                            style={{
-                                // width: "65%",
-                                maxWidth: "400px",
-                                minWidth: "200px",
-                            }}
-                        >
+                        <div className="bg-white stack-top px-4 py-3">
                             <div className="bg-white d-flex align-items-center flex-column py-2 text-center">
-                                <div
-                                    className="my-4 p-3"
-                                    style={{
-                                        height: 150,
-                                        width: 150,
-                                        display: "flex",
-                                        backgroundColor: "black",
-                                    }}
-                                >
+                                <div className="my-4 p-3 webLogo">
                                     <img
                                         src={myImage.profileLogo}
                                         alt="logo"
@@ -154,7 +177,9 @@ export default function Profile() {
                                     />
                                 </div>
                                 <div>
-                                    <h4>Zener Technology</h4>
+                                    <h4 className="heading">
+                                        Zener Technology
+                                    </h4>
                                     <p className="px-3">
                                         3D Design and Additive manufacturing
                                         Tech Company, inspired by the fourth
@@ -167,34 +192,98 @@ export default function Profile() {
                                     </p>
                                 </div>
                                 <div>
-                                    <button>Get A Quote</button>
+                                    <QuoteButton
+                                        value="get a quote"
+                                        textTransform="capitalize"
+                                        buttonStyle="button--primary--solid"
+                                    />
                                 </div>
-                                <div>Rating</div>
-                            </div>
-                            <div>Fabrication Services</div>
-                            <div className="row text-center">
-                                <div className="p-2 bg-primary ml-3 mb-2">
-                                    Get A Quote
-                                </div>
-                                <div className="p-2 bg-primary ml-3 mb-2">
-                                    Get A Quote
-                                </div>
-                                <div className="p-2 bg-primary ml-3 mb-2">
-                                    Get A Quote
+                                <div>
+                                    <StarRatingAverage
+                                        widgetDimensions="20px"
+                                        averageRating={3.5}
+                                    />
                                 </div>
                             </div>
-                            <div>Other Services</div>
-                            <div className="row text-center">
-                                <div className="p-2 bg-primary ml-3 mb-2">
-                                    Get A Quote
+                            <ServicesComponent
+                                header="Fabrication Services"
+                                services={services}
+                            />
+                            <ServicesComponent
+                                header="Other Services"
+                                services={otherServices}
+                            />
+                            <>
+                                <div className="heading my-3 mt-5">Contact</div>
+                                <TextIconComponent
+                                    icon={<HiPhone />}
+                                    text="9815401344"
+                                />
+                                <TextIconComponent
+                                    icon={<MdMail />}
+                                    text="zener@gmail.com"
+                                />
+                            </>
+                            <>
+                                <div className="mb-4">
+                                    <b>Rate this Manufactoring Hub</b>
+                                    <label>Tell others what you think</label>
+                                    <StarRating
+                                        widgetDimensions="25px"
+                                        widgetSpacing="5px"
+                                    />
                                 </div>
-                            </div>
-                            <div>Contact</div>
+                            </>
                         </div>
                     </div>
                 </div>
-                <div className="col-md-7 text-justify text-white">
-                    <h1>About Zener Technologies</h1>
+                <div className="col-md-7 mt-5 text-justify text-white">
+                    <div style={{ display: width < 768 ? "block" : "none" }}>
+                        <h4 className="heading">Zener Technology</h4>
+                        <div className="my-4 p-3 mobileLogo">
+                            <img
+                                src={myImage.profileLogo}
+                                alt="logo"
+                                style={{ objectFit: "contain" }}
+                            />
+                        </div>
+                        <p className="px-3">
+                            3D Design and Additive manufacturing Tech Company,
+                            inspired by the fourth Industrial Revolution.
+                        </p>
+                        <div className="text-center mb-5">
+                            <p>
+                                www.promechminds.com
+                                <br />
+                                Kupondole,Lalitpur
+                            </p>
+                            <div>
+                                <Button
+                                    buttonStyle="button--primary--solid"
+                                    style={{
+                                        fontWeight: 100,
+                                        minWidth: 150,
+                                    }}
+                                >
+                                    <b>Get A Quote</b>
+                                </Button>
+                                {/* <button>Get A Quote</button> */}
+                            </div>
+                            <div className="w-100 d-flex justify-content-center">
+                                <StarRatingAverage
+                                    widgetDimensions="20px"
+                                    averageRating={3.5}
+                                    ratingBlockColor="primary"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        className="heading mb-3"
+                        style={{ fontSize: width < 768 ? 20 : 38 }}
+                    >
+                        About Zener Technologies
+                    </div>
                     <p>
                         3D Design and Additive manufacturing Tech Company,
                         inspired by the fourth Industrial Revolution. It uses
@@ -230,7 +319,12 @@ export default function Profile() {
                         awardee – 2020.
                     </p>
                     <>
-                        <h1>Manufacturing Services</h1>
+                        <div
+                            className="heading mb-3"
+                            style={{ fontSize: width < 768 ? 20 : 38 }}
+                        >
+                            Manufacturing Services
+                        </div>
                         <div className="mb-5">
                             <div
                                 style={{
@@ -238,9 +332,9 @@ export default function Profile() {
                                     borderTopLeftRadius: 10,
                                     borderTopRightRadius: 10,
                                 }}
-                                className="p-0 m-0 border"
+                                className="border"
                             >
-                                <h2 className="mx-5 w-100">3D Printing</h2>
+                                <h2 className="mx-5">3D Printing</h2>
                             </div>
                             <TableComponent
                                 column={column}
@@ -255,12 +349,56 @@ export default function Profile() {
                             }}
                             className="p-0 m-0 border"
                         >
-                            <h2 className="mx-5 w-100">3D Printing</h2>
+                            <h2 className="mx-5">3D Printing</h2>
                         </div>
                         <TableComponent
                             column={column}
                             data={profileData.profile}
                         />
+                        <div
+                            style={{ display: width < 768 ? "block" : "none" }}
+                        >
+                            <div
+                                className="heading my-3"
+                                style={{ fontSize: width < 768 ? 20 : 38 }}
+                            >
+                                Fabrication Services
+                            </div>
+                            <div className="row text-center">
+                                <div
+                                    className="p-2 ml-3 mb-2 rounded text-white"
+                                    style={{ backgroundColor: "#0000ff" }}
+                                >
+                                    CNC Carving
+                                </div>
+                                <div
+                                    className="p-2 ml-3 mb-2 rounded text-white"
+                                    style={{ backgroundColor: "#0000ff" }}
+                                >
+                                    Vaccum Forming
+                                </div>
+                                <div
+                                    className="p-2 ml-3 mb-2 rounded text-white"
+                                    style={{ backgroundColor: "#0000ff" }}
+                                >
+                                    3D Printing
+                                </div>
+                            </div>
+                            <div
+                                className="heading my-3"
+                                style={{ fontSize: width < 768 ? 20 : 38 }}
+                            >
+                                Other Services
+                            </div>
+                            <div className="row text-center">
+                                <div
+                                    className="p-2 ml-3 mb-2 rounded text-white"
+                                    style={{ backgroundColor: "#0000ff" }}
+                                >
+                                    Plasma Cutting
+                                </div>
+                            </div>
+                        </div>
                     </>
 
                     <div className="mt-5">
@@ -283,14 +421,6 @@ export default function Profile() {
                                     <CardViewComponent
                                         key={index}
                                         imageStyle={{
-                                            // height: 280,
-                                            // height:
-                                            //     width >= 1024 ? width / 5 : 280,
-                                            // width:
-                                            //     width >= 1024
-                                            //         ? width / 5 + 100
-                                            //         : 200,
-                                            // width: 380,
                                             backgroundImage: `url(${item.image})`,
                                         }}
                                         title={item.title}
@@ -314,7 +444,7 @@ export default function Profile() {
                             Blogs
                         </Button>
 
-                        <div className="d-flex flex-row justify-content-between">
+                        <div className="d-flex flex-column flex-md-row justify-content-between">
                             {blog &&
                                 blog.slice(0, 2).map((item, index) => (
                                     <CardViewComponent
@@ -330,7 +460,12 @@ export default function Profile() {
                     </div>
 
                     <div>
-                        <p>Found what you are looking for?</p>
+                        <p
+                            className="text-center mt-5"
+                            style={{ width: width < 768 ? "100%" : "50%" }}
+                        >
+                            Found what you are looking for?
+                        </p>
                         <Button
                             // className="heading"
                             // className="w-50"
@@ -352,43 +487,58 @@ export default function Profile() {
                         </Button>
                     </div>
                 </div>
-                <div className="bg-primary text-white text-center w-100 p-3">
-                    <p style={{ fontSize: "38px" }}>
+                <div
+                    className="text-white text-center w-100 p-3 heading"
+                    style={{
+                        backgroundColor: colors.primary,
+                    }}
+                >
+                    <label
+                        style={{
+                            fontSize: width < 768 ? 20 : 30,
+                            marginLeft: width > 768 ? 50 : 10,
+                            marginRight: width > 768 ? 50 : 10,
+                        }}
+                    >
                         "Wow what great service, I love it! It's is the most
                         valuable business resource we have EVER purchased. We
                         can't understand how we've been living without it."
-                    </p>
-                </div>
-
-                <div style={{ display: width < 768 ? "block" : "none" }}>
-                    <div>Fabrication Services</div>
-                    <div className="row text-center">
-                        <div className="p-2 bg-primary ml-3 mb-2">
-                            Get A Quote
-                        </div>
-                        <div className="p-2 bg-primary ml-3 mb-2">
-                            Get A Quote
-                        </div>
-                        <div className="p-2 bg-primary ml-3 mb-2">
-                            Get A Quote
-                        </div>
-                    </div>
-                    <div>Other Services</div>
-                    <div className="row text-center">
-                        <div className="p-2 bg-primary ml-3 mb-2">
-                            Get A Quote
-                        </div>
-                    </div>
-                    <div>Contact</div>
+                    </label>
                 </div>
             </div>
             <SlideView
-                slides={blog}
+                showImage={true}
+                className="mt-5 mb-5"
+                slides={images}
                 imageStyle={{ height: "100%", width: "100%" }}
                 cardStyle={cardStyle}
-                imageView={imageView}
-                setImageView={toggleImageView}
             />
+            <div
+                className="text-white text-center"
+                style={{ display: width < 768 ? "block" : "none" }}
+            >
+                <>
+                    <div className="heading my-3 mt-5">Contact</div>
+                    <div>
+                        <HiPhone />
+                        <label className="ml-2">9815401344</label>
+                    </div>
+                    <div>
+                        <MdMail />
+                        <label className="ml-2">zener@gmail.com</label>
+                    </div>
+                </>
+                <>
+                    <div className="mb-4">
+                        <b>Rate this Manufactoring Hub</b>
+                        <label>Tell others what you think</label>
+                        <StarRating
+                            widgetDimensions="25px"
+                            widgetSpacing="5px"
+                        />
+                    </div>
+                </>
+            </div>
         </div>
     );
 }
