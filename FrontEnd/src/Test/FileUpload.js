@@ -5,7 +5,7 @@ import { mainHost } from "../commonApi/Link";
 function FileUpload() {
     const [file, setFile] = useState();
     const [preview, setPreview] = useState();
-    const fileDir = "./public/uploads/customer/profile1638530203322.jpg";
+    const fileDir = "./public/uploads/customer/profile1638883476257.jpg";
     const [imageSrc, setImageSrc] = useState();
 
     useEffect(() => {
@@ -35,7 +35,7 @@ function FileUpload() {
                 headers: { "Content-Type": "multipart/form-data" },
             })
             .then((response) => {
-                console.log(response.data);
+                console.log(response.data, "filede");
             });
     };
 
@@ -56,7 +56,7 @@ function FileUpload() {
                     alignSelf: "center",
                 }}
                 src={preview ? preview : imageSrc}
-                alt="image"
+                alt=""
             />
             <button
                 style={{ width: "200px", alignSelf: "center" }}
