@@ -9,9 +9,18 @@ function Card({
     titleStyle,
     descriptionStyle,
     cardStyle,
+    selectedCard,
 }) {
+    const onCardSelect = () => {
+        selectedCard(data);
+    };
+
     return (
-        <div className="card-bank text-center" style={cardStyle}>
+        <div
+            className="card-bank text-center"
+            style={cardStyle}
+            onClick={onCardSelect}
+        >
             <img className="mb-4" src={data.image} style={imageStyle} />
             {path === "aboutUs" && (
                 <div

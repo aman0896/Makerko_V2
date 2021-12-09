@@ -46,21 +46,13 @@ const DropDown = ({
       color: colors.primary, // your changes to the arrow
       "&:hover": {
         color: colors.primary,
-        backgroundColor: colors.primary,
       },
     }),
   };
-  const handleChange = (selectedOption) => {
-    setData(selectedOption);
-    //console.log(event.target.value, "dropdown");
-    setFieldValue(name, selectedOption);
+  const handleChange = (option) => {
+    setData(option);
+    setFieldValue(name, option);
   };
-  useEffect(() => {
-    if (setInitial) {
-      setData(setInitial);
-      setFieldValue(name, setInitial);
-    }
-  }, []);
 
   return (
     <>
@@ -70,21 +62,15 @@ const DropDown = ({
       <Select
         placeholder={placeholder}
         styles={customStyles}
-        value={data}
+        value={value}
         //isClearable="true"
         id={ID}
         options={options}
         getOptionLabel={getOptionLabel}
         getOptionValue={getOptionValue}
         isMulti={multipleSelect}
-        // onChange={(selectedOption) => {
-        //   let event = {
-        //     target: { name: name, value: selectedOption },
-        //   };
-        //   setFieldValue ? handleChange(event) : onChange(event);
-        // }}
         onChange={(selectedOption) => {
-          handleChange(selectedOption);
+          onChange(selectedOption);
         }}
         onBlur={() => {
           handleBlur(name);

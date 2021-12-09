@@ -135,7 +135,7 @@ function DropZone({
 
   const files = acceptedFiles.map((file, index) => (
     <div
-      className="alert alert-success alert-dismissible fade show"
+      className="mt-3 alert alert-success alert-dismissible fade show"
       style={{ color: "black" }}
       role="alert"
       key={index}
@@ -173,7 +173,6 @@ function DropZone({
 
   return (
     <>
-      {label && <div className="mb-2">{label}</div>}
       <div className="row m-auto mt-4">
         <div className="col-sm">
           <div
@@ -203,12 +202,8 @@ function DropZone({
             </div>
           </div>
           <ErrorMessage error={errors[name]} visible={touched[name]} />
+          {isUpload && files}
         </div>
-        {isUpload && (
-          <div className="row mt-3 ml-auto">
-            <div className="col-sm">{files}</div>
-          </div>
-        )}
       </div>
     </>
   );
