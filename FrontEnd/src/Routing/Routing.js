@@ -14,15 +14,18 @@ import Signup from "../Pages/Signup";
 import VerificationSuccess from "../Pages/VerificationSuccess";
 import FileUpload from "../Test/FileUpload";
 import MakersProfile from "../Pages/Profile/MakersProfile";
+import { useSelector } from "react-redux";
 
-function Routing({ isAuth, currentUser, userType }) {
+function Routing() {
+    const auth = useSelector((state) => state.isAuth);
+
     return (
         <div>
             <Router>
                 <NavBar
-                    isAuth={isAuth}
-                    currentUser={currentUser}
-                    userType={userType}
+                    isAuth={auth.isAuth}
+                    currentUser={auth.currentUser}
+                    userType={auth.userType}
                 />
                 <Switch>
                     {/* <Main /> */}
