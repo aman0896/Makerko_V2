@@ -20,6 +20,7 @@ const DropDown = ({
     setFieldValue,
     handleBlur,
     setFieldTouched,
+    value,
 }) => {
     const [data, setData] = useState();
     const customStyles = {
@@ -42,7 +43,6 @@ const DropDown = ({
     };
     const handleChange = (event) => {
         setData(event.target.value);
-        console.log(event.target.value, "dropdown");
         setFieldValue(name, event.target.value);
     };
 
@@ -54,7 +54,7 @@ const DropDown = ({
             <Select
                 placeholder={placeholder}
                 styles={customStyles}
-                value={data}
+                value={value}
                 //isClearable="true"
                 id={ID}
                 options={options}
@@ -62,10 +62,7 @@ const DropDown = ({
                 getOptionValue={getOptionValue}
                 isMulti={multipleSelect}
                 onChange={(selectedOption) => {
-                    let event = {
-                        target: { name: name, value: selectedOption },
-                    };
-                    setFieldValue ? handleChange(event) : onChange(event);
+                    onChange(selectedOption);
                 }}
                 onBlur={() => {
                     handleBlur(name);
