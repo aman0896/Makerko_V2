@@ -14,7 +14,6 @@ function FormikController(props) {
     const { control, ...rest } = props;
     const { setFieldValue, handleSubmit, setFieldTouched, errors, touched } =
         useFormikContext();
-
     switch (control) {
         case "input":
             return (
