@@ -18,19 +18,17 @@ router.post("/customer", (req, res) => {
         if (err) {
             console.log(err, "error");
         } else {
-            var tmp_path = req.file.path;
-            var target_path =
-                "./public/uploads/customer/" +
-                req.file.fieldname +
-                Date.now() +
-                path.extname(req.file.originalname);
+            let tmp_path = req.file.path;
+            let target_path = dir + req.file.filename;
 
             /** A better way to copy the uploaded file. **/
-            var src = fs.createReadStream(tmp_path);
-            var dest = fs.createWriteStream(target_path);
+            let src = fs.createReadStream(tmp_path);
+            let dest = fs.createWriteStream(target_path);
             src.pipe(dest);
             src.on("end", function () {
                 console.log("complete");
+                req.file.path = target_path;
+                req.file.destination = dir;
             });
             src.on("error", function (err) {
                 console.log("error");
@@ -40,6 +38,8 @@ router.post("/customer", (req, res) => {
                     console.log(err);
                 });
             });
+
+            res.json(req.file);
         }
     });
 });
