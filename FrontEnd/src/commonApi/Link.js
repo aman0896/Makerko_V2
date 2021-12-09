@@ -47,3 +47,6 @@ export const fabricationMethod = "process/fabricationMethod";
 
 //material
 export const material = "process/material";
+
+//file delete
+export const fileDelete = "dropzone/file-delete";

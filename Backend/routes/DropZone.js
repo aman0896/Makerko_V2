@@ -4,6 +4,7 @@ const router = express.Router();
 var fs = require("fs");
 
 const path = require("path");
+const FileDelete = require("../Utils/FileDelete");
 const projectPath = path.dirname(process.cwd());
 console.log(projectPath, "path");
 
@@ -21,5 +22,19 @@ router.post("/file-drop", (req, res) => {
         }
     });
 });
+
+//#region delete uploadedfile
+router.delete("/file-delete", async (req, res) => {
+    let filePath = req.query.path;
+    const isDelete = await FileDelete(filePath);
+    if (isDelete) {
+        res.json({ filedelete: "success" });
+        return;
+    } else {
+        res.json({ filedelete: "fail" });
+        return;
+    }
+});
+//#endregion
 
 module.exports = router;

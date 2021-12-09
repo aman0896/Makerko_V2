@@ -9,6 +9,7 @@ import Card from "../Components/Card";
 import { colors } from "../Values/colors";
 import { Toast } from "../Components/ReactToastify";
 import { useSelector } from "react-redux";
+import { useFormikContext } from "formik";
 
 const InitialValues = {
     method: "",
@@ -29,10 +30,13 @@ function GetAQuote() {
     const [filteredMaterial, setFilteredMaterial] = useState();
     const [selectedMaterial, setSelectedMaterial] = useState();
     const [selectedMethod, setSelectedMethod] = useState();
+    const [acceptedFiles, setAcceptedFiles] = useState();
 
     const onMethodSelect = (method) => {
         formRef.current.setFieldValue("method", method);
         setSelectedMethod(method);
+        console.log(method, "methods");
+        setAcceptedFiles(method.Accepted_Files);
         const filteredMaterial = materials.filter(
             (material) => material.Service_ID === method.Service_ID
         );
@@ -178,11 +182,8 @@ function GetAQuote() {
                         name="file"
                         label="Upload File"
                         control="dropzone"
-                        // accept={this.state.acceptedFiles}
-                        // requirementNote="File size < 15 MB"
-                        // user={this.state.user}
-                        // error={this.state.errMsg}
-                        // fileUpload={this.state.fileUpload}
+                        accept={acceptedFiles}
+                        requirementNote="File size < 15 MB"
                     />
                 </div>
                 <div className="row mt-5 mx-auto heading">Select your hub</div>

@@ -86,3 +86,24 @@ export function postDataWithCofig(
             onFail(err);
         });
 }
+
+// delete with param api
+export function deleteData(link, params, onSuccess, onFail) {
+    var config = {
+        method: "delete",
+        url: mainHost + link,
+        params: { path: params },
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    Axios(config)
+        .then((res) => res)
+        .then((res) => {
+            onSuccess(res);
+        })
+        .catch((err) => {
+            onFail(err);
+        });
+}
