@@ -41,3 +41,9 @@ export const createProject = "project/create";
 
 //dropzone file-drop
 export const dropzone = "dropzone/file-drop";
+
+//fabrication method
+export const fabricationMethod = "process/fabricationMethod";
+
+//material
+export const material = "process/material";
