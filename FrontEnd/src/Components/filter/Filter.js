@@ -7,6 +7,7 @@ import Grow from "@material-ui/core/Grow";
 import MenuList from "@material-ui/core/MenuList";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import "./Filter.css";
+import PopperComponent from "../popper/PopperComponent";
 
 export default function Filter(props) {
     const [open, setOpen] = React.useState(false);
@@ -61,7 +62,20 @@ export default function Filter(props) {
                 tableData={props.tableData}
                 parentCallBack={props.parentCallBack}
             />
-            <Popper
+            <PopperComponent
+                open={open}
+                anchorRef={anchorRef.current}
+                placement="bottom-start"
+                style={{ width: 300, zIndex: 9998 }}
+                menuStyle={{
+                    overflowY: "scroll",
+                    maxHeight: 300,
+                }}
+                handleClose={handleClose}
+                data={props.data}
+                handleClick={handleClick}
+            />
+            {/* <Popper
                 open={open}
                 anchorEl={anchorRef.current}
                 role={undefined}
@@ -124,7 +138,7 @@ export default function Filter(props) {
                         </Paper>
                     </Grow>
                 )}
-            </Popper>
+            </Popper> */}
         </>
     );
 }

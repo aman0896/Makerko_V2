@@ -12,6 +12,7 @@ const createClusterCustomIcon = function (cluster) {
 };
 
 export default function MapMarkerComponent(props) {
+    console.log(props.data, "map marker component");
     return (
         <>
             <MarkerClusterGroup

@@ -64,8 +64,13 @@ function Routing({ isAuth, currentUser, userType }) {
                         exact
                         path="/profile/maker"
                         component={MakersProfile}
+                    /> */}
+                    <Route path="/profile/map" component={Map} />
+                    <Route
+                        exact
+                        path="/profile/maker"
+                        component={MakersProfile}
                     />
-                    <Route path="/" component={Map} /> */}
                     <Route path="/" component={Profile} />
                     {/* <Route path="/" component={LightBox} /> */}
                 </Switch>

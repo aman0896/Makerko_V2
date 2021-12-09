@@ -258,7 +258,12 @@ export default function Profile() {
                                 Kupondole,Lalitpur
                             </p>
                             <div>
-                                <Button
+                                <QuoteButton
+                                    value="get a quote"
+                                    textTransform="capitalize"
+                                    buttonStyle="button--primary--solid"
+                                />
+                                {/* <Button
                                     buttonStyle="button--primary--solid"
                                     style={{
                                         fontWeight: 100,
@@ -266,8 +271,7 @@ export default function Profile() {
                                     }}
                                 >
                                     <b>Get A Quote</b>
-                                </Button>
-                                {/* <button>Get A Quote</button> */}
+                                </Button> */}
                             </div>
                             <div className="w-100 d-flex justify-content-center">
                                 <StarRatingAverage
@@ -279,7 +283,7 @@ export default function Profile() {
                         </div>
                     </div>
                     <div
-                        className="heading mb-3"
+                        className="heading mb-3 text-left"
                         style={{ fontSize: width < 768 ? 20 : 38 }}
                     >
                         About Zener Technologies
@@ -326,14 +330,7 @@ export default function Profile() {
                             Manufacturing Services
                         </div>
                         <div className="mb-5">
-                            <div
-                                style={{
-                                    backgroundColor: "#A0A0A0",
-                                    borderTopLeftRadius: 10,
-                                    borderTopRightRadius: 10,
-                                }}
-                                className="border"
-                            >
+                            <div className="border tableMainHeader">
                                 <h2 className="mx-5">3D Printing</h2>
                             </div>
                             <TableComponent
@@ -341,14 +338,7 @@ export default function Profile() {
                                 data={profileData.profile}
                             />
                         </div>
-                        <div
-                            style={{
-                                backgroundColor: "#A0A0A0",
-                                borderTopLeftRadius: 10,
-                                borderTopRightRadius: 10,
-                            }}
-                            className="p-0 m-0 border"
-                        >
+                        <div className="border tableMainHeader">
                             <h2 className="mx-5">3D Printing</h2>
                         </div>
                         <TableComponent
@@ -358,63 +348,21 @@ export default function Profile() {
                         <div
                             style={{ display: width < 768 ? "block" : "none" }}
                         >
-                            <div
-                                className="heading my-3"
+                            <ServicesComponent
+                                header="Fabrication Services"
+                                services={services}
                                 style={{ fontSize: width < 768 ? 20 : 38 }}
-                            >
-                                Fabrication Services
-                            </div>
-                            <div className="row text-center">
-                                <div
-                                    className="p-2 ml-3 mb-2 rounded text-white"
-                                    style={{ backgroundColor: "#0000ff" }}
-                                >
-                                    CNC Carving
-                                </div>
-                                <div
-                                    className="p-2 ml-3 mb-2 rounded text-white"
-                                    style={{ backgroundColor: "#0000ff" }}
-                                >
-                                    Vaccum Forming
-                                </div>
-                                <div
-                                    className="p-2 ml-3 mb-2 rounded text-white"
-                                    style={{ backgroundColor: "#0000ff" }}
-                                >
-                                    3D Printing
-                                </div>
-                            </div>
-                            <div
-                                className="heading my-3"
+                            />
+                            <ServicesComponent
+                                header="Other Services"
+                                services={otherServices}
                                 style={{ fontSize: width < 768 ? 20 : 38 }}
-                            >
-                                Other Services
-                            </div>
-                            <div className="row text-center">
-                                <div
-                                    className="p-2 ml-3 mb-2 rounded text-white"
-                                    style={{ backgroundColor: "#0000ff" }}
-                                >
-                                    Plasma Cutting
-                                </div>
-                            </div>
+                            />
                         </div>
                     </>
 
                     <div className="mt-5">
-                        <Button
-                            // className="heading"
-                            style={{
-                                backgroundColor: colors.white,
-                                color: colors.primary,
-                                fontSize: 14,
-                                fontWeight: 700,
-                                textTransform: "uppercase",
-                            }}
-                        >
-                            Projects
-                        </Button>
-
+                        <Button style={styles.whiteButton}>Projects</Button>
                         <div className="d-flex flex-column flex-md-row justify-content-between">
                             {projects &&
                                 projects.slice(0, 2).map((item, index) => (
@@ -431,19 +379,7 @@ export default function Profile() {
                     </div>
 
                     <div className="mt-5">
-                        <Button
-                            // className="heading"
-                            style={{
-                                backgroundColor: colors.white,
-                                color: colors.primary,
-                                fontSize: 14,
-                                fontWeight: 700,
-                                textTransform: "uppercase",
-                            }}
-                        >
-                            Blogs
-                        </Button>
-
+                        <Button style={styles.whiteButton}>Blogs</Button>
                         <div className="d-flex flex-column flex-md-row justify-content-between">
                             {blog &&
                                 blog.slice(0, 2).map((item, index) => (
@@ -467,21 +403,12 @@ export default function Profile() {
                             Found what you are looking for?
                         </p>
                         <Button
-                            // className="heading"
-                            // className="w-50"
                             buttonStyle="button--white--solid"
                             buttonSize={
                                 width < 768
                                     ? "button--large--100"
                                     : "button--large--50"
                             }
-                            // style={{
-                            //     backgroundColor: colors.white,
-                            //     color: colors.primary,
-                            //     fontSize: 14,
-                            //     fontWeight: 700,
-                            //     width: width < 768 ? "100%" : "50%",
-                            // }}
                         >
                             <b>Get A Quote</b>
                         </Button>
@@ -519,14 +446,11 @@ export default function Profile() {
             >
                 <>
                     <div className="heading my-3 mt-5">Contact</div>
-                    <div>
-                        <HiPhone />
-                        <label className="ml-2">9815401344</label>
-                    </div>
-                    <div>
-                        <MdMail />
-                        <label className="ml-2">zener@gmail.com</label>
-                    </div>
+                    <TextIconComponent icon={<HiPhone />} text="9815401344" />
+                    <TextIconComponent
+                        icon={<MdMail />}
+                        text="zener@gmail.com"
+                    />
                 </>
                 <>
                     <div className="mb-4">
@@ -542,3 +466,13 @@ export default function Profile() {
         </div>
     );
 }
+
+const styles = {
+    whiteButton: {
+        backgroundColor: colors.white,
+        color: colors.primary,
+        fontSize: 14,
+        fontWeight: 700,
+        textTransform: "uppercase",
+    },
+};

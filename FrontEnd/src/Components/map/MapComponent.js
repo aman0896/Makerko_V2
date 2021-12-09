@@ -41,6 +41,8 @@ export default function MapComponent(props) {
         return null;
     }
 
+    console.log(props.position, "inside map component line 44");
+
     return (
         <>
             <div className="mapContainer">
@@ -57,7 +59,7 @@ export default function MapComponent(props) {
                     zoomControl={false}
                     eventHandlers={{
                         click: (e) => {
-                            console.log(e, "map contaner");
+                            console.log(e.lat, "map contaner");
                             setMaker(null);
                         },
                     }}
@@ -69,16 +71,19 @@ export default function MapComponent(props) {
                     <ScaleControl position="bottomright" />
                     <ZoomControl position="bottomright" />
                     <MapListner />
-                    <MapLocationMarker />
-                    <MapMarkerComponent
-                        data={props.data}
-                        handleClick={handleClickMarker}
-                    />
-                    {props.currentPosition && (
-                        <MapDraggableMarker
-                            currentPosition={props.currentPosition}
+                    {props.onClickMark && (
+                        <MapLocationMarker
+                            locationSet={props.locationSet}
+                            pos={props.position}
                         />
                     )}
+                    {props.drawMark && (
+                        <MapMarkerComponent
+                            data={props.data}
+                            handleClick={handleClickMarker}
+                        />
+                    )}
+                    {/* {props.currentPosition && <MapDraggableMarker />} */}
                     <LocationSeeker search={props.search} />
                     {/* <MapLeafletGeosearch /> */}
                 </MapContainer>

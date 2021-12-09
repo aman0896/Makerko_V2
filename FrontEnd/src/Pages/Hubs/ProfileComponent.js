@@ -16,10 +16,12 @@ function QuoteButton({ value, textTransform, buttonStyle }) {
     );
 }
 
-function ServicesComponent({ header, services }) {
+function ServicesComponent({ header, services, style }) {
     return (
         <>
-            <div className="heading my-3">{header}</div>
+            <div className="heading my-3" style={style}>
+                {header}
+            </div>
             <div className="row text-center">
                 {services?.map((item) => (
                     <div

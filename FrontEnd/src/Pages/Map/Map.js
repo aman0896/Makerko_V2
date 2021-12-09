@@ -24,64 +24,17 @@ export default function Map() {
         }
     };
 
-    useEffect(() => {
-        // navigator.permissions
-        //     .query({ name: "geolocation" })
-        //     .then(function (result) {
-        //         if (result.state == "granted") {
-        //             console.log(result.state, "line 32 inside granted");
-        //         } else if (result.state == "prompt") {
-        //             console.log(result.state, "line 34 inside prompt");
-        //             // navigator.geolocation.getCurrentPosition(
-        //             //     revealPosition,
-        //             //     positionDenied,
-        //             //     geoSettings
-        //             // );
-        //         } else if (result.state == "denied") {
-        //             navigator.permissions
-        //                 .revoke({ name: "geolocation" })
-        //                 .then(function (result) {
-        //                     // report(result.state);
-        //                     console.log("permision revoke");
-        //                 });
-        //             console.log(result.state, "line 41 inside denied");
-        //         }
-        //         result.onchange = function () {
-        //             console.log(result.state, "line 43");
-        //         };
-        //     });
-        if (!navigator.geolocation) {
-            // setStatus("Geolocation is not supported by your browser");
-            alert("Geolocation is not supported by your browser");
-        } else {
-            // setStatus("Locating...");
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    // setStatus(null);
-                    // setLat(position.coords.latitude);
-                    // setLng(position.coords.longitude);
-                    setCurrentPosition(position.coords);
-                    alert("Location Successfully Retrieved");
-                },
-                () => {
-                    // setStatus("Unable to retrieve your location");
-                    alert("Unable to retrieve your location");
-                }
-            );
-        }
-        navigator.geolocation.getCurrentPosition(function (position) {
-            setCurrentPosition(position.coords);
-            console.log("Latitude is :", position.coords.latitude);
-            console.log("Longitude is :", position.coords.longitude);
-        });
-    }, []);
-
     console.log(filterItems, "Filter items");
     return (
         <>
             <div className="mainComponent" style={{ position: "relative" }}>
                 <div className="headerBlock">
-                    <label className="header">makers map</label>
+                    <div
+                        className="heading text-uppercase"
+                        style={{ fontSize: 38 }}
+                    >
+                        makers map
+                    </div>
                     <Filter
                         type="string"
                         filterTypeName="StringOperator"
@@ -95,7 +48,7 @@ export default function Map() {
                 <MapComponent
                     data={mapData.makers}
                     search={mapSearch}
-                    currentPosition={currentPosition}
+                    drawMark={true}
                 />
                 <div className="d-flex justify-content-end mt-4">
                     <button type="button" className="btn btn-outline-primary">

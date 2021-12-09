@@ -22,7 +22,12 @@ function MapDraggableMarker(props) {
                 const marker = markerRef.current;
                 console.log(marker.getLatLng(), "dragend infor line 58");
                 if (marker != null) {
-                    setPosition(marker.getLatLng());
+                    let pos = marker.getLatLng();
+                    setPosition(pos);
+                    props.locationSet({
+                        latitude: pos.lat,
+                        longitude: pos.lng,
+                    });
                 }
             },
         }),
@@ -37,8 +42,8 @@ function MapDraggableMarker(props) {
     useEffect(() => {
         map.locate().on("locationfound", function (e) {
             console.log(e.latlng, "map.locate");
-            // setPosition(e.latlng);
-            // map.flyTo(e.latlng, map.getZoom());
+            setPosition(e.latlng);
+            // map.flyTo(e.latlng, 13);
             // const radius = e.accuracy;
             // const circle = L.circle(e.latlng, radius);
             // circle.addTo(map);
@@ -57,14 +62,20 @@ function MapDraggableMarker(props) {
                 )
             }
             eventHandlers={eventHandlers}
-            position={position}
+            position={props.currentPosition ? props.currentPosition : position}
             ref={markerRef}
         >
             <Popup minWidth={90}>
                 <span onClick={toggleDraggable}>
-                    {draggable
-                        ? "Marker is draggable"
-                        : "Click here to make marker draggable"}
+                    {draggable ? (
+                        <>
+                            Latitude: {position.lat}
+                            <br />
+                            Longitude: {position.lng}
+                        </>
+                    ) : (
+                        "Click here to make marker draggable"
+                    )}
                 </span>
             </Popup>
         </Marker>
