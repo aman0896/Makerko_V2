@@ -41,9 +41,9 @@ const DropDown = ({
             },
         }),
     };
-    const handleChange = (event) => {
-        setData(event.target.value);
-        setFieldValue(name, event.target.value);
+    const handleChange = (option) => {
+        setData(option);
+        setFieldValue(name, option);
     };
 
     return (
@@ -62,7 +62,9 @@ const DropDown = ({
                 getOptionValue={getOptionValue}
                 isMulti={multipleSelect}
                 onChange={(selectedOption) => {
-                    onChange(selectedOption);
+                    onChange
+                        ? onChange(selectedOption)
+                        : handleChange(selectedOption);
                 }}
                 onBlur={() => {
                     handleBlur(name);
