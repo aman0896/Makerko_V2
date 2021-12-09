@@ -65,6 +65,9 @@ app.use("/profile", Profile);
 
 const DropZone = require("./routes/DropZone");
 app.use("/dropzone", DropZone);
+
+const Process = require("./routes/Process");
+app.use("/process", Process);
 //#endregion
 
 //Serve the static files from the React app
