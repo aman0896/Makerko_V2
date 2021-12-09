@@ -17,6 +17,14 @@ export default function BrowseFileComponent(props) {
       //   for (let i = 0; i < files.length; i++) {
       //     file.push(URL.createObjectURL(files[i]));
       //   }
+
+      let filePreview = [];
+
+      for (let i = 0; i < files.length; i++) {
+        filePreview.push(URL.createObjectURL(files[i]));
+        //file.push(files[i]);
+      }
+      setFile(filePreview);
       setFileLength(files.length);
       if (props.handleChange) {
         props.handleChange(event);
@@ -44,28 +52,28 @@ export default function BrowseFileComponent(props) {
           {props.label}
         </label>
       )}
-      {props.image && (
-        <div
-          style={{
-            height: props.height ? props.height : 200,
-            borderRadius: 5,
-            backgroundColor: colors.gray,
-            marginBottom: 20,
-          }}
-        >
-          <img
-            src={file}
-            style={{
-              height: props.height ? props.height : 200,
-              width: "100%",
-              borderRadius: 5,
-            }}
-          />
+      {file && (
+        <div className="row m-2">
+          {file.map((src) => (
+            <div className="col-sm m-2">
+              <img
+                style={{
+                  height: 150,
+                  width: 150,
+                  border: "1px solid",
+                  borderRadius: 5,
+                  objectFit: "cover",
+                }}
+                src={src}
+                alt="image"
+              />
+            </div>
+          ))}
         </div>
       )}
 
       <div
-        className="d-flex  align-items-center m-0 p-0 pl-3 pt-2"
+        className="d-flex  align-items-center m-0 p-0 pl-3 pt-2 w-25"
         style={{
           border: `0.8px solid ${
             props.errors[props.name] && props.touched[props.name]

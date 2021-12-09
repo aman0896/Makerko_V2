@@ -10,6 +10,7 @@ export default function BrowseFileComponent(props) {
 
   const handleChange = (event) => {
     const file = event.target.files[0];
+    console.log(file, "file");
 
     if (file) {
       props.setFieldValue(props.name, file);

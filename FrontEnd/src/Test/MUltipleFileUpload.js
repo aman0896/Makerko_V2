@@ -3,37 +3,52 @@ import React, { useState, useEffect } from "react";
 import { mainHost } from "../commonApi/Link";
 
 function FileUpload() {
-  const [file, setFile] = useState();
+  const [file, setFile] = useState([]);
   const [fileLength, setFileLength] = useState();
-  const [preview, setPreview] = useState();
-  const fileDir = "./public/uploads/customer/profile1638860634269.png";
-  const [imageSrc, setImageSrc] = useState();
+  const [preview, setPreview] = useState([]);
+  //const fileDir = "./public/uploads/customer/profile1638860634269.png";
+  const fileDir = [
+    { filepath: "./public/uploads/multipleUpload/profile1638936508597.png" },
+    { filepath: "./public/uploads/multipleUpload/profile1638936508598.jpg" },
+    { filepath: "./public/uploads/multipleUpload/profile1638936508599.png" },
+  ];
+  const [imageSrc, setImageSrc] = useState([]);
 
   useEffect(() => {
     async function DownloadFile() {
-      const file = await FileDownload(fileDir, null);
-
-      const url = window.URL.createObjectURL(new Blob([file]));
-      setImageSrc(url);
-      console.log(url, "filedownload");
+      let files = [];
+      for (let i = 0; i < fileDir.length; i++) {
+        const file = await FileDownload(fileDir[i].filepath, null);
+        const url = window.URL.createObjectURL(new Blob([file]));
+        files.push(url);
+      }
+      setImageSrc(files);
     }
 
     DownloadFile();
   }, []);
 
   const onChangeFileUpload = (e) => {
-    setFile(e.target.files[0]);
-    const url = URL.createObjectURL(e.target.files[0]);
-    setPreview(url);
+    const files = e.target.files;
+    setFile(files);
+    let filePreview = [];
+    let file = [];
+    for (let i = 0; i < files.length; i++) {
+      filePreview.push(URL.createObjectURL(files[i]));
+      //file.push(files[i]);
+    }
+    setPreview(filePreview);
   };
 
   const onFileUpload = () => {
     console.log(file, "file");
     const formData = new FormData();
-    formData.append("profile", file);
+    for (let i = 0; i < file.length; i++) {
+      formData.append("profile", file[i]);
+    }
 
     axios
-      .post(mainHost + "profile/customer", formData, {
+      .post(mainHost + "profile/multiple-upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((response) => {
@@ -47,19 +62,26 @@ function FileUpload() {
         id="file"
         name="myImage"
         type="file"
+        multiple
         onChange={onChangeFileUpload}
       />
 
-      <img
-        style={{
-          height: "50%",
-          width: "50%",
-          margin: "20px 0px",
-          alignSelf: "center",
-        }}
-        src={"blob:http://localhost:3000/19b18f80-f930-49cb-96b9-8c889c69ee87 "}
-        alt="image"
-      />
+      <div className="row m-5">
+        {imageSrc.map((src) => (
+          <div className="col-3">
+            <img
+              style={{
+                height: "50%",
+                width: "50%",
+
+                alignSelf: "center",
+              }}
+              src={src}
+              alt="image"
+            />
+          </div>
+        ))}
+      </div>
       <button
         style={{ width: "200px", alignSelf: "center" }}
         onClick={onFileUpload}
@@ -77,6 +99,7 @@ export const FileDownload = async (filePath) => {
   var data = JSON.stringify({
     filedir: filePath,
   });
+  console.log(data, "filepath");
 
   var config = {
     method: "post",
