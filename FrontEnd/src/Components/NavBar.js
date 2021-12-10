@@ -5,11 +5,14 @@ import { FiUser } from "react-icons/fi";
 import { getData, getDataWithNoParams } from "../commonApi/CommonApi";
 import { currentUserLink, logout } from "../commonApi/Link";
 import ModalChoice from "./modal/ModalChoice";
+import { colors } from "../Values/colors";
 
 function NavBar({ isAuth, currentUser, userType }) {
+    console.log(typeof window.location.pathname, "Navbar path");
     console.log(isAuth, currentUser, userType, "data");
     const [hambergerClicked, isHambergerClicked] = useState(false);
     const [currentUserData, setCurrentUserData] = useState();
+    const [path, setPath] = useState(window.location.pathname);
 
     const onhambergerClick = () => {
         isHambergerClicked(!hambergerClicked);
@@ -32,11 +35,24 @@ function NavBar({ isAuth, currentUser, userType }) {
         }
     }, []);
 
+    const handleChangePath = (event) => {
+        setPath(event.target.dataset.name);
+    };
+
     return (
-        <nav className="NavbarItems">
+        <nav className={path === "/" ? "NavbarItems" : "PrimaryNavbarItems"}>
             <div className="navbar-container">
-                <Link className="navbar-logo" to={{ pathname: "/" }}>
-                    <h2>Makerko</h2>
+                <Link
+                    className="navbar-logo"
+                    onClick={handleChangePath}
+                    to={{ pathname: "/" }}
+                >
+                    <h2
+                        data-name="/"
+                        className={path !== "/" ? "text-white" : ""}
+                    >
+                        Makerko
+                    </h2>
                 </Link>
 
                 <div className="menu-icon" onClick={onhambergerClick}>
@@ -44,6 +60,9 @@ function NavBar({ isAuth, currentUser, userType }) {
                         className={
                             hambergerClicked ? "fas fa-times" : "fas fa-bars"
                         }
+                        style={{
+                            color: path === "/" ? colors.primary : colors.white,
+                        }}
                     ></i>
                 </div>
                 <ul
@@ -53,17 +72,46 @@ function NavBar({ isAuth, currentUser, userType }) {
                 >
                     <li>
                         <Link
-                            className="navbar-links"
+                            // style={{
+                            //     color:
+                            //         path === "/"
+                            //             ? colors.primary
+                            //             : colors.white,
+                            // }}
+                            className={
+                                path === "/"
+                                    ? "navbar-links"
+                                    : "whiteNavbar-links"
+                            }
+                            onClick={handleChangePath}
                             to={{ pathname: "/maker" }}
                         >
-                            MAKERS
+                            <label data-name="/maker">MAKERS</label>
                         </Link>
                     </li>
                     <li>
-                        <Link className="navbar-links">PROJECT</Link>
+                        <Link
+                            className={
+                                path === "/"
+                                    ? "navbar-links"
+                                    : "whiteNavbar-links"
+                            }
+                            onClick={handleChangePath}
+                        >
+                            <label data-name="/project">PROJECT</label>
+                        </Link>
                     </li>
                     <li>
-                        <Link className="navbar-links">BLOGS</Link>
+                        <Link
+                            className={
+                                path === "/"
+                                    ? "navbar-links"
+                                    : "whiteNavbar-links"
+                            }
+                            onClick={handleChangePath}
+                        >
+                            <label data-name="/blogs">BLOGS</label>
+                        </Link>
                     </li>
                 </ul>
 
@@ -79,7 +127,7 @@ function NavBar({ isAuth, currentUser, userType }) {
                             userType={userType}
                         />
                     ) : (
-                        <ProfileAvatarLogin />
+                        <ProfileAvatarLogin path={path} />
                     )}
                 </div>
             </div>
@@ -89,7 +137,7 @@ function NavBar({ isAuth, currentUser, userType }) {
 
 export default NavBar;
 
-function ProfileAvatarLogin() {
+function ProfileAvatarLogin({ path }) {
     const [showModal, setShowModal] = useState(false);
 
     const showModalChoice = () => {
@@ -109,7 +157,15 @@ function ProfileAvatarLogin() {
     };
     return (
         <>
-            <div data-toggle="dropdown" className="dropdown navbar-login">
+            <div
+                data-toggle="dropdown"
+                className="dropdown navbar-login"
+                style={{
+                    backgroundColor:
+                        path === "/" ? colors.primary : colors.white,
+                    color: path === "/" ? colors.white : colors.primary,
+                }}
+            >
                 <FiUser />
             </div>
 
