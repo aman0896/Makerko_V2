@@ -9,11 +9,17 @@ import IsAuth from "./Components/Redux/Reducers/IsAuth";
 import { IS_AUTH } from "./Components/Redux/Actions/Types";
 import { FabricationMethod } from "./Components/Redux/Actions/FabricationMethod";
 import { Material } from "./Components/Redux/Actions/Material";
+import { CurrentUserdata } from "./Components/Redux/Actions/CurrentUserdata";
 
 function App() {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState();
+    const [auth, setAuth] = useState({
+        isAuth: "",
+        userType: "",
+        currentUser: "",
+    });
 
     useEffect(() => {
         function IsLoggedIn() {
@@ -29,6 +35,12 @@ function App() {
                                 userType: userType,
                                 currentUser: uid,
                             });
+                            setAuth({
+                                ...auth,
+                                isAuth: loggedIn,
+                                userType: userType,
+                                currentUser: uid,
+                            });
                         }
                         setIsLoading(false);
                     }
@@ -40,6 +52,12 @@ function App() {
         }
         IsLoggedIn();
     }, []);
+
+    useEffect(() => {
+        if (auth.isAuth) {
+            CurrentUserdata(dispatch, auth.currentUser);
+        }
+    }, [auth]);
 
     useEffect(() => {
         //get fabrication
