@@ -55,14 +55,14 @@ function Routing() {
                     <Route exact path="/file" component={FileUpload} />
                     <Route
                         exact
-                        path="/profile/customer"
+                        path="/profile/customer/edit"
                         component={CustomerProfile}
                     />
                     <Route exact path="/get-quote" component={GetAQuote} />
 
                     <Route
                         exact
-                        path="/profile/maker"
+                        path="/profile/maker/edit"
                         component={MakersProfile}
                     />
                 </Switch>
