@@ -50,3 +50,12 @@ export const material = "process/material";
 
 //file delete
 export const fileDelete = "dropzone/file-delete";
+
+//get a quote
+export const getAQuote = "quote/get-quote";
+
+//custoemr profile edit
+export const customerProfileEdit = "profile/customer-edit";
+
+//file download
+export const download = "download";
