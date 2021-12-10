@@ -115,6 +115,7 @@ router.post("/download", async function (req, res) {
   const path = req.body.filedir;
   const filedir = `${path}`;
   const file = await FileDownload(filedir);
+  console.log(file, "file");
   if (file) {
     res.download(file); // Set disposition and send it.
     return;

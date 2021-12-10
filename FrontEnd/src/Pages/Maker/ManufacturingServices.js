@@ -40,7 +40,7 @@ const InitialValues = {
   leadTime: "",
 };
 
-function ManufacturingServices() {
+function ManufacturingServices(props) {
   const [formikData, setFormikData] = useState([]);
   const [mfgData, setMfgData] = useState([]);
   const formRef = useRef();
@@ -118,12 +118,12 @@ function ManufacturingServices() {
     } = values;
 
     var data = {
-      fabricationService: fabricationService.Name,
+      fabricationService: fabricationService,
       materialDetails: [
         {
-          material: material.Material_Name,
+          material: material,
           thickness,
-          costUnit: costUnit.type,
+          costUnit: costUnit,
           unitRate,
           MoQ,
           leadTime,
@@ -138,6 +138,7 @@ function ManufacturingServices() {
   const column = [
     {
       field: "material",
+      subField: "Material_Name",
       header: "Materials",
     },
     {
@@ -146,6 +147,7 @@ function ManufacturingServices() {
     },
     {
       field: "costUnit",
+      subField: "type",
       header: "Cost Unit",
     },
     {
@@ -163,45 +165,49 @@ function ManufacturingServices() {
     setExpandToggle(!expandToggle);
   };
 
+  const tableData =
+    mfgData.length > 0 &&
+    mfgData.map((data) => {
+      return (
+        <div className="mb-2">
+          {console.log(mfgData, "manufacturing process 169")}
+          <div className="">
+            <div
+              className="d-flex justify-content-between align-items-center pl-3 pr-3 "
+              style={{
+                backgroundColor: colors.primary,
+                height: "40px",
+                borderRadius: "3px",
+                position: "relative",
+                color: colors.white,
+                width: "100%",
+              }}
+            >
+              <div style={{ marginLeft: 2, fontWeight: "bold" }}>
+                {`${data.fabricationService.Name}`}
+              </div>
+
+              <div style={{ marginRight: 3 }}>
+                <FontAwesomeIcon
+                  style={{ transition: "all 0.5s ease" }}
+                  icon={expandToggle ? faChevronCircleUp : faChevronCircleDown}
+                  onClick={() => onExpandToggleClick()}
+                />
+              </div>
+            </div>
+          </div>
+          {expandToggle && (
+            <TableComponent column={column} data={data.materialDetails} />
+          )}
+        </div>
+      );
+    });
+
   return (
     <div>
       {console.log(mfgProcess, "manufacturing process")}
-      {mfgData.length > 0 &&
-        mfgData.map((data) => (
-          <div className="mb-2">
-            {console.log(mfgData, "manufacturing process 169")}
-            <div className="">
-              <div
-                className="d-flex justify-content-between align-items-center pl-3 pr-3 "
-                style={{
-                  backgroundColor: colors.primary,
-                  height: "40px",
-                  borderRadius: "3px",
-                  position: "relative",
-                  color: colors.white,
-                  width: "100%",
-                }}
-              >
-                <div style={{ marginLeft: 2, fontWeight: "bold" }}>
-                  {`${data.fabricationService}`}
-                </div>
+      {tableData}
 
-                <div style={{ marginRight: 3 }}>
-                  <FontAwesomeIcon
-                    style={{ transition: "all 0.5s ease" }}
-                    icon={
-                      expandToggle ? faChevronCircleUp : faChevronCircleDown
-                    }
-                    onClick={() => onExpandToggleClick()}
-                  />
-                </div>
-              </div>
-            </div>
-            {expandToggle && (
-              <TableComponent column={column} data={data.materialDetails} />
-            )}
-          </div>
-        ))}
       <div className="heading title">Manufacturing Process:</div>
       <FormikComponent
         initialValues={InitialValues}
@@ -245,6 +251,7 @@ function ManufacturingServices() {
               control="input"
               label="Thickness"
               type="number"
+              setInitial={12}
             />
           </div>
           <div className="col-lg">
@@ -262,6 +269,7 @@ function ManufacturingServices() {
               control="input"
               label="Unit Rate"
               //type="number"
+              setInitial={12}
             />
           </div>
         </div>
@@ -276,13 +284,19 @@ function ManufacturingServices() {
             />
           </div>
           <div className="col-lg-3">
-            <FormikController name="MoQ" control="input" label="Moq" />
+            <FormikController
+              name="MoQ"
+              control="input"
+              label="Moq"
+              setInitial={12}
+            />
           </div>
           <div className="col-lg-3">
             <FormikController
               name="leadTime"
               control="input"
               label="Lead Time"
+              setInitial={12}
             />
           </div>
         </div>

@@ -37,7 +37,12 @@ export default function TableComponent({ column, data }) {
                       column.length !== index + 1 ? "1px solid #E5E5E5" : null,
                   }}
                 >
-                  {row[item.field]}
+                  {item.subField
+                    ? row[item.field][item.subField]
+                    : row[item.field]}
+                  {/* {item.field === "material" &&
+                    console.log(row[item.field]["Material_Name"], "row data")}
+                  {row[item.field]} */}
                 </td>
               ))}
             </tr>

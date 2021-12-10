@@ -47,3 +47,6 @@ export const fabricationMethod = "process/fabricationMethod";
 
 //material
 export const material = "process/material";
+
+//services
+export const makersServices = "account/services/:id";
