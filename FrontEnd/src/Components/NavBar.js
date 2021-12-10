@@ -21,12 +21,6 @@ function NavBar({ isAuth, currentUser, userType }) {
         (state) => state.currentUserdata.currentUserdata
     );
 
-    useEffect(() => {
-        if (isAuth) {
-            CurrentUserdata(dispatch, currentUser);
-        }
-    }, []);
-
     return (
         <nav className="NavbarItems">
             <div className="navbar-container">
