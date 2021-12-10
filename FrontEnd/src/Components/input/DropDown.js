@@ -21,6 +21,7 @@ const DropDown = ({
   handleBlur,
   setFieldTouched,
   setInitial,
+  value,
 }) => {
   const [data, setData] = useState();
   const customStyles = {
@@ -70,7 +71,7 @@ const DropDown = ({
         getOptionValue={getOptionValue}
         isMulti={multipleSelect}
         onChange={(selectedOption) => {
-          onChange(selectedOption);
+          onChange ? onChange(selectedOption) : handleChange(selectedOption);
         }}
         onBlur={() => {
           handleBlur(name);
