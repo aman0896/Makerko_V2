@@ -1,5 +1,6 @@
 const express = require("express");
 const { GetUserData } = require("../DBController/DBController");
+const FileDownload = require("../Utils/FileDownload");
 const { VerifyToken } = require("../Utils/jwt");
 const router = express.Router();
 
@@ -15,7 +16,6 @@ router.get("/currentUser", async (req, res) => {
     const makerSqlQuery =
         "SELECT * FROM manufacturer WHERE Manufacturer_ID = ?";
     const customerData = await GetUserData(customerSqlQuery, req.query.uid);
-    console.log(customerData, "data");
     const makerData = await GetUserData(makerSqlQuery, req.query.uid);
     if (customerData.length > 0) {
         res.json({ currentUserData: customerData });
