@@ -152,7 +152,7 @@ const column = [
     },
 ];
 
-export default function Profile() {
+export default function MakersDetailViewPage() {
     const { height, width } = useWindowDimensions();
     return (
         <div style={{ minHeight: height - 80, backgroundColor: colors.dark }}>

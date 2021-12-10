@@ -3,7 +3,7 @@ import "./Footer.css";
 
 export default function Footer({ children, ...restProps }) {
     return (
-        <div className="footer-container" {...restProps}>
+        <div className="footer-container footer" {...restProps}>
             {children}
         </div>
     );
