@@ -10,5 +10,4 @@ const allReducers = combineReducers({
     material: GetMaterial,
     currentUserdata: SetCurrentUserdata,
 });
-
 export default allReducers;
