@@ -173,6 +173,7 @@ function DropZone({
 
   return (
     <>
+      {label && <label>{label}</label>}
       <div className="row m-auto mt-4">
         <div className="col-sm">
           <div

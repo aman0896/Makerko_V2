@@ -30,7 +30,6 @@ function Routing() {
           userType={auth.userType}
         />
         <Switch>
-          {/* <Main /> */}
           <Route exact path="/" component={Main} />
           <Route exact path="/account/login" component={Login} />
           <Route exact path="/account/signup" component={Signup} />
@@ -38,7 +37,7 @@ function Routing() {
           <Route exact path="/account/verify" component={OTPVerification} />
           <Route exact path="/verify-success" component={VerificationSuccess} />
           <Route exact path="/new-project" component={CreateFeatureProject} />
-          <Route exact path="/file" component={FileUpload} />
+          <Route exact path="/file" component={MultipleFileUpload} />
           <Route exact path="/profile/customer" component={CustomerProfile} />
           <Route exact path="/get-quote" component={GetAQuote} />
 

@@ -21,7 +21,6 @@ export default function TableComponent({ column, data }) {
           </tr>
         </thead>
         <tbody>
-          {console.log(data, "line 24 table component")}
           {data.map((row, index) => (
             <tr
               key={index}

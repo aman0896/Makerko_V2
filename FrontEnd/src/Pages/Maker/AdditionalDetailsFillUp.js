@@ -29,7 +29,10 @@ function AdditionalDetailsFillUp() {
   };
 
   const { width } = useWindowDimensions();
+  // const str =
+  //   [{"selectedMaterial":{"Material_ID":1,"Material_Name":"PLA","Service_ID":1},"thickness":"-","costUnit":{"value":1,"label":"Gram"},"unitRate":"12","MoQ":"10","leadTime":"2"}]\'),(2,\'3b4875fe1342a025d1f1720a26cfb152\',\'[{"selectedMaterial":{"Material_ID":6,"Material_Name":"MDF","Service_ID":2},"thickness":"20","costUnit":{"value":2,"label":"Kg"},"unitRate":"input field should be in number","MoQ":"put placehoder so that maker will know what to enter","leadTime":"input should be in number and also use place holder"}];
 
+  // console.log(JSON.parse(str));
   return (
     <div
       className="container-fluid"

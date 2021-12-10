@@ -8,7 +8,7 @@ function FileUpload() {
   const [preview, setPreview] = useState([]);
   //const fileDir = "./public/uploads/customer/profile1638860634269.png";
   const fileDir = [
-    { filepath: "./public/uploads/multipleUpload/profile1638936508597.png" },
+    { filepath: "./public/uploads/multipleUpload/profile1639111948697.png" },
     { filepath: "./public/uploads/multipleUpload/profile1638936508598.jpg" },
     { filepath: "./public/uploads/multipleUpload/profile1638936508599.png" },
   ];
@@ -19,6 +19,7 @@ function FileUpload() {
       let files = [];
       for (let i = 0; i < fileDir.length; i++) {
         const file = await FileDownload(fileDir[i].filepath, null);
+        console.log(file, "files");
         const url = window.URL.createObjectURL(new Blob([file]));
         files.push(url);
       }
