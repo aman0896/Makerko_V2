@@ -1,67 +1,56 @@
-import React from 'react';
-import * as Yup from 'yup';
-import FormikComponent from '../../Components/formik/FormikComponent';
-import FormikController from '../../Components/formik/FormikController';
-import { useWindowDimensions } from '../../Functions';
-import { MdEdit } from 'react-icons/md';
-import './Profile.css';
-import ChangePasswordComponent from '../../Components/Password/ChangePasswordComponent';
-
-const ValidationSchema = Yup.object().shape({
-    companyName: Yup.string().required('First Name is required'),
-    phoneNumber: Yup.string().required('Phone Number is required'),
-    address: Yup.string().required('Address is required'),
-    contactPerson: Yup.string().required('Contact Person Name is required'),
-    email: Yup.string().required('Email is required').email('Invalid Email'),
-    companyStatus: Yup.object().required('Company Status is required.'),
-
-    website: Yup.string().matches(
-        /(https?:\/\/)?(www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)|(https?:\/\/)?(www\.)?(?!ww)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/,
-        'Invalid Website'
-    ),
-    brief_description: Yup.string().required('Brief Description is required'),
-    additional_details: Yup.string().required('Additional Details is required'),
-});
+import React from "react";
+import * as Yup from "yup";
+import FormikComponent from "../../Components/formik/FormikComponent";
+import FormikController from "../../Components/formik/FormikController";
+import { useWindowDimensions } from "../../Functions";
+import { MdEdit } from "react-icons/md";
+import "./Profile.css";
+import ChangePasswordComponent from "../../Components/Password/ChangePasswordComponent";
+import { ValidationSchemaMakerProfile } from "../Form/ValidationSchema";
+import { useSelector } from "react-redux";
 
 const InitialValues = {
-    companyName: '',
-    phoneNumber: '',
-    address: '',
-    contactPerson: '',
-    email: '',
-    website: '',
-    brief_description: '',
-    additional_details: '',
+    companyName: "",
+    phoneNumber: "",
+    address: "",
+    contactPerson: "",
+    email: "",
+    website: "",
+    brief_description: "",
+    additional_details: "",
 };
 
 function MakersProfile() {
+    const currentUserData = useSelector(
+        (state) => state.currentUserdata.currentUserdata
+    );
     const companyStatus = [
         {
             value: 1,
-            type: 'Registered Company',
+            type: "Registered Company",
         },
         {
             value: 2,
-            type: 'Individual/Hobbyist',
+            type: "Individual/Hobbyist",
         },
     ];
 
     const handleSubmit = (values) => {
-        console.log(values, 'values');
+        console.log(values, "values");
     };
     const { width } = useWindowDimensions();
     return (
         <div
             className="container-fluid"
             style={{
-                width: width <= 800 ? '95%' : '50%',
+                width: width <= 800 ? "95%" : "50%",
             }}
         >
             <div className="d-flex align-items-center flex-column my-4">
                 <div className="change-image">
                     <img
                         className="image-profile"
-                        src={'http://localhost:3000/assests/user.png'}
+                        src={"http://localhost:3000/assests/user.png"}
                     />
 
                     <div className="icon-edit">
@@ -72,21 +61,21 @@ function MakersProfile() {
                         className="avatar-file h-100 w-100"
                         type="file"
                         name="file"
-                        accept={'.jpg, .jpeg, .png'}
+                        accept={".jpg, .jpeg, .png"}
                         //onChange={handleOnchangeimage}
                     />
                 </div>
 
                 <div className="profile-name">
-                    {'Zener'}&nbsp;
-                    {'Technologies'}
+                    {"Zener"}&nbsp;
+                    {"Technologies"}
                 </div>
             </div>
             <div className="section-heading mb-3">Edit Profile</div>
             <FormikComponent
                 initialValues={InitialValues}
                 onSubmit={handleSubmit}
-                validationSchema={ValidationSchema}
+                validationSchema={ValidationSchemaMakerProfile}
             >
                 <div className="row">
                     <div className="col-lg">
@@ -96,7 +85,7 @@ function MakersProfile() {
                             control="input"
                             placeholder="Company Name"
                             type="text"
-                            setInitial="Zener Technologies"
+                            setInitial={currentUserData.Company_Name}
                         />
                     </div>
                     <div className="col-lg offset-lg-1">
@@ -106,10 +95,7 @@ function MakersProfile() {
                             label="Company Status"
                             options={companyStatus}
                             getOptionLabel={(options) => options.type}
-                            setInitial={{
-                                value: 1,
-                                type: 'Registered Company',
-                            }}
+                            setInitial={currentUserData.Company_Type}
                         />
                     </div>
                 </div>
@@ -121,7 +107,7 @@ function MakersProfile() {
                             control="input"
                             placeholder="Phone Number"
                             type="text"
-                            setInitial="9849826008"
+                            setInitial={currentUserData.Phone_Number}
                         />
                     </div>
                     <div className="col-lg offset-lg-1">
@@ -130,7 +116,7 @@ function MakersProfile() {
                             control="input"
                             placeholder="Enter Contact Person Name"
                             label="Contact Person"
-                            setInitial="Ram Chandra Thapa"
+                            setInitial={currentUserData.Contact_Person}
                         />
                     </div>
                 </div>
@@ -142,7 +128,7 @@ function MakersProfile() {
                             control="input"
                             placeholder="Email Address"
                             type="email"
-                            setInitial="zener@gmail.com"
+                            setInitial={currentUserData.Email}
                         />
                     </div>
                     <div className="col-lg offset-lg-1">
@@ -151,7 +137,7 @@ function MakersProfile() {
                             control="input"
                             placeholder="Enter Address"
                             label="Address"
-                            setInitial="Lalitpur"
+                            setInitial={currentUserData.Address}
                         />
                     </div>
                 </div>
@@ -162,7 +148,7 @@ function MakersProfile() {
                             control="input"
                             placeholder="Enter website"
                             label="Website"
-                            setInitial="zener.com"
+                            setInitial={currentUserData.Website}
                         />
                     </div>
                     <div className="col-lg offset-lg-1"></div>
@@ -174,7 +160,7 @@ function MakersProfile() {
                             name="brief_description"
                             control="textarea"
                             placeholder="Brief Description of Company"
-                            setInitial="Description"
+                            setInitial={currentUserData.Brief_Description}
                         />
                     </div>
                     <div className="col-lg offset-lg-1">
@@ -183,7 +169,7 @@ function MakersProfile() {
                             control="textarea"
                             placeholder="Additional Details"
                             label="Additional Details"
-                            setInitial="Details"
+                            setInitial={currentUserData.Brief_Description}
                         />
                     </div>
                 </div>
