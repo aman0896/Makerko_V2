@@ -11,9 +11,9 @@ function Card({
   cardStyle,
   handleClick,
 }) {
-  const onCardSelect = () => {
-    selectedCard(data);
-  };
+  // const onCardSelect = () => {
+  //   selectedCard(data);
+  // };
 
   return (
     <div className="card-bank text-center" style={cardStyle}>
