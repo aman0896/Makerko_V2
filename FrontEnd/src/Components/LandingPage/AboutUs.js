@@ -1,6 +1,6 @@
 import React from "react";
 import { colors } from "../../Values/colors";
-import SlideView from "../SlideView";
+import SlideView from "../slideView/SlideView";
 import "./AboutUs.css";
 
 function AboutUs({ data }) {

@@ -5,12 +5,15 @@ import { FiUser } from "react-icons/fi";
 import { getData, getDataWithNoParams } from "../commonApi/CommonApi";
 import { logout } from "../commonApi/Link";
 import ModalChoice from "./modal/ModalChoice";
+import { colors } from "../Values/colors";
+
 import { useDispatch, useSelector } from "react-redux";
 import { CurrentUserdata } from "./Redux/Actions/CurrentUserdata";
 
 function NavBar({ isAuth, currentUser, userType }) {
   const dispatch = useDispatch();
   const [hambergerClicked, isHambergerClicked] = useState(false);
+  const [path, setPath] = useState(window.location.pathname);
   // const [currentUserData, setCurrentUserData] = useState();
 
   const onhambergerClick = () => {
@@ -27,25 +30,62 @@ function NavBar({ isAuth, currentUser, userType }) {
     }
   }, []);
 
+  const handleChangePath = (event) => {
+    setPath(event.target.dataset.name);
+  };
+
   return (
-    <nav className="NavbarItems">
+    <nav className={path === "/" ? "NavbarItems" : "PrimaryNavbarItems"}>
       <div className="navbar-container">
-        {/* <Link className="navbar-logo" to={{ pathname: "/" }}>
-                    <h2>Makerko</h2>
-                </Link> */}
+        <Link
+          className="navbar-logo"
+          onClick={handleChangePath}
+          to={{ pathname: "/" }}
+        >
+          <h2 data-name="/" className={path !== "/" ? "text-white" : ""}>
+            Makerko
+          </h2>
+        </Link>
 
         <div className="menu-icon" onClick={onhambergerClick}>
-          <i className={hambergerClicked ? "fas fa-times" : "fas fa-bars"}></i>
+          <i
+            className={hambergerClicked ? "fas fa-times" : "fas fa-bars"}
+            style={{
+              color: path === "/" ? colors.primary : colors.white,
+            }}
+          ></i>
         </div>
         <ul className={hambergerClicked ? "navbar-menu active" : "navbar-menu"}>
           <li>
-            <Link className="navbar-links">MAKERS</Link>
+            <Link
+              // style={{
+              //     color:
+              //         path === "/"
+              //             ? colors.primary
+              //             : colors.white,
+              // }}
+              className={path === "/" ? "navbar-links" : "whiteNavbar-links"}
+              onClick={handleChangePath}
+              to={{ pathname: "/maker" }}
+            >
+              <label data-name="/maker">MAKERS</label>
+            </Link>
           </li>
           <li>
-            <Link className="navbar-links">PROJECT</Link>
+            <Link
+              className={path === "/" ? "navbar-links" : "whiteNavbar-links"}
+              onClick={handleChangePath}
+            >
+              <label data-name="/project">PROJECT</label>
+            </Link>
           </li>
           <li>
-            <Link className="navbar-links">BLOGS</Link>
+            <Link
+              className={path === "/" ? "navbar-links" : "whiteNavbar-links"}
+              onClick={handleChangePath}
+            >
+              <label data-name="/blogs">BLOGS</label>
+            </Link>
           </li>
         </ul>
 
@@ -61,7 +101,7 @@ function NavBar({ isAuth, currentUser, userType }) {
               userType={userType}
             />
           ) : (
-            <ProfileAvatarLogin />
+            <ProfileAvatarLogin path={path} />
           )}
         </div>
       </div>
@@ -71,7 +111,7 @@ function NavBar({ isAuth, currentUser, userType }) {
 
 export default NavBar;
 
-function ProfileAvatarLogin() {
+function ProfileAvatarLogin({ path }) {
   const [showModal, setShowModal] = useState(false);
 
   const showModalChoice = () => {
@@ -91,7 +131,14 @@ function ProfileAvatarLogin() {
   };
   return (
     <>
-      <div data-toggle="dropdown" className="dropdown navbar-login">
+      <div
+        data-toggle="dropdown"
+        className="dropdown navbar-login"
+        style={{
+          backgroundColor: path === "/" ? colors.primary : colors.white,
+          color: path === "/" ? colors.white : colors.primary,
+        }}
+      >
         <FiUser />
       </div>
 

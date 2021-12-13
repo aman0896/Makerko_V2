@@ -6,7 +6,18 @@
   font-size: 1.2rem;
   position: sticky;
   top: 0;
-  z-index: 999;
+  z-index: 9999;
+}
+
+.PrimaryNavbarItems {
+  background: var(--primary);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
 }
 
 .navbar-container {
@@ -18,6 +29,14 @@
 
 .navbar-logo {
   color: var(--primary);
+  text-align: center;
+  justify-self: start;
+  margin-left: 20px;
+  text-decoration: none;
+}
+
+.whiteNavbar-logo {
+  color: var(--white);
   text-align: center;
   justify-self: start;
   margin-left: 20px;
@@ -41,7 +60,10 @@
   width: 75vw;
   justify-content: center;
   margin-right: 1rem;
-  margin-top: 10px;
+  height: 100%;
+  margin: 0;
+  align-items: center;
+  /* background-color: burlywood; */
 }
 
 .navbar-links {
@@ -49,6 +71,20 @@
   text-decoration: none;
   padding: 0.5rem 0.5rem;
   cursor: pointer;
+}
+.whiteNavbar-links {
+  color: var(--white);
+  text-decoration: none;
+  padding: 0.5rem 0.5rem;
+  cursor: pointer;
+}
+.whiteNavbar-links:hover {
+  width: 100%;
+  text-decoration: none;
+  background-color: var(--white);
+  color: var(--primary);
+  border-radius: 4px;
+  transition: all 0.2s ease-out;
 }
 
 .navbar-links.active {

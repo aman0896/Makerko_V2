@@ -18,36 +18,68 @@ import MakersProfile from "../Pages/Profile/MakersProfile";
 import { useSelector } from "react-redux";
 import AdditionalDetailsFillUp from "../Pages/Maker/AdditionalDetailsFillUp";
 
-function Routing() {
-  const auth = useSelector((state) => state.isAuth);
+import MakersDetailViewPage from "../Pages/Profile/MakersDetailViewPage";
+import Map from "../Pages/Map/Map";
+import Maker from "../Pages/Profile/Maker";
 
+function Routing({ isAuth, currentUser, userType }) {
+  const auth = useSelector((state) => state.isAuth);
   return (
     <div>
       <Router>
-        <NavBar
-          isAuth={auth.isAuth}
-          currentUser={auth.currentUser}
-          userType={auth.userType}
-        />
-        <Switch>
-          <Route exact path="/" component={Main} />
-          <Route exact path="/account/login" component={Login} />
-          <Route exact path="/account/signup" component={Signup} />
-          <Route exact path="/account/makers-signup" component={MakersSignup} />
-          <Route exact path="/account/verify" component={OTPVerification} />
-          <Route exact path="/verify-success" component={VerificationSuccess} />
-          <Route exact path="/new-project" component={CreateFeatureProject} />
-          <Route exact path="/file" component={MultipleFileUpload} />
-          <Route exact path="/profile/customer" component={CustomerProfile} />
-          <Route exact path="/get-quote" component={GetAQuote} />
+        <div className="d-flex flex-column min-vh-100">
+          <div className="wrapper flex-grow-1">
+            <NavBar
+              isAuth={isAuth}
+              currentUser={currentUser}
+              userType={userType}
+            />
+            <Switch>
+              <Route exact path="/" component={Main} />
+              <Route exact path="/account/login" component={Login} />
+              <Route exact path="/account/signup" component={Signup} />
+              <Route
+                exact
+                path="/account/makers-signup"
+                component={MakersSignup}
+              />
+              <Route exact path="/account/verify" component={OTPVerification} />
+              <Route
+                exact
+                path="/verify-success"
+                component={VerificationSuccess}
+              />
+              <Route
+                exact
+                path="/new-project"
+                component={CreateFeatureProject}
+              />
+              <Route exact path="/file" component={FileUpload} />
+              <Route
+                exact
+                path="/profile/customer"
+                component={CustomerProfile}
+              />
+              <Route exact path="/get-quote" component={GetAQuote} />
 
-          <Route exact path="/profile/maker" component={MakersProfile} />
-          <Route
-            exact
-            path="/account/makers-additionaldetails"
-            component={AdditionalDetailsFillUp}
-          />
-        </Switch>
+              <Route exact path="/profile/maker" component={MakersProfile} />
+              <Route exact path="/maker" component={Maker} />
+              <Route path="/profile/map" component={Map} />
+              <Route exact path="/profile/maker" component={MakersProfile} />
+              <Route
+                path="/makersDetailView"
+                component={MakersDetailViewPage}
+              />
+              <Route
+                exact
+                path="/account/makers-additionaldetails"
+                component={AdditionalDetailsFillUp}
+              />
+            </Switch>
+          </div>
+
+          <FooterContainer />
+        </div>
       </Router>
       <ReactToastify />
     </div>

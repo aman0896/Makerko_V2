@@ -18,15 +18,15 @@
   padding-bottom: 20px;
 }
 
-/* .heading {
-    color: #0000ff;
-    font-weight: bold;
-    text-align: center;
-} */
+.headingStyle {
+  color: #0000ff;
+  font-weight: bold;
+  text-align: center;
+}
 
-/* @media screen and (max-width: 600px) {
-  .heading {
+@media screen and (max-width: 600px) {
+  .headingStyle {
     text-align: center;
     font-size: 1.5rem;
   }
-} */
+}
