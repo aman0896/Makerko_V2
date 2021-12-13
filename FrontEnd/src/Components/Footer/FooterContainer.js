@@ -1,7 +1,9 @@
 import React from "react";
 import Footer from "./FooterIndex";
+import { Link, useHistory } from "react-router-dom";
 
 function FooterContainer() {
+    const history = useHistory();
     return (
         <Footer>
             <Footer.Wrapper>
@@ -15,9 +17,30 @@ function FooterContainer() {
                     </Footer.LogoColumn>
                     <Footer.Column>
                         <Footer.Title>Explore</Footer.Title>
-                        <Footer.Link>About</Footer.Link>
-                        <Footer.Link>Makers</Footer.Link>
-                        <Footer.Link>Projects</Footer.Link>
+                        <Footer.Link
+                            onClick={() => {
+                                history.push({
+                                    pathname: "/",
+                                    state: { toScroll: "aboutUs" },
+                                });
+                            }}
+                        >
+                            About
+                        </Footer.Link>
+                        <Footer.Link
+                            onClick={() => {
+                                history.push({ pathname: "/maker" });
+                            }}
+                        >
+                            Makers
+                        </Footer.Link>
+                        <Footer.Link
+                            onClick={() => {
+                                history.push({ pathname: "/projects" });
+                            }}
+                        >
+                            Projects
+                        </Footer.Link>
                         <Footer.Link>Blog</Footer.Link>
                         <Footer.Link>Get A Quote</Footer.Link>
                     </Footer.Column>

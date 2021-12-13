@@ -14,12 +14,12 @@ function Maker() {
         },
     };
 
-    const handleClick = (event) => {
-        if (event.target.dataset.name === "hub") {
-            console.log(event.target.dataset.name);
-            // history.push({pathname: "/"})
+    const handleClick = (redirect) => {
+        if (redirect === "hub") {
+            // console.log(event.target.dataset.name);
+            history.push({ pathname: "/maker/hub" });
         } else {
-            history.push({ pathname: "/profile/map" });
+            history.push({ pathname: "/makers/map" });
         }
     };
 
@@ -38,7 +38,7 @@ function Maker() {
                             className="label-overlay"
                             style={styles.responsiveHeight}
                             data-name="hub"
-                            onClick={handleClick}
+                            onClick={() => handleClick("hub")}
                         >
                             <label>Makers Hub</label>
                         </div>
@@ -53,7 +53,7 @@ function Maker() {
                             className="label-overlay"
                             style={styles.responsiveHeight}
                             data-name="map"
-                            onClick={handleClick}
+                            onClick={() => handleClick("map")}
                         >
                             <label>Makers map</label>
                         </div>

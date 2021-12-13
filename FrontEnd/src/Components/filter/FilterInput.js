@@ -5,6 +5,7 @@ import Grow from "@material-ui/core/Grow";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import InputComponent from "../input/InputComponent";
 
 export default function FilterInput(props) {
     const [filterValue, setFilterValue] = useState("");
@@ -74,10 +75,63 @@ export default function FilterInput(props) {
         }
     };
 
+    const onChangeText = (event) => {
+        filterSet(event);
+        props.handleToggle(event);
+    };
+
     const filterType = {
         string: (
             <div>
-                <input
+                <div class="input-group">
+                    <div class="form-outline">
+                        <InputComponent
+                            ref={props.anchorRef}
+                            id="composition-button"
+                            aria-controls={
+                                props.open ? "composition-menu" : undefined
+                            }
+                            aria-expanded={props.open ? "true" : undefined}
+                            aria-haspopup="true"
+                            type="text"
+                            placeholder="Search"
+                            className="mapSearch form-control"
+                            onChangeText={(event) => {
+                                onChangeText(event);
+                            }}
+                            height={40}
+                            value={filterValue}
+                        />
+                        {/* <input
+                            ref={props.anchorRef}
+                            id="composition-button"
+                            aria-controls={
+                                props.open ? "composition-menu" : undefined
+                            }
+                            aria-expanded={props.open ? "true" : undefined}
+                            aria-haspopup="true"
+                            type="text"
+                            placeholder="Search"
+                            className="mapSearch form-control"
+                            onChange={(event) => {
+                                filterSet(event);
+                                props.handleToggle(event);
+                            }}
+                            value={filterValue}
+                        /> */}
+                    </div>
+                    {/* <button
+                        type="button"
+                        class="btn btn-white"
+                        style={{
+                            position: "absolute",
+                            right: "0",
+                        }}
+                    >
+                        <i class="fas fa-search" style={{ opacity: 0.7 }}></i>
+                    </button> */}
+                </div>
+                {/* <input
                     ref={props.anchorRef}
                     id="composition-button"
                     aria-controls={props.open ? "composition-menu" : undefined}
@@ -91,7 +145,7 @@ export default function FilterInput(props) {
                         props.handleToggle(event);
                     }}
                     value={filterValue}
-                />
+                /> */}
                 {/* <Popper
                     open={open}
                     anchorEl={anchorRef.current}

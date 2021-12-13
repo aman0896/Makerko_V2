@@ -453,7 +453,7 @@ export default function MakersDetailViewPage() {
                     />
                 </>
                 <>
-                    <div className="mb-4">
+                    <div className="pb-4">
                         <b>Rate this Manufactoring Hub</b>
                         <label>Tell others what you think</label>
                         <StarRating

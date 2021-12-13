@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef, useEffect, useRef } from "react";
 import Carousel from "../../Components/LandingPage/Carousel";
 import data from "../../config/Data.json";
 import MakerkoGIF from "../../Components/LandingPage/MakerkoGIF";
@@ -11,9 +11,27 @@ import "./Main.css";
 import partners from "../../config/Partners.json";
 import PartnersAndCollaboration from "../../Components/LandingPage/PartnersAndCollaboration";
 import Button, { Button2 } from "../../Components/Button";
+import { useHistory, useLocation } from "react-router-dom";
 
 function Main() {
+    const history = useHistory();
+    const location = useLocation();
+    console.log(location, "location");
     const slides = data;
+    const aboutRef = useRef(null);
+
+    useEffect(() => {
+        if (location.state && location.state.toScroll === "aboutUs")
+            scrollFunction();
+    }, []);
+
+    const scrollFunction = () => {
+        if (aboutRef) console.log(aboutRef, "current offset");
+        window.scrollTo({
+            top: aboutRef.current.offsetTop - 50,
+            behavior: "smooth",
+        });
+    };
     return (
         <div>
             <Carousel slides={slides} />
@@ -56,7 +74,13 @@ function Main() {
                             services, materials and rates by visiting their
                             portfolio.
                         </p>
-                        <Button2 type="button" buttonSize="button2--medium">
+                        <Button2
+                            type="button"
+                            buttonSize="button2--medium"
+                            onClick={() => {
+                                history.push({ pathname: "/maker" });
+                            }}
+                        >
                             <span>Explores </span>
                             <span style={{ color: colors.primary }}>
                                 MAKERS
@@ -78,7 +102,13 @@ function Main() {
                             innovators and makers are applying manufacturing
                             technologies to bring good to humanity.
                         </p>
-                        <Button2 type="button" buttonSize="button2--medium">
+                        <Button2
+                            type="button"
+                            buttonSize="button2--medium"
+                            onClick={() => {
+                                history.push({ pathname: "/projects" });
+                            }}
+                        >
                             <span>View </span>
                             <span style={{ color: colors.primary }}>
                                 PROJECTS
@@ -91,7 +121,7 @@ function Main() {
                     </div>
                 </div>
             </div>
-            <AboutUs data={aboutUs} />
+            <AboutUs ref={aboutRef} data={aboutUs} />
             <div className="main-quote">
                 <img
                     style={{
