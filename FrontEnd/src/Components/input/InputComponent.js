@@ -25,7 +25,7 @@ export default function InputComponent(props) {
       name: props.name,
       value: event.target.value,
     };
-    props.handleChange(data);
+    if (props.handleChange) props.handleChange(data);
   };
 
   return (
