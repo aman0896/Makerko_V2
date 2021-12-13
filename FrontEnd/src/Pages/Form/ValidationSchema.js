@@ -104,3 +104,29 @@ export const GetAQuoteValidationSchema = Yup.object().shape({
     quantity: Yup.string().required("Quantity is required"),
     file: Yup.object().required("No file Uploaded"),
 });
+
+//maker profile validation schema
+export const ValidationSchemaMakerProfile = Yup.object().shape({
+    companyName: Yup.string().required("First Name is required"),
+    phoneNumber: Yup.string().required("Phone Number is required"),
+    address: Yup.string().required("Address is required"),
+    contactPerson: Yup.string().required("Contact Person Name is required"),
+    email: Yup.string().required("Email is required").email("Invalid Email"),
+    companyStatus: Yup.object().required("Company Status is required."),
+
+    website: Yup.string().matches(
+        /(https?:\/\/)?(www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)|(https?:\/\/)?(www\.)?(?!ww)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/,
+        "Invalid Website"
+    ),
+    brief_description: Yup.string().required("Brief Description is required"),
+    additional_details: Yup.string().required("Additional Details is required"),
+});
+
+export const ValidationSchemaCustomerProfile = Yup.object().shape({
+    firstName: Yup.string().required("First Name is required"),
+    lastName: Yup.string().required("Last Name is required"),
+    phoneNumber: Yup.string().required("Phone Number is required"),
+    address: Yup.string().required("Address is required"),
+    email: Yup.string().required("Email is required").email("Invalid Email"),
+    bio: Yup.string().required("Bio is required"),
+});

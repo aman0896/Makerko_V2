@@ -41,3 +41,29 @@ export const createProject = "project/create";
 
 //dropzone file-drop
 export const dropzone = "dropzone/file-drop";
+
+//fabrication method
+export const fabricationMethod = "process/fabricationMethod";
+
+//material
+export const material = "process/material";
+
+//update services
+export const makersServices = "account/services/:id";
+
+//get services
+export const getMakersServices = "account/service";
+//file delete
+export const fileDelete = "dropzone/file-delete";
+
+//get a quote
+export const getAQuote = "quote/get-quote";
+
+//custoemr profile edit
+export const customerProfileEdit = "profile/customer-edit";
+
+//maker profile edit
+export const makerProfileEdit = "profile/maker-edit";
+
+//file download
+export const download = "download";

@@ -14,6 +14,10 @@ const db = mysql.createConnection({
     host: "localhost",
     password: "123456",
     database: "makerko",
+    // user: 'root',
+    // host: 'localhost',
+    // password: 'fabhubs',
+    // database: 'fabhubsdb',
 });
 
 db.connect((err) => {
