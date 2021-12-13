@@ -51,12 +51,12 @@ const Lists = () => {
                 />
 
                 <div
-                  className="col-lg-7 pr-5 rounded-right"
+                  className="col-lg-7 pr-5 pt-3 rounded-right"
                   style={{ backgroundColor: "#0000FF" }}
                 >
                   <span
-                    className="text-left text-white pb-1 sub-heading"
-                    style={{ fontSize: "18px" }}
+                    className="text-left text-white sub-heading"
+                    style={{ fontSize: "18px"}}
                   >
                     {data.name}
                   </span>
