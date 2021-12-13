@@ -14,6 +14,7 @@ import Signup from "../Pages/Signup";
 import VerificationSuccess from "../Pages/VerificationSuccess";
 import FileUpload from "../Test/FileUpload";
 import MakersProfile from "../Pages/Profile/MakersProfile";
+import MakerkoHubList from "../Pages/ListPage";
 
 function Routing({ isAuth, currentUser, userType }) {
     return (
@@ -27,6 +28,7 @@ function Routing({ isAuth, currentUser, userType }) {
                 <Switch>
                     {/* <Main /> */}
                     <Route exact path="/" component={Main} />
+                    <Route exact path="/makerko-hub" component={MakerkoHubList} />
                     <Route exact path="/account/login" component={Login} />
                     <Route exact path="/account/signup" component={Signup} />
                     <Route
