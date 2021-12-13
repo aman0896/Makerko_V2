@@ -57,5 +57,8 @@ export const getAQuote = "quote/get-quote";
 //custoemr profile edit
 export const customerProfileEdit = "profile/customer-edit";
 
+//maker profile edit
+export const makerProfileEdit = "profile/maker-edit";
+
 //file download
 export const download = "download";
