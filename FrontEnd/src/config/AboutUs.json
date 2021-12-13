@@ -1,22 +1,18 @@
 [
   {
-    "Service_ID": 1,
-    "Manufacturer_ID": "8a918447b764169b681f72a3ae2950f6",
-
-    "selectedMaterial": {
-      "Material_ID": 1,
-      "Material_Name": "PLA",
-      "Service_ID": 1
-    },
-
-    "thickness": "-",
-    "costUnit": {
-      "value": 1,
-      "label": "Gram"
-    },
-
-    "unitRate": "12",
-    "MoQ": "10",
-    "leadTime": "2"
+    "image": "https://live.staticflickr.com/4561/38054606355_26429c884f_b.jpg",
+    "name": "Local Production"
+  },
+  {
+    "image": "https://live.staticflickr.com/4561/38054606355_26429c884f_b.jpg",
+    "name": "Collaborative Manufacturing"
+  },
+  {
+    "image": "https://live.staticflickr.com/4561/38054606355_26429c884f_b.jpg",
+    "name": "Design & Prototyping Support"
+  },
+  {
+    "image": "https://live.staticflickr.com/4561/38054606355_26429c884f_b.jpg",
+    "name": "Design Challenges"
   }
 ]

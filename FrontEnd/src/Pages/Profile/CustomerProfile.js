@@ -30,7 +30,8 @@ function CustomerProfile() {
 
   useEffect(() => {
     async function GetProfileImage() {
-      if (currentUserData) {
+      if (currentUserData && currentUserData.Profile_Image) {
+        console.log(currentUserData.Profile_Image, "image");
         const imageData = JSON.parse(currentUserData.Profile_Image);
         const imageBlob = await FileDownload(imageData.filePath);
         const profileImageUrl = window.URL.createObjectURL(

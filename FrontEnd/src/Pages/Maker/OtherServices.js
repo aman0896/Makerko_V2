@@ -164,6 +164,9 @@ export const ViewFabData = ({ fabData, setFabData, getData }) => {
     console.log("new", tempFabData);
   };
   var dataList;
+  {
+    console.log(fabData, "fabdataaaa");
+  }
   if (fabData) {
     dataList = fabData.map((item, index) => {
       return (

@@ -51,6 +51,9 @@ export const material = "process/material";
 //update services
 export const makersServices = "account/services/:id";
 
+//update services
+export const makersAdditionalDetails = "account/maker-additional-details";
+
 //get services
 export const getMakersServices = "account/service";
 //file delete

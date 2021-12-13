@@ -19,7 +19,7 @@ function SingleFileUpload(fieldName, filePath) {
 }
 
 //multiple file uploads
-function MultipleFileUpload(fieldName, path) {
+function MultipleFileUpload(fieldName, filepath) {
   var storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, "./public/temp/");
@@ -32,18 +32,18 @@ function MultipleFileUpload(fieldName, path) {
   return upload;
 }
 
-//multiple field uploads
-function MultipleFieldUpload(fieldData) {
-  var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, "./public/temp/");
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.fieldname + Date.now() + path.extname(file.originalname));
-    },
-  });
-  const upload = multer({ storage: storage }).fields(fieldData);
-  return upload;
-}
+// //multiple field uploads
+// function MultipleFieldUpload(fieldData) {
+//   var storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, "./public/temp/");
+//     },
+//     filename: function (req, file, cb) {
+//       cb(null, file.fieldname + Date.now() + path.extname(file.originalname));
+//     },
+//   });
+//   const upload = multer({ storage: storage }).fields(fieldData);
+//   return upload;
+// }
 
 module.exports = { SingleFileUpload, MultipleFileUpload };
