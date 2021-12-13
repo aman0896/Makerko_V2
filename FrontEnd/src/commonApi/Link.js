@@ -48,5 +48,8 @@ export const fabricationMethod = "process/fabricationMethod";
 //material
 export const material = "process/material";
 
-//services
+//update services
 export const makersServices = "account/services/:id";
+
+//get services
+export const getMakersServices = "account/service";
