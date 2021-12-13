@@ -1,13 +1,14 @@
 import Axios from "axios";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { postDataWithCofig } from "../../commonApi/CommonApi";
-import { dropzone } from "../../commonApi/Link";
+import { deleteData, postDataWithCofig } from "../../commonApi/CommonApi";
+import { dropzone, fileDelete } from "../../commonApi/Link";
 import "./DropZone.css";
 import Alert from "../Alert";
 import Progressbar from "../Progressbar";
 import ErrorMessage from "../formik/ErrorMessage";
 import { colors } from "../../Values/colors";
+import { Toast } from "../ReactToastify";
 
 const path = require("path");
 
@@ -22,9 +23,6 @@ function DropZone({
   handleBlur,
   label,
 }) {
-  const [errorMessage, setErrorMessage] = useState(alert.message);
-  const [alertType, setAlertType] = useState(alert.type);
-  //const [uploadedFiles, setUploadedFiles] = useState([]);
   const [percentage, setUploadPercentage] = useState(0);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [isUpload, setIsUpload] = useState(false);
@@ -36,9 +34,6 @@ function DropZone({
   const onDropAccepted = (acceptedFiles) => {
     setUploadComplete(false);
     setIsUpload(true);
-    // setMessage("");
-
-    console.log(acceptedFiles[0], "file");
 
     const formData = new FormData();
     formData.append("file", acceptedFiles[0]);
@@ -58,36 +53,6 @@ function DropZone({
         },
         (onFail) => {}
       );
-
-      // Axios.post(`${window.host}/upload`, formData, {
-      //     headers: {
-      //         "Content-Type": "multipart/form-data",
-      //     },
-      //     onUploadProgress: (progressEvent) => {
-      //         setUploadPercentage(
-      //             parseInt(
-      //                 Math.round(
-      //                     (progressEvent.loaded * 100) /
-      //                         progressEvent.total
-      //                 )
-      //             )
-      //         );
-      //     },
-      // }).then((response) => {
-      //     setUploadPercentage(0);
-      //     if (response.data.msg) {
-      //         const { fileName, filePath, msg, oldFileName } =
-      //             response.data;
-      //         setUploadedFile({ fileName, filePath, oldFileName });
-      //         setMessage(msg);
-      //         setAlertType("alert-danger");
-      //     } else {
-      //         setUploadComplete(true);
-      //         const { fileName, filePath, oldFileName } = response.data;
-      //         setUploadedFile({ fileName, filePath, oldFileName });
-      //         parentCallback({ fileName, filePath });
-      //     }
-      // });
     } catch (e) {
       console.log(e);
     }
@@ -95,43 +60,39 @@ function DropZone({
 
   const onDropRejected = (rejectedFiles) => {
     var errorMsg = rejectedFiles[0].errors[0].code;
-    setErrorMessage(errorMsg);
-    setAlertType("alert-danger");
-    console.log(rejectedFiles);
+    Toast(errorMsg, "error");
   };
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    // disabled: accept ? false : true,
-    // accept: accept,
+    disabled: accept ? false : true,
+    accept: accept,
     maxFiles: 1,
-    // maxSize: 15 * 1000 * 1000,
+    maxSize: 15 * 1000 * 1000,
     onDropAccepted,
     onDropRejected,
+
     onFileDialogCancel: () => {
       handleBlur(name);
     },
   });
 
-  // const onBtnRemove = (file) => {
-  //     const { fileName, filePath, oldFileName } = uploadedFile;
-  //     console.log(uploadedFile);
-  //     if (fileName === file.name || oldFileName === file.name) {
-  //         Axios.post(`${window.host}/delete`, {
-  //             filePath: filePath,
-  //         }).then((response) => {
-  //             if (response.data) {
-  //                 const { msg, removed } = response.data;
-  //                 if (removed) {
-  //                     setMessage(msg);
-  //                     setAlertType("alert-success");
-  //                     setIsUpload(false);
-  //                 } else {
-  //                     setMessage(msg);
-  //                 }
-  //             }
-  //         });
-  //     }
-  // };
+  const onBtnRemove = (file) => {
+    const { originalname, size, path } = uploadedFile;
+
+    if (originalname === file.name && size === file.size) {
+      deleteData(
+        fileDelete,
+        path,
+        (onSuccess) => {
+          if (onSuccess.data.filedelete === "success") {
+            Toast("File Deleted", "success");
+            setIsUpload(false);
+          }
+        },
+        (onFail) => {}
+      );
+    }
+  };
 
   const files = acceptedFiles.map((file, index) => (
     <div
@@ -161,9 +122,9 @@ function DropZone({
         <button
           type="button"
           className="close"
-          // onClick={() => {
-          //     onBtnRemove(file, index);
-          // }}
+          onClick={() => {
+            onBtnRemove(file);
+          }}
         >
           <div area-hidden="true">&times;</div>
         </button>
@@ -173,7 +134,6 @@ function DropZone({
 
   return (
     <>
-      {label && <label>{label}</label>}
       <div className="row m-auto mt-4">
         <div className="col-sm">
           <div
@@ -195,7 +155,7 @@ function DropZone({
                 <p>
                   <span className="font-weight-bold">Supported files:</span>
                   <br />
-                  "Select the Fabrication Process"
+                  {accept ? accept : "Select the Method from the box first"}
                   <br />
                   {requirementNote}
                 </p>

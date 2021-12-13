@@ -1,24 +1,24 @@
 [
     {
-        "id": 1,
+        "Manufacturer_ID": 1,
         "image": "https://wallpapercave.com/wp/wp2671918.jpg",
         "name": "Lambogini",
         "description": "Hello world"
     },
     {
-        "id": 2,
+        "Manufacturer_ID": 2,
         "image": "https://wallpapercave.com/wp/wp2671918.jpg",
         "name": "Lambogini",
         "description": "Hello world"
     },
     {
-        "id": 3,
+        "Manufacturer_ID": 3,
         "image": "https://wallpapercave.com/wp/wp2671918.jpg",
         "name": "Lambogini",
         "description": "Hello world"
     },
     {
-        "id": 4,
+        "Manufacturer_ID": 4,
         "image": "https://wallpapercave.com/wp/wp2671918.jpg",
         "name": "Lambogini",
         "description": "Hello world"

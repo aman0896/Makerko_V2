@@ -9,6 +9,8 @@ import Card from "../Components/Card";
 import { colors } from "../Values/colors";
 import { Toast } from "../Components/ReactToastify";
 import { useSelector } from "react-redux";
+import { postData } from "../commonApi/CommonApi";
+import { getAQuote } from "../commonApi/Link";
 
 const InitialValues = {
     method: "",
@@ -26,13 +28,19 @@ function GetAQuote() {
     const [selectedCard, setSelectedCard] = useState();
     const methods = useSelector((state) => state.method.method);
     const materials = useSelector((state) => state.material.material);
+    const currentUserData = useSelector(
+        (state) => state.currentUserdata.currentUserdata
+    );
     const [filteredMaterial, setFilteredMaterial] = useState();
     const [selectedMaterial, setSelectedMaterial] = useState();
     const [selectedMethod, setSelectedMethod] = useState();
+    const [acceptedFiles, setAcceptedFiles] = useState();
 
     const onMethodSelect = (method) => {
         formRef.current.setFieldValue("method", method);
         setSelectedMethod(method);
+        console.log(method, "methods");
+        setAcceptedFiles(method.Accepted_Files);
         const filteredMaterial = materials.filter(
             (material) => material.Service_ID === method.Service_ID
         );
@@ -78,8 +86,10 @@ function GetAQuote() {
     };
 
     const list = hubListData.map((hub, index) => {
-        console.log(selectedCard, "card");
-        if (selectedCard && selectedCard.id === hub.id) {
+        if (
+            selectedCard &&
+            selectedCard.Manufacturer_ID === hub.Manufacturer_ID
+        ) {
             var selected = true;
         } else {
             selected = false;
@@ -114,8 +124,28 @@ function GetAQuote() {
         if (orderType === null || orderType === undefined) {
             return;
         }
-        console.log(orderType, "ordertype");
-        console.log(values, "values");
+        const process = {
+            method: values.method,
+            material: values.material,
+            thickness: values.thickness,
+            quantity: values.quantity,
+        };
+        const data = {
+            process,
+            orderType,
+            maker: selectedCard,
+            currentUserData,
+            file: values.file,
+        };
+        postData(
+            getAQuote,
+            data,
+            (onSuccess) => {
+                Toast(onSuccess.data.message, "success");
+                console.log(onSuccess, "success");
+            },
+            (onFail) => {}
+        );
     };
     return (
         <WrapperComponent>
@@ -178,11 +208,8 @@ function GetAQuote() {
                         name="file"
                         label="Upload File"
                         control="dropzone"
-                        // accept={this.state.acceptedFiles}
-                        // requirementNote="File size < 15 MB"
-                        // user={this.state.user}
-                        // error={this.state.errMsg}
-                        // fileUpload={this.state.fileUpload}
+                        accept={acceptedFiles}
+                        requirementNote="File size < 15 MB"
                     />
                 </div>
                 <div className="row mt-5 mx-auto heading">Select your hub</div>

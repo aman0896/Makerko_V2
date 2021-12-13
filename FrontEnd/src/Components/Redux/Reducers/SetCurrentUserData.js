@@ -1,10 +1,10 @@
 import { SET_CURRENT_USERDATA } from "../Actions/Types";
 
-const initialSates = {
+const initialStates = {
     currentUserdata: null,
 };
 
-export const SetCurrentUserdata = (state = initialSates, action) => {
+export const SetCurrentUserdata = (state = initialStates, action) => {
     switch (action.type) {
         case SET_CURRENT_USERDATA:
             return {

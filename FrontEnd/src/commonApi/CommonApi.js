@@ -110,3 +110,52 @@ export function patchData(link, data, params, onSuccess, onFail) {
       onFail(err);
     });
 }
+
+// delete with param api
+export function deleteData(link, params, onSuccess, onFail) {
+    var config = {
+        method: "delete",
+        url: mainHost + link,
+        params: { path: params },
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    Axios(config)
+        .then((res) => res)
+        .then((res) => {
+            onSuccess(res);
+        })
+        .catch((err) => {
+            onFail(err);
+        });
+}
+
+//#region filedownolad Link Generate Api
+export const FileDownload = async (filePath) => {
+    var data = JSON.stringify({
+        filedir: filePath,
+    });
+
+    var config = {
+        method: "post",
+        responseType: "blob",
+        url: "http://localhost:3001/download",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        data: data,
+    };
+
+    const fileData = await Axios(config)
+        .then(function (response) {
+            return response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+    return fileData;
+};
+//#endregion

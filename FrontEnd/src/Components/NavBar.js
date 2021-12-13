@@ -24,12 +24,6 @@ function NavBar({ isAuth, currentUser, userType }) {
     (state) => state.currentUserdata.currentUserdata
   );
 
-  useEffect(() => {
-    if (isAuth) {
-      CurrentUserdata(dispatch, currentUser);
-    }
-  }, []);
-
   const handleChangePath = (event) => {
     setPath(event.target.dataset.name);
   };

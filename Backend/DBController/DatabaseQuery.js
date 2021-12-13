@@ -2,7 +2,6 @@ const db = require("../DBController/DBConnect");
 
 //DBQuery with Data
 function DBQuery(sqlQuery, data, callback) {
-    console.log("db check");
     db.query(sqlQuery, data, (err, result) => {
         if (err) {
             return callback(err, null);

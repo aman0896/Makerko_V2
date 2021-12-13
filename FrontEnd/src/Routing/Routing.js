@@ -30,9 +30,9 @@ function Routing({ isAuth, currentUser, userType }) {
         <div className="d-flex flex-column min-vh-100">
           <div className="wrapper flex-grow-1">
             <NavBar
-              isAuth={isAuth}
-              currentUser={currentUser}
-              userType={userType}
+              isAuth={auth.isAuth}
+              currentUser={auth.currentUser}
+              userType={auth.userType}
             />
             <Switch>
               <Route exact path="/" component={Main} />
@@ -57,15 +57,19 @@ function Routing({ isAuth, currentUser, userType }) {
               <Route exact path="/file" component={FileUpload} />
               <Route
                 exact
-                path="/profile/customer"
+                path="/profile/customer/edit"
                 component={CustomerProfile}
               />
               <Route exact path="/get-quote" component={GetAQuote} />
 
-              <Route exact path="/profile/maker" component={MakersProfile} />
+              <Route
+                exact
+                path="/profile/maker/edit"
+                component={MakersProfile}
+              />
               <Route exact path="/maker" component={Maker} />
               <Route path="/profile/map" component={Map} />
-              <Route exact path="/profile/maker" component={MakersProfile} />
+
               <Route
                 path="/makersDetailView"
                 component={MakersDetailViewPage}

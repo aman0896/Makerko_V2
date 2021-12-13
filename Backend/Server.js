@@ -68,6 +68,10 @@ app.use("/dropzone", DropZone);
 
 const Process = require("./routes/Process");
 app.use("/process", Process);
+
+const Quote = require("./routes/Quote");
+const FileDownload = require("./Utils/FileDownload");
+app.use("/quote", Quote);
 //#endregion
 
 //Serve the static files from the React app
@@ -82,6 +86,18 @@ const root = path.join(projectPath, "build");
 // app.get('*', (req, res) => {
 //     res.sendFile('index.html', { root });
 // });
+
+// Start download any File or images
+app.post("/download", async function (req, res) {
+    const path = req.body.filedir;
+    const filedir = `${path}`;
+    const file = await FileDownload(filedir);
+    if (file) {
+        res.download(file); // Set disposition and send it.
+        return;
+    }
+});
+// End download any File or images
 
 server.listen(3001, () => {
     console.log("running server");

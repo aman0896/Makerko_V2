@@ -12,5 +12,4 @@ const allReducers = combineReducers({
   currentUserdata: SetCurrentUserdata,
   mfgProcess: SetMfgProcess,
 });
-
 export default allReducers;
