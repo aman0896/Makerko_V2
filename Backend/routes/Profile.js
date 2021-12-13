@@ -53,4 +53,51 @@ router.post("/customer-edit", (req, res) => {
     });
 });
 
+router.post("/maker-edit", (req, res) => {
+    const upload = SingleFileUpload("profileImage", null);
+    upload(req, res, async (err) => {
+        const imageFile = req.file;
+        const userDetails = JSON.parse(req.body.currentUser);
+        const userUpdateDetails = JSON.parse(req.body.userUpdates);
+        console.log(imageFile, userDetails, userUpdateDetails, "details");
+        const dir = `./public/uploads/maker/${userDetails.Manufacturer_ID}/${imageFile.fieldname}/`;
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+
+        if (err) {
+            console.log(err, "error");
+        } else {
+            let tmp_path = imageFile.path;
+            let target_path = dir + imageFile.filename;
+            const filePath = await FileMove(tmp_path, target_path);
+            const sqlQuery =
+                "UPDATE manufacturer SET Company_Name=?, Logo=?, Contact_Person=?,Email=?,Phone_Number=?, Address = ?, Brief_Description = ?, Additional_Details = ? WHERE Manufacturer_ID = ?";
+            const data = [
+                userUpdateDetails.companyName,
+                JSON.stringify({
+                    filename: imageFile.filename,
+                    filePath: filePath,
+                }),
+                userUpdateDetails.contactPerson,
+                userUpdateDetails.email,
+                userUpdateDetails.phoneNumber,
+                userUpdateDetails.address,
+                userUpdateDetails.briefDescription,
+                userUpdateDetails.additionalDetails,
+
+                userDetails.Manufacturer_ID,
+            ];
+            DBQuery(sqlQuery, data, (err, result) => {
+                if (err) {
+                    return console.log(err, "update maker profile error");
+                } else {
+                    res.json(result);
+                    return;
+                }
+            });
+        }
+    });
+});
+
 module.exports = router;
