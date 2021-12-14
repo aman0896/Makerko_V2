@@ -54,4 +54,4 @@ function MultipleFieldUpload(fieldData) {
     return upload;
 }
 
-module.exports = { SingleFileUpload, MultipleFileUpload };
+module.exports = { SingleFileUpload, MultipleFileUpload, MultipleFieldUpload };
