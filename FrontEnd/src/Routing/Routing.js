@@ -23,9 +23,12 @@ import Map from "../Pages/Map/Map";
 import Maker from "../Pages/Profile/Maker";
 import MakersHub from "../Pages/Profile/MakersHub";
 import Projects from "../Pages/FeatureProject/Projects";
+import ProtectedRoute from "./PrivateRoute";
 
 function Routing({ isAuth, currentUser, userType }) {
     const auth = useSelector((state) => state.isAuth);
+    console.log("Auth");
+    console.log(auth, "Auth");
     return (
         <div>
             <Router>
@@ -63,28 +66,73 @@ function Routing({ isAuth, currentUser, userType }) {
                                 path="/verify-success"
                                 component={VerificationSuccess}
                             />
-                            <Route
+
+                            <ProtectedRoute
+                                path="/CreateFeatureProject"
+                                exact
+                                component={CreateFeatureProject}
+                                isAuth={auth.isAuth}
+                                redirectionPage="/"
+                            />
+                            {/* <Route
                                 exact
                                 path="/new-project"
                                 component={CreateFeatureProject}
+                            /> */}
+                            {/* <Route exact path="/file" component={FileUpload} /> */}
+                            <ProtectedRoute
+                                path="/profile/customer/edit"
+                                exact
+                                component={CustomerProfile}
+                                isAuth={auth.isAuth}
+                                redirectionPage="/"
                             />
-                            <Route exact path="/file" component={FileUpload} />
-                            <Route
+                            <ProtectedRoute
+                                path="/get-quote"
+                                exact
+                                component={GetAQuote}
+                                isAuth={auth.isAuth}
+                                redirectionPage="/"
+                            />
+                            <ProtectedRoute
+                                path="/profile/makers/edit"
+                                exact
+                                component={MakersProfile}
+                                isAuth={auth.isAuth}
+                                redirectionPage="/"
+                            />
+                            {/* <ProtectedRoute
+                                path="/makers/hub"
+                                exact
+                                component={MakersHub}
+                                isAuth={auth.isAuth}
+                                redirectionPage="/"
+                            /> */}
+                            <ProtectedRoute
+                                path="/profile/makers/additionaldetails"
+                                exact
+                                component={AdditionalDetailsFillUp}
+                                isAuth={auth.isAuth}
+                                redirectionPage="/"
+                            />
+
+                            {/* <Route
                                 exact
                                 path="/profile/customer/edit"
                                 component={CustomerProfile}
-                            />
-                            <Route
+                            /> */}
+
+                            {/* <Route
                                 exact
                                 path="/get-quote"
                                 component={GetAQuote}
-                            />
+                            /> */}
 
-                            <Route
+                            {/* <Route
                                 exact
                                 path="/profile/makers/edit"
                                 component={MakersProfile}
-                            />
+                            /> */}
                             <Route
                                 exact
                                 path="/makers/hub"
@@ -97,11 +145,11 @@ function Routing({ isAuth, currentUser, userType }) {
                                 path="/makers/details"
                                 component={MakersDetailViewPage}
                             />
-                            <Route
+                            {/* <Route
                                 exact
                                 path="/account/makers-additionaldetails"
                                 component={AdditionalDetailsFillUp}
-                            />
+                            /> */}
                             <Route
                                 exact
                                 path="/projects"

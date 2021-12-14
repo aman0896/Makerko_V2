@@ -65,6 +65,9 @@ export const customerProfileEdit = "profile/customer-edit";
 //maker profile edit
 export const makerProfileEdit = "profile/maker-edit";
 
+// maker password edit
+export const makerPasswordEdit = "profile/maker-password-edit";
+
 // makers list
 export const makersList = "account/makers";
 

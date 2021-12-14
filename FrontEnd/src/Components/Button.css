@@ -91,6 +91,7 @@
 }
 
 .button2-container--medium {
+    background-color: var(--white);
     width: 154px;
     height: 42px;
     border: 1px solid var(--dark);
@@ -117,6 +118,7 @@
 }
 
 .button2-container--large {
+    background-color: var(--white);
     width: 270px;
     height: 60px;
     border: 1px solid var(--dark);
@@ -124,6 +126,7 @@
 }
 
 .button2-sub-container--large {
+    background-color: var(--white);
     margin-left: 2px;
     margin-top: -4px;
     width: 270px;

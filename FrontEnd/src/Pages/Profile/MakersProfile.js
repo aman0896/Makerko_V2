@@ -342,7 +342,9 @@ function MakersProfile() {
                         </div>
                     </FormikComponent>
 
-                    <ChangePasswordComponent />
+                    <ChangePasswordComponent
+                        id={currentUserData.Manufacturer_ID}
+                    />
                 </>
             )}
         </div>
