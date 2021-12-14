@@ -82,15 +82,15 @@ function Routing({ isAuth, currentUser, userType }) {
 
                             <Route
                                 exact
-                                path="/profile/maker/edit"
+                                path="/profile/makers/edit"
                                 component={MakersProfile}
                             />
                             <Route
                                 exact
-                                path="/maker/hub"
+                                path="/makers/hub"
                                 component={MakersHub}
                             />
-                            <Route exact path="/maker" component={Maker} />
+                            <Route exact path="/makers" component={Maker} />
                             <Route path="/makers/map" component={Map} />
 
                             <Route

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import CardViewVerticalComponent from "../../Components/card/CardViewVerticalComponent";
 
@@ -31,6 +32,8 @@ const hub = [
 function MakersHub() {
     const history = useHistory();
     const [hubs, setHubs] = useState(null);
+    const makersList = useSelector((state) => state.makersList.makersList);
+    console.log(makersList);
 
     useEffect(() => {
         setHubs(hub);

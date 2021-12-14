@@ -17,7 +17,7 @@ function Maker() {
     const handleClick = (redirect) => {
         if (redirect === "hub") {
             // console.log(event.target.dataset.name);
-            history.push({ pathname: "/maker/hub" });
+            history.push({ pathname: "/makers/hub" });
         } else {
             history.push({ pathname: "/makers/map" });
         }

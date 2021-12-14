@@ -29,7 +29,7 @@ function FooterContainer() {
                         </Footer.Link>
                         <Footer.Link
                             onClick={() => {
-                                history.push({ pathname: "/maker" });
+                                history.push({ pathname: "/makers" });
                             }}
                         >
                             Makers

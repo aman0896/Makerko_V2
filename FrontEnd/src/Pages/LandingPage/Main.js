@@ -23,12 +23,12 @@ function Main() {
     useEffect(() => {
         if (location.state && location.state.toScroll === "aboutUs")
             scrollFunction();
-    }, []);
+    }, [location]);
 
     const scrollFunction = () => {
         if (aboutRef) console.log(aboutRef, "current offset");
         window.scrollTo({
-            top: aboutRef.current.offsetTop - 50,
+            top: aboutRef.current.offsetTop - 80,
             behavior: "smooth",
         });
     };
@@ -121,7 +121,7 @@ function Main() {
                     </div>
                 </div>
             </div>
-            <AboutUs ref={aboutRef} data={aboutUs} />
+            <AboutUs aboutRef={aboutRef} data={aboutUs} />
             <div className="main-quote">
                 <img
                     style={{

@@ -79,9 +79,9 @@ function NavBar({ isAuth, currentUser, userType }) {
                                     : "whiteNavbar-links"
                             }
                             onClick={handleChangePath}
-                            to={{ pathname: "/maker" }}
+                            to={{ pathname: "/makers" }}
                         >
-                            <label data-name="/maker">MAKERS</label>
+                            <label data-name="/makers">MAKERS</label>
                         </Link>
                     </li>
                     <li>
@@ -217,7 +217,7 @@ function ProfileAvatarLogout({
 
     const onClickEdit_MakerProfile = (event) => {
         handleChangePath(event);
-        history.push({ pathname: "/profile/maker/edit" });
+        history.push({ pathname: "/profile/makers/edit" });
     };
 
     const onclickLogout = () => {

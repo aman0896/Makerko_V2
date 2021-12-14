@@ -10,6 +10,7 @@ import { IS_AUTH } from "./Components/Redux/Actions/Types";
 import { FabricationMethod } from "./Components/Redux/Actions/FabricationMethod";
 import { Material } from "./Components/Redux/Actions/Material";
 import { CurrentUserdata } from "./Components/Redux/Actions/CurrentUserdata";
+import { MakersList } from "./Components/Redux/Actions/MakersList";
 
 function App() {
     const dispatch = useDispatch();
@@ -65,6 +66,9 @@ function App() {
 
         //gett material
         Material(dispatch);
+
+        // get all makers list
+        MakersList(dispatch);
     }, []);
 
     return (

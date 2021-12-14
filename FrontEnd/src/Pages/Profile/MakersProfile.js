@@ -47,14 +47,15 @@ function MakersProfile() {
     console.log(currentUserData);
     const [profileImage, setProfileImage] = useState();
     const [profileImagePreview, setProfileImagePreview] = useState();
+    const [prevProfileImage, setPrevProfileImage] = useState();
 
     const companyStatus = [
         {
-            value: 1,
+            value: "Registered Company",
             type: "Registered Company",
         },
         {
-            value: 2,
+            value: "Individual/Hobbyist",
             type: "Individual/Hobbyist",
         },
     ];
@@ -89,6 +90,7 @@ function MakersProfile() {
         const formData = new FormData();
         formData.append("userUpdates", JSON.stringify(values));
         formData.append("currentUser", JSON.stringify(currentUserData));
+        formData.append("prevImage", prevProfileImage);
         formData.append("profileImage", profileImage);
         postDataWithFormData(
             makerProfileEdit,
@@ -110,6 +112,7 @@ function MakersProfile() {
                     new Blob([imageBlob])
                 );
                 setProfileImagePreview(profileImageUrl);
+                setPrevProfileImage(currentUserData.Logo);
             }
         }
 
@@ -186,7 +189,10 @@ function MakersProfile() {
                                     label="Company Status"
                                     options={companyStatus}
                                     getOptionLabel={(options) => options.type}
-                                    setInitial={currentUserData.Company_Type}
+                                    setInitial={{
+                                        value: currentUserData.Company_Type,
+                                        type: currentUserData.Company_Type,
+                                    }}
                                 />
                             </div>
                         </div>

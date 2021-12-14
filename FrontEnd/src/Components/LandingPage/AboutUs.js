@@ -3,8 +3,8 @@ import { colors } from "../../Values/colors";
 import SlideView from "../slideView/SlideView";
 import "./AboutUs.css";
 
-function AboutUs({ data, ref }) {
-    console.log(ref, "ref");
+function AboutUs({ data, aboutRef }) {
+    console.log(aboutRef, "ref");
     const imageStyle = {
         objectFit: "cover",
         width: "100%",
@@ -23,7 +23,7 @@ function AboutUs({ data, ref }) {
     };
 
     return (
-        <div className="aboutus-container" ref={ref}>
+        <div className="aboutus-container" ref={aboutRef}>
             <div className="aboutus-sub-container">
                 <h2 className="aboutus-heading">AboutUs</h2>
                 <SlideView
