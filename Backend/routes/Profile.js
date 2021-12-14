@@ -10,6 +10,12 @@ const {
 const FileDownload = require("../Utils/FileDownload");
 const { FileMove } = require("../Utils/Operations");
 const { DBQuery } = require("../DBController/DatabaseQuery");
+const FileDelete = require("../Utils/FileDelete");
+const {
+    PasswordEncryption,
+    PasswordCheck,
+} = require("../Utils/passwordSecurity");
+const { GetUserData } = require("../DBController/DBController");
 const router = express.Router();
 
 router.post("/customer-edit", (req, res) => {
@@ -60,13 +66,26 @@ router.post("/maker-edit", (req, res) => {
     const upload = SingleFileUpload("profileImage", null);
     upload(req, res, async (err) => {
         console.log(req.body, "___________________________");
-        const imageFile = req.file;
+        var imageFile = req.file;
+        const prevImage =
+            req.body.prevImage !== "undefined"
+                ? JSON.parse(req.body.prevImage)
+                : null;
         const userDetails = JSON.parse(req.body.currentUser);
         const userUpdateDetails = JSON.parse(req.body.userUpdates);
         console.log(imageFile, userDetails, userUpdateDetails, "details");
-        const dir = `./public/uploads/maker/${userDetails.Manufacturer_ID}/${imageFile.fieldname}/`;
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
+        console.log(req.file, "file line 71");
+        if (req.file) {
+            console.log("inside if line 73");
+            var dir = `./public/uploads/maker/${userDetails.Manufacturer_ID}/${imageFile.fieldname}/`;
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
+            FileDelete(prevImage.filePath);
+        } else {
+            console.log("line 79");
+            console.log(prevImage, "line 79");
+            imageFile = prevImage;
         }
 
         if (err) {
@@ -75,20 +94,21 @@ router.post("/maker-edit", (req, res) => {
             let tmp_path = imageFile.path;
             let target_path = dir + imageFile.filename;
             const filePath = await FileMove(tmp_path, target_path);
+            console.log(userUpdateDetails, "user");
             const sqlQuery =
                 "UPDATE manufacturer SET Company_Name=?, Logo=?, Contact_Person=?,Email=?,Phone_Number=?, Address = ?, Brief_Description = ?, Additional_Details = ? WHERE Manufacturer_ID = ?";
             const data = [
                 userUpdateDetails.companyName,
                 JSON.stringify({
                     filename: imageFile.filename,
-                    filePath: filePath,
+                    filePath: req.file ? filePath : imageFile.filePath,
                 }),
                 userUpdateDetails.contactPerson,
                 userUpdateDetails.email,
                 userUpdateDetails.phoneNumber,
                 userUpdateDetails.address,
-                userUpdateDetails.briefDescription,
-                userUpdateDetails.additionalDetails,
+                userUpdateDetails.brief_description,
+                userUpdateDetails.additional_details,
 
                 userDetails.Manufacturer_ID,
             ];
@@ -164,6 +184,41 @@ router.post("/maker-edit", (req, res) => {
             }
         });
     });
+});
+
+router.post("/maker-password-edit", async (req, res) => {
+    const { Manufacturer_ID, old_password, new_password, confirm_password } =
+        req.body;
+    console.log(old_password, new_password, confirm_password, "password body");
+    const getUserSql =
+        "SELECT Password FROM manufacturer WHERE Manufacturer_ID = ?";
+    const userData = [Manufacturer_ID];
+    const currentPassword = await GetUserData(getUserSql, userData);
+    console.log(currentPassword[0].Password, "current password");
+    const checkPassword = await PasswordCheck(
+        old_password,
+        currentPassword[0].Password
+    );
+    if (checkPassword) {
+        PasswordEncryption(new_password, (err, hash) => {
+            const sqlQuery =
+                "UPDATE manufacturer SET Password=? WHERE Manufacturer_ID = ?";
+            const data = [hash, Manufacturer_ID];
+            DBQuery(sqlQuery, data, (err, result) => {
+                if (err) {
+                    return console.log(
+                        err,
+                        "Password update failed. Something went wrong. please try again later"
+                    );
+                } else {
+                    res.json(result);
+                    return;
+                }
+            });
+        });
+    } else {
+        res.json(false);
+    }
 });
 
 module.exports = router;

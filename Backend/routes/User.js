@@ -3,6 +3,7 @@ const { GetUserData } = require("../DBController/DBController");
 const FileDownload = require("../Utils/FileDownload");
 const { VerifyToken } = require("../Utils/jwt");
 const router = express.Router();
+const { DBQuery2 } = require("../DBController/DatabaseQuery");
 
 router.get("/isLoggedIn", VerifyToken, (req, res) => {
     const cookieData = req.user;
@@ -21,6 +22,15 @@ router.get("/currentUser", async (req, res) => {
         res.json({ currentUserData: customerData });
     } else if (makerData.length > 0) {
         res.json({ currentUserData: makerData });
+    }
+});
+
+router.get("/makers", async (req, res) => {
+    console.log("params");
+    const makerSqlQuery = "SELECT * FROM manufacturer";
+    const makersList = await DBQuery2(makerSqlQuery);
+    if (makersList.length > 0) {
+        res.json({ makersList: makersList });
     }
 });
 
