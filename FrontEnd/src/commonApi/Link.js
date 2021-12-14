@@ -48,6 +48,11 @@ export const fabricationMethod = "process/fabricationMethod";
 //material
 export const material = "process/material";
 
+//update services
+export const makersServices = "account/services/:id";
+
+//get services
+export const getMakersServices = "account/service";
 //file delete
 export const fileDelete = "dropzone/file-delete";
 
@@ -59,6 +64,9 @@ export const customerProfileEdit = "profile/customer-edit";
 
 //maker profile edit
 export const makerProfileEdit = "profile/maker-edit";
+
+// makers list
+export const makersList = "account/makers";
 
 //file download
 export const download = "download";

@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from "react";
+import * as Yup from "yup";
 import FormikComponent from "../../Components/formik/FormikComponent";
 import FormikController from "../../Components/formik/FormikController";
 import { useWindowDimensions } from "../../Functions";
 import { MdEdit } from "react-icons/md";
 import "./Profile.css";
 import ChangePasswordComponent from "../../Components/Password/ChangePasswordComponent";
+import MapComponent from "../../Components/map/MapComponent";
+import Filter from "../../Components/filter/Filter";
+import { GetFilters } from "../../Components/filter/GetFilters";
+import InputComponent from "../../Components/input/InputComponent";
+import SearchInputComponent from "../../Components/input/SearchInputComponent";
 import { ValidationSchemaMakerProfile } from "../Form/ValidationSchema";
 import { useSelector } from "react-redux";
 import { FileDownload, postDataWithFormData } from "../../commonApi/CommonApi";
 import { makerProfileEdit } from "../../commonApi/Link";
 import { Toast } from "../../Components/ReactToastify";
 
+// const mapData = require("../../data/MapData.json");
+
+const MapValidationSchema = Yup.object().shape({
+    latitude: Yup.string().required("Latitude is required"),
+    longitude: Yup.string().required("Longitude is required"),
+});
 const InitialValues = {
     companyName: "",
     phoneNumber: "",
@@ -22,6 +34,11 @@ const InitialValues = {
     additional_details: "",
 };
 
+const InitialMapValues = {
+    latitude: "",
+    longitude: "",
+};
+
 function MakersProfile() {
     const currentUserData = useSelector(
         (state) => state.currentUserdata.currentUserdata
@@ -30,17 +47,33 @@ function MakersProfile() {
     console.log(currentUserData);
     const [profileImage, setProfileImage] = useState();
     const [profileImagePreview, setProfileImagePreview] = useState();
+    const [prevProfileImage, setPrevProfileImage] = useState();
 
     const companyStatus = [
         {
-            value: 1,
+            value: "Registered Company",
             type: "Registered Company",
         },
         {
-            value: 2,
+            value: "Individual/Hobbyist",
             type: "Individual/Hobbyist",
         },
     ];
+    const { width } = useWindowDimensions();
+    const [mapSearch, setMapSearch] = React.useState(null);
+    const [locationData, setLocationData] = React.useState({
+        latitude: null,
+        longitude: null,
+    });
+
+    const locationSet = (data) => {
+        setLocationData(data);
+    };
+
+    const handlePositionChange = (data) => {
+        console.log(data, "handle position change");
+        setLocationData({ ...locationData, [data.name]: data.value });
+    };
 
     const handleOnChangeImage = (e) => {
         if (e.target.files.length > 0) {
@@ -53,9 +86,11 @@ function MakersProfile() {
 
     const handleSubmit = (values) => {
         console.log("sfsdfsdf");
+        console.log(profileImage, "profile image");
         const formData = new FormData();
         formData.append("userUpdates", JSON.stringify(values));
         formData.append("currentUser", JSON.stringify(currentUserData));
+        formData.append("prevImage", prevProfileImage);
         formData.append("profileImage", profileImage);
         postDataWithFormData(
             makerProfileEdit,
@@ -77,13 +112,21 @@ function MakersProfile() {
                     new Blob([imageBlob])
                 );
                 setProfileImagePreview(profileImageUrl);
+                setPrevProfileImage(currentUserData.Logo);
             }
         }
 
         GetProfileImage();
     }, [currentUserData]);
 
-    const { width } = useWindowDimensions();
+    const handleSearch = (data) => {
+        console.log(data, "map page search line 11");
+        setMapSearch(data);
+    };
+
+    const handleSubmitMap = (values) => {
+        console.log(values, "Map values");
+    };
     return (
         <div
             className="container-fluid"
@@ -146,7 +189,10 @@ function MakersProfile() {
                                     label="Company Status"
                                     options={companyStatus}
                                     getOptionLabel={(options) => options.type}
-                                    setInitial={currentUserData.Company_Type}
+                                    setInitial={{
+                                        value: currentUserData.Company_Type,
+                                        type: currentUserData.Company_Type,
+                                    }}
                                 />
                             </div>
                         </div>
@@ -231,15 +277,74 @@ function MakersProfile() {
 
                         <div className="d-flex justify-content-end mt-4">
                             <FormikController
-                                title="Save"
+                                title="Update"
                                 type="submit"
                                 control="submit"
                             />
                         </div>
                     </FormikComponent>
+
+                    <div className="headerBlock mt-3">
+                        <label className="section-heading m-0">
+                            PIN YOUR LOCATION
+                        </label>
+                        <SearchInputComponent handleSearch={handleSearch} />
+                    </div>
+                    {console.log("location data", locationData)}
+                    <MapComponent
+                        currentPosition={false}
+                        search={mapSearch}
+                        onClickMark={true}
+                        locationSet={locationSet}
+                        position={locationData}
+                    />
+                    <FormikComponent
+                        initialValues={InitialMapValues}
+                        onSubmit={handleSubmitMap}
+                        validationSchema={MapValidationSchema}
+                    >
+                        <div className="row mr-lg-3 mt-3">
+                            <div className="col-lg mr-3">
+                                <div className="row justify-content-between align-items-center pl-3">
+                                    <label>Latitude</label>
+                                    <FormikController
+                                        name="latitude"
+                                        control="input"
+                                        placeholder="Enter Latitude"
+                                        handleChange={handlePositionChange}
+                                        setInitial={locationData.latitude}
+                                    />
+                                </div>
+                            </div>
+                            <div
+                                className="col-lg offset-lg-1 mr-3"
+                                style={{ paddingLeft: width < 1000 ? 30 : 0 }}
+                            >
+                                <div className="row justify-content-between align-items-center">
+                                    <label>Longitude: </label>
+                                    <FormikController
+                                        name="longitude"
+                                        className="form-control"
+                                        control="input"
+                                        placeholder="Enter Longitude"
+                                        handleChange={handlePositionChange}
+                                        setInitial={locationData.longitude}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="d-flex justify-content-end mt-4">
+                            <FormikController
+                                title="Update"
+                                type="submit"
+                                control="submit"
+                            />
+                        </div>
+                    </FormikComponent>
+
+                    <ChangePasswordComponent />
                 </>
             )}
-            <ChangePasswordComponent />
         </div>
     );
 }

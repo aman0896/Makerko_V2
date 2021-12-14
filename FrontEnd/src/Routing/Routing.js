@@ -13,59 +13,105 @@ import CustomerProfile from "../Pages/Profile/CustomerProfile";
 import Signup from "../Pages/Signup";
 import VerificationSuccess from "../Pages/VerificationSuccess";
 import FileUpload from "../Test/FileUpload";
+import MultipleFileUpload from "../Test/MUltipleFileUpload";
 import MakersProfile from "../Pages/Profile/MakersProfile";
 import { useSelector } from "react-redux";
+import AdditionalDetailsFillUp from "../Pages/Maker/AdditionalDetailsFillUp";
 
-function Routing() {
+import MakersDetailViewPage from "../Pages/Profile/MakersDetailViewPage";
+import Map from "../Pages/Map/Map";
+import Maker from "../Pages/Profile/Maker";
+import MakersHub from "../Pages/Profile/MakersHub";
+import Projects from "../Pages/FeatureProject/Projects";
+
+function Routing({ isAuth, currentUser, userType }) {
     const auth = useSelector((state) => state.isAuth);
-
     return (
         <div>
             <Router>
-                <NavBar
-                    isAuth={auth.isAuth}
-                    currentUser={auth.currentUser}
-                    userType={auth.userType}
-                />
-                <Switch>
-                    {/* <Main /> */}
-                    <Route exact path="/" component={Main} />
-                    <Route exact path="/account/login" component={Login} />
-                    <Route exact path="/account/signup" component={Signup} />
-                    <Route
-                        exact
-                        path="/account/makers-signup"
-                        component={MakersSignup}
-                    />
-                    <Route
-                        exact
-                        path="/account/verify"
-                        component={OTPVerification}
-                    />
-                    <Route
-                        exact
-                        path="/verify-success"
-                        component={VerificationSuccess}
-                    />
-                    <Route
-                        exact
-                        path="/new-project"
-                        component={CreateFeatureProject}
-                    />
-                    <Route exact path="/file" component={FileUpload} />
-                    <Route
-                        exact
-                        path="/profile/customer/edit"
-                        component={CustomerProfile}
-                    />
-                    <Route exact path="/get-quote" component={GetAQuote} />
+                <div className="d-flex flex-column min-vh-100">
+                    <div className="wrapper flex-grow-1">
+                        <NavBar
+                            isAuth={auth.isAuth}
+                            currentUser={auth.currentUser}
+                            userType={auth.userType}
+                        />
+                        <Switch>
+                            <Route exact path="/" component={Main} />
+                            <Route
+                                exact
+                                path="/account/login"
+                                component={Login}
+                            />
+                            <Route
+                                exact
+                                path="/account/signup"
+                                component={Signup}
+                            />
+                            <Route
+                                exact
+                                path="/account/makers-signup"
+                                component={MakersSignup}
+                            />
+                            <Route
+                                exact
+                                path="/account/verify"
+                                component={OTPVerification}
+                            />
+                            <Route
+                                exact
+                                path="/verify-success"
+                                component={VerificationSuccess}
+                            />
+                            <Route
+                                exact
+                                path="/new-project"
+                                component={CreateFeatureProject}
+                            />
+                            <Route exact path="/file" component={FileUpload} />
+                            <Route
+                                exact
+                                path="/profile/customer/edit"
+                                component={CustomerProfile}
+                            />
+                            <Route
+                                exact
+                                path="/get-quote"
+                                component={GetAQuote}
+                            />
 
-                    <Route
-                        exact
-                        path="/profile/maker/edit"
-                        component={MakersProfile}
-                    />
-                </Switch>
+                            <Route
+                                exact
+                                path="/profile/makers/edit"
+                                component={MakersProfile}
+                            />
+                            <Route
+                                exact
+                                path="/makers/hub"
+                                component={MakersHub}
+                            />
+                            <Route exact path="/makers" component={Maker} />
+                            <Route path="/makers/map" component={Map} />
+
+                            <Route
+                                path="/makers/details"
+                                component={MakersDetailViewPage}
+                            />
+                            <Route
+                                exact
+                                path="/account/makers-additionaldetails"
+                                component={AdditionalDetailsFillUp}
+                            />
+                            <Route
+                                exact
+                                path="/projects"
+                                component={Projects}
+                            />
+                        </Switch>
+                    </div>
+
+                    <FooterContainer />
+                </div>
             </Router>
             <ReactToastify />
         </div>

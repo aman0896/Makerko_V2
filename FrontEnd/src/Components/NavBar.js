@@ -5,12 +5,17 @@ import { FiUser } from "react-icons/fi";
 import { getData, getDataWithNoParams } from "../commonApi/CommonApi";
 import { logout } from "../commonApi/Link";
 import ModalChoice from "./modal/ModalChoice";
+import { colors } from "../Values/colors";
+
 import { useDispatch, useSelector } from "react-redux";
 import { CurrentUserdata } from "./Redux/Actions/CurrentUserdata";
+import { useWindowDimensions } from "../functions/Functions";
 
 function NavBar({ isAuth, currentUser, userType }) {
     const dispatch = useDispatch();
+    const { width, height } = useWindowDimensions();
     const [hambergerClicked, isHambergerClicked] = useState(false);
+    const [path, setPath] = useState(window.location.pathname);
     // const [currentUserData, setCurrentUserData] = useState();
 
     const onhambergerClick = () => {
@@ -21,11 +26,24 @@ function NavBar({ isAuth, currentUser, userType }) {
         (state) => state.currentUserdata.currentUserdata
     );
 
+    const handleChangePath = (event) => {
+        setPath(event.target.dataset.name);
+    };
+
     return (
-        <nav className="NavbarItems">
+        <nav className={path === "/" ? "NavbarItems" : "PrimaryNavbarItems"}>
             <div className="navbar-container">
-                <Link className="navbar-logo" to={{ pathname: "/" }}>
-                    <h2>Makerko</h2>
+                <Link
+                    className="navbar-logo"
+                    onClick={handleChangePath}
+                    to={{ pathname: "/" }}
+                >
+                    <h2
+                        data-name="/"
+                        className={path !== "/" ? "text-white" : ""}
+                    >
+                        Makerko
+                    </h2>
                 </Link>
 
                 <div className="menu-icon" onClick={onhambergerClick}>
@@ -33,21 +51,64 @@ function NavBar({ isAuth, currentUser, userType }) {
                         className={
                             hambergerClicked ? "fas fa-times" : "fas fa-bars"
                         }
+                        style={{
+                            color: path === "/" ? colors.primary : colors.white,
+                        }}
                     ></i>
                 </div>
                 <ul
                     className={
                         hambergerClicked ? "navbar-menu active" : "navbar-menu"
                     }
+                    style={{
+                        backgroundColor:
+                            path === "/" ? colors.white : colors.primary,
+                    }}
                 >
                     <li>
-                        <Link className="navbar-links">MAKERS</Link>
+                        <Link
+                            // style={{
+                            //     color:
+                            //         path === "/"
+                            //             ? colors.primary
+                            //             : colors.white,
+                            // }}
+                            className={
+                                path === "/"
+                                    ? "navbar-links"
+                                    : "whiteNavbar-links"
+                            }
+                            onClick={handleChangePath}
+                            to={{ pathname: "/makers" }}
+                        >
+                            <label data-name="/makers">MAKERS</label>
+                        </Link>
                     </li>
                     <li>
-                        <Link className="navbar-links">PROJECT</Link>
+                        <Link
+                            className={
+                                path === "/"
+                                    ? "navbar-links"
+                                    : "whiteNavbar-links"
+                            }
+                            onClick={handleChangePath}
+                            to={{ pathname: "/projects" }}
+                        >
+                            <label data-name="/project">PROJECT</label>
+                        </Link>
                     </li>
                     <li>
-                        <Link className="navbar-links">BLOGS</Link>
+                        <Link
+                            className={
+                                path === "/"
+                                    ? "navbar-links"
+                                    : "whiteNavbar-links"
+                            }
+                            onClick={handleChangePath}
+                            to={{ pathname: "/blogs" }}
+                        >
+                            <label data-name="/blogs">BLOGS</label>
+                        </Link>
                     </li>
                 </ul>
 
@@ -61,9 +122,14 @@ function NavBar({ isAuth, currentUser, userType }) {
                             }
                             userId={currentUser}
                             userType={userType}
+                            path={path}
+                            handleChangePath={handleChangePath}
                         />
                     ) : (
-                        <ProfileAvatarLogin />
+                        <ProfileAvatarLogin
+                            path={path}
+                            handleChangePath={handleChangePath}
+                        />
                     )}
                 </div>
             </div>
@@ -73,7 +139,7 @@ function NavBar({ isAuth, currentUser, userType }) {
 
 export default NavBar;
 
-function ProfileAvatarLogin() {
+function ProfileAvatarLogin({ path, handleChangePath = { handleChangePath } }) {
     const [showModal, setShowModal] = useState(false);
 
     const showModalChoice = () => {
@@ -84,16 +150,26 @@ function ProfileAvatarLogin() {
         setShowModal(false);
     };
 
-    const onClickClient = () => {
+    const onClickClient = (event) => {
+        handleChangePath(event);
         window.location.href = "/account/signup";
     };
 
-    const onClickMaker = () => {
+    const onClickMaker = (event) => {
+        handleChangePath(event);
         window.location.href = "/account/makers-signup";
     };
     return (
         <>
-            <div data-toggle="dropdown" className="dropdown navbar-login">
+            <div
+                data-toggle="dropdown"
+                className="dropdown navbar-login"
+                style={{
+                    backgroundColor:
+                        path === "/" ? colors.primary : colors.white,
+                    color: path === "/" ? colors.white : colors.primary,
+                }}
+            >
                 <FiUser />
             </div>
 
@@ -125,15 +201,23 @@ function ProfileAvatarLogin() {
     );
 }
 
-function ProfileAvatarLogout({ userName, userId, userType }) {
+function ProfileAvatarLogout({
+    userName,
+    userId,
+    userType,
+    path,
+    handleChangePath,
+}) {
     const history = useHistory();
 
-    const onClickEdit_CustomerProfile = () => {
-        history.push({ pathname: `/customer-profile/${userId}` });
+    const onClickEdit_CustomerProfile = (event) => {
+        handleChangePath(event);
+        history.push({ pathname: "/profile/customer/edit" });
     };
 
-    const onClickEdit_MakerProfile = () => {
-        history.push({ pathname: `/maker-profile/${userId}` });
+    const onClickEdit_MakerProfile = (event) => {
+        handleChangePath(event);
+        history.push({ pathname: "/profile/makers/edit" });
     };
 
     const onclickLogout = () => {
@@ -152,11 +236,26 @@ function ProfileAvatarLogout({ userName, userId, userType }) {
 
     return (
         <>
-            <div data-toggle="dropdown" className="dropdown navbar-login">
+            <div
+                data-toggle="dropdown"
+                className="dropdown navbar-login text-uppercase"
+                style={{
+                    backgroundColor:
+                        path === "/" ? colors.primary : colors.white,
+                    color: path === "/" ? colors.white : colors.primary,
+                }}
+            >
                 {userName.charAt(0)}
             </div>
 
-            <div className="dropdown-menu dropdown-menu-lg-right dropdown-menu-style">
+            <div
+                className="dropdown-menu dropdown-menu-lg-right dropdown-menu-style"
+                // style={{
+                //     backgroundColor:
+                //         path === "/" ? colors.primary : colors.white,
+                //     color: path === "/" ? colors.white : colors.primary,
+                // }}
+            >
                 <a
                     className="dropdown-item  dropdown-item-style"
                     onClick={

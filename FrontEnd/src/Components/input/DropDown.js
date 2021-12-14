@@ -20,6 +20,7 @@ const DropDown = ({
     setFieldValue,
     handleBlur,
     setFieldTouched,
+    setInitial,
     value,
 }) => {
     const [data, setData] = useState();
@@ -32,6 +33,15 @@ const DropDown = ({
                 errors[name] && touched[name] ? colors.danger : colors.gray,
         }),
         indicatorSeparator: () => {}, // removes the "stick"
+        option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+            // const color = chroma(data.color);
+            // console.log({ data, isDisabled, isFocused, isSelected });
+            return {
+                ...styles,
+                backgroundColor: isFocused ? colors.primary : null,
+                color: isFocused ? colors.white : null,
+            };
+        },
 
         dropdownIndicator: (defaultStyles) => ({
             ...defaultStyles,
@@ -52,9 +62,10 @@ const DropDown = ({
                 {label}
             </label>
             <Select
+                defaultValue={setInitial}
                 placeholder={placeholder}
                 styles={customStyles}
-                value={value}
+                value={data}
                 //isClearable="true"
                 id={ID}
                 options={options}

@@ -3,7 +3,10 @@ const express = require("express");
 const path = require("path");
 const projectPath = path.dirname(process.cwd());
 var fs = require("fs");
-const { SingleFileUpload } = require("../Utils/MultarFileUpload");
+const {
+    SingleFileUpload,
+    MultipleFileUpload,
+} = require("../Utils/MultarFileUpload");
 const FileDownload = require("../Utils/FileDownload");
 const { FileMove } = require("../Utils/Operations");
 const { DBQuery } = require("../DBController/DatabaseQuery");
@@ -56,6 +59,7 @@ router.post("/customer-edit", (req, res) => {
 router.post("/maker-edit", (req, res) => {
     const upload = SingleFileUpload("profileImage", null);
     upload(req, res, async (err) => {
+        console.log(req.body, "___________________________");
         const imageFile = req.file;
         const userDetails = JSON.parse(req.body.currentUser);
         const userUpdateDetails = JSON.parse(req.body.userUpdates);
@@ -97,6 +101,68 @@ router.post("/maker-edit", (req, res) => {
                 }
             });
         }
+    });
+    router.post("/multiple-upload", async (req, res) => {
+        console.log("profile check");
+        const upload = MultipleFileUpload("profile", null);
+        const dir = "./public/uploads/multipleUpload/";
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+
+        upload(req, res, (err) => {
+            if (err) {
+                console.log(err, "error");
+            } else {
+                console.log(req.files, "req");
+                const files = req.files;
+                for (let i = 0; i < files.length; i++) {
+                    let tmp_path = files[i].path;
+                    console.log(tmp_path, "path");
+                    let target_path =
+                        "./public/uploads/multipleUpload/" + files[i].filename;
+                    let src = fs.createReadStream(tmp_path);
+                    let dest = fs.createWriteStream(target_path);
+                    src.pipe(dest);
+                    src.on("end", function () {
+                        console.log("complete");
+                    });
+                    src.on("error", function (err) {
+                        console.log("error");
+                    });
+                    src.on("close", function (err) {
+                        console.log(tmp_path, "path");
+                        fs.unlink(tmp_path, function (err) {
+                            console.log(err);
+                        });
+                    });
+                }
+
+                //onsole.log(req.file.path, "pathhhh");
+                //   var tmp_path = req.file.path;
+                //   var target_path =
+                //     "./public/uploads/customer/" +
+                //     req.file.fieldname +
+                //     Date.now() +
+                //     path.extname(req.file.originalname);
+
+                //   /** A better way to copy the uploaded file. **/
+                //   var src = fs.createReadStream(tmp_path);
+                //   var dest = fs.createWriteStream(target_path);
+                //   src.pipe(dest);
+                //   src.on("end", function () {
+                //     console.log("complete");
+                //   });
+                //   src.on("error", function (err) {
+                //     console.log("error");
+                //   });
+                //   src.on("close", function (err) {
+                //     fs.unlink(tmp_path, function (err) {
+                //       console.log(err);
+                //     });
+                //   });
+            }
+        });
     });
 });
 

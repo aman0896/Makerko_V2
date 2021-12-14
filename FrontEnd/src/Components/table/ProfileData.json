@@ -1,0 +1,11 @@
+{
+    "profile": [
+        {
+            "materials": "PLA",
+            "thickness": "5 mm",
+            "costUnit": "Gram",
+            "unitRate": "10",
+            "leadTime": "days"
+        }
+    ]
+}

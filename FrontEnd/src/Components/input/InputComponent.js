@@ -16,15 +16,20 @@ export default function InputComponent(props) {
             setData(props.setInitial);
             props.setFieldValue(props.name, props.setInitial);
         }
-    }, []);
+    }, [props.setInitial]);
 
     const handleChange = (event) => {
         setData(event.target.value);
         props.setFieldValue(props.name, event.target.value);
+        let data = {
+            name: props.name,
+            value: event.target.value,
+        };
+        if (props.handleChange) props.handleChange(data);
     };
 
     return (
-        <div className="mb-2">
+        <div className="mb-2" style={props.inputContainerStyle}>
             {props.label && (
                 <label
                     className="mb-1 font-weight-bold"
@@ -35,6 +40,8 @@ export default function InputComponent(props) {
             )}
             <div style={{ position: "relative" }}>
                 <input
+                    ref={props.anchorRef}
+                    id={props.id}
                     type={
                         props.isPassword
                             ? secureTextEntry
@@ -42,6 +49,9 @@ export default function InputComponent(props) {
                                 : "text"
                             : props.type
                     }
+                    aria-controls={props.open ? "composition-menu" : undefined}
+                    aria-expanded={props.open ? "true" : undefined}
+                    aria-haspopup="true"
                     className={
                         props.className ? props.className : "form-control"
                     }
@@ -59,11 +69,13 @@ export default function InputComponent(props) {
                     }}
                     style={{
                         borderColor:
+                            props.error &&
+                            props.touched &&
                             props.errors[props.name] &&
                             props.touched[props.name]
                                 ? colors.danger
                                 : colors.gray,
-                        height: 50,
+                        height: props.height ? props.height : 50,
                         borderRadius: 5,
                     }}
                     readOnly={props.readOnly}
@@ -93,8 +105,8 @@ export default function InputComponent(props) {
                 )}
             </div>
             <ErrorMessage
-                error={props.errors[props.name]}
-                visible={props.touched[props.name]}
+                error={props.errors && props.errors[props.name]}
+                visible={props.touched && props.touched[props.name]}
             />
         </div>
     );

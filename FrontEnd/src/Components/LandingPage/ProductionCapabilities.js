@@ -1,6 +1,6 @@
 import React from "react";
 import "./ProductionCapabilities.css";
-import SlideView from "../SlideView";
+import SlideView from "../slideView/SlideView";
 import { colors } from "../../Values/colors";
 import { Button2 } from "../Button";
 
@@ -29,7 +29,9 @@ function ProductionCapabilities({ productionType }) {
     return (
         <div className="main-container">
             <div className="sub-container">
-                <h2 className="heading">Production Capabilities</h2>
+                <h2 className="headingStyle heading">
+                    Production Capabilities
+                </h2>
                 <SlideView
                     cardStyle={cardStyle}
                     slides={productionType}

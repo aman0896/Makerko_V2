@@ -26,23 +26,23 @@ const InitialValues = {
 function CreateFeatureProject() {
   const handleSubmit = (values) => {
     console.log(values, "values");
-    const formData = new FormData();
-    // for (let i = 0; i < values.files.length; i++) {
-    //   formData.append("files", values.files[i]);
-    // }
-    formData.append("file", values.image);
-    formData.append("project", JSON.stringify(values));
-    postData(
-      createProject,
-      formData,
-      "multipart/form-data",
-      (response) => {
-        console.log(response, "success");
-      },
-      (error) => {
-        console.log(error, "failure");
-      }
-    );
+    // const formData = new FormData();
+    // // for (let i = 0; i < values.files.length; i++) {
+    // //   formData.append("files", values.files[i]);
+    // // }
+    // formData.append("file", values.image);
+    // formData.append("project", JSON.stringify(values));
+    // postData(
+    //   createProject,
+    //   formData,
+    //   "multipart/form-data",
+    //   (response) => {
+    //     console.log(response, "success");
+    //   },
+    //   (error) => {
+    //     console.log(error, "failure");
+    //   }
+    // );
   };
   return (
     <>

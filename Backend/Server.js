@@ -32,7 +32,7 @@ app.use(function (req, res, next) {
     );
     res.header(
         "Access-Control-Allow-Methods",
-        "PUT, POST, GET, DELETE, OPTIONS"
+        "PUT, POST, GET, DELETE, OPTIONS,PATCH"
     );
     next();
 });
@@ -83,9 +83,9 @@ app.use(
 //Handle any request that don't match the ones above
 const root = path.join(projectPath, "build");
 
-app.get("*", (req, res) => {
-    res.sendFile("index.html", { root });
-});
+// app.get('*', (req, res) => {
+//     res.sendFile('index.html', { root });
+// });
 
 // Start download any File or images
 app.post("/download", async function (req, res) {
