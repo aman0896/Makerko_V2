@@ -12,11 +12,15 @@ import { CurrentUserdata } from "./Redux/Actions/CurrentUserdata";
 import { useWindowDimensions } from "../functions/Functions";
 
 function NavBar({ isAuth, currentUser, userType }) {
-    const dispatch = useDispatch();
     const { width, height } = useWindowDimensions();
     const [hambergerClicked, isHambergerClicked] = useState(false);
     const [path, setPath] = useState(window.location.pathname);
     // const [currentUserData, setCurrentUserData] = useState();
+
+    useEffect(() => {
+        console.log(window.location.pathname, "changepaggth");
+        setPath(window.location.pathname);
+    }, [window.location.pathname]);
 
     const onhambergerClick = () => {
         isHambergerClicked(!hambergerClicked);
