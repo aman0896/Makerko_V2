@@ -209,7 +209,12 @@ function AdditionalDetailsFillUp() {
           </div>
         )}
 
-        <div className="mt-5 mb-5">
+        <div
+          className="mt-5 mb-5"
+          style={{
+            width: width <= 800 ? "95%" : "50%",
+          }}
+        >
           <FormikController
             control="multipleFile"
             label={<div className="heading title">Upload Multiple Photos:</div>}
@@ -218,8 +223,6 @@ function AdditionalDetailsFillUp() {
             accept={SUPPORTED_FORMATS}
             onChange={handleOnChange}
             fileLength={fileLength}
-            errors={previousImagePath && null}
-            touched={previousImagePath && null}
           />
         </div>
 
