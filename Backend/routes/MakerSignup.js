@@ -6,6 +6,12 @@ const { DBQuery } = require("../DBController/DatabaseQuery");
 const { CreateHash } = require("../Utils/OTP");
 const router = express.Router();
 const db = require("../DBController/DBConnect");
+const { MultipleFileUpload } = require("../Utils/MultarFileUpload");
+const path = require("path");
+const projectPath = path.dirname(process.cwd());
+var fs = require("fs");
+const { FileMove } = require("../Utils/Operations");
+const FileDelete = require("../Utils/FileDelete");
 
 router.post("/maker-signup", async (req, res) => {
     console.log(req.body, "info");
@@ -28,8 +34,6 @@ router.post("/maker-signup", async (req, res) => {
         "INSERT INTO manufacturer (Manufacturer_ID, Email, Date, Company_Name, Password, Contact_Person, Phone_Number, Website, Company_Type, Address, Delivery, Email_Verification, Account_Verification) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     const data = await GetAllUsersData();
-
-    console.log(data, "data");
     var index = data.findIndex((item) => item.Email === email);
     if (index == -1) {
         PasswordEncryption(password, (err, hash) => {
@@ -78,11 +82,12 @@ router.patch("/services/:id", (req, res) => {
     if (m_id && hubServices && hubServices.length > 0) {
         console.log("inside update services", hubServices, m_id);
         const sql = "DELETE FROM services WHERE Manufacturer_ID = ?";
-        db.query(sql, [m_id], async (err, result) => {
+        DBQuery(sql, [m_id], async (err, result) => {
             if (err) {
                 return console.log("service-delete", err);
             } else {
                 var serviceUpdate = false;
+
                 await new Promise((resolve) => {
                     hubServices.forEach((hubService) => {
                         const serviceID =
@@ -92,7 +97,7 @@ router.patch("/services/:id", (req, res) => {
                         );
                         const sql =
                             "INSERT INTO services (Service_ID, Manufacturer_ID, Material_Name) VALUES (?, ?, ?)";
-                        const result = db.query(
+                        const result = DBQuery(
                             sql,
                             [serviceID, m_id, materialDetails],
                             (err, result) => {
@@ -120,12 +125,12 @@ router.get("/service/:id/:companyname", (req, res) => {
     const id = req.params.id;
     const companyName = req.params.companyname;
     console.log("manufacturer", id, companyName);
-    db.query(
+    DBQuery(
         "SELECT * FROM manufacturer WHERE Manufacturer_ID = ? AND Company_Name = ?",
         [id, companyName],
         (err, currentHub) => {
             if (currentHub.length > 0) {
-                db.query(
+                DBQuery(
                     "SELECT fs.Name, fs.Service_ID, s.Material_Name, s.Manufacturer_ID " +
                         "FROM services s " +
                         "INNER JOIN fabrication_services fs " +
@@ -142,6 +147,91 @@ router.get("/service/:id/:companyname", (req, res) => {
     );
 });
 //#endregion
+
+router.post("/maker-additional-details/:id", (req, res) => {
+    const upload = MultipleFileUpload("multipleImage", null);
+    upload(req, res, async (err) => {
+        console.log(req.body.prevImage, "details");
+        let imageFile = req.files;
+        const otherServices = req.body.otherServices;
+        const manufacturerID = req.params.id;
+        let prevImage = null;
+        if (req.body.prevImage != "undefined")
+            prevImage = JSON.parse(req.body.prevImage);
+        let deleteImage = null;
+        if (req.body.deleteImage != "undefined")
+            deleteImage = JSON.parse(req.body.deleteImage);
+
+        const sqlQuery =
+            "UPDATE manufacturer SET Other_Services=?, Additional_Images = ? WHERE Manufacturer_ID = ?";
+        let file = [];
+
+        console.log(req.files, "file line 71");
+
+        if (deleteImage.length > 0) {
+            console.log(deleteImage, "delete");
+            for (let i = 0; i < deleteImage.length; i++) {
+                const isDelete = await FileDelete(deleteImage[i].filePath);
+                console.log(isDelete, "delete true");
+            }
+        }
+
+        if (req.files.length > 0) {
+            console.log("inside if line 73");
+            var dir = `./public/uploads/maker/${manufacturerID}/${imageFile[0].fieldname}/`;
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
+            // if (prevImage) {
+            //   for (let i = 0; i < prevImage.length; i++) {
+            //     FileDelete(prevImage[0].filePath);
+            //   }
+            // }
+        } else {
+            console.log("line 79");
+            console.log(prevImage, "line 79");
+            // imageFile = prevImage;
+        }
+
+        if (err) {
+            console.log(err, "error");
+        } else {
+            console.log(req.files, "req");
+            const files = req.files;
+            for (let i = 0; i < files.length; i++) {
+                let tmp_path = files[i].path;
+                console.log(tmp_path, "path");
+                let target_path = dir + files[i].filename;
+                const filePath = await FileMove(tmp_path, target_path);
+                file.push({
+                    fileName: files[i].filename,
+                    filePath:
+                        req.files.length > 0 ? filePath : files[i].filePath,
+                });
+            }
+            let concatData = file;
+            if (prevImage) concatData = [...file, ...prevImage];
+
+            console.log(concatData, "data concat");
+
+            console.log(file, "files");
+            const data = [
+                otherServices,
+                JSON.stringify(concatData),
+                manufacturerID,
+            ];
+            DBQuery(sqlQuery, data, (err, result) => {
+                if (err) {
+                    return console.log(err, "update data services error");
+                } else {
+                    console.log("success");
+                    res.json(result);
+                    return;
+                }
+            });
+        }
+    });
+});
 
 module.exports = router;
 

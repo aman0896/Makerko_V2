@@ -5,87 +5,210 @@ import { useWindowDimensions } from "../../Functions";
 import { colors } from "../../Values/colors";
 import OtherServices from "./OtherServices";
 import TableComponent from "../../Components/table/TableComponent";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ManufacturingServices from "./ManufacturingServices";
 import "./AdditionalDetails.css";
-import { useSelector } from "react-redux";
-import { patchData } from "../../commonApi/CommonApi";
-import { makersServices } from "../../commonApi/Link";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  FileDownload,
+  patchData,
+  postDataWithFormData,
+} from "../../commonApi/CommonApi";
+import { makersAdditionalDetails, makersServices } from "../../commonApi/Link";
+import { Toast } from "../../Components/ReactToastify";
+import { GetMfgProcess } from "../../Components/Redux/Actions/MfgProcess";
+import { data } from "jquery";
 
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 
 export const MakersValidationSchema = Yup.object().shape({
-    // file: Yup.object().required("No file Uploaded"),
-    // files: Yup.mixed().required("Photos  of project is required"),
+  // file: Yup.object().required("No file Uploaded"),
+  // files: Yup.mixed().required("Photos is required"),
 });
 
 function AdditionalDetailsFillUp() {
-    const [formikData, setFormikData] = useState([]);
-    const mfgProcess = useSelector((state) => state.mfgProcess.mfgProcess);
+  const [formikData, setFormikData] = useState([]);
+  const mfgProcess = useSelector((state) => state.mfgProcess.mfgProcess);
+  const [otherServices, setOtherServices] = useState();
+  const [oldOtherServices, setOldOtherServices] = useState();
+  const hub = useSelector((state) => state.mfgProcess.hub);
+  const [imagePreview, setImagePreview] = useState();
+  const [previousImagePath, setPreviousImagePath] = useState();
+  const [deletedImagePath, setDeletedImagepath] = useState([]);
 
-    const InitialValues = {
-        file: "",
-        files: "",
-    };
+  const [file, setFile] = useState(null);
+  const [fileLength, setFileLength] = useState(null);
 
-    const handleSubmit = (values) => {
-        console.log(values, "values");
-        console.log(mfgProcess, "mmmmfgprocess");
+  const dispatch = useDispatch();
 
-        patchData(
-            makersServices,
-            { mfgProcess },
-            "0e868405eebeea624dddbb05a3e0fdc5",
-            (onSuccess) => {
-                if (onSuccess) {
-                    console.log("success");
-                    // if (onSuccess.data.emailExist === true) {
-                    //   Toast("Email already exits", "error", 3000, colors.white);
-                    //   return;
-                    // }
-                    // const { hash } = onSuccess.data;
-                    // history.push({
-                    //   pathname: `/account/verify`,
-                    //   search: `?email=${values.email}&hash=${hash}`,
-                    //   //send data to verify page
-                    //   });
-                }
-            },
-            (onFail) => {}
-        );
-    };
+  const formRef = useRef();
 
-    const { width } = useWindowDimensions();
+  const currentUserData = useSelector(
+    (state) => state.currentUserdata.currentUserdata
+  );
 
-    return (
-        <div
-            className="container-fluid"
-            style={{
-                width: width <= 800 ? "95%" : "80%",
-            }}
-        >
-            <ManufacturingServices />
+  useEffect(() => {
+    GetMfgProcess(dispatch, currentUserData);
+  }, [currentUserData]);
 
-            <div className="mt-4">{/* <OtherServices /> */}</div>
-            <FormikComponent
-                initialValues={InitialValues}
-                onSubmit={handleSubmit}
-                validationSchema={MakersValidationSchema}
-            >
-                {/* <div className="mt-5 mb-5">
-          <FormikController
-            name="file"
-            label={<div className="heading title">Upload Photos:</div>}
-            control="dropzone"
-            // accept={this.state.acceptedFiles}
-            // requirementNote="File size < 15 MB"
-            // user={this.state.user}
-            // error={this.state.errMsg}
-            // fileUpload={this.state.fileUpload}
+  useEffect(() => {
+    if (hub) {
+      console.log(hub, "hubs");
+      setOldOtherServices(JSON.parse(hub.Other_Services));
+      async function GetMultipleImage() {
+        if (hub.Additional_Images) {
+          let filesUrl = [];
+          let imagePath = [];
+          const imageData = JSON.parse(hub.Additional_Images);
+          for (let i = 0; i < imageData.length; i++) {
+            const imageBlob = await FileDownload(imageData[i].filePath, null);
+            console.log(imageBlob, "files");
+            const profileImageUrl = window.URL.createObjectURL(
+              new Blob([imageBlob])
+            );
+            filesUrl.push({
+              filePath: profileImageUrl,
+              fileName: imageData[i].fileName,
+            });
+          }
 
-            accept={SUPPORTED_FORMATS}
-          />
-        </div>
+          setImagePreview(filesUrl);
+          //setFile(filesUrl);
+
+          setPreviousImagePath(imageData);
+        }
+      }
+      GetMultipleImage();
+    }
+  }, [hub]);
+
+  const InitialValues = {
+    // file: "",
+    files: "",
+  };
+
+  const handleOnChange = (event) => {
+    const files = event.target.files;
+    console.log(files, ";line no 93");
+
+    if (files.length > 0) {
+      formRef.current.setFieldValue("files", files);
+
+      let filePreview = [];
+
+      for (let i = 0; i < files.length; i++) {
+        filePreview.push({
+          filePath: URL.createObjectURL(files[i]),
+          fileName: files[i].Name,
+        });
+        //file.push(files[i]);
+      }
+      setFile(filePreview);
+      setFileLength(files.length);
+    } else {
+      formRef.current.setFieldValue("files", null);
+      setFile(null);
+      setFileLength(null);
+      formRef.current.setFieldTouched("files");
+    }
+  };
+
+  const handleSubmit = (values) => {
+    const formData = new FormData();
+    formData.append("otherServices", JSON.stringify(otherServices));
+
+    for (let i = 0; i < values.files.length; i++) {
+      formData.append("multipleImage", values.files[i]);
+    }
+    formData.append("prevImage", JSON.stringify(previousImagePath));
+    formData.append("deleteImage", JSON.stringify(deletedImagePath));
+    patchData(
+      makersServices,
+      { mfgProcess },
+      currentUserData.Manufacturer_ID,
+      (onSuccess) => {
+        if (onSuccess) {
+          console.log("success");
+        }
+      },
+      (onFail) => {}
+    );
+    postDataWithFormData(
+      `${makersAdditionalDetails}/${currentUserData.Manufacturer_ID}`,
+      formData,
+      (onSuccess) => {
+        console.log(onSuccess.data, "onsuccess");
+
+        Toast("Profile Updated Successfully", "success");
+      },
+      (onFail) => {
+        console.log(onFail, "failed");
+      }
+    );
+  };
+
+  const { width } = useWindowDimensions();
+
+  const onDeleteClick = (img) => {
+    const filterData = imagePreview.filter(
+      (data) => data.filePath !== img.filePath
+    );
+
+    setImagePreview(filterData);
+
+    let filteredData = previousImagePath.filter(
+      (data) => data.fileName !== img.fileName
+    );
+    const deletedData = previousImagePath.filter(
+      (data) => data.fileName == img.fileName
+    );
+
+    setDeletedImagepath([...deletedImagePath, ...deletedData]);
+
+    setPreviousImagePath(filteredData);
+  };
+
+  return (
+    <div
+      className="container-fluid mt-4"
+      style={{
+        width: width <= 800 ? "95%" : "80%",
+      }}
+    >
+      <ManufacturingServices />
+
+      <div className="mt-4">
+        <OtherServices
+          getData={(data) => setOtherServices(data)}
+          oldOtherServices={oldOtherServices}
+        />
+      </div>
+      <FormikComponent
+        initialValues={InitialValues}
+        onSubmit={handleSubmit}
+        validationSchema={MakersValidationSchema}
+        formRef={formRef}
+      >
+        {imagePreview && (
+          <div className="row m-2">
+            {imagePreview.map((src, index) => (
+              <div className="col-lg-2 m-3" key={index}>
+                <div className="image-container">
+                  <div>
+                    <img src={src.filePath} className="image" />
+                  </div>
+                  <div
+                    className="delete-icon"
+                    onClick={() => onDeleteClick(src)}
+                  >
+                    <i className="fas fa-times-circle"></i>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className="mt-5 mb-5">
           <FormikController
             control="multipleFile"
@@ -93,18 +216,30 @@ function AdditionalDetailsFillUp() {
             name="files"
             title="Choose Files"
             accept={SUPPORTED_FORMATS}
+            onChange={handleOnChange}
+            fileLength={fileLength}
+            errors={previousImagePath && null}
+            touched={previousImagePath && null}
           />
-        </div> */}
-                <div className="d-flex justify-content-end mt-2">
-                    <FormikController
-                        title="Save"
-                        type="submit"
-                        control="submit"
-                    />
-                </div>
-            </FormikComponent>
         </div>
-    );
+
+        {file && (
+          <div className="row m-2">
+            {file.map((src, index) => (
+              <div className="col-lg-2 m-3" key={index}>
+                <div>
+                  <img src={src.filePath} className="image" />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="d-flex justify-content-end mt-2">
+          <FormikController title="Save" type="submit" control="submit" />
+        </div>
+      </FormikComponent>
+    </div>
+  );
 }
 
 export default AdditionalDetailsFillUp;

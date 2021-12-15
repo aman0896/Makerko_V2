@@ -6,8 +6,14 @@ function ErrorMessage(props) {
     color: colors.danger,
     fontSize: 14,
   };
+
   if (!props.error || !props.visible) return null;
-  return <div style={errorStyle}>{props.error}</div>;
+  return (
+    <div style={errorStyle}>
+      {console.log(props.error, "errorr")}
+      {props.error}
+    </div>
+  );
 }
 
 export default ErrorMessage;
