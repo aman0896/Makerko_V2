@@ -15,6 +15,7 @@ import VerificationSuccess from "../Pages/VerificationSuccess";
 import FileUpload from "../Test/FileUpload";
 import MakersProfile from "../Pages/Profile/MakersProfile";
 import MakerkoHubList from "../Pages/ListPage";
+import BlogPage from "../Pages/BlogPage";
 
 function Routing({ isAuth, currentUser, userType }) {
     return (
@@ -29,6 +30,7 @@ function Routing({ isAuth, currentUser, userType }) {
                     {/* <Main /> */}
                     <Route exact path="/" component={Main} />
                     <Route exact path="/makerko-hub" component={MakerkoHubList} />
+                    <Route exact path="/blog" component={BlogPage} />
                     <Route exact path="/account/login" component={Login} />
                     <Route exact path="/account/signup" component={Signup} />
                     <Route
