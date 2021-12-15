@@ -212,7 +212,7 @@ function AdditionalDetailsFillUp() {
         <div
           className="mt-5 mb-5"
           style={{
-            width: width <= 800 ? "95%" : "50%",
+            width: width <= 800 ? "80%" : "45%",
           }}
         >
           <FormikController
