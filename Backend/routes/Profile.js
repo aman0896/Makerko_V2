@@ -186,6 +186,72 @@ router.post("/maker-edit", (req, res) => {
     });
 });
 
+router.get("/maker-get-map", async (req, res) => {
+    try {
+        console.log("params");
+        console.log(req.query[0], "params");
+        const Manufacturer_ID = req.query[0];
+        const getUserSql = "SELECT * FROM location WHERE Manufacturer_ID = ?";
+        const userData = [Manufacturer_ID];
+        const getLocation = await GetUserData(getUserSql, userData);
+
+        console.log("getlocation", getLocation);
+        if (getLocation.length > 0) {
+            res.json(getLocation[0]);
+            console.log("getlocation", getLocation);
+            return;
+        } else {
+            console.log("no location set");
+            return false;
+        }
+    } catch {
+        return { msg: "Something Went Wrong" };
+    }
+});
+
+router.post("/maker-map-edit", async (req, res) => {
+    try {
+        const { Manufacturer_ID, latitude, longitude } = req.body;
+        const getUserSql = "SELECT * FROM location WHERE Manufacturer_ID = ?";
+        const userData = [Manufacturer_ID];
+        const checkUser = await GetUserData(getUserSql, userData);
+
+        if (checkUser.length > 0) {
+            let sqlQuery =
+                "UPDATE location SET Latitude=?, Longitude=? WHERE Manufacturer_ID = ?";
+            let data = [latitude, longitude, Manufacturer_ID];
+            DBQuery(sqlQuery, data, (err, result) => {
+                if (err) {
+                    return console.log(
+                        err,
+                        "Location update failed. Something went wrong. please try again later"
+                    );
+                } else {
+                    res.json(result);
+                    return;
+                }
+            });
+        } else {
+            let sqlQuery =
+                "INSERT INTO location (Manufacturer_ID, Latitude, Longitude) VALUES (?, ?, ?)";
+            let data = [Manufacturer_ID, latitude, longitude];
+            DBQuery(sqlQuery, data, (err, result) => {
+                if (err) {
+                    return console.log(
+                        err,
+                        "Location update failed. Something went wrong. please try again later"
+                    );
+                } else {
+                    res.json(result);
+                    return;
+                }
+            });
+        }
+    } catch {
+        return { msg: "Something Went Wrong" };
+    }
+});
+
 router.post("/maker-password-edit", async (req, res) => {
     const { Manufacturer_ID, old_password, new_password, confirm_password } =
         req.body;
