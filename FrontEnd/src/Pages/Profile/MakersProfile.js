@@ -13,8 +13,17 @@ import InputComponent from "../../Components/input/InputComponent";
 import SearchInputComponent from "../../Components/input/SearchInputComponent";
 import { ValidationSchemaMakerProfile } from "../Form/ValidationSchema";
 import { useSelector } from "react-redux";
-import { FileDownload, postDataWithFormData } from "../../commonApi/CommonApi";
-import { makerProfileEdit } from "../../commonApi/Link";
+import {
+    FileDownload,
+    getData,
+    postData,
+    postDataWithFormData,
+} from "../../commonApi/CommonApi";
+import {
+    getMakerLocation,
+    makerMapEdit,
+    makerProfileEdit,
+} from "../../commonApi/Link";
 import { Toast } from "../../Components/ReactToastify";
 
 // const mapData = require("../../data/MapData.json");
@@ -117,6 +126,26 @@ function MakersProfile() {
         }
 
         GetProfileImage();
+
+        async function GetLocation() {
+            if (currentUserData && currentUserData.Manufacturer_ID) {
+                getData(
+                    getMakerLocation,
+                    currentUserData.Manufacturer_ID,
+                    (onSuccess) => {
+                        setLocationData({
+                            ...locationData,
+                            latitude: onSuccess.data["Latitude"],
+                            longitude: onSuccess.data["Longitude"],
+                        });
+                    },
+                    (onFail) => {
+                        console.log("failed");
+                    }
+                );
+            }
+        }
+        GetLocation();
     }, [currentUserData]);
 
     const handleSearch = (data) => {
@@ -125,7 +154,21 @@ function MakersProfile() {
     };
 
     const handleSubmitMap = (values) => {
-        console.log(values, "Map values");
+        console.log(currentUserData.Manufacturer_ID, "Map values");
+        const body = {
+            Manufacturer_ID: currentUserData.Manufacturer_ID,
+            latitude: values.latitude,
+            longitude: values.longitude,
+        };
+        postData(
+            makerMapEdit,
+            body,
+            (onSuccess) => {
+                console.log(onSuccess.data, "onsuccess");
+                Toast("Map Updated Successfully", "success");
+            },
+            (onFail) => {}
+        );
     };
     return (
         <div
@@ -290,7 +333,11 @@ function MakersProfile() {
                         </label>
                         <SearchInputComponent handleSearch={handleSearch} />
                     </div>
-                    {console.log("location data", locationData)}
+                    <>
+                        <label style={{ fontSize: 10 }}>
+                            Double Click to get to your current location
+                        </label>
+                    </>
                     <MapComponent
                         currentPosition={false}
                         search={mapSearch}

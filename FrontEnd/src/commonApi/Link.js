@@ -62,8 +62,14 @@ export const getAQuote = "quote/get-quote";
 //custoemr profile edit
 export const customerProfileEdit = "profile/customer-edit";
 
+// maker location
+export const getMakerLocation = "profile/maker-get-map";
+
 //maker profile edit
 export const makerProfileEdit = "profile/maker-edit";
+
+// maker map edit
+export const makerMapEdit = "profile/maker-map-edit";
 
 // maker password edit
 export const makerPasswordEdit = "profile/maker-password-edit";

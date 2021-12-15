@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import FormikComponent from "../formik/FormikComponent";
 import FormikController from "../formik/FormikController";
 import * as Yup from "yup";
@@ -37,7 +37,9 @@ const ValidationSchema = Yup.object().shape({
 });
 
 function ChangePasswordComponent({ id }) {
+    const [loading, setLoading] = useState(false);
     const handleSubmit = (values) => {
+        setLoading(true);
         console.log(values, "values");
         const body = {
             Manufacturer_ID: id,
@@ -54,8 +56,9 @@ function ChangePasswordComponent({ id }) {
             body,
             (onSuccess) => {
                 console.log(onSuccess.data, "onsuccess");
-                if (onSuccess.data === true) {
+                if (onSuccess.data) {
                     Toast("Password Updated Successfully", "success");
+                    setLoading(false);
                 } else {
                     Toast("Wrong Old Password", "error");
                 }
