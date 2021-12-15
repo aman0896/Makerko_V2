@@ -6,6 +6,7 @@ var cookieParser = require("cookie-parser");
 require("dotenv").config();
 var multer = require("multer");
 var fs = require("fs");
+const Makers = require("./routes/Makers");
 
 //project path define
 const path = require("path");
@@ -72,6 +73,8 @@ app.use("/process", Process);
 const Quote = require("./routes/Quote");
 const FileDownload = require("./Utils/FileDownload");
 app.use("/quote", Quote);
+
+app.use("/makers", Makers);
 //#endregion
 
 //Serve the static files from the React app
