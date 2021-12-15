@@ -12,6 +12,7 @@ import PopperComponent from "../popper/PopperComponent";
 export default function Filter(props) {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
+    console.log(anchorRef, "anchor");
     // const [d, setD] = React.useState();
 
     // React.useEffect(() => {

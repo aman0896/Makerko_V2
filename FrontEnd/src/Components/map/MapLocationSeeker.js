@@ -17,20 +17,20 @@ function LocationSeeker(props) {
     React.useEffect(() => {
         if (props.search) {
             setPosition([
-                props.search.latitude
-                    ? props.search.latitude
+                props.search.Latitude
+                    ? props.search.Latitude
                     : props.search.lat,
-                props.search.longitude
-                    ? props.search.longitude
+                props.search.Longitude
+                    ? props.search.Longitude
                     : props.search.lon,
             ]);
             map.flyTo(
                 [
-                    props.search.latitude
-                        ? props.search.latitude
+                    props.search.Latitude
+                        ? props.search.Latitude
                         : props.search.lat,
-                    props.search.longitude
-                        ? props.search.longitude
+                    props.search.Longitude
+                        ? props.search.Longitude
                         : props.search.lon,
                 ],
                 18
