@@ -24,6 +24,12 @@ const DropDown = ({
     value,
 }) => {
     const [data, setData] = useState();
+    useEffect(() => {
+        if (setInitial) {
+            setData(setInitial);
+            setFieldValue(name, setInitial);
+        }
+    }, [setInitial]);
     const customStyles = {
         control: (base) => ({
             ...base,
