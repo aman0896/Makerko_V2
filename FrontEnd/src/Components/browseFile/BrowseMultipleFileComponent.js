@@ -56,15 +56,16 @@ export default function BrowseFileComponent(props) {
       )}
 
       <div
-        className="d-flex  align-items-center m-0 p-0 pl-3 pt-2 w-25"
+        className="d-flex  align-items-center m-0 p-0 pl-3 pt-2"
         style={{
-          border: `0.8px solid ${
-            props.errors && [props.name] &&
-            props.touched &&
-            props.touched[props.name]
-              ? colors.danger
-              : colors.gray
-          }`,
+          // border: `0.8px solid ${
+          //   props.errors && [props.name] &&
+          //   props.touched &&
+          //   props.touched[props.name]
+          //     ? colors.danger
+          //     : colors.gray
+          // }`,
+          border: `0.8px solid ${colors.gray} `,
           borderRadius: 5,
           height: 50,
         }}
