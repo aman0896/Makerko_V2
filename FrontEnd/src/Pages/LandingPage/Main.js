@@ -79,7 +79,7 @@ function Main() {
                             type="button"
                             buttonSize="button2--medium"
                             onClick={() => {
-                                history.push({ pathname: "/maker" });
+                                history.push({ pathname: "/makers" });
                             }}
                         >
                             <span>Explores </span>
