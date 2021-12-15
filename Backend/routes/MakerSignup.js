@@ -82,18 +82,19 @@ router.patch("/services/:id", (req, res) => {
   if (m_id && hubServices && hubServices.length > 0) {
     console.log("inside update services", hubServices, m_id);
     const sql = "DELETE FROM services WHERE Manufacturer_ID = ?";
-    db.query(sql, [m_id], async (err, result) => {
+    DBQuery(sql, [m_id], async (err, result) => {
       if (err) {
         return console.log("service-delete", err);
       } else {
         var serviceUpdate = false;
+
         await new Promise((resolve) => {
           hubServices.forEach((hubService) => {
             const serviceID = hubService.fabricationService.Service_ID;
             const materialDetails = JSON.stringify(hubService.materialDetails);
             const sql =
               "INSERT INTO services (Service_ID, Manufacturer_ID, Material_Name) VALUES (?, ?, ?)";
-            const result = db.query(
+            const result = DBQuery(
               sql,
               [serviceID, m_id, materialDetails],
               (err, result) => {
@@ -121,12 +122,12 @@ router.get("/service/:id/:companyname", (req, res) => {
   const id = req.params.id;
   const companyName = req.params.companyname;
   console.log("manufacturer", id, companyName);
-  db.query(
+  DBQuery(
     "SELECT * FROM manufacturer WHERE Manufacturer_ID = ? AND Company_Name = ?",
     [id, companyName],
     (err, currentHub) => {
       if (currentHub.length > 0) {
-        db.query(
+        DBQuery(
           "SELECT fs.Name, fs.Service_ID, s.Material_Name, s.Manufacturer_ID " +
             "FROM services s " +
             "INNER JOIN fabrication_services fs " +

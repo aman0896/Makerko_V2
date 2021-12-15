@@ -8,20 +8,16 @@ export default function BrowseFileComponent(props) {
   const [file, setFile] = useState(null);
   const [fileLength, setFileLength] = useState(null);
 
-  useEffect(() => {
-    setFile(props.setInitial);
-    props.setFieldValue(props.name, props.setInitial);
-  }, [props.setInitial]);
+  // useEffect(() => {
+  //   setFile(props.setInitial);
+  //   props.setFieldValue(props.name, props.setInitial);
+  // }, [props.setInitial]);
 
   const handleChange = (event) => {
     const files = event.target.files;
 
     if (files) {
       props.setFieldValue(props.name, files);
-      //setFile(URL.createObjectURL(file));
-      //   for (let i = 0; i < files.length; i++) {
-      //     file.push(URL.createObjectURL(files[i]));
-      //   }
 
       let filePreview = [];
 
@@ -63,7 +59,9 @@ export default function BrowseFileComponent(props) {
         className="d-flex  align-items-center m-0 p-0 pl-3 pt-2 w-25"
         style={{
           border: `0.8px solid ${
-            props.errors[props.name] && props.touched[props.name]
+            props.errors && [props.name] &&
+            props.touched &&
+            props.touched[props.name]
               ? colors.danger
               : colors.gray
           }`,
@@ -75,7 +73,10 @@ export default function BrowseFileComponent(props) {
           <label
             className={
               "btn" +
-              (props.errors[props.name] && props.touched[props.name]
+              (props.errors &&
+              props.errors[props.name] &&
+              props.touched &&
+              props.touched[props.name]
                 ? " is-invalid"
                 : "")
             }
@@ -90,25 +91,25 @@ export default function BrowseFileComponent(props) {
             id={props.name}
             accept={props.accept}
             hidden
+            multiple
+            onBlur={() => {
+              if (props.handleBlur) {
+                props.handleBlur(props.name);
+              }
+            }}
             onChange={(event) => {
               props.onChange ? props.onChange(event) : handleChange(event);
             }}
-            multiple
-            // onBlur={() => {
-            //   if (props.handleBlur) {
-            //     props.handleBlur(props.name);
-            //   }
-            // }}
           />
         </div>
         <div className="ml-5">
-          {fileLength ? fileLength + "files" : "NO FILE CHOSEN"}
+          {props.fileLength ? props.fileLength + "files" : "NO FILE CHOSEN"}
         </div>
       </div>
 
       <ErrorMessage
-        error={props.errors[props.name]}
-        visible={props.touched[props.name]}
+        error={props.errors && props.errors[props.name]}
+        visible={props.touched && props.touched[props.name]}
       />
     </div>
   );

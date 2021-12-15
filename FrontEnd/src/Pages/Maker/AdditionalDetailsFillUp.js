@@ -103,13 +103,13 @@ function AdditionalDetailsFillUp() {
         });
         //file.push(files[i]);
       }
-      console.log(filePreview, ";line no 104");
       setFile(filePreview);
       setFileLength(files.length);
     } else {
-      formRef.current.setFieldValue("files", file);
+      formRef.current.setFieldValue("files", null);
       setFile(null);
       setFileLength(null);
+      formRef.current.setFieldTouched("files");
     }
   };
 
@@ -216,9 +216,10 @@ function AdditionalDetailsFillUp() {
             name="files"
             title="Choose Files"
             accept={SUPPORTED_FORMATS}
-            setInitial={imagePreview}
-            setPrevious={previousImagePath}
             onChange={handleOnChange}
+            fileLength={fileLength}
+            errors={previousImagePath && null}
+            touched={previousImagePath && null}
           />
         </div>
 
