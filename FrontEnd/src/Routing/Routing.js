@@ -23,6 +23,7 @@ import Map from "../Pages/Map/Map";
 import Maker from "../Pages/Profile/Maker";
 import MakersHub from "../Pages/Profile/MakersHub";
 import Projects from "../Pages/FeatureProject/Projects";
+import RequestDesign from "../Pages/RequestDesign";
 
 function Routing({ isAuth, currentUser, userType }) {
     const auth = useSelector((state) => state.isAuth);
@@ -78,6 +79,11 @@ function Routing({ isAuth, currentUser, userType }) {
                                 exact
                                 path="/get-quote"
                                 component={GetAQuote}
+                            />
+                            <Route
+                                exact
+                                path="/request-design"
+                                component={RequestDesign}
                             />
 
                             <Route
