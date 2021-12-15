@@ -3,6 +3,7 @@ import Card from "../Card";
 import Slider from "react-slick";
 import Lightbox from "react-image-lightbox";
 import "./SlideView.css";
+import "react-image-lightbox/style.css";
 
 function SlideView({
     className,
