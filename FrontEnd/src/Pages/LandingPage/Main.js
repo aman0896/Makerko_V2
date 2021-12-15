@@ -32,6 +32,7 @@ function Main() {
             behavior: "smooth",
         });
     };
+
     return (
         <div>
             <Carousel slides={slides} />
