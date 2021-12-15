@@ -95,7 +95,7 @@ export const ProjectValidationSchema = Yup.object().shape({
     files: Yup.mixed().required("Photos  of project is required"),
 });
 
-//Signup Validation Schema
+//Get quote Validation Schema
 export const GetAQuoteValidationSchema = Yup.object().shape({
     method: Yup.object().required("Method is required"),
 
@@ -103,6 +103,17 @@ export const GetAQuoteValidationSchema = Yup.object().shape({
     thickness: Yup.string().required("Thickness is required"),
     quantity: Yup.string().required("Quantity is required"),
     file: Yup.object().required("No file Uploaded"),
+});
+
+//reqest design Validation Schema
+export const RequestDesignValidationSchema = Yup.object().shape({
+    productFile: Yup.object().required("No file Uploaded"),
+    sketchFile: Yup.object().required("No file Uploaded"),
+    description: Yup.string().required("Brief Description is required"),
+    termsCondition: Yup.bool().oneOf(
+        [true],
+        "Please accept the terms and conditions to continue."
+    ),
 });
 
 //maker profile validation schema
