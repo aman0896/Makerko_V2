@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormikContext, Field } from "formik";
 import { Button } from "@material-ui/core";
 import { colors } from "../../Values/colors";
@@ -7,6 +7,11 @@ import ErrorMessage from "../formik/ErrorMessage";
 export default function BrowseFileComponent(props) {
   const [file, setFile] = useState(null);
   const [fileLength, setFileLength] = useState(null);
+
+  useEffect(() => {
+    setFile(props.setInitial);
+    props.setFieldValue(props.name, props.setInitial);
+  }, [props.setInitial]);
 
   const handleChange = (event) => {
     const files = event.target.files;
@@ -45,31 +50,13 @@ export default function BrowseFileComponent(props) {
     fontSize: 15,
     color: colors.white,
   };
+
   return (
     <div className="mb-4">
       {props.label && (
         <label className="mb-1 font-weight-bold" style={{ fontSize: 14 }}>
           {props.label}
         </label>
-      )}
-      {file && (
-        <div className="row m-2">
-          {file.map((src) => (
-            <div className="col-sm m-2">
-              <img
-                style={{
-                  height: 150,
-                  width: 150,
-                  border: "1px solid",
-                  borderRadius: 5,
-                  objectFit: "cover",
-                }}
-                src={src}
-                alt="image"
-              />
-            </div>
-          ))}
-        </div>
       )}
 
       <div
@@ -104,7 +91,7 @@ export default function BrowseFileComponent(props) {
             accept={props.accept}
             hidden
             onChange={(event) => {
-              handleChange(event);
+              props.onChange ? props.onChange(event) : handleChange(event);
             }}
             multiple
             // onBlur={() => {

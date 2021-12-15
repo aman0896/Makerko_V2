@@ -5,7 +5,7 @@ import { useWindowDimensions } from "../../Functions";
 import { colors } from "../../Values/colors";
 import OtherServices from "./OtherServices";
 import TableComponent from "../../Components/table/TableComponent";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ManufacturingServices from "./ManufacturingServices";
 import "./AdditionalDetails.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,12 +17,13 @@ import {
 import { makersAdditionalDetails, makersServices } from "../../commonApi/Link";
 import { Toast } from "../../Components/ReactToastify";
 import { GetMfgProcess } from "../../Components/Redux/Actions/MfgProcess";
+import { data } from "jquery";
 
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 
 export const MakersValidationSchema = Yup.object().shape({
   // file: Yup.object().required("No file Uploaded"),
-  // files: Yup.mixed().required("Photos  of project is required"),
+  // files: Yup.mixed().required("Photos is required"),
 });
 
 function AdditionalDetailsFillUp() {
@@ -32,28 +33,32 @@ function AdditionalDetailsFillUp() {
   const [oldOtherServices, setOldOtherServices] = useState();
   const hub = useSelector((state) => state.mfgProcess.hub);
   const [imagePreview, setImagePreview] = useState();
+  const [previousImagePath, setPreviousImagePath] = useState();
+  const [deletedImagePath, setDeletedImagepath] = useState([]);
+
+  const [file, setFile] = useState(null);
+  const [fileLength, setFileLength] = useState(null);
 
   const dispatch = useDispatch();
+
+  const formRef = useRef();
 
   const currentUserData = useSelector(
     (state) => state.currentUserdata.currentUserdata
   );
 
   useEffect(() => {
-    console.log(hub, "inside useeffect11");
     GetMfgProcess(dispatch, currentUserData);
   }, [currentUserData]);
 
   useEffect(() => {
-    console.log(hub, "inside useeffect22");
-
     if (hub) {
       console.log(hub, "hubs");
       setOldOtherServices(JSON.parse(hub.Other_Services));
       async function GetMultipleImage() {
         if (hub.Additional_Images) {
-          console.log(hub.Additional_Images, "image");
           let filesUrl = [];
+          let imagePath = [];
           const imageData = JSON.parse(hub.Additional_Images);
           for (let i = 0; i < imageData.length; i++) {
             const imageBlob = await FileDownload(imageData[i].filePath, null);
@@ -61,10 +66,16 @@ function AdditionalDetailsFillUp() {
             const profileImageUrl = window.URL.createObjectURL(
               new Blob([imageBlob])
             );
-            filesUrl.push(profileImageUrl);
+            filesUrl.push({
+              filePath: profileImageUrl,
+              fileName: imageData[i].fileName,
+            });
           }
 
           setImagePreview(filesUrl);
+          //setFile(filesUrl);
+
+          setPreviousImagePath(imageData);
         }
       }
       GetMultipleImage();
@@ -75,19 +86,42 @@ function AdditionalDetailsFillUp() {
     // file: "",
     files: "",
   };
-  console.log(currentUserData, "userdata");
-  const handleSubmit = (values) => {
-    console.log("values");
-    console.log(mfgProcess, "mmmmfgprocess");
-    console.log(otherServices, "otherServices");
-    console.log(currentUserData, "userdata");
 
+  const handleOnChange = (event) => {
+    const files = event.target.files;
+    console.log(files, ";line no 93");
+
+    if (files.length > 0) {
+      formRef.current.setFieldValue("files", files);
+
+      let filePreview = [];
+
+      for (let i = 0; i < files.length; i++) {
+        filePreview.push({
+          filePath: URL.createObjectURL(files[i]),
+          fileName: files[i].Name,
+        });
+        //file.push(files[i]);
+      }
+      console.log(filePreview, ";line no 104");
+      setFile(filePreview);
+      setFileLength(files.length);
+    } else {
+      formRef.current.setFieldValue("files", file);
+      setFile(null);
+      setFileLength(null);
+    }
+  };
+
+  const handleSubmit = (values) => {
     const formData = new FormData();
     formData.append("otherServices", JSON.stringify(otherServices));
 
     for (let i = 0; i < values.files.length; i++) {
       formData.append("multipleImage", values.files[i]);
     }
+    formData.append("prevImage", JSON.stringify(previousImagePath));
+    formData.append("deleteImage", JSON.stringify(deletedImagePath));
     patchData(
       makersServices,
       { mfgProcess },
@@ -95,16 +129,6 @@ function AdditionalDetailsFillUp() {
       (onSuccess) => {
         if (onSuccess) {
           console.log("success");
-          // if (onSuccess.data.emailExist === true) {
-          //   Toast("Email already exits", "error", 3000, colors.white);
-          //   return;
-          // }
-          // const { hash } = onSuccess.data;
-          // history.push({
-          //   pathname: `/account/verify`,
-          //   search: `?email=${values.email}&hash=${hash}`,
-          //   //send data to verify page
-          //   });
         }
       },
       (onFail) => {}
@@ -125,6 +149,25 @@ function AdditionalDetailsFillUp() {
 
   const { width } = useWindowDimensions();
 
+  const onDeleteClick = (img) => {
+    const filterData = imagePreview.filter(
+      (data) => data.filePath !== img.filePath
+    );
+
+    setImagePreview(filterData);
+
+    let filteredData = previousImagePath.filter(
+      (data) => data.fileName !== img.fileName
+    );
+    const deletedData = previousImagePath.filter(
+      (data) => data.fileName == img.fileName
+    );
+
+    setDeletedImagepath([...deletedImagePath, ...deletedData]);
+
+    setPreviousImagePath(filteredData);
+  };
+
   return (
     <div
       className="container-fluid mt-4"
@@ -132,33 +175,40 @@ function AdditionalDetailsFillUp() {
         width: width <= 800 ? "95%" : "80%",
       }}
     >
-      {console.log(oldOtherServices)}
       <ManufacturingServices />
 
-      <OtherServices
-        getData={(data) => setOtherServices(data)}
-        oldOtherServices={oldOtherServices}
-      />
-
-      <div className="mt-4">{/* <OtherServices /> */}</div>
+      <div className="mt-4">
+        <OtherServices
+          getData={(data) => setOtherServices(data)}
+          oldOtherServices={oldOtherServices}
+        />
+      </div>
       <FormikComponent
         initialValues={InitialValues}
         onSubmit={handleSubmit}
         validationSchema={MakersValidationSchema}
+        formRef={formRef}
       >
-        {/* <div className="mt-5 mb-5">
-          <FormikController
-            control="multipleFile"
-            label={<div className="heading title">Upload Company Logo:</div>}
-            name="files"
-            title="Choose Files"
-            accept={SUPPORTED_FORMATS}
-          />
-        </div> */}
-        {imagePreview &&
-          imagePreview.map((src) => (
-            <img src={src} style={{ height: 100, width: 100 }} />
-          ))}
+        {imagePreview && (
+          <div className="row m-2">
+            {imagePreview.map((src, index) => (
+              <div className="col-lg-2 m-3" key={index}>
+                <div className="image-container">
+                  <div>
+                    <img src={src.filePath} className="image" />
+                  </div>
+                  <div
+                    className="delete-icon"
+                    onClick={() => onDeleteClick(src)}
+                  >
+                    <i className="fas fa-times-circle"></i>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className="mt-5 mb-5">
           <FormikController
             control="multipleFile"
@@ -166,8 +216,23 @@ function AdditionalDetailsFillUp() {
             name="files"
             title="Choose Files"
             accept={SUPPORTED_FORMATS}
+            setInitial={imagePreview}
+            setPrevious={previousImagePath}
+            onChange={handleOnChange}
           />
         </div>
+
+        {file && (
+          <div className="row m-2">
+            {file.map((src, index) => (
+              <div className="col-lg-2 m-3" key={index}>
+                <div>
+                  <img src={src.filePath} className="image" />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
         <div className="d-flex justify-content-end mt-2">
           <FormikController title="Save" type="submit" control="submit" />
         </div>

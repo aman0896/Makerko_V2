@@ -28,3 +28,25 @@
   width: auto;
   color: white;
 }
+
+.delete-icon {
+  font-size: 20px;
+  position: absolute;
+  right: 0px;
+  top: -5px;
+  color: rgb(241, 63, 63);
+}
+
+.image-container {
+  position: relative;
+  height: 140px;
+  width: 140px;
+}
+
+.image {
+  height: 140px;
+  width: 140px;
+  border: 1px solid;
+  object-fit: cover;
+  border-radius: 10px;
+}

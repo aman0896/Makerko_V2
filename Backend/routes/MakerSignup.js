@@ -11,6 +11,7 @@ const path = require("path");
 const projectPath = path.dirname(process.cwd());
 var fs = require("fs");
 const { FileMove } = require("../Utils/Operations");
+const FileDelete = require("../Utils/FileDelete");
 
 router.post("/maker-signup", async (req, res) => {
   console.log(req.body, "info");
@@ -146,15 +147,46 @@ router.get("/service/:id/:companyname", (req, res) => {
 router.post("/maker-additional-details/:id", (req, res) => {
   const upload = MultipleFileUpload("multipleImage", null);
   upload(req, res, async (err) => {
-    const imageFile = req.file;
+    console.log(req.body.prevImage, "details");
+    let imageFile = req.files;
     const otherServices = req.body.otherServices;
-    console.log(imageFile, otherServices, "details");
-    const dir = `./public/uploads/maker/`;
+    const manufacturerID = req.params.id;
+    let prevImage = null;
+    if (req.body.prevImage != "undefined")
+      prevImage = JSON.parse(req.body.prevImage);
+    let deleteImage = null;
+    if (req.body.deleteImage != "undefined")
+      deleteImage = JSON.parse(req.body.deleteImage);
+
     const sqlQuery =
       "UPDATE manufacturer SET Other_Services=?, Additional_Images = ? WHERE Manufacturer_ID = ?";
     let file = [];
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
+
+    console.log(req.files, "file line 71");
+
+    if (deleteImage.length > 0) {
+      console.log(deleteImage, "delete");
+      for (let i = 0; i < deleteImage.length; i++) {
+        const isDelete = await FileDelete(deleteImage[i].filePath);
+        console.log(isDelete, "delete true");
+      }
+    }
+
+    if (req.files.length > 0) {
+      console.log("inside if line 73");
+      var dir = `./public/uploads/maker/${manufacturerID}/${imageFile[0].fieldname}/`;
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      // if (prevImage) {
+      //   for (let i = 0; i < prevImage.length; i++) {
+      //     FileDelete(prevImage[0].filePath);
+      //   }
+      // }
+    } else {
+      console.log("line 79");
+      console.log(prevImage, "line 79");
+      // imageFile = prevImage;
     }
 
     if (err) {
@@ -167,10 +199,18 @@ router.post("/maker-additional-details/:id", (req, res) => {
         console.log(tmp_path, "path");
         let target_path = dir + files[i].filename;
         const filePath = await FileMove(tmp_path, target_path);
-        file.push({ filename: files[i].filename, filePath: filePath });
+        file.push({
+          fileName: files[i].filename,
+          filePath: req.files.length > 0 ? filePath : files[i].filePath,
+        });
       }
+      let concatData = file;
+      if (prevImage) concatData = [...file, ...prevImage];
+
+      console.log(concatData, "data concat");
+
       console.log(file, "files");
-      const data = [otherServices, JSON.stringify(file), req.params.id];
+      const data = [otherServices, JSON.stringify(concatData), manufacturerID];
       DBQuery(sqlQuery, data, (err, result) => {
         if (err) {
           return console.log(err, "update data services error");

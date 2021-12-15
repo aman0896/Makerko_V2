@@ -1,3 +1,4 @@
+import { Toast } from "../../ReactToastify";
 import {
   DELETE_MFG_PROCCESS,
   GET_MFG_PROCCESS,
@@ -37,7 +38,7 @@ export const SetMfgProcess = (state = initialSates, action) => {
               action.mfgProcess.materialDetails[0],
             ];
           } else {
-            materialError = true;
+            return Toast("Material exist", "error");
           }
         } else {
           services = [...services, action.mfgProcess];
