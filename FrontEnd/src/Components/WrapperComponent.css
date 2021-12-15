@@ -5,7 +5,35 @@
 }
 
 .children-container {
-    width: 90%;
+    width: 80%;
     justify-content: center;
-    margin-top: 25px;
+    margin: 50px 0px;
+}
+
+@media screen and (max-width: 768px) {
+    .parent-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .children-container {
+        width: 80%;
+        justify-content: center;
+        margin-top: 25px;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .parent-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .children-container {
+        width: 80%;
+        justify-content: center;
+        margin-top: 25px;
+    }
 }
