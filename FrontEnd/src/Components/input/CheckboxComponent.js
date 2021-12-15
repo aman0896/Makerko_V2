@@ -1,11 +1,16 @@
 // import { ErrorMessage } from 'formik';
+import { useFormikContext } from "formik";
 import React from "react";
 import { Link } from "react-router-dom";
 import { colors } from "../../Values/colors";
 import ErrorMessage from "../formik/ErrorMessage";
 
 function CheckboxComponent(props) {
+    const { values } = useFormikContext();
     const handleChange = (event) => {
+        if (event.target.checked === false) {
+            props.handleBlur(props.name);
+        }
         props.setFieldValue(props.name, event.target.checked);
     };
     return (
@@ -19,15 +24,17 @@ function CheckboxComponent(props) {
                         ? " is-invalid"
                         : "")
                 }
+                checked={values[props.name]}
                 onChange={(event) => {
                     handleChange(event);
                 }}
                 style={{ height: 15, width: 15 }}
-                onBlur={() => {
-                    if (props.handleBlur) {
-                        props.handleBlur(props.name);
-                    }
-                }}
+
+                // onBlur={() => {
+                //     if (props.handleBlur) {
+                //         props.handleBlur(props.name);
+                //     }
+                // }}
             />
             <label htmlFor={props.name} className="form-check-label">
                 <span
