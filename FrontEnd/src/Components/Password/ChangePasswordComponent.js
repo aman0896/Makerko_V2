@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import FormikComponent from "../formik/FormikComponent";
 import FormikController from "../formik/FormikController";
 import * as Yup from "yup";
+import { postData, postDataWithFormData } from "../../commonApi/CommonApi";
+import { makerPasswordEdit } from "../../commonApi/Link";
+import { Toast } from "../ReactToastify";
 
 const InitialValues = {
     old_password: "",
@@ -33,9 +36,37 @@ const ValidationSchema = Yup.object().shape({
     ),
 });
 
-function ChangePasswordComponent() {
+function ChangePasswordComponent({ id }) {
+    const [loading, setLoading] = useState(false);
     const handleSubmit = (values) => {
+        setLoading(true);
         console.log(values, "values");
+        const body = {
+            Manufacturer_ID: id,
+            old_password: values.old_password,
+            new_password: values.new_password,
+            confirm_password: values.confirm_password,
+        };
+        // const formData = new FormData();
+        // formData.append("old_password", values.old_password);
+        // formData.append("new_password", values.new_password);
+        // formData.append("confirm_password", values.confirm_password);
+        postData(
+            makerPasswordEdit,
+            body,
+            (onSuccess) => {
+                console.log(onSuccess.data, "onsuccess");
+                if (onSuccess.data) {
+                    Toast("Password Updated Successfully", "success");
+                    setLoading(false);
+                } else {
+                    Toast("Wrong Old Password", "error");
+                }
+            },
+            (onFail) => {
+                console.log("Error Updating");
+            }
+        );
     };
     return (
         <div className="mb-3">

@@ -111,6 +111,7 @@
 }
 
 .button2-container--medium {
+    background-color: var(--white);
     width: 154px;
     height: 42px;
     border: 1px solid var(--dark);

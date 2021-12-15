@@ -28,6 +28,8 @@ router.post("/maker-signup", async (req, res) => {
         "INSERT INTO manufacturer (Manufacturer_ID, Email, Date, Company_Name, Password, Contact_Person, Phone_Number, Website, Company_Type, Address, Delivery, Email_Verification, Account_Verification) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     const data = await GetAllUsersData();
+
+    console.log(data, "data");
     var index = data.findIndex((item) => item.Email === email);
     if (index == -1) {
         PasswordEncryption(password, (err, hash) => {

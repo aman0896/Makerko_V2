@@ -71,12 +71,17 @@ function NavBar({ isAuth, currentUser, userType }) {
                 >
                     <li>
                         <Link
-                            // style={{
-                            //     color:
-                            //         path === "/"
-                            //             ? colors.primary
-                            //             : colors.white,
-                            // }}
+                            style={{
+                                backgroundColor:
+                                    path && path.startsWith("/makers")
+                                        ? colors.white
+                                        : "",
+                                color:
+                                    path && path.startsWith("/makers")
+                                        ? colors.primary
+                                        : "",
+                                borderRadius: 5,
+                            }}
                             className={
                                 path === "/"
                                     ? "navbar-links"
@@ -90,6 +95,17 @@ function NavBar({ isAuth, currentUser, userType }) {
                     </li>
                     <li>
                         <Link
+                            style={{
+                                backgroundColor:
+                                    path && path.startsWith("/projects")
+                                        ? colors.white
+                                        : "",
+                                color:
+                                    path && path.startsWith("/projects")
+                                        ? colors.primary
+                                        : "",
+                                borderRadius: 5,
+                            }}
                             className={
                                 path === "/"
                                     ? "navbar-links"
@@ -98,11 +114,22 @@ function NavBar({ isAuth, currentUser, userType }) {
                             onClick={handleChangePath}
                             to={{ pathname: "/projects" }}
                         >
-                            <label data-name="/project">PROJECT</label>
+                            <label data-name="/projects">PROJECT</label>
                         </Link>
                     </li>
                     <li>
                         <Link
+                            style={{
+                                backgroundColor:
+                                    path && path.startsWith("/blogs")
+                                        ? colors.white
+                                        : "",
+                                color:
+                                    path && path.startsWith("/blogs")
+                                        ? colors.primary
+                                        : "",
+                                borderRadius: 5,
+                            }}
                             className={
                                 path === "/"
                                     ? "navbar-links"
