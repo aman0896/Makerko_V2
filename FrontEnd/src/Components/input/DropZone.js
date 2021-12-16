@@ -36,7 +36,7 @@ function DropZone({
         setIsUpload(true);
 
         const formData = new FormData();
-        formData.append("file", acceptedFiles[0]);
+        formData.append(name, acceptedFiles[0]);
         try {
             postDataWithCofig(
                 dropzone,
@@ -77,7 +77,14 @@ function DropZone({
     });
 
     const onBtnRemove = (file) => {
-        const { originalname, size, path } = uploadedFile;
+        console.log(uploadedFile, "originalname");
+        if (uploadedFile.productFile) {
+            var { originalname, size, path } = uploadedFile.productFile[0];
+        } else if (uploadedFile.file) {
+            var { originalname, size, path } = uploadedFile.file[0];
+        } else if (uploadedFile.sketchFile) {
+            var { originalname, size, path } = uploadedFile.sketchFile[0];
+        }
 
         if (originalname === file.name && size === file.size) {
             deleteData(

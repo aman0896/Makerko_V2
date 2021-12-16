@@ -1,5 +1,8 @@
 const express = require("express");
-const { SingleFileUpload } = require("../Utils/MultarFileUpload");
+const {
+    SingleFileUpload,
+    MultipleFieldUpload,
+} = require("../Utils/MultarFileUpload");
 const router = express.Router();
 var fs = require("fs");
 
@@ -9,7 +12,20 @@ const projectPath = path.dirname(process.cwd());
 console.log(projectPath, "path");
 
 router.post("/file-drop", (req, res) => {
-    const upload = SingleFileUpload("file", null);
+    const upload = MultipleFieldUpload([
+        {
+            name: "file",
+            maxCount: 1,
+        },
+        {
+            name: "productFile",
+            maxCount: 1,
+        },
+        {
+            name: "sketchFile",
+            maxCount: 1,
+        },
+    ]);
     // const dir = "./public/uploads/customer/file";
     // if (!fs.existsSync(dir)) {
     //     fs.mkdirSync(dir, { recursive: true });
@@ -18,7 +34,8 @@ router.post("/file-drop", (req, res) => {
         if (err) {
             return console.log(err, "error");
         } else {
-            res.json({ fileDetails: req.file });
+            console.log(req.files, "files");
+            res.json({ fileDetails: req.files });
         }
     });
 });

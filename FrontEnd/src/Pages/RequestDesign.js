@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useSelector } from "react-redux";
 import { postData } from "../commonApi/CommonApi";
 import { requestDesign } from "../commonApi/Link";
 import FormikComponent from "../Components/formik/FormikComponent";
@@ -18,17 +19,24 @@ const InitialValues = {
 
 function RequestDesign() {
     const formRef = useRef();
+    const currentUserData = useSelector(
+        (state) => state.currentUserdata.currentUserdata
+    );
     const acceptedFiles = ".pdf, .jpeg, .dxf, .stl, .obj, .step, .tif";
 
     const handleSubmit = (values) => {
         console.log(values, "valuesrequestdesign");
-        const data = values;
+        const data = { values, currentUserData };
 
         postData(
             requestDesign,
             data,
             (onSuccess) => {
-                // Toast(onSuccess.data.message, "success");
+                if (onSuccess.data.mailSent === true) {
+                    Toast("Request Sent Successfully", "success");
+                    formRef.current.resetForm();
+                }
+
                 console.log(onSuccess, "success");
             },
             (onFail) => {}

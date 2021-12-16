@@ -90,7 +90,6 @@ async function SendOrderSpecificationMail(
 
 //#region request-design
 async function SendRequestDesignMail(userEmail, username, imageUri, sketchUri) {
-    console.log(imageUri, sketchUri, "uruu");
     var mailOptions = {
         from: `"${username}" <${userEmail}>`,
         to: "enquiry@makerko.com",
