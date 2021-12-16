@@ -20,6 +20,7 @@ const SIZES = [
     "button--large",
     "button--large--50",
     "button--large--100",
+    "button--large--nomargin",
 ];
 
 function Button({ children, type, buttonStyle, buttonSize, onClick, style }) {

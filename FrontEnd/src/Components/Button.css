@@ -74,6 +74,7 @@
     font-size: 16px;
 }
 
+
 .button--large--50 {
     width: 50%;
     height: 60px;
@@ -83,6 +84,12 @@
     width: 100%;
     height: 60px;
     font-size: 16px;
+}
+
+.button--large--nomargin{
+    width: 100%;
+    height: 60px;
+    margin: 0;
 }
 
 .button2 {

@@ -22,66 +22,66 @@ function App() {
         currentUser: "",
     });
 
-    useEffect(() => {
-        function IsLoggedIn() {
-            getDataWithNoParams(
-                isLoggedIn,
-                (onSuccess) => {
-                    if (onSuccess.data) {
-                        const { uid, loggedIn, userType } = onSuccess.data;
-                        if (loggedIn === true) {
-                            dispatch({
-                                type: IS_AUTH,
-                                isAuth: loggedIn,
-                                userType: userType,
-                                currentUser: uid,
-                            });
-                            setAuth({
-                                ...auth,
-                                isAuth: loggedIn,
-                                userType: userType,
-                                currentUser: uid,
-                            });
-                        }
-                        setIsLoading(false);
-                    }
-                },
-                (onFail) => {
-                    setErrorMessage("Server Not Found!!!");
-                }
-            );
-        }
-        IsLoggedIn();
-    }, []);
+    // useEffect(() => {
+    //     function IsLoggedIn() {
+    //         getDataWithNoParams(
+    //             isLoggedIn,
+    //             (onSuccess) => {
+    //                 if (onSuccess.data) {
+    //                     const { uid, loggedIn, userType } = onSuccess.data;
+    //                     if (loggedIn === true) {
+    //                         dispatch({
+    //                             type: IS_AUTH,
+    //                             isAuth: loggedIn,
+    //                             userType: userType,
+    //                             currentUser: uid,
+    //                         });
+    //                         setAuth({
+    //                             ...auth,
+    //                             isAuth: loggedIn,
+    //                             userType: userType,
+    //                             currentUser: uid,
+    //                         });
+    //                     }
+    //                     setIsLoading(false);
+    //                 }
+    //             },
+    //             (onFail) => {
+    //                 setErrorMessage("Server Not Found!!!");
+    //             }
+    //         );
+    //     }
+    //     IsLoggedIn();
+    // }, []);
 
-    useEffect(() => {
-        if (auth.isAuth) {
-            CurrentUserdata(dispatch, auth.currentUser);
-        }
-    }, [auth]);
+    // useEffect(() => {
+    //     if (auth.isAuth) {
+    //         CurrentUserdata(dispatch, auth.currentUser);
+    //     }
+    // }, [auth]);
 
-    useEffect(() => {
-        //get fabrication
-        FabricationMethod(dispatch);
+    // useEffect(() => {
+    //     //get fabrication
+    //     FabricationMethod(dispatch);
 
-        //gett material
-        Material(dispatch);
+    //     //gett material
+    //     Material(dispatch);
 
-        // get all makers list
-        MakersList(dispatch);
-    }, []);
+    //     // get all makers list
+    //     MakersList(dispatch);
+    // }, []);
 
     return (
         <div>
-            {isLoading ? (
+            {/* {isLoading ? (
                 <div>
                     <h1>{errorMessage}</h1>
                 </div>
-            ) : (
+            ) : ( */}
                 <>
                     <Routing />
                 </>
-            )}
+            {/* )} */}
         </div>
     );
 }

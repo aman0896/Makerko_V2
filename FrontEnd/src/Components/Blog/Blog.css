@@ -5,4 +5,39 @@
 
 .text_align{
     text-align: justify;
+    font-size: 18px;
 }
+
+.download_text_size{
+  font-size: 24px;
+  font-weight: normal;
+}
+
+.a{
+  font-weight: lighter;
+}
+
+.position_img{
+  order: 1;
+}
+
+.pad-mar{
+  padding: 0;
+  margin-left: 50px;
+}
+
+@media screen and (max-width: 720px) {
+  .position_img{
+    order: 0;
+  }
+
+  .flex--colm{
+    flex-direction: column;
+  }
+
+  .pad-mar{
+    padding: 0;
+    margin: 0px;
+  }
+}
+
