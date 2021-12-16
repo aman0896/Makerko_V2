@@ -85,3 +85,6 @@ export const makersList = "account/makers";
 
 //file download
 export const download = "download";
+
+// getMakers list
+export const getMakers = "makers/map";

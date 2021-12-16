@@ -12,6 +12,7 @@ export default function FilterInput(props) {
     const [filterOperator, setfilterOperator] = useState("contains");
     const [open, setOpen] = React.useState(true);
     const anchorRef = React.useRef(null);
+    console.log(anchorRef, "ref");
 
     const handleToggle = () => {
         console.log("inside toggle");
@@ -86,7 +87,7 @@ export default function FilterInput(props) {
                 <div class="input-group">
                     <div class="form-outline">
                         <InputComponent
-                            ref={props.anchorRef}
+                            anchorRef={props.anchorRef}
                             id="composition-button"
                             aria-controls={
                                 props.open ? "composition-menu" : undefined

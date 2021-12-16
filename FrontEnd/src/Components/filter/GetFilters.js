@@ -5,10 +5,13 @@ export const GetFilters = (filterItems, config = null) => {
     const [filterConfig, setFilterConfig] = useState(config);
 
     const filteredItem = React.useMemo(() => {
-        let newFilteredData = [...filterItems];
+        let newFilteredData = [];
+        if (filterItems) newFilteredData = [...filterItems];
         if (filterConfig !== null) {
             newFilteredData = filterItems.filter((item, index) => {
-                let filterName = item["name"].toLowerCase();
+                console.log(item, "filter item");
+                console.log(item["Company_Name"], "filter item");
+                let filterName = item["Company_Name"].toLowerCase();
                 let filterData = filterConfig.param.filterData;
                 let filterOperatorValue = filterConfig.param.filterOperator;
                 let filterResult = FilterFunction(

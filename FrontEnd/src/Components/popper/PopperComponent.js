@@ -48,8 +48,8 @@ function PopperComponent(props) {
                                     props.data.map((item, index) => (
                                         <div
                                             key={
-                                                item.name
-                                                    ? item.name
+                                                item.Company_Name
+                                                    ? item.Company_Name
                                                     : item["display_name"]
                                             }
                                             className={`p-2 filterItem ${
@@ -61,8 +61,12 @@ function PopperComponent(props) {
                                                 props.handleClick(item)
                                             }
                                         >
-                                            {item.name
-                                                ? item.name
+                                            {console.log(
+                                                item.Company_Name,
+                                                "popper comopnenet"
+                                            )}
+                                            {item.Company_Name
+                                                ? item.Company_Name
                                                 : item["display_name"]}
                                         </div>
                                     ))

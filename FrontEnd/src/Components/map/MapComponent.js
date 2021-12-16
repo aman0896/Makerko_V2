@@ -24,7 +24,7 @@ export default function MapComponent(props) {
         if (maker === null) {
             setMaker(item);
         } else {
-            if (maker.name === item.name) {
+            if (maker.Company_Name === item.Company_Name) {
                 setMaker(null);
             } else {
                 setMaker(item);
