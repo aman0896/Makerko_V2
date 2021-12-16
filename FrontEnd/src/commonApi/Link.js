@@ -62,6 +62,9 @@ export const fileDelete = "dropzone/file-delete";
 //get a quote
 export const getAQuote = "quote/get-quote";
 
+//request design
+export const requestDesign = "quote/request-design";
+
 //custoemr profile edit
 export const customerProfileEdit = "profile/customer-edit";
 
