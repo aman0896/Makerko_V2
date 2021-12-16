@@ -1,0 +1,4 @@
+.filterItem:hover {
+    cursor: pointer;
+    background-color: rgb(236, 231, 231);
+}

@@ -20,6 +20,8 @@ const DropDown = ({
     setFieldValue,
     handleBlur,
     setFieldTouched,
+    setInitial,
+    value,
 }) => {
     const [data, setData] = useState();
     const customStyles = {
@@ -31,6 +33,15 @@ const DropDown = ({
                 errors[name] && touched[name] ? colors.danger : colors.gray,
         }),
         indicatorSeparator: () => {}, // removes the "stick"
+        option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+            // const color = chroma(data.color);
+            // console.log({ data, isDisabled, isFocused, isSelected });
+            return {
+                ...styles,
+                backgroundColor: isFocused ? colors.primary : null,
+                color: isFocused ? colors.white : null,
+            };
+        },
 
         dropdownIndicator: (defaultStyles) => ({
             ...defaultStyles,
@@ -40,10 +51,9 @@ const DropDown = ({
             },
         }),
     };
-    const handleChange = (event) => {
-        setData(event.target.value);
-        console.log(event.target.value, "dropdown");
-        setFieldValue(name, event.target.value);
+    const handleChange = (option) => {
+        setData(option);
+        setFieldValue(name, option);
     };
 
     return (
@@ -52,6 +62,7 @@ const DropDown = ({
                 {label}
             </label>
             <Select
+                defaultValue={setInitial}
                 placeholder={placeholder}
                 styles={customStyles}
                 value={data}
@@ -62,10 +73,9 @@ const DropDown = ({
                 getOptionValue={getOptionValue}
                 isMulti={multipleSelect}
                 onChange={(selectedOption) => {
-                    let event = {
-                        target: { name: name, value: selectedOption },
-                    };
-                    setFieldValue ? handleChange(event) : onChange(event);
+                    onChange
+                        ? onChange(selectedOption)
+                        : handleChange(selectedOption);
                 }}
                 onBlur={() => {
                     handleBlur(name);

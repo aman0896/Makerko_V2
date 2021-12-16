@@ -1,7 +1,59 @@
-/* code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
 }
 .required {
-  color: red;
+    color: red;
+}
+
+@font-face {
+    font-family: "pilatExtendedBold";
+    src: local("pilatExtendedBold"),
+        url(./assets/font/PilatedExtended/PilatExtended-Bold.woff)
+            format("woff");
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                            'embedded-opentype', and 'svg' */
+}
+
+@font-face {
+    font-family: "SyneRegular";
+    src: local("SyneRegular"),
+        url(./assets/font/Syne/static/Syne-Regular.ttf) format("ttf");
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                            'embedded-opentype', and 'svg' */
+}
+
+/* .header {
+    font-family: "pilatExtendedBold";
+    font-size: 24px;
+    line-height: 18px;
+    letter-spacing: 0.2;
+    text-transform: uppercase;
+}
+
+.textParagraph {
+    font-family: "SyneRegular";
+    font-size: 20px;
+    line-height: 20px;
+    letter-spacing: 0.1;
 } */
+
+.mainComponent {
+    margin-left: 165px;
+    margin-top: 136px;
+    margin-right: 122px;
+    margin-bottom: 112px;
+}
+
+@media screen and (max-width: 768px) {
+    .mainComponent {
+        margin: 50px;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .mainComponent {
+        margin: 20px;
+        margin-top: 10px;
+    }
+}

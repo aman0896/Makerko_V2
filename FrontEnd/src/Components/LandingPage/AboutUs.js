@@ -1,9 +1,10 @@
 import React from "react";
 import { colors } from "../../Values/colors";
-import SlideView from "../SlideView";
+import SlideView from "../slideView/SlideView";
 import "./AboutUs.css";
 
-function AboutUs({ data }) {
+function AboutUs({ data, aboutRef }) {
+    console.log(aboutRef, "ref");
     const imageStyle = {
         objectFit: "cover",
         width: "100%",
@@ -22,7 +23,7 @@ function AboutUs({ data }) {
     };
 
     return (
-        <div className="aboutus-container">
+        <div className="aboutus-container" ref={aboutRef}>
             <div className="aboutus-sub-container">
                 <h2 className="aboutus-heading">AboutUs</h2>
                 <SlideView

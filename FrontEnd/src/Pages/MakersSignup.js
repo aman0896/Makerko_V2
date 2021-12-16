@@ -215,6 +215,20 @@ function MakersSignup() {
                                 <div className="row mb-2">
                                     <div className="col-lg-7 mt-4">
                                         <FormikController
+                                            label={
+                                                <>
+                                                    I agree with the
+                                                    <a
+                                                        // to="/"
+                                                        className="ml-1"
+                                                        style={{
+                                                            color: colors.primary,
+                                                        }}
+                                                    >
+                                                        Terms and Conditions
+                                                    </a>
+                                                </>
+                                            }
                                             name="termsCondition"
                                             control="checkbox"
                                         />

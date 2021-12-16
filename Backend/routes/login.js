@@ -14,7 +14,7 @@ router.post("/login", (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     var date = new Date();
-    date.setHours(date.getHours() + 1);
+    date.setFullYear(date.getFullYear() + 1);
     UserCheck(email, password, (err, response) => {
         if (err) {
             console.log(err);

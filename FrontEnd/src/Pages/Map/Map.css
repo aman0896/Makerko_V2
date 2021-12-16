@@ -1,0 +1,29 @@
+.mapSearch {
+    height: 40px;
+    border-radius: 5px;
+    width: 300px;
+}
+
+.headerBlock {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+}
+
+@media screen and (max-width: 768px) {
+}
+
+@media screen and (max-width: 540px) {
+    .headerBlock {
+        flex-direction: column;
+    }
+    .mapSearch {
+        height: 40px;
+        border-radius: 5px;
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+@media screen and (max-width: 40px) {
+}

@@ -5,6 +5,7 @@ const { PasswordEncryption } = require("../Utils/passwordSecurity");
 const { DBQuery } = require("../DBController/DatabaseQuery");
 const { CreateHash } = require("../Utils/OTP");
 const router = express.Router();
+const db = require("../DBController/DBConnect");
 
 router.post("/maker-signup", async (req, res) => {
     console.log(req.body, "info");
@@ -27,6 +28,8 @@ router.post("/maker-signup", async (req, res) => {
         "INSERT INTO manufacturer (Manufacturer_ID, Email, Date, Company_Name, Password, Contact_Person, Phone_Number, Website, Company_Type, Address, Delivery, Email_Verification, Account_Verification) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     const data = await GetAllUsersData();
+
+    console.log(data, "data");
     var index = data.findIndex((item) => item.Email === email);
     if (index == -1) {
         PasswordEncryption(password, (err, hash) => {
@@ -67,6 +70,78 @@ router.post("/maker-signup", async (req, res) => {
         });
     } else return res.send({ emailExist: true });
 });
+
+//#region services_db
+router.patch("/services/:id", (req, res) => {
+    const m_id = req.query[0];
+    const hubServices = req.body.mfgProcess;
+    if (m_id && hubServices && hubServices.length > 0) {
+        console.log("inside update services", hubServices, m_id);
+        const sql = "DELETE FROM services WHERE Manufacturer_ID = ?";
+        db.query(sql, [m_id], async (err, result) => {
+            if (err) {
+                return console.log("service-delete", err);
+            } else {
+                var serviceUpdate = false;
+                await new Promise((resolve) => {
+                    hubServices.forEach((hubService) => {
+                        const serviceID =
+                            hubService.fabricationService.Service_ID;
+                        const materialDetails = JSON.stringify(
+                            hubService.materialDetails
+                        );
+                        const sql =
+                            "INSERT INTO services (Service_ID, Manufacturer_ID, Material_Name) VALUES (?, ?, ?)";
+                        const result = db.query(
+                            sql,
+                            [serviceID, m_id, materialDetails],
+                            (err, result) => {
+                                if (err) {
+                                    return resolve((serviceUpdate = false));
+                                } else {
+                                    return resolve((serviceUpdate = true));
+                                }
+                            }
+                        );
+                    });
+                });
+                res.send({ serviceUpdate: serviceUpdate });
+            }
+        });
+    } else {
+        res.send({ serviceNull: true });
+    }
+});
+
+//#endregion
+
+//#region get specific hubs from hubID from db
+router.get("/service/:id/:companyname", (req, res) => {
+    const id = req.params.id;
+    const companyName = req.params.companyname;
+    console.log("manufacturer", id, companyName);
+    db.query(
+        "SELECT * FROM manufacturer WHERE Manufacturer_ID = ? AND Company_Name = ?",
+        [id, companyName],
+        (err, currentHub) => {
+            if (currentHub.length > 0) {
+                db.query(
+                    "SELECT fs.Name, fs.Service_ID, s.Material_Name, s.Manufacturer_ID " +
+                        "FROM services s " +
+                        "INNER JOIN fabrication_services fs " +
+                        "ON fs.Service_ID = s.Service_ID WHERE s.Manufacturer_ID = ? ",
+                    [id],
+                    (err, hubServices) => {
+                        res.send({ hub: currentHub, services: hubServices });
+                    }
+                );
+            } else {
+                res.status(404).send("Hub Not found");
+            }
+        }
+    );
+});
+//#endregion
 
 module.exports = router;
 
