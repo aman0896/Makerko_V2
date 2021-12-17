@@ -24,6 +24,7 @@ export default function TableComponent({ column, data, onDeleteClick }) {
         </thead>
         <tbody>
           {data.map((row, index) => (
+            
             <tr
               key={index}
               style={{
@@ -42,7 +43,7 @@ export default function TableComponent({ column, data, onDeleteClick }) {
                           : null,
                     }}
                   >
-                    {item.field == "action" ? (
+                    {item.field === "action" ? (
                       <span
                         className="text-danger"
                         style={{ cursor: "pointer" }}
