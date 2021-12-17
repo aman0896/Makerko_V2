@@ -16,4 +16,11 @@ router.get("/material", async (req, res) => {
   res.json(data);
 });
 
+//material
+router.get("/makers-services", async (req, res) => {
+  const sqlQuery = "SELECT * FROM services";
+  const data = await DBQuery2(sqlQuery);
+  res.json(data);
+});
+
 module.exports = router;

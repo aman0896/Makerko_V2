@@ -17,6 +17,10 @@ import {
     ServicesComponent,
     TextIconComponent,
 } from "./ProfileComponent";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { FileDownload } from "../../commonApi/CommonApi";
+import { SetMakersServices } from "../../Components/Redux/Reducers/SetMakersServices";
 
 const profileData = require("../../data/ProfileData.json");
 
@@ -154,116 +158,171 @@ const column = [
 
 export default function MakersDetailViewPage() {
     const { height, width } = useWindowDimensions();
+    const [profileImagePreview, setProfileImagePreview] = useState();
+    const [maker, setMaker] = useState();
+    const [services, setServices] = useState();
+    const makersList = useSelector((state) => state.makersList.makersList);
+    const makersServices = useSelector(
+        (state) => state.makersServices.services
+    );
+    const { id } = useParams();
+
+    useEffect(() => {
+        async function GetMakerData() {
+            if (makersList && makersServices) {
+                makersList.filter(async (maker) => {
+                    if (maker.Manufacturer_ID === id) {
+                        setMaker(maker);
+                        const imageData = JSON.parse(maker.Logo);
+                        const imageBlob = await FileDownload(
+                            imageData.filePath
+                        );
+                        const profileImageUrl = window.URL.createObjectURL(
+                            new Blob([imageBlob])
+                        );
+                        setProfileImagePreview(profileImageUrl);
+                    }
+                });
+
+                const services = makersServices.filter(
+                    (service) => service.Manufacturer_ID === id
+                );
+
+                setServices(services);
+            }
+        }
+
+        GetMakerData();
+    }, [makersList, makersServices, id]);
+
     return (
         <div style={{ minHeight: height - 80, backgroundColor: colors.dark }}>
-            <img
-                src={myImage.cover}
-                style={{ width: "100%", height: height / 2 }}
-                alt="Profile Cover"
-            />
-            <div className="row m-auto">
-                <div
-                    className="col-4"
-                    style={{ display: width < 768 ? "none" : "block" }}
-                >
-                    <div className="ml-md-5 d-flex align-items-center flex-column">
-                        <div className="bg-white stack-top px-4 py-3">
-                            <div className="bg-white d-flex align-items-center flex-column py-2 text-center">
-                                <div className="my-4 p-3 webLogo">
-                                    <img
-                                        src={myImage.profileLogo}
-                                        alt="logo"
-                                        style={{ objectFit: "contain" }}
+            {maker && (
+                <>
+                    <img
+                        src={myImage.cover}
+                        style={{ width: "100%", height: height / 2 }}
+                        alt="Profile Cover"
+                    />
+                    <div className="row m-auto">
+                        <div
+                            className="col-4"
+                            style={{ display: width < 768 ? "none" : "block" }}
+                        >
+                            <div className="ml-md-5 d-flex align-items-center flex-column">
+                                <div className="bg-white stack-top px-4 py-3">
+                                    <div className="bg-white d-flex align-items-center flex-column py-2 text-center">
+                                        <div className="my-4 p-3 webLogo">
+                                            <img
+                                                src={profileImagePreview}
+                                                alt="logo"
+                                                style={{
+                                                    width: "inherit",
+                                                    height: "inherit",
+                                                    objectFit: "contain",
+                                                }}
+                                            />
+                                        </div>
+                                        <div>
+                                            <h4 className="heading">
+                                                {maker.Company_Name}
+                                            </h4>
+                                            <p className="px-3">
+                                                {
+                                                    maker
+                                                        .Brief_Description
+                                                }
+                                            </p>
+                                            <p>
+                                                {maker.Website}
+                                                <br />
+                                                {maker.Address}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <QuoteButton
+                                                value="get a quote"
+                                                textTransform="capitalize"
+                                                buttonStyle="button--primary--solid"
+                                            />
+                                        </div>
+                                        <div>
+                                            <StarRatingAverage
+                                                widgetDimensions="20px"
+                                                averageRating={3.5}
+                                            />
+                                        </div>
+                                    </div>
+                                    <ServicesComponent
+                                        header="Fabrication Services"
+                                        services={services}
                                     />
-                                </div>
-                                <div>
-                                    <h4 className="heading">
-                                        Zener Technology
-                                    </h4>
-                                    <p className="px-3">
-                                        3D Design and Additive manufacturing
-                                        Tech Company, inspired by the fourth
-                                        Industrial Revolution.
-                                    </p>
-                                    <p>
-                                        www.promechminds.com
-                                        <br />
-                                        Kupondole,Lalitpur
-                                    </p>
-                                </div>
-                                <div>
-                                    <QuoteButton
-                                        value="get a quote"
-                                        textTransform="capitalize"
-                                        buttonStyle="button--primary--solid"
+                                    <ServicesComponent
+                                        header="Other Services"
+                                        services={otherServices}
                                     />
-                                </div>
-                                <div>
-                                    <StarRatingAverage
-                                        widgetDimensions="20px"
-                                        averageRating={3.5}
-                                    />
+                                    <>
+                                        <div className="heading my-3 mt-5">
+                                            Contact
+                                        </div>
+                                        <TextIconComponent
+                                            icon={<HiPhone />}
+                                            text="9815401344"
+                                        />
+                                        <TextIconComponent
+                                            icon={<MdMail />}
+                                            text="zener@gmail.com"
+                                        />
+                                    </>
+                                    <>
+                                        <div className="mb-4">
+                                            <b>Rate this Manufactoring Hub</b>
+                                            <label>
+                                                Tell others what you think
+                                            </label>
+                                            <StarRating
+                                                widgetDimensions="25px"
+                                                widgetSpacing="5px"
+                                            />
+                                        </div>
+                                    </>
                                 </div>
                             </div>
-                            <ServicesComponent
-                                header="Fabrication Services"
-                                services={services}
-                            />
-                            <ServicesComponent
-                                header="Other Services"
-                                services={otherServices}
-                            />
-                            <>
-                                <div className="heading my-3 mt-5">Contact</div>
-                                <TextIconComponent
-                                    icon={<HiPhone />}
-                                    text="9815401344"
-                                />
-                                <TextIconComponent
-                                    icon={<MdMail />}
-                                    text="zener@gmail.com"
-                                />
-                            </>
-                            <>
-                                <div className="mb-4">
-                                    <b>Rate this Manufactoring Hub</b>
-                                    <label>Tell others what you think</label>
-                                    <StarRating
-                                        widgetDimensions="25px"
-                                        widgetSpacing="5px"
+                        </div>
+                        <div className="col-md-7 mt-5 text-justify text-white">
+                            <div
+                                style={{
+                                    display: width < 768 ? "block" : "none",
+                                }}
+                            >
+                                <h4 className="heading">Zener Technology</h4>
+                                <div className="my-4 p-3 mobileLogo">
+                                    <img
+                                        src={profileImagePreview}
+                                        alt="logo"
+                                        style={{
+                                            width: "inherit",
+                                            height: "inherit",
+                                            objectFit: "contain",
+                                        }}
                                     />
                                 </div>
-                            </>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-7 mt-5 text-justify text-white">
-                    <div style={{ display: width < 768 ? "block" : "none" }}>
-                        <h4 className="heading">Zener Technology</h4>
-                        <div className="my-4 p-3 mobileLogo">
-                            <img
-                                src={myImage.profileLogo}
-                                alt="logo"
-                                style={{ objectFit: "contain" }}
-                            />
-                        </div>
-                        <p className="px-3">
-                            3D Design and Additive manufacturing Tech Company,
-                            inspired by the fourth Industrial Revolution.
-                        </p>
-                        <div className="text-center mb-5">
-                            <p>
-                                www.promechminds.com
-                                <br />
-                                Kupondole,Lalitpur
-                            </p>
-                            <div>
-                                <QuoteButton
-                                    value="get a quote"
-                                    textTransform="capitalize"
-                                    buttonStyle="button--primary--solid"
-                                />
-                                {/* <Button
+                                <p className="px-3">
+                                    {maker.Brief_Description}
+                                </p>
+                                <div className="text-center mb-5">
+                                    <p>
+                                        {maker.Website}
+                                        <br />
+                                        {maker.Address}
+                                    </p>
+                                    <div>
+                                        <QuoteButton
+                                            value="get a quote"
+                                            textTransform="capitalize"
+                                            buttonStyle="button--primary--solid"
+                                        />
+                                        {/* <Button
                                     buttonStyle="button--primary--solid"
                                     style={{
                                         fontWeight: 100,
@@ -272,197 +331,186 @@ export default function MakersDetailViewPage() {
                                 >
                                     <b>Get A Quote</b>
                                 </Button> */}
+                                    </div>
+                                    <div className="w-100 d-flex justify-content-center">
+                                        <StarRatingAverage
+                                            widgetDimensions="20px"
+                                            averageRating={3.5}
+                                            ratingBlockColor="primary"
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <div className="w-100 d-flex justify-content-center">
-                                <StarRatingAverage
-                                    widgetDimensions="20px"
-                                    averageRating={3.5}
-                                    ratingBlockColor="primary"
+                            <div
+                                className="heading mb-3 text-left"
+                                style={{ fontSize: width < 768 ? 20 : 38 }}
+                            >
+                                About {maker.Company_Name}
+                            </div>
+                            <p>{maker.Additional_Details}</p>
+                            <>
+                                <div
+                                    className="heading mb-3"
+                                    style={{ fontSize: width < 768 ? 20 : 38 }}
+                                >
+                                    Manufacturing Services
+                                </div>
+                                <div className="mb-5">
+                                    <div className="border tableMainHeader">
+                                        <h2 className="mx-5">3D Printing</h2>
+                                    </div>
+                                    <TableComponent
+                                        column={column}
+                                        data={profileData.profile}
+                                    />
+                                </div>
+                                <div className="border tableMainHeader">
+                                    <h2 className="mx-5">3D Printing</h2>
+                                </div>
+                                <TableComponent
+                                    column={column}
+                                    data={profileData.profile}
+                                />
+                                <div
+                                    style={{
+                                        display: width < 768 ? "block" : "none",
+                                    }}
+                                >
+                                    <ServicesComponent
+                                        header="Fabrication Services"
+                                        services={services}
+                                        style={{
+                                            fontSize: width < 768 ? 20 : 38,
+                                        }}
+                                    />
+                                    <ServicesComponent
+                                        header="Other Services"
+                                        services={otherServices}
+                                        style={{
+                                            fontSize: width < 768 ? 20 : 38,
+                                        }}
+                                    />
+                                </div>
+                            </>
+
+                            <div className="mt-5">
+                                <Button style={styles.whiteButton}>
+                                    Projects
+                                </Button>
+                                <div className="d-flex flex-column flex-md-row justify-content-between">
+                                    {projects &&
+                                        projects
+                                            .slice(0, 2)
+                                            .map((item, index) => (
+                                                <CardViewComponent
+                                                    key={index}
+                                                    imageStyle={{
+                                                        backgroundImage: `url(${item.image})`,
+                                                    }}
+                                                    title={item.title}
+                                                    description={
+                                                        item.description
+                                                    }
+                                                />
+                                            ))}
+                                </div>
+                            </div>
+
+                            <div className="mt-5">
+                                <Button style={styles.whiteButton}>
+                                    Blogs
+                                </Button>
+                                <div className="d-flex flex-column flex-md-row justify-content-between">
+                                    {blog &&
+                                        blog.slice(0, 2).map((item, index) => (
+                                            <CardViewComponent
+                                                key={index}
+                                                imageStyle={{
+                                                    backgroundImage: `url(${item.image})`,
+                                                }}
+                                                title={item.title}
+                                                description={item.description}
+                                            />
+                                        ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <p
+                                    className="text-center mt-5"
+                                    style={{
+                                        width: width < 768 ? "100%" : "50%",
+                                    }}
+                                >
+                                    Found what you are looking for?
+                                </p>
+                                <Button
+                                    buttonStyle="button--white--solid"
+                                    buttonSize={
+                                        width < 768
+                                            ? "button--large--100"
+                                            : "button--large--50"
+                                    }
+                                >
+                                    <b>Get A Quote</b>
+                                </Button>
+                            </div>
+                        </div>
+                        <div
+                            className="text-white text-center w-100 p-3 heading"
+                            style={{
+                                backgroundColor: colors.primary,
+                            }}
+                        >
+                            <label
+                                style={{
+                                    fontSize: width < 768 ? 20 : 30,
+                                    marginLeft: width > 768 ? 50 : 10,
+                                    marginRight: width > 768 ? 50 : 10,
+                                }}
+                            >
+                                "Wow what great service, I love it! It's is the
+                                most valuable business resource we have EVER
+                                purchased. We can't understand how we've been
+                                living without it."
+                            </label>
+                        </div>
+                    </div>
+                    <SlideView
+                        showImage={true}
+                        className="mt-5 mb-5"
+                        slides={images}
+                        imageStyle={{ height: "100%", width: "100%" }}
+                        cardStyle={cardStyle}
+                    />
+                    <div
+                        className="text-white text-center"
+                        style={{ display: width < 768 ? "block" : "none" }}
+                    >
+                        <>
+                            <div className="heading my-3 mt-5">Contact</div>
+                            <TextIconComponent
+                                icon={<HiPhone />}
+                                text="9815401344"
+                            />
+                            <TextIconComponent
+                                icon={<MdMail />}
+                                text="zener@gmail.com"
+                            />
+                        </>
+                        <>
+                            <div className="pb-4">
+                                <b>Rate this Manufactoring Hub</b>
+                                <label>Tell others what you think</label>
+                                <StarRating
+                                    widgetDimensions="25px"
+                                    widgetSpacing="5px"
                                 />
                             </div>
-                        </div>
-                    </div>
-                    <div
-                        className="heading mb-3 text-left"
-                        style={{ fontSize: width < 768 ? 20 : 38 }}
-                    >
-                        About Zener Technologies
-                    </div>
-                    <p>
-                        3D Design and Additive manufacturing Tech Company,
-                        inspired by the fourth Industrial Revolution. It uses
-                        the range of 3D printers and desktop manufacturing tools
-                        to offer prototyping and Just-in-time (JIT)
-                        manufacturing services to the local and international
-                        customers.
-                    </p>
-                    <p>
-                        3D printing enabled manufacturing increases efficiency
-                        and reliability by reducing labour, tools and material
-                        cost. It’s a clean production technology capable of
-                        making complex objects through additive processes and
-                        then taking it to conventional mass manufacturing
-                        processes with ease.
-                    </p>
-                    <p>
-                        Established in 2016 Zener Technologies took pioneering
-                        steps to commercialize 3D Printers and 3D Printing
-                        Services to the public, thus making the boons of
-                        additive manufacturing accessible to everyone in Nepal.
-                        In 2018, Zener Technologies started the commercial
-                        application of 3D Scanning and Reverse Engineering in
-                        Nepal.
-                    </p>
-                    <p>
-                        With growing market needs, we are determined to uplift
-                        the technology sector of Nepal by introducing new and
-                        advanced tools/services. Zener Technologies has been a
-                        Global Environment Facility Small Grants Programme
-                        (GEF-SGP) of the UNDP grantee and DFID UK Aid’s Frontier
-                        Tech Hub #COVIDaction Local Production Local Solution
-                        awardee – 2020.
-                    </p>
-                    <>
-                        <div
-                            className="heading mb-3"
-                            style={{ fontSize: width < 768 ? 20 : 38 }}
-                        >
-                            Manufacturing Services
-                        </div>
-                        <div className="mb-5">
-                            <div className="border tableMainHeader">
-                                <h2 className="mx-5">3D Printing</h2>
-                            </div>
-                            <TableComponent
-                                column={column}
-                                data={profileData.profile}
-                            />
-                        </div>
-                        <div className="border tableMainHeader">
-                            <h2 className="mx-5">3D Printing</h2>
-                        </div>
-                        <TableComponent
-                            column={column}
-                            data={profileData.profile}
-                        />
-                        <div
-                            style={{ display: width < 768 ? "block" : "none" }}
-                        >
-                            <ServicesComponent
-                                header="Fabrication Services"
-                                services={services}
-                                style={{ fontSize: width < 768 ? 20 : 38 }}
-                            />
-                            <ServicesComponent
-                                header="Other Services"
-                                services={otherServices}
-                                style={{ fontSize: width < 768 ? 20 : 38 }}
-                            />
-                        </div>
-                    </>
-
-                    <div className="mt-5">
-                        <Button style={styles.whiteButton}>Projects</Button>
-                        <div className="d-flex flex-column flex-md-row justify-content-between">
-                            {projects &&
-                                projects.slice(0, 2).map((item, index) => (
-                                    <CardViewComponent
-                                        key={index}
-                                        imageStyle={{
-                                            backgroundImage: `url(${item.image})`,
-                                        }}
-                                        title={item.title}
-                                        description={item.description}
-                                    />
-                                ))}
-                        </div>
-                    </div>
-
-                    <div className="mt-5">
-                        <Button style={styles.whiteButton}>Blogs</Button>
-                        <div className="d-flex flex-column flex-md-row justify-content-between">
-                            {blog &&
-                                blog.slice(0, 2).map((item, index) => (
-                                    <CardViewComponent
-                                        key={index}
-                                        imageStyle={{
-                                            backgroundImage: `url(${item.image})`,
-                                        }}
-                                        title={item.title}
-                                        description={item.description}
-                                    />
-                                ))}
-                        </div>
-                    </div>
-
-                    <div>
-                        <p
-                            className="text-center mt-5"
-                            style={{ width: width < 768 ? "100%" : "50%" }}
-                        >
-                            Found what you are looking for?
-                        </p>
-                        <Button
-                            buttonStyle="button--white--solid"
-                            buttonSize={
-                                width < 768
-                                    ? "button--large--100"
-                                    : "button--large--50"
-                            }
-                        >
-                            <b>Get A Quote</b>
-                        </Button>
-                    </div>
-                </div>
-                <div
-                    className="text-white text-center w-100 p-3 heading"
-                    style={{
-                        backgroundColor: colors.primary,
-                    }}
-                >
-                    <label
-                        style={{
-                            fontSize: width < 768 ? 20 : 30,
-                            marginLeft: width > 768 ? 50 : 10,
-                            marginRight: width > 768 ? 50 : 10,
-                        }}
-                    >
-                        "Wow what great service, I love it! It's is the most
-                        valuable business resource we have EVER purchased. We
-                        can't understand how we've been living without it."
-                    </label>
-                </div>
-            </div>
-            <SlideView
-                showImage={true}
-                className="mt-5 mb-5"
-                slides={images}
-                imageStyle={{ height: "100%", width: "100%" }}
-                cardStyle={cardStyle}
-            />
-            <div
-                className="text-white text-center"
-                style={{ display: width < 768 ? "block" : "none" }}
-            >
-                <>
-                    <div className="heading my-3 mt-5">Contact</div>
-                    <TextIconComponent icon={<HiPhone />} text="9815401344" />
-                    <TextIconComponent
-                        icon={<MdMail />}
-                        text="zener@gmail.com"
-                    />
-                </>
-                <>
-                    <div className="pb-4">
-                        <b>Rate this Manufactoring Hub</b>
-                        <label>Tell others what you think</label>
-                        <StarRating
-                            widgetDimensions="25px"
-                            widgetSpacing="5px"
-                        />
+                        </>
                     </div>
                 </>
-            </div>
+            )}
         </div>
     );
 }

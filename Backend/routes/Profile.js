@@ -19,47 +19,72 @@ const { GetUserData } = require("../DBController/DBController");
 const router = express.Router();
 
 router.post("/customer-edit", (req, res) => {
-    const upload = SingleFileUpload("profileImage", null);
-    upload(req, res, async (err) => {
-        const imageFile = req.file;
-        const userDetails = JSON.parse(req.body.currentUser);
-        const userUpdateDetails = JSON.parse(req.body.userUpdates);
-        console.log(imageFile, userDetails, userUpdateDetails, "details");
-        const dir = `./public/uploads/customer/${userDetails.Customer_ID}/${imageFile.fieldname}/`;
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
-        }
+    try{
 
-        if (err) {
-            console.log(err, "error");
-        } else {
-            let tmp_path = imageFile.path;
-            let target_path = dir + imageFile.filename;
-            const filePath = await FileMove(tmp_path, target_path);
-            const sqlQuery =
-                "UPDATE customer SET First_Name =?, Last_Name=?, Email=?, Phone_Number=?, Address=?, Profile_Image = ? WHERE Customer_ID = ?";
-            const data = [
-                userUpdateDetails.firstName,
-                userUpdateDetails.lastName,
-                userUpdateDetails.email,
-                userUpdateDetails.phoneNumber,
-                userUpdateDetails.address,
-                JSON.stringify({
-                    filename: imageFile.filename,
-                    filePath: filePath,
-                }),
-                userDetails.Customer_ID,
-            ];
-            DBQuery(sqlQuery, data, (err, result) => {
-                if (err) {
-                    return console.log(err, "update customer profile error");
-                } else {
-                    res.json(result);
-                    return;
+        const upload = SingleFileUpload("profileImage", null);
+        upload(req, res, async (err) => {
+            var imageFile = req.file;
+            const prevImage =
+            req.body.prevImage !== "undefined"
+                ? JSON.parse(req.body.prevImage)
+                : null;
+
+            const userDetails = JSON.parse(req.body.currentUser);
+            const userUpdateDetails = JSON.parse(req.body.userUpdates);
+            console.log(imageFile, userDetails, userUpdateDetails, "details");
+            // const dir = `./public/uploads/customer/${userDetails.Customer_ID}/${imageFile.fieldname}/`;
+            // if (!fs.existsSync(dir)) {
+            //     fs.mkdirSync(dir, { recursive: true });
+            // }
+            if (req.file) {
+                console.log("inside if line 37");
+                var dir = `./public/uploads/customer/${userDetails.Customer_ID}/${imageFile.fieldname}/`
+                if (!fs.existsSync(dir)) {
+                    fs.mkdirSync(dir, { recursive: true });
                 }
-            });
-        }
-    });
+                if (prevImage && prevImage.filePath) {
+                    FileDelete(prevImage.filePath);
+                }
+            } else {
+                console.log("line 46");
+                console.log(prevImage, "line 47");
+                imageFile = prevImage;
+            }
+    
+            if (err) {
+                console.log(err, "error");
+            } else {
+                let tmp_path = imageFile.path;
+                let target_path = dir + imageFile.filename;
+                const filePath = await FileMove(tmp_path, target_path);
+                const sqlQuery =
+                    "UPDATE customer SET First_Name =?, Last_Name=?, Email=?, Phone_Number=?, Address=?, Profile_Image = ?, Bio = ? WHERE Customer_ID = ?";
+                const data = [
+                    userUpdateDetails.firstName,
+                    userUpdateDetails.lastName,
+                    userUpdateDetails.email,
+                    userUpdateDetails.phoneNumber,
+                    userUpdateDetails.address,
+                    JSON.stringify({
+                        filename: imageFile.filename,
+                        filePath: req.file ? filePath : imageFile.filePath,
+                    }),
+                    userUpdateDetails.bio,
+                    userDetails.Customer_ID,
+                ];
+                DBQuery(sqlQuery, data, (err, result) => {
+                    if (err) {
+                        return console.log(err, "update customer profile error");
+                    } else {
+                        res.json(result);
+                        return;
+                    }
+                });
+            }
+        });
+    }catch(error){
+        console.log(error, "customerprofileerror")
+    }
 });
 
 router.post("/maker-edit", (req, res) => {

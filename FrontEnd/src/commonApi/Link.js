@@ -88,3 +88,6 @@ export const download = "download";
 
 // getMakers list
 export const getMakers = "makers/map";
+
+//makers services
+export const makers_services = "process/makers-services"

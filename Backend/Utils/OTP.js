@@ -10,6 +10,8 @@ const GenerateOTP = () => {
 };
 //#endregion
 
+console.log(process.env.OTP_Key, "env");
+
 //Create and send OTP to email
 async function CreateHash(email) {
     const otp = GenerateOTP();

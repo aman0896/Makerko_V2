@@ -11,6 +11,7 @@ import { FabricationMethod } from "./Components/Redux/Actions/FabricationMethod"
 import { Material } from "./Components/Redux/Actions/Material";
 import { CurrentUserdata } from "./Components/Redux/Actions/CurrentUserdata";
 import { MakersList } from "./Components/Redux/Actions/MakersList";
+import { MakersServices } from "./Components/Redux/Actions/MakersServices";
 
 function App() {
     const dispatch = useDispatch();
@@ -69,7 +70,11 @@ function App() {
 
         // get all makers list
         MakersList(dispatch);
-    }, []);
+
+        //get all makers services
+        MakersServices(dispatch)
+        
+    }, [dispatch]);
 
     return (
         <div>

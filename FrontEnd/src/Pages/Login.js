@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import FormikComponent from "../Components/formik/FormikComponent";
 import FormikController from "../Components/formik/FormikController";
 import "./Login.css";
@@ -14,6 +14,7 @@ import { useWindowDimensions } from "../Functions";
 const InitialValues = { email: "", password: "" };
 
 function Login() {
+  const formRef = useRef();
   const history = useHistory();
   const [showModal, setShowModal] = useState(false);
   const [verifyHidden, setVerifyHidden] = useState(true);
@@ -31,6 +32,7 @@ function Login() {
           const { userLoggedIn, userVerified, emailExist } = onSuccess.data;
           console.log(onSuccess.data, "data");
           if (emailExist === false) {
+            formRef.current.resetForm();
             Toast("User does not exist", "error", 3000, colors.white);
             return;
           } else if (userLoggedIn && userVerified) {
@@ -52,6 +54,7 @@ function Login() {
               3000,
               colors.white
             );
+            formRef.current.resetForm();
             return;
           } else if (!userVerified && userLoggedIn == undefined) {
             Toast("Account not verified", "error", 3000, colors.white);
@@ -129,6 +132,7 @@ function Login() {
                 initialValues={InitialValues}
                 onSubmit={handleSubmit}
                 validationSchema={LoginValidationSchema}
+                formRef={formRef}
               >
                 <FormikController
                   name="email"

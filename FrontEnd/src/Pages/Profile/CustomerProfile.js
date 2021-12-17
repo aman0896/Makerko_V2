@@ -27,6 +27,7 @@ function CustomerProfile() {
 
     const [profileImage, setProfileImage] = useState();
     const [profileImagePreview, setProfileImagePreview] = useState();
+    const [prevProfileImage, setPrevProfileImage] = useState();
 
     useEffect(() => {
         async function GetProfileImage() {
@@ -38,6 +39,7 @@ function CustomerProfile() {
                 );
                 console.log(imageData);
                 setProfileImagePreview(profileImageUrl);
+                setPrevProfileImage(currentUserData.Profile_Image);
             }
         }
 
@@ -45,10 +47,12 @@ function CustomerProfile() {
     }, [currentUserData]);
 
     const handleSubmit = (values) => {
+        console.log(profileImage, "check")
         const formData = new FormData();
         formData.append("userUpdates", JSON.stringify(values));
         formData.append("currentUser", JSON.stringify(currentUserData));
         formData.append("profileImage", profileImage);
+        formData.append("prevImage", prevProfileImage);
         postDataWithFormData(
             customerProfileEdit,
             formData,
@@ -176,7 +180,7 @@ function CustomerProfile() {
                                     control="textarea"
                                     placeholder="Enter Address"
                                     type="text"
-                                    setInitial="Software Developer"
+                                    setInitial={currentUserData.Bio}
                                 />
                             </div>
                         </div>

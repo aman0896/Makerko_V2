@@ -26,13 +26,13 @@ export const SetMfgProcess = (state = initialSates, action) => {
             action.mfgProcess.fabricationService.Name
         );
 
-        if (index != -1) {
+        if (index !== -1) {
           const materialIndex = services[index].materialDetails.findIndex(
             (item) =>
               item.material.Material_Name ===
               action.mfgProcess.materialDetails[0].material.Material_Name
           );
-          if (materialIndex == -1) {
+          if (materialIndex === -1) {
             services[index].materialDetails = [
               ...services[index].materialDetails,
               action.mfgProcess.materialDetails[0],
