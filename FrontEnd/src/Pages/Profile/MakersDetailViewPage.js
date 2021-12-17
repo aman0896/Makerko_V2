@@ -135,26 +135,32 @@ const cardStyle = {
 
 const column = [
     {
-        field: "materials",
-        header: "Materials",
+      field: "material",
+      subField: "Material_Name",
+      header: "Materials",
     },
     {
-        field: "thickness",
-        header: "Thickness",
+      field: "thickness",
+      header: "Thickness",
     },
     {
-        field: "costUnit",
-        header: "Cost Unit",
+      field: "costUnit",
+      subField: "type",
+      header: "Cost Unit",
     },
     {
-        field: "unitRate",
-        header: "Unit Rate",
+      field: "unitRate",
+      header: "Unit Rate",
     },
     {
-        field: "leadTime",
-        header: "Lead Time",
+      field: "leadTime",
+      header: "Lead Time",
     },
-];
+    {
+      field: "action",
+      header: "Action",
+    },
+  ];
 
 export default function MakersDetailViewPage() {
     const { height, width } = useWindowDimensions();
@@ -165,6 +171,7 @@ export default function MakersDetailViewPage() {
     const makersServices = useSelector(
         (state) => state.makersServices.services
     );
+    const methods = useSelector((state) => state.method.method);
     const { id } = useParams();
 
     useEffect(() => {
@@ -187,13 +194,39 @@ export default function MakersDetailViewPage() {
                 const services = makersServices.filter(
                     (service) => service.Manufacturer_ID === id
                 );
-
                 setServices(services);
             }
         }
 
         GetMakerData();
     }, [makersList, makersServices, id]);
+
+    const showServices = services && services.map((service) => {
+        methods &&
+            methods.map((method) => {
+                if (method.Service_ID === service.Service_ID) {
+                    return (
+                        <>
+                            <div
+                                className="heading mb-3"
+                                style={{ fontSize: width < 768 ? 20 : 38 }}
+                            >
+                                Manufacturing Services
+                            </div>
+                            <div className="mb-5">
+                                <div className="border tableMainHeader">
+                                    <h2 className="mx-5">{method.Name}</h2>
+                                </div>
+                                <TableComponent
+                                    column={column}
+                                    data={service}
+                                />
+                            </div>
+                        </>
+                    );
+                }
+            });
+    });
 
     return (
         <div style={{ minHeight: height - 80, backgroundColor: colors.dark }}>
@@ -228,10 +261,7 @@ export default function MakersDetailViewPage() {
                                                 {maker.Company_Name}
                                             </h4>
                                             <p className="px-3">
-                                                {
-                                                    maker
-                                                        .Brief_Description
-                                                }
+                                                {maker.Brief_Description}
                                             </p>
                                             <p>
                                                 {maker.Website}
@@ -349,7 +379,8 @@ export default function MakersDetailViewPage() {
                             </div>
                             <p>{maker.Additional_Details}</p>
                             <>
-                                <div
+                                {showServices}
+                                {/* <div
                                     className="heading mb-3"
                                     style={{ fontSize: width < 768 ? 20 : 38 }}
                                 >
@@ -357,7 +388,7 @@ export default function MakersDetailViewPage() {
                                 </div>
                                 <div className="mb-5">
                                     <div className="border tableMainHeader">
-                                        <h2 className="mx-5">3D Printing</h2>
+                                        <h2 className="mx-5">{methodName}</h2>
                                     </div>
                                     <TableComponent
                                         column={column}
@@ -370,7 +401,7 @@ export default function MakersDetailViewPage() {
                                 <TableComponent
                                     column={column}
                                     data={profileData.profile}
-                                />
+                                /> */}
                                 <div
                                     style={{
                                         display: width < 768 ? "block" : "none",
