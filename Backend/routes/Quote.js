@@ -10,7 +10,7 @@ router.post("/get-quote", async (req, res) => {
     const user = req.body.currentUserData;
     const maker = req.body.maker;
     const orderType = `${req.body.orderType}`;
-    const file = req.body.file[0];
+    const file = req.body.file.file[0];
     const process = req.body.process;
     let dir, filePath;
     if (Object.keys(user).includes("Customer_ID")) {

@@ -11,6 +11,7 @@ import { Toast } from "../Components/ReactToastify";
 import { useSelector } from "react-redux";
 import { postData } from "../commonApi/CommonApi";
 import { getAQuote } from "../commonApi/Link";
+import CardViewVerticalComponent from "../Components/card/CardViewVerticalComponent";
 
 const InitialValues = {
     method: "",
@@ -25,7 +26,10 @@ const InitialValues = {
 
 function GetAQuote() {
     const formRef = useRef();
-    const [selectedCard, setSelectedCard] = useState();
+    const [selectedHub, setSelectedHub] = useState();
+    const [hub, setHub] = useState(null);
+    const makersList = useSelector((state) => state.makersList.makersList);
+
     const methods = useSelector((state) => state.method.method);
     const materials = useSelector((state) => state.material.material);
     const currentUserData = useSelector(
@@ -85,34 +89,35 @@ function GetAQuote() {
         color: colors.primary,
     };
 
+    // useEffect(() => {
+    //     setHubs(makersList);
+    // }, [makersList]);
+
     const list = hubListData.map((hub, index) => {
-        if (
-            selectedCard &&
-            selectedCard.Manufacturer_ID === hub.Manufacturer_ID
-        ) {
+        if (selectedHub && selectedHub === index) {
             var selected = true;
         } else {
             selected = false;
         }
 
         return (
-            <div className="col-lg-3 col-md-3 col-6">
-                <Card
-                    data={hub}
-                    cardStyle={selected ? cardStyleActive : cardStyle}
-                    imageStyle={imageStyle}
-                    descriptionStyle={descriptionStyle}
-                    titleStyle={titleStyle}
-                    selectedCard={(selectedCard) =>
-                        setSelectedCard(selectedCard)
-                    }
-                />
-            </div>
+            <CardViewVerticalComponent
+                selected={selected}
+                index={index}
+                header="makers hub"
+                name={hub.Company_Name}
+                image={hub.Logo}
+                description={hub.Brief_Descsr}
+                imageFit="contain"
+                selectedCard={(selectedCard) => {
+                    setSelectedHub(selectedCard);
+                }}
+            />
         );
     });
 
     const handleSubmit = (values) => {
-        if (selectedCard === null || selectedCard === undefined) {
+        if (selectedHub === null || selectedHub === undefined) {
             Toast("Hub is not selected", "error");
             return;
         }
@@ -130,10 +135,11 @@ function GetAQuote() {
             thickness: values.thickness,
             quantity: values.quantity,
         };
+        console.log(hub, "chekchub");
         const data = {
             process,
             orderType,
-            maker: selectedCard,
+            maker: hubListData[selectedHub],
             currentUserData,
             file: values.file,
         };

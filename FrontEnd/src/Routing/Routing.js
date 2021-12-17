@@ -148,7 +148,7 @@ function Routing({ isAuth, currentUser, userType }) {
                             <Route path="/makers/map" component={Map} />
 
                             <Route
-                                path="/makers/details"
+                                path="/makers/:id/:name"
                                 component={MakersDetailViewPage}
                             />
                             {/* <Route
