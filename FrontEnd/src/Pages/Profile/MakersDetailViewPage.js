@@ -135,38 +135,35 @@ const cardStyle = {
 
 const column = [
     {
-      field: "material",
-      subField: "Material_Name",
-      header: "Materials",
+        field: "material",
+        subField: "Material_Name",
+        header: "Materials",
     },
     {
-      field: "thickness",
-      header: "Thickness",
+        field: "thickness",
+        header: "Thickness",
     },
     {
-      field: "costUnit",
-      subField: "type",
-      header: "Cost Unit",
+        field: "costUnit",
+        subField: "type",
+        header: "Cost Unit",
     },
     {
-      field: "unitRate",
-      header: "Unit Rate",
+        field: "unitRate",
+        header: "Unit Rate",
     },
     {
-      field: "leadTime",
-      header: "Lead Time",
+        field: "leadTime",
+        header: "Lead Time",
     },
-    {
-      field: "action",
-      header: "Action",
-    },
-  ];
+];
 
 export default function MakersDetailViewPage() {
     const { height, width } = useWindowDimensions();
     const [profileImagePreview, setProfileImagePreview] = useState();
     const [maker, setMaker] = useState();
     const [services, setServices] = useState();
+    const [methodNames, setMethodNames] = useState([]);
     const makersList = useSelector((state) => state.makersList.makersList);
     const makersServices = useSelector(
         (state) => state.makersServices.services
@@ -201,32 +198,34 @@ export default function MakersDetailViewPage() {
         GetMakerData();
     }, [makersList, makersServices, id]);
 
-    const showServices = services && services.map((service) => {
-        methods &&
-            methods.map((method) => {
-                if (method.Service_ID === service.Service_ID) {
-                    return (
-                        <>
-                            <div
-                                className="heading mb-3"
-                                style={{ fontSize: width < 768 ? 20 : 38 }}
-                            >
-                                Manufacturing Services
-                            </div>
-                            <div className="mb-5">
-                                <div className="border tableMainHeader">
-                                    <h2 className="mx-5">{method.Name}</h2>
+    const methodsName = [];
+
+    const showServices =
+        services &&
+        services.map((service) => {
+            return (
+                methods &&
+                methods.map((method) => {
+                    if (method.Service_ID === service.Service_ID) {
+                        console.log(method.Name, "service");
+                        methodsName.push({ name: method.Name });
+                        return (
+                            <>
+                                <div className="mb-5">
+                                    <div className="border tableMainHeader">
+                                        <h2 className="mx-5">{method.Name}</h2>
+                                    </div>
+                                    <TableComponent
+                                        column={column}
+                                        data={JSON.parse(service.Material_Name)}
+                                    />
                                 </div>
-                                <TableComponent
-                                    column={column}
-                                    data={service}
-                                />
-                            </div>
-                        </>
-                    );
-                }
-            });
-    });
+                            </>
+                        );
+                    }
+                })
+            );
+        });
 
     return (
         <div style={{ minHeight: height - 80, backgroundColor: colors.dark }}>
@@ -285,7 +284,7 @@ export default function MakersDetailViewPage() {
                                     </div>
                                     <ServicesComponent
                                         header="Fabrication Services"
-                                        services={services}
+                                        services={methodsName}
                                     />
                                     <ServicesComponent
                                         header="Other Services"
@@ -297,11 +296,11 @@ export default function MakersDetailViewPage() {
                                         </div>
                                         <TextIconComponent
                                             icon={<HiPhone />}
-                                            text="9815401344"
+                                            text={maker.Phone_Number}
                                         />
                                         <TextIconComponent
                                             icon={<MdMail />}
-                                            text="zener@gmail.com"
+                                            text={maker.Email}
                                         />
                                     </>
                                     <>
@@ -379,6 +378,12 @@ export default function MakersDetailViewPage() {
                             </div>
                             <p>{maker.Additional_Details}</p>
                             <>
+                                <div
+                                    className="heading mb-3"
+                                    style={{ fontSize: width < 768 ? 20 : 38 }}
+                                >
+                                    Manufacturing Services
+                                </div>
                                 {showServices}
                                 {/* <div
                                     className="heading mb-3"
