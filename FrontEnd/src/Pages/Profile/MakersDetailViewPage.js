@@ -18,11 +18,10 @@ import {
     TextIconComponent,
 } from "./ProfileComponent";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FileDownload } from "../../commonApi/CommonApi";
-import { SetMakersServices } from "../../Components/Redux/Reducers/SetMakersServices";
-
-const profileData = require("../../data/ProfileData.json");
+import ReactHtmlParser from "react-html-parser";
+import { FeatureProjectList } from "../../Components/Redux/Actions/FeatureProjectList";
 
 const projects = [
     {
@@ -135,7 +134,7 @@ const cardStyle = {
 
 const column = [
     {
-        field: "material",
+        field: "selectedMaterial",
         subField: "Material_Name",
         header: "Materials",
     },
@@ -145,7 +144,7 @@ const column = [
     },
     {
         field: "costUnit",
-        subField: "type",
+        subField: "label",
         header: "Cost Unit",
     },
     {
@@ -159,17 +158,22 @@ const column = [
 ];
 
 export default function MakersDetailViewPage() {
+    const dispatch = useDispatch();
     const { height, width } = useWindowDimensions();
     const [profileImagePreview, setProfileImagePreview] = useState();
     const [maker, setMaker] = useState();
     const [services, setServices] = useState();
-    const [methodNames, setMethodNames] = useState([]);
+    const [featureProject, setFeatureProject] = useState();
+    // const [projectCoverImageView, setProjectCoverImageView] = useState();
+    // const [methodNames, setMethodNames] = useState([]);
     const makersList = useSelector((state) => state.makersList.makersList);
     const makersServices = useSelector(
         (state) => state.makersServices.services
     );
     const methods = useSelector((state) => state.method.method);
+    const projectList = useSelector((state) => state.projectList.projectList);
     const { id } = useParams();
+    const [coverImage, setCoverImage] = useState();
 
     useEffect(() => {
         async function GetMakerData() {
@@ -196,7 +200,23 @@ export default function MakersDetailViewPage() {
         }
 
         GetMakerData();
-    }, [makersList, makersServices, id]);
+
+        async function SetFeatureProjectList() {
+            if (projectList) {
+                const ownProjects = projectList.filter(
+                    async (project) => project.Auther_ID === id
+                );
+                setFeatureProject(ownProjects);
+            }
+        }
+
+        SetFeatureProjectList();
+    }, [makersList, makersServices, projectList, id]);
+
+    useEffect(() => {
+        //get featureProject List
+        FeatureProjectList(dispatch);
+    }, []);
 
     const methodsName = [];
 
@@ -207,7 +227,11 @@ export default function MakersDetailViewPage() {
                 methods &&
                 methods.map((method) => {
                     if (method.Service_ID === service.Service_ID) {
-                        console.log(method.Name, "service");
+                        console.log(method.Name, "method");
+                        console.log(
+                            JSON.parse(service.Material_Name),
+                            "service"
+                        );
                         methodsName.push({ name: method.Name });
                         return (
                             <>
@@ -225,6 +249,46 @@ export default function MakersDetailViewPage() {
                     }
                 })
             );
+        });
+    let data = [];
+    useEffect(() => {
+        async function SetCoverImage() {
+            featureProject &&
+                featureProject.map(async (project, index) => {
+                    const imageData = JSON.parse(project.Cover_Image);
+                    const imageBlob = await FileDownload(imageData.filePath);
+                    const previewUrl = window.URL.createObjectURL(
+                        new Blob([imageBlob])
+                    );
+                    data.push({
+                        previewUrl: previewUrl,
+                        projectId: project.Project_ID,
+                    });
+                });
+        }
+
+        SetCoverImage();
+    }, [featureProject]);
+
+    const showFeatureProject =
+        featureProject &&
+        featureProject.map((project, index) => {
+            console.log(data, "imagedsffffffffffffffffffffffffffffff");
+            coverImage &&
+                coverImage.map((image) => {
+                    if (image.Project_ID === project.Project_ID) {
+                        return (
+                            <CardViewComponent
+                                key={index}
+                                imageStyle={{
+                                    backgroundImage: `url(${image.previewUrl})`,
+                                }}
+                                title={project.Title}
+                                description={ReactHtmlParser(project.Summary)}
+                            />
+                        );
+                    }
+                });
         });
 
     return (
@@ -385,28 +449,6 @@ export default function MakersDetailViewPage() {
                                     Manufacturing Services
                                 </div>
                                 {showServices}
-                                {/* <div
-                                    className="heading mb-3"
-                                    style={{ fontSize: width < 768 ? 20 : 38 }}
-                                >
-                                    Manufacturing Services
-                                </div>
-                                <div className="mb-5">
-                                    <div className="border tableMainHeader">
-                                        <h2 className="mx-5">{methodName}</h2>
-                                    </div>
-                                    <TableComponent
-                                        column={column}
-                                        data={profileData.profile}
-                                    />
-                                </div>
-                                <div className="border tableMainHeader">
-                                    <h2 className="mx-5">3D Printing</h2>
-                                </div>
-                                <TableComponent
-                                    column={column}
-                                    data={profileData.profile}
-                                /> */}
                                 <div
                                     style={{
                                         display: width < 768 ? "block" : "none",
@@ -434,8 +476,9 @@ export default function MakersDetailViewPage() {
                                     Projects
                                 </Button>
                                 <div className="d-flex flex-column flex-md-row justify-content-between">
-                                    {projects &&
-                                        projects
+                                    {coverImage && showFeatureProject}
+                                    {/* {featureProject &&
+                                        featureProject
                                             .slice(0, 2)
                                             .map((item, index) => (
                                                 <CardViewComponent
@@ -448,7 +491,7 @@ export default function MakersDetailViewPage() {
                                                         item.description
                                                     }
                                                 />
-                                            ))}
+                                            ))} */}
                                 </div>
                             </div>
 

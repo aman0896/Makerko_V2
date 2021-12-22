@@ -3,15 +3,16 @@ import Routing from "./Routing/Routing";
 import "./App.css";
 import { getDataWithNoParams } from "./commonApi/CommonApi";
 import { isLoggedIn } from "./commonApi/Link";
-import FooterContainer from "./Components/Footer/FooterContainer";
+// import FooterContainer from "./Components/Footer/FooterContainer";
 import { useDispatch, useSelector } from "react-redux";
-import IsAuth from "./Components/Redux/Reducers/IsAuth";
+// import IsAuth from "./Components/Redux/Reducers/IsAuth";
 import { IS_AUTH } from "./Components/Redux/Actions/Types";
 import { FabricationMethod } from "./Components/Redux/Actions/FabricationMethod";
 import { Material } from "./Components/Redux/Actions/Material";
 import { CurrentUserdata } from "./Components/Redux/Actions/CurrentUserdata";
 import { MakersList } from "./Components/Redux/Actions/MakersList";
 import { MakersServices } from "./Components/Redux/Actions/MakersServices";
+import { FeatureProjectList } from "./Components/Redux/Actions/FeatureProjectList";
 
 function App() {
     const dispatch = useDispatch();
@@ -72,8 +73,7 @@ function App() {
         MakersList(dispatch);
 
         //get all makers services
-        MakersServices(dispatch)
-        
+        MakersServices(dispatch);
     }, [dispatch]);
 
     return (

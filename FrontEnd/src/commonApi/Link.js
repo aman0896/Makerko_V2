@@ -90,4 +90,7 @@ export const download = "download";
 export const getMakers = "makers/map";
 
 //makers services
-export const makers_services = "process/makers-services"
+export const makers_services = "process/makers-services";
+
+//feature project list api
+export const getFeatureProjectList = "project/get-featureproject-list";
