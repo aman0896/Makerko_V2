@@ -250,21 +250,24 @@ export default function MakersDetailViewPage() {
                 })
             );
         });
-    let data = [];
+
     useEffect(() => {
         async function SetCoverImage() {
-            featureProject &&
-                featureProject.map(async (project, index) => {
-                    const imageData = JSON.parse(project.Cover_Image);
+            let data = [];
+            if (featureProject) {
+                for (let i = 0; i < featureProject.length; i++) {
+                    const imageData = JSON.parse(featureProject[i].Cover_Image);
                     const imageBlob = await FileDownload(imageData.filePath);
                     const previewUrl = window.URL.createObjectURL(
                         new Blob([imageBlob])
                     );
                     data.push({
                         previewUrl: previewUrl,
-                        projectId: project.Project_ID,
+                        projectId: featureProject[i].Project_ID,
                     });
-                });
+                }
+            }
+            setCoverImage(data);
         }
 
         SetCoverImage();
@@ -273,10 +276,15 @@ export default function MakersDetailViewPage() {
     const showFeatureProject =
         featureProject &&
         featureProject.map((project, index) => {
-            console.log(data, "imagedsffffffffffffffffffffffffffffff");
-            coverImage &&
+            return (
+                coverImage &&
                 coverImage.map((image) => {
-                    if (image.Project_ID === project.Project_ID) {
+                    console.log(
+                        image.projectId,
+                        project.Project_ID,
+                        "imagedsffffffffffffffffffffffffffffff"
+                    );
+                    if (image.projectId === project.Project_ID) {
                         return (
                             <CardViewComponent
                                 key={index}
@@ -288,7 +296,8 @@ export default function MakersDetailViewPage() {
                             />
                         );
                     }
-                });
+                })
+            );
         });
 
     return (
