@@ -103,6 +103,7 @@ export const GetAQuoteValidationSchema = Yup.object().shape({
     thickness: Yup.string().required("Thickness is required"),
     quantity: Yup.string().required("Quantity is required"),
     file: Yup.object().required("No file Uploaded"),
+    description: Yup.string().required("Brief Description is required"),
 });
 
 //reqest design Validation Schema
