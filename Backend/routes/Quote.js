@@ -3,7 +3,7 @@ const { FileMove } = require("../Utils/Operations");
 const router = express.Router();
 const fs = require("fs");
 const { DBQuery } = require("../DBController/DatabaseQuery");
-const { SendRequestDesignMail } = require("../Utils/nodemailer");
+const { SendOrderSpecificationMail } = require("../Utils/nodemailer");
 
 router.post("/get-quote", async (req, res) => {
     console.log(req.body, "quotebody");
@@ -14,14 +14,14 @@ router.post("/get-quote", async (req, res) => {
     const process = req.body.process;
     let dir, filePath;
     if (Object.keys(user).includes("Customer_ID")) {
-        dir = `./public/uploads/customer/${user.Customer_ID}`;
+        dir = `./public/uploads/customer/${user.Customer_ID}/file`;
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
         }
         target_path = `${dir}/${file.filename}`;
         filePath = await FileMove(file.path, target_path);
     } else {
-        dir = `./public/uploads/maker/${user.Manufacturer_ID}`;
+        dir = `./public/uploads/maker/${user.Manufacturer_ID}/file`;
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
         }
@@ -45,13 +45,21 @@ router.post("/get-quote", async (req, res) => {
         Date.now(),
     ];
 
-    DBQuery(sqlQuery, data, (err, result) => {
+    DBQuery(sqlQuery, data, async (err, result) => {
         if (err) {
             console.log(err, "quote insert error");
             return;
         } else {
+            const mailSent = await SendOrderSpecificationMail(
+                "validationPagePath",
+                orderType,
+                maker.Email,
+                user.Email,
+                user.First_Name,
+                "orderStatusPagePath"
+            );
             console.log(result, "result");
-            res.json({ message: "Request Success" });
+            res.json({ mailSent: mailSent });
         }
     });
 });
