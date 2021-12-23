@@ -49,7 +49,7 @@ const CardViewVerticalComponent = ({
                         maxHeight: "300px",
                         backgroundColor: colors.dark,
                         border: selected
-                            ? `2px solid ${colors.danger}`
+                            ? `5px solid ${colors.success}`
                             : "none",
                     }}
                     onClick={onCardSelect}
