@@ -150,6 +150,11 @@ function GetAQuote() {
             (onFail) => {}
         );
     };
+
+    const onCancel = () => {
+        formRef.current.resetForm();
+        window.location.href = "/";
+    };
     return (
         <WrapperComponent>
             <FormikComponent
@@ -255,6 +260,15 @@ function GetAQuote() {
                     </div>
                 </div>
                 <div className="col mt-3 d-flex justify-content-end">
+                    <div className="cancelButton">
+                        <FormikController
+                            title="Cancel"
+                            type="button"
+                            control="cancel"
+                            buttonStyle="button--danger--outline"
+                            onClick={onCancel}
+                        />
+                    </div>
                     <FormikController
                         title="Upload"
                         type="submit"
