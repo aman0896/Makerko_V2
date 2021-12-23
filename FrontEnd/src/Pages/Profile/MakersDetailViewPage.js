@@ -279,11 +279,6 @@ export default function MakersDetailViewPage() {
             return (
                 coverImage &&
                 coverImage.map((image) => {
-                    console.log(
-                        image.projectId,
-                        project.Project_ID,
-                        "imagedsffffffffffffffffffffffffffffff"
-                    );
                     if (image.projectId === project.Project_ID) {
                         return (
                             <CardViewComponent
