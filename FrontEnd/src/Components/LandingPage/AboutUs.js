@@ -19,7 +19,7 @@ function AboutUs({ data, aboutRef }) {
         borderRadius: "5px",
         overflow: "hidden",
         height: "392px",
-        width: "98%",
+        width: "100%",
     };
 
     return (
