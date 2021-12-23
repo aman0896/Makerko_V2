@@ -8,7 +8,7 @@ const CardViewVerticalComponent = ({
     description,
     image,
     imageFit,
-    selectedCard,
+    setSelectedHub,
     selected,
     data,
 }) => {
@@ -21,7 +21,7 @@ const CardViewVerticalComponent = ({
                 "_blank"
             );
         } else {
-            selectedCard(index);
+            setSelectedHub(index);
         }
     };
 
