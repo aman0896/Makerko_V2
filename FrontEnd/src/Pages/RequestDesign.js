@@ -102,7 +102,7 @@ function RequestDesign() {
                                 <>
                                     I agree with
                                     <a
-                                        // to="/"
+                                        href="/#"
                                         className="ml-1"
                                         style={{
                                             color: colors.primary,
