@@ -25,11 +25,11 @@ import MakersHub from "../Pages/Profile/MakersHub";
 import Projects from "../Pages/FeatureProject/Projects";
 import RequestDesign from "../Pages/RequestDesign";
 import ProtectedRoute from "./PrivateRoute";
+import CustomerOrderDetails from "../Pages/OrderDetails/CustomerOrderDetails";
+import MakerOrderDetails from "../Pages/OrderDetails/MakerOrderDetails";
 
 function Routing({ isAuth, currentUser, userType }) {
     const auth = useSelector((state) => state.isAuth);
-    console.log("Auth");
-    console.log(auth, "Auth");
     return (
         <div>
             <Router>
@@ -160,6 +160,16 @@ function Routing({ isAuth, currentUser, userType }) {
                                 exact
                                 path="/projects"
                                 component={Projects}
+                            />
+                            <Route
+                                exact
+                                path="/:id/order"
+                                component={CustomerOrderDetails}
+                            />
+                            <Route
+                                exact
+                                path="/maker/:id/order"
+                                component={MakerOrderDetails}
                             />
                         </Switch>
                     </div>

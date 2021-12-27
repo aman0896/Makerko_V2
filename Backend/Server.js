@@ -75,6 +75,9 @@ const FileDownload = require("./Utils/FileDownload");
 app.use("/quote", Quote);
 
 app.use("/makers", Makers);
+
+const Order = require("./routes/Order");
+app.use("/order", Order);
 //#endregion
 
 //Serve the static files from the React app

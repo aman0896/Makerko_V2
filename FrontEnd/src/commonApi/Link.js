@@ -94,3 +94,6 @@ export const makers_services = "process/makers-services";
 
 //feature project list api
 export const getFeatureProjectList = "project/get-featureproject-list";
+
+//get maker order list
+export const makerOrderList = "order/maker-order";
