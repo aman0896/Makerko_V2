@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+
+  padding: 0;
+}
+.Sidebar {
+  height: 100vh;
+  width: 250px;
+ 
+  color: blue;
+}
+
+.icon {
+  flex: 30%;
+  display: grid;
+  place-items: center;
+}
+.title {
+  flex: 70%;
+  font-weight: bold;
+}
+.d-flex:hover {
+  cursor: pointer;
+  background-color: blue;
+  color: white;
+}
+.abc {
+  background: blue;
+  color: red;
+}
