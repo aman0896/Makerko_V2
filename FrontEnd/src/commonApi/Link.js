@@ -97,3 +97,6 @@ export const getFeatureProjectList = "project/get-featureproject-list";
 
 //get maker order list
 export const makerOrderList = "order/maker-order";
+
+//update order status
+export const updateOrderStatus = "order/update-status";

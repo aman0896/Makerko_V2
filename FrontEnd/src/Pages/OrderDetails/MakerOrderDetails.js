@@ -2,39 +2,37 @@ import React, { useEffect, useState } from "react";
 import { faEdit, faEye, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams } from "react-router-dom";
-import { getData } from "../../commonApi/CommonApi";
-import { makerOrderList } from "../../commonApi/Link";
+import { getData, postData } from "../../commonApi/CommonApi";
+import { makerOrderList, updateOrderStatus } from "../../commonApi/Link";
 import TableComponent2 from "../../Components/table/TableComponent2";
 import { colors } from "../../Values/colors";
+import WrapperComponent from "../../Components/WrapperComponent";
+import SimpleModal from "../../Components/modal/SimpleModal";
+import Select from "react-select";
+import { Toast } from "../../Components/ReactToastify";
 
 function MakerOrderDetails() {
     const params = useParams();
+    const [showModal, setShowModal] = useState(false);
     const { id } = params;
     const [orderList, setOrderList] = useState();
+    const [statusValue, setStatusValue] = useState();
+    const [rowIndex, setRowIndex] = useState();
     console.log(id, "id");
 
-    const handleEdit = () => {
-        console.log("edit clicked");
+    const handleEdit = (row, index) => {
+        console.log(row.Status.props.children, index, "row index");
+        setShowModal(true);
+        setRowIndex(index);
+        status.map(
+            (item) =>
+                item.label === row.Status.props.children && setStatusValue(item)
+        );
     };
 
-    const handleView = () => {
-        console.log("view clicked");
+    const handleView = (obj) => {
+        setShowModal(true);
     };
-
-    const orderData = [];
-
-    // const orderData =
-    //     orderList &&
-    //     orderList.map((data) => {
-    //         return (
-    //             <div className="mb-5">
-    //                 {/* <div className="border tableMainHeader">
-    //                     <h2 className="mx-5">{method.Name}</h2>
-    //                 </div> */}
-    //                 <TableComponent2 column={column} data={data} />
-    //             </div>
-    //         );
-    //     });
 
     useEffect(() => {
         getData(
@@ -42,8 +40,31 @@ function MakerOrderDetails() {
             id,
             (onSuccess) => {
                 if (onSuccess.data) {
-                    console.log("checkckckc");
-                    console.log(onSuccess.data, "onsuccess");
+                    const orderList = onSuccess.data.result;
+
+                    for (let i = 0; i < orderList.length; i++) {
+                        const date = new Date(parseInt(orderList[i].Date));
+                        orderList[i].Date = date.toLocaleString();
+                        orderList[i].Status =
+                            orderList[i].Status === "pending" ? (
+                                <span className=" badge badge-warning">
+                                    {orderList[i].Status}
+                                </span>
+                            ) : orderList[i].Status === "completed" ? (
+                                <span className=" badge badge-success">
+                                    {orderList[i].Status}
+                                </span>
+                            ) : orderList[i].Status === "building" ? (
+                                <span className=" badge badge-secondary">
+                                    {orderList[i].Status}
+                                </span>
+                            ) : (
+                                <span className=" badge badge-danger">
+                                    {orderList[i].Status}
+                                </span>
+                            );
+                    }
+
                     setOrderList(orderList);
                 }
             },
@@ -53,72 +74,190 @@ function MakerOrderDetails() {
         );
     }, [id]);
 
+    const handleClose = () => {
+        setShowModal(false);
+    };
+
+    const onUpdateBtnClick = () => {
+        console.log(statusValue, rowIndex, "value");
+        //#region update staus in ui
+        if (statusValue) {
+            var tempData = orderList.filter((data) => data);
+            tempData[rowIndex].Status = statusValue.label;
+            tempData[rowIndex].Status =
+                tempData[rowIndex].Status === "pending" ? (
+                    <span className=" badge badge-warning">
+                        {tempData[rowIndex].Status}
+                    </span>
+                ) : tempData[rowIndex].Status === "completed" ? (
+                    <span className=" badge badge-success">
+                        {tempData[rowIndex].Status}
+                    </span>
+                ) : tempData[rowIndex].Status === "building" ? (
+                    <span className=" badge badge-secondary">
+                        {tempData[rowIndex].Status}
+                    </span>
+                ) : (
+                    <span className=" badge badge-danger">
+                        {tempData[rowIndex].Status}
+                    </span>
+                );
+            setOrderList(tempData);
+            //#endregion update staus in ui
+
+            //#region update status in db
+            const data = {
+                orderId: tempData[rowIndex].Order_ID,
+                updatedStatus: statusValue.label,
+            };
+
+            postData(
+                updateOrderStatus,
+                data,
+                (onSuccess) => {
+                    if (onSuccess.data) {
+                        const { update } = onSuccess.data;
+                        if (update === "success") {
+                            setShowModal(false);
+                            Toast("Status Updated", "success");
+                        }
+                    }
+                },
+                (onFail) => {
+                    console.log(onFail, "update-order-status");
+                }
+            );
+            //#endregion
+        }
+    };
+
+    const onStatusSelect = (e) => {
+        setStatusValue(e);
+    };
+
     return (
-        <div>
-            {orderList && (
-                <TableComponent2
-                    column={column}
-                    data={orderList}
-                    actionData={actions}
-                    action={true}
-                    handleEdit={handleEdit}
-                    handleView={handleView}
-                />
-            )}
-        </div>
+        <WrapperComponent>
+            <div className="border">
+                {orderList && (
+                    <TableComponent2
+                        column={column}
+                        data={orderList}
+                        actionData={actions}
+                        action={true}
+                        handleEdit={handleEdit}
+                        setShowModal={setShowModal}
+                        handleView={handleView}
+                    />
+                )}
+            </div>
+            <SimpleModal
+                show={showModal}
+                handleClose={handleClose}
+                onClickButton={onUpdateBtnClick}
+                title="Update Status"
+                buttonName="Update"
+                body={
+                    <Select
+                        value={statusValue}
+                        options={status}
+                        onChange={onStatusSelect}
+                    />
+                }
+                index={rowIndex}
+            />
+        </WrapperComponent>
     );
 }
 
 export default MakerOrderDetails;
 
-const statusOption = [
+const status = [
     {
         value: 1,
-        label: "Pending",
+        label: "pending",
     },
     {
         value: 2,
-        label: "Building",
+        label: "building",
     },
     {
         value: 3,
-        label: "Completed",
+        label: "completed",
     },
     {
         value: 4,
-        label: "Delivered",
+        label: "delivered",
     },
 ];
 
 const column = [
     {
-        field: "Order_Id",
+        field: "Order_ID",
         header: "Order Id",
+        style: { width: "10%", textAlign: "center" },
     },
     {
         field: "Customer_ID",
         header: "Customer",
+        style: { width: "10%", textAlign: "center" },
     },
     {
         field: "Order_Type",
         header: "Order Type",
+        style: { width: "40%", textAlign: "center" },
     },
     {
         field: "Date",
         header: "Date",
+        style: { width: "20%", textAlign: "center" },
     },
     {
         field: "Status",
-        subfield: "label",
         header: "Status",
+        style: { width: "10%", textAlign: "center" },
+        className: "badge",
+    },
+    // {
+    //     field: "Delivery_Address",
+    //     header: "Delivery Address",
+    // },
+    {
+        field: "action",
+        header: "Action",
+        style: { width: "10%", textAlign: "center" },
+    },
+];
+
+const specViewcolumn = [
+    {
+        field: "Model_Name",
+        header: "Model Name",
+        style: { width: "30%", textAlign: "center" },
     },
     {
-        field: "Delivery_Address",
-        header: "Delivery Address",
+        field: "Fabrication_Service",
+        header: "Fabrication Process",
+        style: { width: "20%", textAlign: "center" },
+    },
+    {
+        field: "Material",
+        header: "Material",
+        style: { width: "20%", textAlign: "center" },
+    },
+    {
+        field: "Thickness",
+        header: "Thickness",
+        style: { width: "10%", textAlign: "center" },
+    },
+    {
+        field: "Quantity",
+        header: "Quantity",
+        style: { width: "10%", textAlign: "center" },
     },
     {
         field: "action",
         header: "Action",
+        style: { width: "10%", textAlign: "center" },
     },
 ];
 
@@ -126,7 +265,7 @@ const actions = [
     {
         icon: (
             <FontAwesomeIcon
-                style={{ marginRight: 2, colors: colors.primary }}
+                style={{ marginRight: 2, color: colors.primary }}
                 icon={faEye}
                 size="sm"
             />
@@ -141,16 +280,28 @@ const actions = [
                 size="sm"
             />
         ),
-        type: "edit",
     },
+    // {
+    //     icon: (
+    //         <FontAwesomeIcon
+    //             style={{ marginRight: 2, color: colors.danger }}
+    //             icon={faTrashAlt}
+    //             size="sm"
+    //         />
+    //     ),
+    //     type: "delete",
+    // },
+];
+
+const viewActions = [
     {
         icon: (
             <FontAwesomeIcon
-                style={{ marginRight: 2, colors: colors.danger }}
-                icon={faTrashAlt}
+                style={{ marginRight: 2, color: colors.primary }}
+                icon={faEye}
                 size="sm"
             />
         ),
-        type: "delete",
+        type: "download",
     },
 ];
