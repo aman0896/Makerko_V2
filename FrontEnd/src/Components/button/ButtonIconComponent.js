@@ -7,8 +7,15 @@ export default function ButtonIconComponent(props) {
             data-toggle={props.open}
             data-target={props.target}
             onClick={props.onPress}
+            style={{ cursor: "pointer" }}
         >
-            {props.icon}
+            {props.name ? (
+                <div>
+                    {props.icon} <span> {props.name} </span>
+                </div>
+            ) : (
+                props.icon
+            )}
         </span>
     );
 }

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { faEdit, faEye, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams } from "react-router-dom";
 import { getData, postData } from "../../commonApi/CommonApi";
 import { makerOrderList, updateOrderStatus } from "../../commonApi/Link";
 import TableComponent2 from "../../Components/table/TableComponent2";
+import TableComponent from "../../Components/table/TableComponent";
 import { colors } from "../../Values/colors";
 import WrapperComponent from "../../Components/WrapperComponent";
 import SimpleModal from "../../Components/modal/SimpleModal";
@@ -18,9 +20,13 @@ function MakerOrderDetails() {
     const [orderList, setOrderList] = useState();
     const [statusValue, setStatusValue] = useState();
     const [rowIndex, setRowIndex] = useState();
+    const [edit, setEdit] = useState(false);
+    const [view, setView] = useState(false);
     console.log(id, "id");
 
     const handleEdit = (row, index) => {
+        setEdit(true);
+        setView(false);
         console.log(row.Status.props.children, index, "row index");
         setShowModal(true);
         setRowIndex(index);
@@ -31,6 +37,8 @@ function MakerOrderDetails() {
     };
 
     const handleView = (obj) => {
+        setEdit(false);
+        setView(true);
         setShowModal(true);
     };
 
@@ -135,6 +143,10 @@ function MakerOrderDetails() {
         setStatusValue(e);
     };
 
+    const handleDownload = (row, index) => {
+        console.log(row, "row");
+    };
+
     return (
         <WrapperComponent>
             <div className="border">
@@ -150,21 +162,44 @@ function MakerOrderDetails() {
                     />
                 )}
             </div>
-            <SimpleModal
-                show={showModal}
-                handleClose={handleClose}
-                onClickButton={onUpdateBtnClick}
-                title="Update Status"
-                buttonName="Update"
-                body={
-                    <Select
-                        value={statusValue}
-                        options={status}
-                        onChange={onStatusSelect}
-                    />
-                }
-                index={rowIndex}
-            />
+            {edit ? (
+                <SimpleModal
+                    show={showModal}
+                    handleClose={handleClose}
+                    onClickButton={onUpdateBtnClick}
+                    title="Update Status"
+                    buttonName="Update"
+                    body={
+                        <Select
+                            value={statusValue}
+                            options={status}
+                            onChange={onStatusSelect}
+                        />
+                    }
+                    index={rowIndex}
+                />
+            ) : view ? (
+                <SimpleModal
+                    show={showModal}
+                    size="xl"
+                    handleClose={handleClose}
+                    onClickButton={onUpdateBtnClick}
+                    title="Details"
+                    // buttonName="Update"
+                    body={
+                        <div className="border">
+                            <TableComponent2
+                                column={specViewcolumn}
+                                data={orderList}
+                                actionData={viewActions}
+                                action={true}
+                                handleDownload={handleDownload}
+                            />
+                        </div>
+                    }
+                    index={rowIndex}
+                />
+            ) : null}
         </WrapperComponent>
     );
 }
@@ -200,6 +235,8 @@ const column = [
         field: "Customer_ID",
         header: "Customer",
         style: { width: "10%", textAlign: "center" },
+        type: "link",
+        link: "",
     },
     {
         field: "Order_Type",
@@ -232,17 +269,17 @@ const specViewcolumn = [
     {
         field: "Model_Name",
         header: "Model Name",
-        style: { width: "30%", textAlign: "center" },
+        style: { width: "25%", textAlign: "center" },
     },
     {
         field: "Fabrication_Service",
         header: "Fabrication Process",
-        style: { width: "20%", textAlign: "center" },
+        style: { width: "25%", textAlign: "center" },
     },
     {
         field: "Material",
         header: "Material",
-        style: { width: "20%", textAlign: "center" },
+        style: { width: "15%", textAlign: "center" },
     },
     {
         field: "Thickness",
@@ -257,7 +294,7 @@ const specViewcolumn = [
     {
         field: "action",
         header: "Action",
-        style: { width: "10%", textAlign: "center" },
+        style: { width: "15%", textAlign: "center" },
     },
 ];
 
@@ -281,16 +318,6 @@ const actions = [
             />
         ),
     },
-    // {
-    //     icon: (
-    //         <FontAwesomeIcon
-    //             style={{ marginRight: 2, color: colors.danger }}
-    //             icon={faTrashAlt}
-    //             size="sm"
-    //         />
-    //     ),
-    //     type: "delete",
-    // },
 ];
 
 const viewActions = [
@@ -298,10 +325,11 @@ const viewActions = [
         icon: (
             <FontAwesomeIcon
                 style={{ marginRight: 2, color: colors.primary }}
-                icon={faEye}
+                icon={faDownload}
                 size="sm"
             />
         ),
         type: "download",
+        name: "Download",
     },
 ];

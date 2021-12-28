@@ -1,12 +1,9 @@
 import React from "react";
 import "./TableComponent.css";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faEdit, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import ButtonIconComponent from "../button/ButtonIconComponent";
 
 export default function TableComponent2(props) {
     const { column, data, actionData } = props;
-    console.log(actionData, "dataaaacolumn");
     return (
         <div className="table-responsive">
             <table className="table p-0 m-0">
@@ -22,7 +19,7 @@ export default function TableComponent2(props) {
                             <th
                                 scope="col"
                                 style={item.style}
-                                className="px-5"
+                                // className="px-5"
                                 key={index}
                             >
                                 {item.header}
@@ -43,7 +40,7 @@ export default function TableComponent2(props) {
                                     <>
                                         <td
                                             key={colIndex}
-                                            className="px-5"
+                                            // className="px-5"
                                             style={{
                                                 borderRight:
                                                     column.length !==
@@ -68,12 +65,19 @@ export default function TableComponent2(props) {
                                                                       ? props.handleView(
                                                                             row
                                                                         )
+                                                                      : action.type ===
+                                                                        "download"
+                                                                      ? props.handleDownload(
+                                                                            row,
+                                                                            rowIndex
+                                                                        )
                                                                       : props.handleEdit(
                                                                             row,
                                                                             rowIndex
                                                                         );
                                                               }}
                                                               icon={action.icon}
+                                                              name={action.name}
                                                           />
                                                       );
                                                   })

@@ -9,20 +9,28 @@ function SimpleModal(props) {
         <>
             <div>
                 {/* ------Modal------- */}
-                <Modal show={props.show} onHide={props.handleClose} centered>
+                <Modal
+                    size={props.size ? props.size : ""}
+                    style={{ zIndex: 9999 }}
+                    show={props.show}
+                    onHide={props.handleClose}
+                    centered
+                >
                     <Modal.Header closeButton>
                         <Modal.Title>{props.title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="my-4">{props.body}</Modal.Body>
-                    <Modal.Footer>
-                        <Button
-                            onClick={props.onClickButton}
-                            buttonStyle="button--primary--solid"
-                            buttonSize="button--small"
-                        >
-                            {props.buttonName}
-                        </Button>
-                    </Modal.Footer>
+                    {props.buttonName && (
+                        <Modal.Footer>
+                            <Button
+                                onClick={props.onClickButton}
+                                buttonStyle="button--primary--solid"
+                                buttonSize="button--small"
+                            >
+                                {props.buttonName}
+                            </Button>
+                        </Modal.Footer>
+                    )}
                 </Modal>
             </div>
         </>
