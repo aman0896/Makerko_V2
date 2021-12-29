@@ -79,18 +79,21 @@ function App() {
   // }, [dispatch]);
 
   return (
-    // <div>
-    //   {isLoading ? (
-    //     <div>
-    //       <h1>{errorMessage}</h1>
-    //     </div>
-    //   ) : (
-    //     <>
-    //       <Routing />
-    //     </>
-    //   )}
-    // </div>
-    <SideBar />
+		// <div>
+		//   {isLoading ? (
+		//     <div>
+		//       <h1>{errorMessage}</h1>
+		//     </div>
+		//   ) : (
+		//     <>
+		//       <Routing />
+		//     </>
+		//   )}
+		// </div>
+		<Router>
+			
+			<SideBar />
+		</Router>
   );
 }
 
