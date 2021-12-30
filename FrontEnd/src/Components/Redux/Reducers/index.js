@@ -7,6 +7,7 @@ import { SetMfgProcess } from "./SetManufacturingProcess";
 import { SetMakersList } from "./SetMakersList";
 import { SetMakersServices } from "./SetMakersServices";
 import { SetFeatureProjectList } from "./SetFeatureProjectList";
+import { SetLocationPathname } from "./SetLocationPath";
 
 const allReducers = combineReducers({
     isAuth: IsAuth,
@@ -17,5 +18,6 @@ const allReducers = combineReducers({
     makersList: SetMakersList,
     makersServices: SetMakersServices,
     projectList: SetFeatureProjectList,
+    pathname: SetLocationPathname,
 });
 export default allReducers;
