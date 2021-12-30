@@ -16,7 +16,7 @@ export default function TableComponent({ column, data, onDeleteClick }) {
                 >
                     <tr>
                         {column.map((item, index) => (
-                            <th scope="col" className="px-5" key={index}>
+                            <th scope="col" key={index} style={item.style}>
                                 {item.header}
                             </th>
                         ))}
@@ -34,7 +34,6 @@ export default function TableComponent({ column, data, onDeleteClick }) {
                                 <>
                                     <td
                                         key={index}
-                                        className="px-5"
                                         style={{
                                             borderRight:
                                                 column.length !== index + 1

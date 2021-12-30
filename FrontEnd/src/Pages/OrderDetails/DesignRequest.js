@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getData } from "../../commonApi/CommonApi";
-import { customerOrderList } from "../../commonApi/Link";
+import { customerOrderList, customerRequestDesign } from "../../commonApi/Link";
 import TableComponent from "../../Components/table/TableComponent";
 import WrapperComponent from "../../Components/WrapperComponent";
 
-function CustomerOrderDetails() {
+function DesignRequest() {
     const params = useParams();
     const { id } = params;
     const [orderList, setOrderList] = useState();
@@ -13,7 +13,7 @@ function CustomerOrderDetails() {
 
     useEffect(() => {
         getData(
-            customerOrderList,
+            customerRequestDesign,
             id,
             (onSuccess) => {
                 if (onSuccess.data) {
@@ -63,40 +63,26 @@ function CustomerOrderDetails() {
     );
 }
 
-export default CustomerOrderDetails;
+export default DesignRequest;
 
 const column = [
     {
-        field: "Order_ID",
+        field: "Request_ID",
         header: "Order Id",
         style: { width: "10%", textAlign: "center" },
     },
     {
-        field: "Order_Type",
-        header: "Order Type",
+        field: "Product_Image",
+        header: "Product Image",
         style: { width: "20%", textAlign: "center" },
     },
     {
-        field: "Model_Name",
-        header: "ModelName",
+        field: "Product_Sketch",
+        header: "Product Sketch",
         style: { width: "15%", textAlign: "center" },
     },
     {
-        field: "Date",
-        header: "Date",
-        style: { width: "15%", textAlign: "center" },
-    },
-    {
-        field: "Status",
-        header: "Status",
-        style: { width: "10%", textAlign: "center" },
-        className: "badge",
-    },
-    {
-        field: "Manufacturer_ID",
-        header: "Manufacturer",
-        style: { width: "25%", textAlign: "center" },
-        type: "link",
-        link: "",
+        field: "Product_Description",
+        header: "Description",
     },
 ];

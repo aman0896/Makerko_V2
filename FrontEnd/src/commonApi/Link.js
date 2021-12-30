@@ -100,3 +100,9 @@ export const makerOrderList = "order/maker-order";
 
 //update order status
 export const updateOrderStatus = "order/update-status";
+
+//customer order status
+export const customerOrderList = "order/customer-order";
+
+//customer request design
+export const customerRequestDesign = "requestDesign/request_design_list";

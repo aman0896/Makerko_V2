@@ -27,6 +27,7 @@ import RequestDesign from "../Pages/RequestDesign";
 import ProtectedRoute from "./PrivateRoute";
 import CustomerOrderDetails from "../Pages/OrderDetails/CustomerOrderDetails";
 import MakerOrderDetails from "../Pages/OrderDetails/MakerOrderDetails";
+import DesignRequest from "../Pages/OrderDetails/DesignRequest";
 
 function Routing({ isAuth, currentUser, userType }) {
     const auth = useSelector((state) => state.isAuth);
@@ -165,6 +166,11 @@ function Routing({ isAuth, currentUser, userType }) {
                                 exact
                                 path="/:id/order"
                                 component={CustomerOrderDetails}
+                            />
+                            <Route
+                                exact
+                                path="/:id/request_design"
+                                component={DesignRequest}
                             />
                             <Route
                                 exact

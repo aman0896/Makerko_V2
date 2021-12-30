@@ -78,6 +78,9 @@ app.use("/makers", Makers);
 
 const Order = require("./routes/Order");
 app.use("/order", Order);
+
+const DesignRequest = require("./routes/DesignRequest");
+app.use("/requestDesign", DesignRequest);
 //#endregion
 
 //Serve the static files from the React app

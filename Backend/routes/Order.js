@@ -39,4 +39,19 @@ router.post("/update-status", (req, res) => {
 });
 //#endregion
 
+router.get("/customer-order", (req, res) => {
+    const id = req.query[0];
+
+    const sqlQuery = "SELECT * FROM order_specification WHERE Customer_ID = ?";
+    const data = [id];
+    DBQuery(sqlQuery, data, (err, result) => {
+        if (err) {
+            return console.log(err, "line no 14, order.js");
+        } else {
+            console.log(result, "result");
+            res.json({ result });
+        }
+    });
+});
+
 module.exports = router;
