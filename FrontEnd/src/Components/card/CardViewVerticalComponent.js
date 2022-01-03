@@ -11,15 +11,13 @@ const CardViewVerticalComponent = ({
     setSelectedHub,
     selected,
     data,
+    onPress,
 }) => {
     const [imageUrl, setImageUrl] = useState();
 
     const onCardSelect = () => {
         if (selected === undefined || selected === null) {
-            window.open(
-                `/makers/${data.Manufacturer_ID}/${data.Company_Name}`,
-                "_blank"
-            );
+            onPress(data);
         } else {
             setSelectedHub(index);
         }
@@ -41,7 +39,7 @@ const CardViewVerticalComponent = ({
 
     return (
         <>
-            <div className="col-xl-6 col-lg-6 col-md-12 p-3 pb-4">
+            <div key={index} className="col-xl-6 col-lg-6 col-md-12 p-3 pb-4">
                 <div
                     className="row m-auto rounded overflow-hidden"
                     style={{
