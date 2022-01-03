@@ -4,33 +4,6 @@ import { useHistory } from "react-router-dom";
 import { FileDownload } from "../../commonApi/CommonApi";
 import CardViewVerticalComponent from "../../Components/card/CardViewVerticalComponent";
 
-const hub = [
-    {
-        name: "zener technologies",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-        image: "https://www.zenertech.com/wp-content/themes/zener/img/logo.png",
-    },
-    {
-        name: "maker name",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-        image: "https://www.freepnglogos.com/uploads/youtube-logo-hd-8.png",
-    },
-    {
-        name: "maker name",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-        image: "https://3dinsider.com/wp-content/uploads/2021/03/How-to-Estimate-3D-Printing-Time-1280x720.png",
-    },
-    {
-        name: "maker name",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-        image: "https://www.saf-fro.com/sites/saffro/files/styles/retina_cover_page/public/2016/09/26/plasma_cutting_automation_air_liquide_welding_2015-632_2_1.jpg?itok=Y8feKn-q",
-    },
-];
-
 function MakersHub() {
     const history = useHistory();
     const [selectedHub, setSelectedHub] = useState();
@@ -41,13 +14,11 @@ function MakersHub() {
         if (makersList) setHubs(makersList);
     }, [makersList]);
 
-    const handleClick = (data) => {
-        let clickedHub = data;
-        console.log(clickedHub, "Hub");
-        // history.push({
-        //     pathname: "/makers/details",
-        //     state: { clickedHub },
-        // });
+    const onHubClick = (hub) => {
+        window.open(
+            `/makers/${hub.Manufacturer_ID}/${hub.Company_Name}`,
+            "_blank"
+        );
     };
 
     const hubList =
@@ -60,10 +31,7 @@ function MakersHub() {
                     image={hub.Logo}
                     data={hub}
                     description={hub.Brief_Description}
-                    // imageFit="contain"
-                    selectedCard={(selectedCard) => {
-                        setSelectedHub(selectedCard);
-                    }}
+                    onPress={onHubClick}
                 />
             );
         });
