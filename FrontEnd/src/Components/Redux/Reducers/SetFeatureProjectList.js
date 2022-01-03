@@ -7,7 +7,6 @@ const initialState = {
 export const SetFeatureProjectList = (state = initialState, action) => {
     switch (action.type) {
         case SET_FEATUREPROJECT_LIST:
-            console.log(action.projectList, "set");
             return {
                 ...state,
                 projectList: action.projectList,
