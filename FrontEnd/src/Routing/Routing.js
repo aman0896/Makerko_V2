@@ -28,6 +28,7 @@ import MakerOrderDetails from "../Pages/OrderDetails/MakerOrderDetails";
 import DesignRequest from "../Pages/OrderDetails/DesignRequest";
 import SideNavbar from "../Components/SideNavbar/SideNavbar";
 import NoPageFoundErr from "../Pages/404ErrorPage";
+import ProjectDetailViewPage from "../Pages/FeatureProject/ProjectDetailViewPage";
 
 function Routing() {
     const auth = useSelector((state) => state.isAuth);
@@ -83,6 +84,10 @@ function Routing() {
                             <Route
                                 path="/makers/:id/:name"
                                 component={MakersDetailViewPage}
+                            />
+                            <Route
+                                path="/projects/:id/:name"
+                                component={ProjectDetailViewPage}
                             />
                             <Route
                                 exact
