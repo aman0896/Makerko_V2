@@ -12,11 +12,11 @@ const mysql = require("mysql");
 const db = mysql.createConnection({
     user: "root",
     host: "localhost",
-    password: "test@123",
-    database: "makerko",
+    // password: "test@123",
+    // database: "makerko",
 
-    // password: "fabhubs",
-    // database: "fabhubsdb",
+    password: "fabhubs",
+    database: "fabhubsdb",
 });
 
 db.connect((err) => {

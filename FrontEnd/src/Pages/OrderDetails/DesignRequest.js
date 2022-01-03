@@ -1,56 +1,66 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getData } from "../../commonApi/CommonApi";
 import { customerOrderList, customerRequestDesign } from "../../commonApi/Link";
+import { SET_SIDEBAR } from "../../Components/Redux/Actions/Types";
 import TableComponent from "../../Components/table/TableComponent";
 import WrapperComponent from "../../Components/WrapperComponent";
 
 function DesignRequest() {
-    const params = useParams();
-    const { id } = params;
+    const currentUserData = useSelector(
+        (state) => state.currentUserdata.currentUserdata
+    );
     const [orderList, setOrderList] = useState();
-    console.log(id, "id");
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        getData(
-            customerRequestDesign,
-            id,
-            (onSuccess) => {
-                if (onSuccess.data) {
-                    const orderList = onSuccess.data.result;
-                    console.log(orderList, "orderList");
+        dispatch({ type: SET_SIDEBAR, isSidebar: true });
+    }, []);
 
-                    for (let i = 0; i < orderList.length; i++) {
-                        const date = new Date(parseInt(orderList[i].Date));
-                        orderList[i].Date = date.toLocaleString();
-                        orderList[i].Status =
-                            orderList[i].Status === "pending" ? (
-                                <span className=" badge badge-warning">
-                                    {orderList[i].Status}
-                                </span>
-                            ) : orderList[i].Status === "completed" ? (
-                                <span className=" badge badge-success">
-                                    {orderList[i].Status}
-                                </span>
-                            ) : orderList[i].Status === "building" ? (
-                                <span className=" badge badge-secondary">
-                                    {orderList[i].Status}
-                                </span>
-                            ) : (
-                                <span className=" badge badge-danger">
-                                    {orderList[i].Status}
-                                </span>
-                            );
+    useEffect(() => {
+        if (currentUserData) {
+            getData(
+                customerRequestDesign,
+                currentUserData.Customer_ID,
+                (onSuccess) => {
+                    if (onSuccess.data) {
+                        const orderList = onSuccess.data.result;
+                        console.log(orderList, "orderList");
+
+                        for (let i = 0; i < orderList.length; i++) {
+                            const date = new Date(parseInt(orderList[i].Date));
+                            orderList[i].Date = date.toLocaleString();
+                            orderList[i].Status =
+                                orderList[i].Status === "pending" ? (
+                                    <span className=" badge badge-warning">
+                                        {orderList[i].Status}
+                                    </span>
+                                ) : orderList[i].Status === "completed" ? (
+                                    <span className=" badge badge-success">
+                                        {orderList[i].Status}
+                                    </span>
+                                ) : orderList[i].Status === "building" ? (
+                                    <span className=" badge badge-secondary">
+                                        {orderList[i].Status}
+                                    </span>
+                                ) : (
+                                    <span className=" badge badge-danger">
+                                        {orderList[i].Status}
+                                    </span>
+                                );
+                        }
+
+                        setOrderList(orderList);
                     }
-
-                    setOrderList(orderList);
+                },
+                (onFail) => {
+                    console.log(onFail, "fail");
                 }
-            },
-            (onFail) => {
-                console.log(onFail, "fail");
-            }
-        );
-    }, [id]);
+            );
+        }
+    }, [currentUserData]);
 
     return (
         <WrapperComponent>

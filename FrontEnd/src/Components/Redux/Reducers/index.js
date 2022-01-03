@@ -8,6 +8,7 @@ import { SetMakersList } from "./SetMakersList";
 import { SetMakersServices } from "./SetMakersServices";
 import { SetFeatureProjectList } from "./SetFeatureProjectList";
 import { SetLocationPathname } from "./SetLocationPath";
+import { SetSidebar } from "./SetSidebar";
 
 const allReducers = combineReducers({
     isAuth: IsAuth,
@@ -19,5 +20,6 @@ const allReducers = combineReducers({
     makersServices: SetMakersServices,
     projectList: SetFeatureProjectList,
     pathname: SetLocationPathname,
+    setSidebar: SetSidebar,
 });
 export default allReducers;

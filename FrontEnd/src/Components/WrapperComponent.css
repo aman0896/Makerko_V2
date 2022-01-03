@@ -10,6 +10,11 @@
     justify-content: center;
     margin: 50px 0px;
 }
+.children-container.sidebar {
+    width: 95%;
+    justify-content: center;
+    margin: 50px 0px;
+}
 
 @media screen and (max-width: 768px) {
     .parent-container {

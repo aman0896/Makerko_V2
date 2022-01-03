@@ -1,5 +1,5 @@
 import React from "react";
-import { MdOutlineDeviceHub } from "react-icons/md";
+import { MdDeviceHub } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
 import { ImFilesEmpty } from "react-icons/im";
 import { CgPlayList } from "react-icons/cg";
@@ -7,29 +7,29 @@ import { CgPlayList } from "react-icons/cg";
 export const MakerMenuItems = [
     {
         title: "Edit Profile",
-        path: "/profile/customer/edit",
+        path: "/profile/maker/edit",
         icon: <FiUser size={25} />,
     },
     {
         title: "My Hub",
         path: "/profile/makers/additionaldetails",
-        icon: <MdOutlineDeviceHub size={25} />,
+        icon: <MdDeviceHub size={25} />,
     },
 
     {
         title: "Orders",
-        path: "/profile/maker/:id/order",
+        path: "/profile/maker/order",
         icon: <CgPlayList size={25} />,
     },
 
     {
         title: "My Projects",
-        path: "/makerko/myprojects",
+        path: "/profile/myprojects",
         icon: <ImFilesEmpty size={20} />,
     },
     {
         title: "My Blogs",
-        path: "/makerko/myblogs",
+        path: "/profile/myblogs",
         icon: <ImFilesEmpty size={20} />,
     },
 ];
@@ -37,23 +37,23 @@ export const MakerMenuItems = [
 export const CustomerMenuItems = [
     {
         title: "Edit Profile",
-        path: "/makerko/myprofile",
+        path: "/profile/customer/edit",
         icon: <FiUser size={25} />,
     },
 
     {
         title: "My Orders",
-        path: "/makerko/myorders",
+        path: "/profile/order",
         icon: <CgPlayList size={25} />,
     },
     {
         title: "Requested Design",
-        path: "/makerko/myprojects",
+        path: "/profile/request_design",
         icon: <ImFilesEmpty size={20} />,
     },
     {
         title: "My Projects",
-        path: "/makerko/myprojects",
+        path: "/profile/myprojects",
         icon: <ImFilesEmpty size={20} />,
     },
 ];

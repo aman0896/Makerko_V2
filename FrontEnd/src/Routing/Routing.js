@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    useHistory,
+} from "react-router-dom";
 import FooterContainer from "../Components/Footer/FooterContainer";
 import NavBar from "../Components/NavBar";
 import ReactToastify from "../Components/ReactToastify";
@@ -51,12 +56,13 @@ function Routing({ isAuth, currentUser, userType }) {
                             {pathname !== null &&
                                 pathname.includes("/profile") && (
                                     <div className="profile_view">
-                                        <div className="sidebar">
+                                        <div className="sidebar_section">
                                             <SideNavbar
+                                                usertype={auth.userType}
                                                 setPathname={setPathname}
                                             />
                                         </div>
-                                        <div className="profile">
+                                        <div className="profile_section">
                                             <ProtectedRoute
                                                 path="/profile/customer/edit"
                                                 exact
@@ -71,6 +77,28 @@ function Routing({ isAuth, currentUser, userType }) {
                                                 }
                                                 isAuth={auth.isAuth}
                                                 redirectionPage="/"
+                                            />
+                                            <ProtectedRoute
+                                                path="/profile/makers/edit"
+                                                exact
+                                                component={MakersProfile}
+                                                isAuth={auth.isAuth}
+                                                redirectionPage="/"
+                                            />
+                                            <Route
+                                                exact
+                                                path="/profile/order"
+                                                component={CustomerOrderDetails}
+                                            />
+                                            <Route
+                                                exact
+                                                path="/profile/request_design"
+                                                component={DesignRequest}
+                                            />
+                                            <Route
+                                                exact
+                                                path="/profile/maker/:id/order"
+                                                component={MakerOrderDetails}
                                             />
                                         </div>
                                     </div>
@@ -129,13 +157,13 @@ function Routing({ isAuth, currentUser, userType }) {
                                 isAuth={auth.isAuth}
                                 redirectionPage="/"
                             />
-                            <ProtectedRoute
+                            {/* <ProtectedRoute
                                 path="/profile/makers/edit"
                                 exact
                                 component={MakersProfile}
                                 isAuth={auth.isAuth}
                                 redirectionPage="/"
-                            />
+                            /> */}
                             {/* <ProtectedRoute
                                 path="/makers/hub"
                                 exact
@@ -195,21 +223,21 @@ function Routing({ isAuth, currentUser, userType }) {
                                 path="/projects"
                                 component={Projects}
                             />
-                            <Route
+                            {/* <Route
                                 exact
-                                path="/:id/order"
+                                path="profile/:id/order"
                                 component={CustomerOrderDetails}
                             />
                             <Route
                                 exact
-                                path="/:id/request_design"
+                                path="profile/:id/request_design"
                                 component={DesignRequest}
                             />
                             <Route
                                 exact
                                 path="/profile/maker/:id/order"
                                 component={MakerOrderDetails}
-                            />
+                            /> */}
                             {/* <Route path="/sidebar" component={SideNavbar} /> */}
                         </Switch>
                     </div>

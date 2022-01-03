@@ -1,17 +1,20 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./SideNavbar.css";
-import { MakerMenuItems } from "./MenuItems";
+import { CustomerMenuItems, MakerMenuItems } from "./MenuItems";
 
-function SideNavbar() {
+function SideNavbar({ setPathname, userType }) {
     const handleNavlinkClick = (event) => {
         console.log(event.target.baseURI, "target");
+        setPathname(event.target.baseURI);
     };
+
+    const menuItems = userType === "maker" ? MakerMenuItems : CustomerMenuItems;
 
     return (
         <div className="sidebar_container">
             <ul className="sidebar_menuitems">
-                {MakerMenuItems.map((menuItem) => {
+                {menuItems.map((menuItem) => {
                     return (
                         <li className="sidebar_link">
                             <NavLink
