@@ -3,7 +3,10 @@ const { FileMove } = require("../Utils/Operations");
 const router = express.Router();
 const fs = require("fs");
 const { DBQuery } = require("../DBController/DatabaseQuery");
-const { SendOrderSpecificationMail } = require("../Utils/nodemailer");
+const {
+    SendOrderSpecificationMail,
+    SendRequestDesignMail,
+} = require("../Utils/nodemailer");
 
 router.post("/get-quote", async (req, res) => {
     console.log(req.body, "quotebody");
@@ -70,7 +73,6 @@ router.post("/request-design", async (req, res) => {
     const productFile = req.body.values.productFile.productFile[0];
     const sketchFile = req.body.values.sketchFile.sketchFile[0];
     const description = req.body.values.description;
-    console.log(userDetails, productFile, sketchFile, description, "data");
     let files = [productFile, sketchFile];
     let dir;
     let filePaths;

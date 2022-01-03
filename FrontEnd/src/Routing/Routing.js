@@ -1,10 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    useHistory,
-} from "react-router-dom";
+import React, { Fragment, useState } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FooterContainer from "../Components/Footer/FooterContainer";
 import NavBar from "../Components/NavBar";
 import ReactToastify from "../Components/ReactToastify";
@@ -17,8 +12,6 @@ import OTPVerification from "../Pages/OTPVerification";
 import CustomerProfile from "../Pages/Profile/CustomerProfile";
 import Signup from "../Pages/Signup";
 import VerificationSuccess from "../Pages/VerificationSuccess";
-import FileUpload from "../Test/FileUpload";
-import MultipleFileUpload from "../Test/MUltipleFileUpload";
 import MakersProfile from "../Pages/Profile/MakersProfile";
 import { useSelector } from "react-redux";
 import AdditionalDetailsFillUp from "../Pages/Maker/AdditionalDetailsFillUp";
@@ -34,10 +27,10 @@ import CustomerOrderDetails from "../Pages/OrderDetails/CustomerOrderDetails";
 import MakerOrderDetails from "../Pages/OrderDetails/MakerOrderDetails";
 import DesignRequest from "../Pages/OrderDetails/DesignRequest";
 import SideNavbar from "../Components/SideNavbar/SideNavbar";
+import NoPageFoundErr from "../Pages/404ErrorPage";
 
-function Routing({ isAuth, currentUser, userType }) {
+function Routing() {
     const auth = useSelector((state) => state.isAuth);
-    // const pathname = useSelector((state) => state.pathname);
     const [pathname, setPathname] = useState(window.location.pathname);
     console.log(pathname, "routing pathname");
     return (
@@ -53,57 +46,8 @@ function Routing({ isAuth, currentUser, userType }) {
                         />
                         <Switch>
                             <Route exact path="/" component={Main} />
-                            {pathname !== null &&
-                                pathname.includes("/profile") && (
-                                    <div className="profile_view">
-                                        <div className="sidebar_section">
-                                            <SideNavbar
-                                                usertype={auth.userType}
-                                                setPathname={setPathname}
-                                            />
-                                        </div>
-                                        <div className="profile_section">
-                                            <ProtectedRoute
-                                                path="/profile/customer/edit"
-                                                exact
-                                                component={CustomerProfile}
-                                                isAuth={auth.isAuth}
-                                            />
-                                            <ProtectedRoute
-                                                path="/profile/makers/additionaldetails"
-                                                exact
-                                                component={
-                                                    AdditionalDetailsFillUp
-                                                }
-                                                isAuth={auth.isAuth}
-                                                redirectionPage="/"
-                                            />
-                                            <ProtectedRoute
-                                                path="/profile/makers/edit"
-                                                exact
-                                                component={MakersProfile}
-                                                isAuth={auth.isAuth}
-                                                redirectionPage="/"
-                                            />
-                                            <Route
-                                                exact
-                                                path="/profile/order"
-                                                component={CustomerOrderDetails}
-                                            />
-                                            <Route
-                                                exact
-                                                path="/profile/request_design"
-                                                component={DesignRequest}
-                                            />
-                                            <Route
-                                                exact
-                                                path="/profile/maker/:id/order"
-                                                component={MakerOrderDetails}
-                                            />
-                                        </div>
-                                    </div>
-                                )}
 
+                            {/* public routing */}
                             <Route
                                 exact
                                 path="/account/login"
@@ -129,78 +73,6 @@ function Routing({ isAuth, currentUser, userType }) {
                                 path="/verify-success"
                                 component={VerificationSuccess}
                             />
-
-                            <ProtectedRoute
-                                path="/CreateFeatureProject"
-                                exact
-                                component={CreateFeatureProject}
-                                isAuth={auth.isAuth}
-                                redirectionPage="/"
-                            />
-                            {/* <Route
-                                exact
-                                path="/new-project"
-                                component={CreateFeatureProject}
-                            /> */}
-                            {/* <Route exact path="/file" component={FileUpload} /> */}
-                            {/* <ProtectedRoute
-                                path="/profile/customer/edit"
-                                exact
-                                component={CustomerProfile}
-                                isAuth={auth.isAuth}
-                                redirectionPage="/"
-                            /> */}
-                            <ProtectedRoute
-                                path="/get-quote"
-                                exact
-                                component={GetAQuote}
-                                isAuth={auth.isAuth}
-                                redirectionPage="/"
-                            />
-                            {/* <ProtectedRoute
-                                path="/profile/makers/edit"
-                                exact
-                                component={MakersProfile}
-                                isAuth={auth.isAuth}
-                                redirectionPage="/"
-                            /> */}
-                            {/* <ProtectedRoute
-                                path="/makers/hub"
-                                exact
-                                component={MakersHub}
-                                isAuth={auth.isAuth}
-                                redirectionPage="/"
-                            /> */}
-                            {/* <ProtectedRoute
-                                path="/profile/makers/additionaldetails"
-                                exact
-                                component={AdditionalDetailsFillUp}
-                                isAuth={auth.isAuth}
-                                redirectionPage="/"
-                            /> */}
-                            <Route
-                                exact
-                                path="/request-design"
-                                component={RequestDesign}
-                            />
-
-                            {/* <Route
-                                exact
-                                path="/profile/customer/edit"
-                                component={CustomerProfile}
-                            /> */}
-
-                            {/* <Route
-                                exact
-                                path="/get-quote"
-                                component={GetAQuote}
-                            /> */}
-
-                            {/* <Route
-                                exact
-                                path="/profile/makers/edit"
-                                component={MakersProfile}
-                            /> */}
                             <Route
                                 exact
                                 path="/makers/hub"
@@ -208,40 +80,148 @@ function Routing({ isAuth, currentUser, userType }) {
                             />
                             <Route exact path="/makers" component={Maker} />
                             <Route path="/makers/map" component={Map} />
-
                             <Route
                                 path="/makers/:id/:name"
                                 component={MakersDetailViewPage}
                             />
-                            {/* <Route
-                                exact
-                                path="/account/makers-additionaldetails"
-                                component={AdditionalDetailsFillUp}
-                            /> */}
                             <Route
                                 exact
                                 path="/projects"
                                 component={Projects}
                             />
-                            {/* <Route
+                            {/* public routing */}
+
+                            <ProtectedRoute
+                                path="/CreateFeatureProject"
                                 exact
-                                path="profile/:id/order"
-                                component={CustomerOrderDetails}
+                                component={CreateFeatureProject}
+                                isAuth={auth.isAuth}
+                                redirectionPage="/account/login"
                             />
-                            <Route
+                            <ProtectedRoute
+                                path="/get-quote"
                                 exact
-                                path="profile/:id/request_design"
-                                component={DesignRequest}
+                                component={GetAQuote}
+                                isAuth={auth.isAuth}
+                                redirectionPage="/account/login"
                             />
-                            <Route
+                            <ProtectedRoute
                                 exact
-                                path="/profile/maker/:id/order"
-                                component={MakerOrderDetails}
-                            /> */}
-                            {/* <Route path="/sidebar" component={SideNavbar} /> */}
+                                path="/request-design"
+                                component={RequestDesign}
+                                isAuth={auth.isAuth}
+                                redirectionPage="/account/login"
+                            />
+                            {/* ProtectedRoute with sidebar */}
+                            {pathname !== null &&
+                                pathname.includes("/profile") && (
+                                    <div className="profile_view">
+                                        <div className="sidebar_section">
+                                            <SideNavbar
+                                                usertype={auth.userType}
+                                                setPathname={setPathname}
+                                            />
+                                        </div>
+                                        <div className="profile_section">
+                                            <ProtectedRoute
+                                                exact
+                                                path="/profile/request_design"
+                                                component={DesignRequest}
+                                                isAuth={auth.isAuth}
+                                                redirectionPage="/account/login"
+                                            />
+                                            {auth.userType &&
+                                                auth.userType ===
+                                                    "customer" && (
+                                                    <Fragment>
+                                                        <Switch>
+                                                            <ProtectedRoute
+                                                                path="/profile/customer/edit"
+                                                                exact
+                                                                component={
+                                                                    CustomerProfile
+                                                                }
+                                                                isAuth={
+                                                                    auth.isAuth
+                                                                }
+                                                                redirectionPage="/account/login"
+                                                            />
+                                                            <ProtectedRoute
+                                                                exact
+                                                                path="/profile/order"
+                                                                component={
+                                                                    CustomerOrderDetails
+                                                                }
+                                                                isAuth={
+                                                                    auth.isAuth
+                                                                }
+                                                                redirectionPage="/account/login"
+                                                            />
+                                                            <Route
+                                                                component={
+                                                                    NoPageFoundErr
+                                                                }
+                                                            />
+                                                        </Switch>
+                                                    </Fragment>
+                                                )}
+                                            {auth.userType &&
+                                                auth.userType === "maker" && (
+                                                    <Fragment>
+                                                        <Switch>
+                                                            <ProtectedRoute
+                                                                path="/profile/makers/additionaldetails"
+                                                                exact
+                                                                component={
+                                                                    AdditionalDetailsFillUp
+                                                                }
+                                                                isAuth={
+                                                                    auth.isAuth
+                                                                }
+                                                                redirectionPage="/account/login"
+                                                            />
+                                                            <ProtectedRoute
+                                                                path="/profile/makers/edit"
+                                                                exact
+                                                                component={
+                                                                    MakersProfile
+                                                                }
+                                                                isAuth={
+                                                                    auth.isAuth
+                                                                }
+                                                                redirectionPage="/account/login"
+                                                            />
+
+                                                            <ProtectedRoute
+                                                                exact
+                                                                path="/profile/maker/order"
+                                                                component={
+                                                                    MakerOrderDetails
+                                                                }
+                                                                isAuth={
+                                                                    auth.isAuth
+                                                                }
+                                                                redirectionPage="/account/login"
+                                                            />
+                                                            <Route
+                                                                component={
+                                                                    NoPageFoundErr
+                                                                }
+                                                            />
+                                                        </Switch>
+                                                    </Fragment>
+                                                )}
+
+                                            <Route component={NoPageFoundErr} />
+                                        </div>
+                                    </div>
+                                )}
+
+                            {/* ProtectedRoute with sidebar */}
+
+                            <Route component={NoPageFoundErr} />
                         </Switch>
                     </div>
-
                     <FooterContainer />
                 </div>
             </Router>
