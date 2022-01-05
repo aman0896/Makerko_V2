@@ -1,7 +1,10 @@
 // import React, { useEffect, useState } from "react";
-import React from "react";
-import SideBar from "./Components/SideNavBar/SideBar";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React from 'react';
+import SideBar from './Components/SideNavBar/SideBar';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import ForgetPasword from './Components/Foormik/ForgetPassword';
+import Routing from './Routing/Routing';
+import ResetPassword from './Components/Foormik/ResetPassword';
 // import Routing from "./Routing/Routing";
 // import "./App.css";
 // import { getDataWithNoParams } from "./commonApi/CommonApi";
@@ -17,68 +20,68 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // import { MakersServices } from "./Components/Redux/Actions/MakersServices";
 
 function App() {
-  // const dispatch = useDispatch();
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [errorMessage, setErrorMessage] = useState();
-  // const [auth, setAuth] = useState({
-  //   isAuth: "",
-  //   userType: "",
-  //   currentUser: "",
-  // });
+	// const dispatch = useDispatch();
+	// const [isLoading, setIsLoading] = useState(true);
+	// const [errorMessage, setErrorMessage] = useState();
+	// const [auth, setAuth] = useState({
+	//   isAuth: "",
+	//   userType: "",
+	//   currentUser: "",
+	// });
 
-  // useEffect(() => {
-  //   function IsLoggedIn() {
-  //     getDataWithNoParams(
-  //       isLoggedIn,
-  //       (onSuccess) => {
-  //         if (onSuccess.data) {
-  //           const { uid, loggedIn, userType } = onSuccess.data;
-  //           if (loggedIn === true) {
-  //             dispatch({
-  //               type: IS_AUTH,
-  //               isAuth: loggedIn,
-  //               userType: userType,
-  //               currentUser: uid,
-  //             });
-  //             setAuth({
-  //               ...auth,
-  //               isAuth: loggedIn,
-  //               userType: userType,
-  //               currentUser: uid,
-  //             });
-  //           }
-  //           setIsLoading(false);
-  //         }
-  //       },
-  //       (onFail) => {
-  //         setErrorMessage("Server Not Found!!!");
-  //       }
-  //     );
-  //   }
-  //   IsLoggedIn();
-  // }, []);
+	// useEffect(() => {
+	//   function IsLoggedIn() {
+	//     getDataWithNoParams(
+	//       isLoggedIn,
+	//       (onSuccess) => {
+	//         if (onSuccess.data) {
+	//           const { uid, loggedIn, userType } = onSuccess.data;
+	//           if (loggedIn === true) {
+	//             dispatch({
+	//               type: IS_AUTH,
+	//               isAuth: loggedIn,
+	//               userType: userType,
+	//               currentUser: uid,
+	//             });
+	//             setAuth({
+	//               ...auth,
+	//               isAuth: loggedIn,
+	//               userType: userType,
+	//               currentUser: uid,
+	//             });
+	//           }
+	//           setIsLoading(false);
+	//         }
+	//       },
+	//       (onFail) => {
+	//         setErrorMessage("Server Not Found!!!");
+	//       }
+	//     );
+	//   }
+	//   IsLoggedIn();
+	// }, []);
 
-  // useEffect(() => {
-  //   if (auth.isAuth) {
-  //     CurrentUserdata(dispatch, auth.currentUser);
-  //   }
-  // }, [auth]);
+	// useEffect(() => {
+	//   if (auth.isAuth) {
+	//     CurrentUserdata(dispatch, auth.currentUser);
+	//   }
+	// }, [auth]);
 
-  // useEffect(() => {
-  //   //get fabrication
-  //   FabricationMethod(dispatch);
+	// useEffect(() => {
+	//   //get fabrication
+	//   FabricationMethod(dispatch);
 
-  //   //gett material
-  //   Material(dispatch);
+	//   //gett material
+	//   Material(dispatch);
 
-  //   // get all makers list
-  //   MakersList(dispatch);
+	//   // get all makers list
+	//   MakersList(dispatch);
 
-  //   //get all makers services
-  //   MakersServices(dispatch);
-  // }, [dispatch]);
+	//   //get all makers services
+	//   MakersServices(dispatch);
+	// }, [dispatch]);
 
-  return (
+	return (
 		// <div>
 		//   {isLoading ? (
 		//     <div>
@@ -90,11 +93,14 @@ function App() {
 		//     </>
 		//   )}
 		// </div>
-		<Router>
-			
-			<SideBar />
-		</Router>
-  );
+		// <Router>
+		<ResetPassword />
+		// 	<SideBar />
+		// </Router>
+		//<Routing/>
+
+		// <ForgetPasword/>
+	);
 }
 
 export default App;

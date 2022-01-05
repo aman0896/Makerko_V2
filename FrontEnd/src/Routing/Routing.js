@@ -27,18 +27,19 @@ import RequestDesign from "../Pages/RequestDesign";
 import ProtectedRoute from "./PrivateRoute";
 
 function Routing({ isAuth, currentUser, userType }) {
-    const auth = useSelector((state) => state.isAuth);
+    // const auth = useSelector((state) => state.isAuth);
     console.log("Auth");
-    console.log(auth, "Auth");
+    // console.log(auth, "Auth");
+    const auth=""
     return (
         <div>
             <Router>
                 <div className="d-flex flex-column min-vh-100">
                     <div className="wrapper flex-grow-1">
                         <NavBar
-                            isAuth={auth.isAuth}
-                            currentUser={auth.currentUser}
-                            userType={auth.userType}
+                            // isAuth={auth.isAuth}
+                            // currentUser={auth.currentUser}
+                            // userType={auth.userType}
                         />
                         <Switch>
                             <Route exact path="/" component={Main} />
