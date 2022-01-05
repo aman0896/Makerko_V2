@@ -3,59 +3,71 @@ import Blogs from "../../config/Blogs.json";
 import { useWindowDimensions } from "../../functions/Functions";
 import "./BlogComponent.css";
 import Button from "../Button";
+import { divIcon } from "leaflet";
+import SlideView from "../slideView/SlideView";
 
 const fontWeignt = { fontWeight: "lighter" };
 const imgWidth = { maxWidth: "400px", maxHeight: "400px" };
-function BlogComponent() {
+function BlogComponent(props) {
+    const {
+        title,
+        description,
+        contents,
+        author,
+        gallary,
+        coverImage,
+        pdfFile,
+        productionDetails,
+        publishDate,
+    } = props;
+
     const { width, height } = useWindowDimensions();
+
+    const cardStyle = {
+        background: "white",
+        borderRadius: "5px",
+        overflow: "hidden",
+        height: "392px",
+        width: "98%",
+    };
+
+    console.log(author, "author");
+
     return (
         <div>
             <img
-                src={Blogs[0].cover}
-                style={{ width: "100%", height: "370px", objectFit: "cover" }}
+                src={coverImage}
+                style={{
+                    width: "100%",
+                    height: "400px",
+                    objectFit: "cover",
+                    backgroundPosition: "center",
+                }}
                 alt=""
             />
             <div className="contain--80">
-                <span
+                <div
                     className="heading"
                     style={{ fontSize: "36px", color: "#000000" }}
                 >
-                    Blog Title
-                </span>
-                <p className="pt-3 text_align sub-heading" style={fontWeignt}>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Ipsum, hic dignissimos, deserunt asperiores neque laboriosam
-                    alias quibusdam ipsam provident, officiis excepturi cumque
-                    omnis delectus libero ratione autem sequi quae perferendis
-                    cum! Ratione sed eum sint debitis delectus, tempore minima
-                    quasi eligendi veritatis corporis cumque facere nihil
-                    provident distinctio ea optio numquam rerum ab odio.
-                    Numquam, in eligendi dolorum rem natus totam eos possimus.
-                    Quas doloribus ducimus deserunt architecto beatae impedit,
-                    nulla exercitationem neque, sit totam voluptatum nam illo
-                    perspiciatis similique nisi. Dolor rem distinctio voluptatem
-                    nemo eos magnam ipsa reiciendis impedit error officiis
-                    eaque, voluptate facilis sunt nam et maiores.
-                </p>
+                    {title}
+                </div>
+                <div>{description}</div>
             </div>
-            {/* <div style={{ background: "#C4C4C4", marginTop: "150px" }}>
-        <div className="contain--80">
-          <div className="p-4 d-flex justify-content-center align-items-center">
-            <img src={Blogs[1].img1} style={imgWidth} alt="" />
-            <img
-              src={Blogs[1].img2}
-              style={{ maxWidth: "458px", maxHeight: "458px" }}
-              alt=""
-            />
-            <img src={Blogs[1].img3} style={imgWidth} alt="" />
-          </div>
-        </div>
-      </div> */}
-            {Blogs[2].map((data, index) => (
+            <div style={{ background: "#C4C4C4", marginTop: "150px" }}>
+                <SlideView
+                    showImage={true}
+                    className="mt-5 mb-5"
+                    slides={gallary}
+                    imageStyle={{ height: "100%", width: "100%" }}
+                    cardStyle={cardStyle}
+                />
+            </div>
+            {contents.map((content, index) => (
                 <div className="contain--80 row">
                     <div
                         className={
-                            index % 2 === 0
+                            content.image_position === "right"
                                 ? "col-xl-6 col-lg-6 col-md-6"
                                 : "col-xl-6 col-lg-6 col-md-6 position_img d-flex justify-content-end"
                         }
@@ -65,26 +77,20 @@ function BlogComponent() {
                                 width: width < 768 ? "100%" : "80%",
                                 height: "100%",
                             }}
-                            src={data.image}
+                            src={content.content_image}
                             alt=""
                         />
                     </div>
                     <div className="col-xl-6 col-lg-6 col-md-6">
-                        <span className="heading" style={{ fontSize: "24px" }}>
-                            Sub-title
-                        </span>
-                        <p
+                        <div className="heading" style={{ fontSize: "24px" }}>
+                            {content.content_title}
+                        </div>
+                        <div
                             className="text_align pt-3 sub-heading"
                             style={fontWeignt}
                         >
-                            {data.descriptionOne}
-                        </p>
-                        <p
-                            className="text_align sub-heading"
-                            style={fontWeignt}
-                        >
-                            {data.descriptionTwo}
-                        </p>
+                            {content.content_details}
+                        </div>
                     </div>
                 </div>
             ))}
@@ -98,10 +104,9 @@ function BlogComponent() {
                 <div className="d-flex align-items-center h-100">
                     <Button
                         buttonStyle="button--white--solid"
-                        buttonSize="button--large--nomargin"
+                        buttonSize="button--medium"
                         style={{
                             fontSize: "18px",
-                            padding: "6px 19px",
                         }}
                     >
                         Download
@@ -109,31 +114,40 @@ function BlogComponent() {
                 </div>
             </div>
             <div className="contain--80 mt-3 d-flex flex--colm">
-                <img style={{ width: "256px" }} src={Blogs[1].dp} alt="" />
+                <img
+                    style={{ width: "256px" }}
+                    src={
+                        author.Profile_Image
+                            ? author.Profile_Image
+                            : author.Logo
+                    }
+                    alt=""
+                />
                 <div className="d-flex flex-column justify-content-between pad-mar">
                     <span className="heading mt-3" style={{ fontSize: "36px" }}>
-                        Maker Name
+                        {author.First_Name
+                            ? author.First_Name + " " + author.Last_Name
+                            : author.Company_Name}
                     </span>
                     <div className="pb-5">
                         <span className="download_text_size sub-heading ">
-                            Location
+                            {author.Address}
                         </span>
                         <br />
                         <span className="sub-heading download_text_size">
-                            Phone number
+                            {author.Phone_Number}
                         </span>
                     </div>
 
                     <div>
                         <Button
                             buttonStyle="button--primary--solid"
-                            buttonSize="button--large--nomargin"
+                            buttonSize="button--small"
                             style={{
-                                fontSize: "18px",
-                                padding: "6px 19px",
+                                fontSize: "14px",
                             }}
                         >
-                            Check their profile
+                            Check profile
                         </Button>
                     </div>
                 </div>

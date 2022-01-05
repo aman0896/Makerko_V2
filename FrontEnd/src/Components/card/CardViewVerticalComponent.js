@@ -23,19 +23,19 @@ const CardViewVerticalComponent = ({
         }
     };
 
-    useEffect(() => {
-        async function GetImage() {
-            if (image) {
-                const imageData = JSON.parse(image);
-                const imageBlob = await FileDownload(imageData.filePath);
-                const imageUrl = window.URL.createObjectURL(
-                    new Blob([imageBlob])
-                );
-                setImageUrl(imageUrl);
-            }
-        }
-        GetImage();
-    }, [image]);
+    // useEffect(() => {
+    //     async function GetImage() {
+    //         if (image) {
+    //             const imageData = JSON.parse(image);
+    //             const imageBlob = await FileDownload(imageData.filePath);
+    //             const imageUrl = window.URL.createObjectURL(
+    //                 new Blob([imageBlob])
+    //             );
+    //             setImageUrl(imageUrl);
+    //         }
+    //     }
+    //     GetImage();
+    // }, [image]);
 
     return (
         <>
@@ -54,14 +54,14 @@ const CardViewVerticalComponent = ({
                 >
                     <img
                         className="col-lg-5 col-md-12 col-sm-12 col-12"
-                        src={imageUrl}
+                        src={image}
                         style={{
                             width: "225px",
                             height: "302px",
                             objectFit: imageFit ? imageFit : "cover",
                             padding: imageFit ? 20 : 0,
                         }}
-                        alt={name}
+                        alt={image}
                     />
 
                     <div

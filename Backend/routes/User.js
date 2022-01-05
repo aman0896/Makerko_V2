@@ -18,6 +18,7 @@ router.get("/currentUser", async (req, res) => {
         "SELECT * FROM manufacturer WHERE Manufacturer_ID = ?";
     const customerData = await GetUserData(customerSqlQuery, req.query.uid);
     const makerData = await GetUserData(makerSqlQuery, req.query.uid);
+    console.log(customerData, makerData, "datatatatat");
     if (customerData.length > 0) {
         res.json({ currentUserData: customerData });
     } else if (makerData.length > 0) {

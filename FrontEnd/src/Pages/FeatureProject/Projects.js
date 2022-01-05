@@ -4,24 +4,26 @@ import CardViewVerticalComponent from "../../Components/card/CardViewVerticalCom
 import { useDispatch, useSelector } from "react-redux";
 import { FeatureProjectList } from "../../Components/Redux/Actions/FeatureProjectList";
 import ReactToHtml from "react-html-parser";
+import FeatureProjects from "../../config/Project.json";
 
 function Projects() {
-    const dispatch = useDispatch();
-    const projectList = useSelector((state) => state.projectList.projectList);
+    // const dispatch = useDispatch();
+    // const projectList = useSelector((state) => state.projectList.projectList);
 
     const [projects, setProjects] = useState(null);
 
     useEffect(() => {
-        FeatureProjectList(dispatch);
-        // setProjects(project);
+        // FeatureProjectList(dispatch);
+        console.log(FeatureProjects, "projects");
+        setProjects(FeatureProjects);
     }, []);
 
-    useEffect(() => {
-        if (projectList) {
-            console.log(projectList, "projectList");
-            setProjects(projectList);
-        }
-    }, [projectList]);
+    // useEffect(() => {
+    //     if (projectList) {
+    //         console.log(projectList, "projectList");
+    //         setProjects(projectList);
+    //     }
+    // }, [projectList]);
 
     const onProjectClick = (project) => {
         window.open(
@@ -39,7 +41,7 @@ function Projects() {
                     name={project.Title}
                     image={project.Cover_Image}
                     data={project}
-                    description={ReactToHtml(project.Summary)}
+                    description={project.Description}
                     onPress={onProjectClick}
                     // imageFit="contain"
                     // selectedCard={(selectedCard) => {
