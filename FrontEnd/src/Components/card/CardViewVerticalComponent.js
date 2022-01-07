@@ -13,8 +13,6 @@ const CardViewVerticalComponent = ({
     data,
     onPress,
 }) => {
-    const [imageUrl, setImageUrl] = useState();
-
     const onCardSelect = () => {
         if (selected === undefined || selected === null) {
             onPress(data);
@@ -22,20 +20,6 @@ const CardViewVerticalComponent = ({
             setSelectedHub(index);
         }
     };
-
-    // useEffect(() => {
-    //     async function GetImage() {
-    //         if (image) {
-    //             const imageData = JSON.parse(image);
-    //             const imageBlob = await FileDownload(imageData.filePath);
-    //             const imageUrl = window.URL.createObjectURL(
-    //                 new Blob([imageBlob])
-    //             );
-    //             setImageUrl(imageUrl);
-    //         }
-    //     }
-    //     GetImage();
-    // }, [image]);
 
     return (
         <>
