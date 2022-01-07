@@ -134,6 +134,7 @@ export const ValidationSchemaMakerProfile = Yup.object().shape({
     additional_details: Yup.string().required("Additional Details is required"),
 });
 
+//validation schema customer profile
 export const ValidationSchemaCustomerProfile = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
@@ -141,4 +142,18 @@ export const ValidationSchemaCustomerProfile = Yup.object().shape({
     address: Yup.string().required("Address is required"),
     email: Yup.string().required("Email is required").email("Invalid Email"),
     bio: Yup.string().required("Bio is required"),
+});
+
+//change password validationschema
+export const changePasswordvalidationSchema = Yup.object({
+    password: Yup.string()
+        .required("Password is required")
+        .min(6, "Password should be 6 or more characters")
+        .matches(
+            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#.?&])[A-Za-z\d@$!%*.#?&]{8,}$/,
+            "Password must have alphabets, numbers and symbols"
+        ),
+    confirmpassword: Yup.string()
+        .required("Required")
+        .oneOf([Yup.ref("password"), null], "Password do not  match"),
 });
