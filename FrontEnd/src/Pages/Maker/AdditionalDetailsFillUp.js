@@ -58,7 +58,6 @@ function AdditionalDetailsFillUp() {
             async function GetMultipleImage() {
                 if (hub.Additional_Images) {
                     let filesUrl = [];
-                    let imagePath = [];
                     const imageData = JSON.parse(hub.Additional_Images);
                     for (let i = 0; i < imageData.length; i++) {
                         const imageBlob = await FileDownload(
@@ -66,9 +65,8 @@ function AdditionalDetailsFillUp() {
                             null
                         );
                         console.log(imageBlob, "files");
-                        const profileImageUrl = window.URL.createObjectURL(
-                            new Blob([imageBlob])
-                        );
+                        const profileImageUrl =
+                            window.URL.createObjectURL(imageBlob);
                         filesUrl.push({
                             filePath: profileImageUrl,
                             fileName: imageData[i].fileName,
