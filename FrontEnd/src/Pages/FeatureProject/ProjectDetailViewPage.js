@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { CgDisplayFlex } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import BlogComponent from "../../Components/BlogComponent/BlogComponent";
 import { FeatureProjectList } from "../../Components/Redux/Actions/FeatureProjectList";
-import ReactToHtml from "react-html-parser";
-import FeatureProjects from "../../config/Project.json";
-import { CurrentUserdata } from "../../Components/Redux/Actions/CurrentUserdata";
 import { FileDownload, getData } from "../../commonApi/CommonApi";
 import { currentUserLink } from "../../commonApi/Link";
 
@@ -17,23 +13,23 @@ function ProjectDetailViewPage() {
     //#endregion
 
     //#regionGetting data using react-redux
-    // const projectList = useSelector((state) => state.projectList.projectList);
-    const userData = useSelector(
-        (state) => state.currentUserdata.currentUserdata
-    );
+    const projectList = useSelector((state) => state.projectList.projectList);
     //#endregion
 
     //#region states define
     const [author, setAuthor] = useState();
     const [project, setProject] = useState(null);
-    const [projectList, setProjectList] = useState(null);
     //#endregion
 
     //#region useeffect call
     useEffect(() => {
-        // FeatureProjectList(dispatch);
-        setProjectList(FeatureProjects);
+        FeatureProjectList(dispatch);
     }, []);
+
+    useEffect(() => {
+        if (projectList) {
+        }
+    }, [projectList]);
 
     useEffect(() => {
         // FeatureProjectList(dispatch);
@@ -86,14 +82,47 @@ function ProjectDetailViewPage() {
     }, [project]);
 
     useEffect(() => {
+        async function SetImageData(displaySelectedProject) {
+            //coverImage image
+            const imageData = JSON.parse(displaySelectedProject.Cover_Image);
+            const imageBlob = await FileDownload(imageData.filePath);
+            const profileImageUrl = window.URL.createObjectURL(imageBlob);
+            displaySelectedProject.Cover_Image = profileImageUrl;
+
+            //gallary image
+            let filesUrl = [];
+            const gallaryImage = JSON.parse(displaySelectedProject.Gallary);
+            for (let i = 0; i < gallaryImage.length; i++) {
+                const imageBlob = await FileDownload(
+                    gallaryImage[i].filePath,
+                    null
+                );
+                const gallaryImageUrl = window.URL.createObjectURL(imageBlob);
+                filesUrl.push({
+                    image: gallaryImageUrl,
+                });
+            }
+            displaySelectedProject.Gallary = filesUrl;
+
+            //set content and its images
+            const projectContent = JSON.parse(displaySelectedProject.Content);
+            for (let i = 0; i < projectContent.length; i++) {
+                const imageBlob = await FileDownload(
+                    projectContent[i].content_image.filePath,
+                    null
+                );
+                const contentImageUrl = window.URL.createObjectURL(imageBlob);
+                projectContent[i].content_image = contentImageUrl;
+            }
+            displaySelectedProject.Content = projectContent;
+
+            setProject(displaySelectedProject);
+        }
         if (projectList) {
-            console.log(projectList, params.id, "id");
             const displaySelectedProject = projectList.filter(
                 (project) => project.Project_ID === parseInt(params.id)
             );
-            console.log(displaySelectedProject, "checkproject");
-
-            setProject(displaySelectedProject[0]);
+            SetImageData(displaySelectedProject[0]);
         }
     }, [projectList, params.id]);
     //#endregion
