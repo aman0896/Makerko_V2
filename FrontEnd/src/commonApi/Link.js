@@ -106,3 +106,9 @@ export const customerOrderList = "order/customer-order";
 
 //customer request design
 export const customerRequestDesign = "requestDesign/request_design_list";
+
+//forgot passowrd
+export const forgetPassword = "reset/forgot-password";
+
+//reset password
+export const resetPassword = "rest/reset-password";
