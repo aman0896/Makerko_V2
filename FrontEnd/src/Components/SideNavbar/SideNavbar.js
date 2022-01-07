@@ -1,15 +1,19 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./SideNavbar.css";
 import { CustomerMenuItems, MakerMenuItems } from "./MenuItems";
+import { useSelector } from "react-redux";
 
-function SideNavbar({ setPathname, userType }) {
+function SideNavbar({ setPathname }) {
     const handleNavlinkClick = (event) => {
         console.log(event.target.baseURI, "target");
         setPathname(event.target.baseURI);
     };
 
-    const menuItems = userType === "maker" ? MakerMenuItems : CustomerMenuItems;
+    const auth = useSelector((state) => state.isAuth);
+
+    const menuItems =
+        auth.userType === "maker" ? MakerMenuItems : CustomerMenuItems;
 
     return (
         <div className="sidebar_container">
