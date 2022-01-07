@@ -1,29 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import CardViewVerticalComponent from "../../Components/card/CardViewVerticalComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { FeatureProjectList } from "../../Components/Redux/Actions/FeatureProjectList";
-import ReactToHtml from "react-html-parser";
-import FeatureProjects from "../../config/Project.json";
+import { FileDownload } from "../../commonApi/CommonApi";
 
 function Projects() {
-    // const dispatch = useDispatch();
-    // const projectList = useSelector((state) => state.projectList.projectList);
+    const dispatch = useDispatch();
+    const projectList = useSelector((state) => state.projectList.projectList);
 
     const [projects, setProjects] = useState(null);
 
     useEffect(() => {
-        // FeatureProjectList(dispatch);
-        console.log(FeatureProjects, "projects");
-        setProjects(FeatureProjects);
+        FeatureProjectList(dispatch);
     }, []);
 
-    // useEffect(() => {
-    //     if (projectList) {
-    //         console.log(projectList, "projectList");
-    //         setProjects(projectList);
-    //     }
-    // }, [projectList]);
+    useEffect(() => {
+        if (projectList) {
+            SetCoverImage(projectList);
+        }
+    }, [projectList]);
+
+    async function SetCoverImage(projectList) {
+        if (projectList) {
+            for (let i = 0; i < projectList.length; i++) {
+                const imageData = JSON.parse(projectList[i].Cover_Image);
+                const imageBlob = await FileDownload(imageData.filePath);
+                const previewUrl = window.URL.createObjectURL(imageBlob);
+                projectList[i].Cover_Image = previewUrl;
+            }
+        }
+        setProjects(projectList);
+    }
 
     const onProjectClick = (project) => {
         window.open(
@@ -43,10 +50,6 @@ function Projects() {
                     data={project}
                     description={project.Description}
                     onPress={onProjectClick}
-                    // imageFit="contain"
-                    // selectedCard={(selectedCard) => {
-                    //     // setSelectedHub(selectedCard);
-                    // }}
                 />
             );
         });
