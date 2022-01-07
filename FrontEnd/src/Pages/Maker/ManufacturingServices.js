@@ -136,7 +136,7 @@ function ManufacturingServices(props) {
             },
             materialDetails: [
                 {
-                    material: material,
+                    selectedMaterial: material,
                     thickness,
                     costUnit: costUnit,
                     unitRate,
@@ -149,10 +149,9 @@ function ManufacturingServices(props) {
         setStatus(true);
     };
 
-    const { width } = useWindowDimensions();
     const column = [
         {
-            field: "material",
+            field: "selectedMaterial",
             subField: "Material_Name",
             header: "Materials",
         },
