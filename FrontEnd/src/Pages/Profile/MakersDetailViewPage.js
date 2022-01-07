@@ -23,140 +23,6 @@ import { FileDownload } from "../../commonApi/CommonApi";
 import ReactHtmlParser from "react-html-parser";
 import { FeatureProjectList } from "../../Components/Redux/Actions/FeatureProjectList";
 
-const projects = [
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Project Sunset",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Project Sunset",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Project Sunset",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Project Sunset",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-];
-
-const blog = [
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Sunset Blog",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Sunset Blog",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Sunset Blog",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Sunset Blog",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Sunset Blog",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Sunset Blog",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-];
-
-const images = [
-    { image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg" },
-    {
-        image: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-    },
-    {
-        image: "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_960_720.jpg",
-    },
-    {
-        image: "https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    },
-    { image: "https://www.w3schools.com/howto/img_snow.jpg" },
-    {
-        image: "https://media.istockphoto.com/photos/picturesque-morning-in-plitvice-national-park-colorful-spring-scene-picture-id1093110112?k=20&m=1093110112&s=612x612&w=0&h=3OhKOpvzOSJgwThQmGhshfOnZTvMExZX2R91jNNStBY=",
-    },
-];
-
-const services = [
-    {
-        name: "CNC Carving",
-    },
-    {
-        name: "Vaccum Forming",
-    },
-    {
-        name: "3D Printing",
-    },
-];
-
-const otherServices = [
-    {
-        name: "Plasma Cutting",
-    },
-];
-
-const cardStyle = {
-    background: "white",
-    borderRadius: "5px",
-    overflow: "hidden",
-    height: "392px",
-    width: "98%",
-};
-
-const column = [
-    {
-        field: "selectedMaterial",
-        subField: "Material_Name",
-        header: "Materials",
-    },
-    {
-        field: "thickness",
-        header: "Thickness",
-    },
-    {
-        field: "costUnit",
-        subField: "label",
-        header: "Cost Unit",
-    },
-    {
-        field: "unitRate",
-        header: "Unit Rate",
-    },
-    {
-        field: "leadTime",
-        header: "Lead Time",
-    },
-];
-
 export default function MakersDetailViewPage() {
     const dispatch = useDispatch();
     const { height, width } = useWindowDimensions();
@@ -174,6 +40,8 @@ export default function MakersDetailViewPage() {
     const projectList = useSelector((state) => state.projectList.projectList);
     const { id } = useParams();
     const [coverImage, setCoverImage] = useState();
+    const [imageGallary, setImageGallary] = useState();
+    const [otherServices, setOtherServices] = useState();
 
     useEffect(() => {
         async function GetMakerData() {
@@ -181,14 +49,43 @@ export default function MakersDetailViewPage() {
                 makersList.filter(async (maker) => {
                     if (maker.Manufacturer_ID === id) {
                         setMaker(maker);
+
+                        //profile image
                         const imageData = JSON.parse(maker.Logo);
                         const imageBlob = await FileDownload(
                             imageData.filePath
                         );
-                        const profileImageUrl = window.URL.createObjectURL(
-                            new Blob([imageBlob])
-                        );
+                        const profileImageUrl =
+                            window.URL.createObjectURL(imageBlob);
                         setProfileImagePreview(profileImageUrl);
+
+                        //gallary image
+                        let filesUrl = [];
+                        const gallaryImage = JSON.parse(
+                            maker.Additional_Images
+                        );
+                        for (let i = 0; i < gallaryImage.length; i++) {
+                            const imageBlob = await FileDownload(
+                                gallaryImage[i].filePath,
+                                null
+                            );
+                            const gallaryImageUrl =
+                                window.URL.createObjectURL(imageBlob);
+                            filesUrl.push({
+                                image: gallaryImageUrl,
+                            });
+                        }
+                        setImageGallary(filesUrl);
+
+                        //otherservices
+                        let otherServiceNameList = [];
+                        const otherServices = JSON.parse(maker.Other_Services);
+                        for (let i = 0; i < otherServices.length; i++) {
+                            otherServiceNameList.push({
+                                name: otherServices[i].serviceName,
+                            });
+                        }
+                        setOtherServices(otherServiceNameList);
                     }
                 });
 
@@ -559,13 +456,15 @@ export default function MakersDetailViewPage() {
                             </label>
                         </div>
                     </div>
-                    <SlideView
-                        showImage={true}
-                        className="mt-5 mb-5"
-                        slides={images}
-                        imageStyle={{ height: "100%", width: "100%" }}
-                        cardStyle={cardStyle}
-                    />
+                    {imageGallary && (
+                        <SlideView
+                            showImage={true}
+                            className="mt-5 mb-5"
+                            slides={imageGallary}
+                            imageStyle={{ height: "100%", width: "100%" }}
+                            cardStyle={cardStyle}
+                        />
+                    )}
                     <div
                         className="text-white text-center"
                         style={{ display: width < 768 ? "block" : "none" }}
@@ -607,3 +506,75 @@ const styles = {
         textTransform: "uppercase",
     },
 };
+
+const blog = [
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+];
+
+const cardStyle = {
+    background: "white",
+    borderRadius: "5px",
+    overflow: "hidden",
+    height: "392px",
+    width: "98%",
+};
+
+const column = [
+    {
+        field: "selectedMaterial",
+        subField: "Material_Name",
+        header: "Materials",
+    },
+    {
+        field: "thickness",
+        header: "Thickness",
+    },
+    {
+        field: "costUnit",
+        subField: "label",
+        header: "Cost Unit",
+    },
+    {
+        field: "unitRate",
+        header: "Unit Rate",
+    },
+    {
+        field: "leadTime",
+        header: "Lead Time",
+    },
+];
