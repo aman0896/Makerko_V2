@@ -81,6 +81,9 @@ app.use("/order", Order);
 
 const DesignRequest = require("./routes/DesignRequest");
 app.use("/requestDesign", DesignRequest);
+
+const ForgotPassword = require("./routes/ForgotPassword");
+app.use("/reset", ForgotPassword);
 //#endregion
 
 //Serve the static files from the React app
