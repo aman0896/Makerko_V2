@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { FileDownload } from "../../commonApi/CommonApi";
 import CardViewVerticalComponent from "../../Components/card/CardViewVerticalComponent";
 
 function MakersHub() {
-    const history = useHistory();
-    const [selectedHub, setSelectedHub] = useState();
     const [hubs, setHubs] = useState(null);
     const makersList = useSelector((state) => state.makersList.makersList);
 
     useEffect(() => {
-        if (makersList) setHubs(makersList);
+        if (makersList) UpdateMakerList(makersList);
     }, [makersList]);
 
     const onHubClick = (hub) => {
@@ -20,6 +17,18 @@ function MakersHub() {
             "_blank"
         );
     };
+
+    async function UpdateMakerList(makersList) {
+        if (makersList) {
+            for (let i = 0; i < makersList.length; i++) {
+                const imageData = JSON.parse(makersList[i].Logo);
+                const imageBlob = await FileDownload(imageData.filePath);
+                const previewUrl = window.URL.createObjectURL(imageBlob);
+                makersList[i].Logo = previewUrl;
+            }
+        }
+        setHubs(makersList);
+    }
 
     const hubList =
         hubs &&
