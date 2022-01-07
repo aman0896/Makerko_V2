@@ -29,14 +29,20 @@ import DesignRequest from "../Pages/OrderDetails/DesignRequest";
 import SideNavbar from "../Components/SideNavbar/SideNavbar";
 import NoPageFoundErr from "../Pages/404ErrorPage";
 import ProjectDetailViewPage from "../Pages/FeatureProject/ProjectDetailViewPage";
+import ForgotPassword from "../Pages/ForgotPassword";
+import ResetPassword from "../Pages/ResetPassword";
+import MyProjects from "../Pages/Profile/MyProjects";
+import MyBlogs from "../Pages/Profile/MyBlogs";
+import ResetScrollPosition from "../Components/ResetScrollPosition";
 
 function Routing() {
     const auth = useSelector((state) => state.isAuth);
     const [pathname, setPathname] = useState(window.location.pathname);
-    console.log(pathname, "routing pathname");
+    console.log(auth.userType, pathname, "routing pathname");
     return (
         <div>
             <Router>
+                <ResetScrollPosition />
                 <div className="d-flex flex-column min-vh-100">
                     <div className="wrapper flex-grow-1">
                         <NavBar
@@ -73,6 +79,16 @@ function Routing() {
                                 exact
                                 path="/verify-success"
                                 component={VerificationSuccess}
+                            />
+                            <Route
+                                exact
+                                path="/account/forgotpassword"
+                                component={ForgotPassword}
+                            />
+                            <Route
+                                exact
+                                path="/account/resetpassword"
+                                component={ResetPassword}
                             />
                             <Route
                                 exact
@@ -128,102 +144,119 @@ function Routing() {
                                             />
                                         </div>
                                         <div className="profile_section">
-                                            <ProtectedRoute
-                                                exact
-                                                path="/profile/request_design"
-                                                component={DesignRequest}
-                                                isAuth={auth.isAuth}
-                                                redirectionPage="/account/login"
-                                            />
-                                            {auth.userType &&
-                                                auth.userType ===
-                                                    "customer" && (
-                                                    <Fragment>
-                                                        <Switch>
-                                                            <ProtectedRoute
-                                                                path="/profile/customer/edit"
-                                                                exact
-                                                                component={
-                                                                    CustomerProfile
-                                                                }
-                                                                isAuth={
-                                                                    auth.isAuth
-                                                                }
-                                                                redirectionPage="/account/login"
-                                                            />
-                                                            <ProtectedRoute
-                                                                exact
-                                                                path="/profile/order"
-                                                                component={
-                                                                    CustomerOrderDetails
-                                                                }
-                                                                isAuth={
-                                                                    auth.isAuth
-                                                                }
-                                                                redirectionPage="/account/login"
-                                                            />
-                                                            <Route
-                                                                component={
-                                                                    NoPageFoundErr
-                                                                }
-                                                            />
-                                                        </Switch>
-                                                    </Fragment>
-                                                )}
-                                            {auth.userType &&
-                                                auth.userType === "maker" && (
-                                                    <Fragment>
-                                                        <Switch>
-                                                            <ProtectedRoute
-                                                                path="/profile/makers/additionaldetails"
-                                                                exact
-                                                                component={
-                                                                    AdditionalDetailsFillUp
-                                                                }
-                                                                isAuth={
-                                                                    auth.isAuth
-                                                                }
-                                                                redirectionPage="/account/login"
-                                                            />
-                                                            <ProtectedRoute
-                                                                path="/profile/makers/edit"
-                                                                exact
-                                                                component={
-                                                                    MakersProfile
-                                                                }
-                                                                isAuth={
-                                                                    auth.isAuth
-                                                                }
-                                                                redirectionPage="/account/login"
-                                                            />
-
-                                                            <ProtectedRoute
-                                                                exact
-                                                                path="/profile/maker/order"
-                                                                component={
-                                                                    MakerOrderDetails
-                                                                }
-                                                                isAuth={
-                                                                    auth.isAuth
-                                                                }
-                                                                redirectionPage="/account/login"
-                                                            />
-                                                            <Route
-                                                                component={
-                                                                    NoPageFoundErr
-                                                                }
-                                                            />
-                                                        </Switch>
-                                                    </Fragment>
-                                                )}
-
-                                            <Route component={NoPageFoundErr} />
+                                            <Switch>
+                                                <ProtectedRoute
+                                                    path="/profile/myprojects"
+                                                    exact
+                                                    component={MyProjects}
+                                                    isAuth={auth.isAuth}
+                                                    redirectionPage="/account/login"
+                                                />
+                                                <ProtectedRoute
+                                                    exact
+                                                    path="/profile/request_design"
+                                                    component={DesignRequest}
+                                                    isAuth={auth.isAuth}
+                                                    redirectionPage="/account/login"
+                                                />
+                                                {auth.userType &&
+                                                    auth.userType ===
+                                                        "customer" && (
+                                                        <Fragment>
+                                                            <Switch>
+                                                                <ProtectedRoute
+                                                                    path="/profile/customer/edit"
+                                                                    exact
+                                                                    component={
+                                                                        CustomerProfile
+                                                                    }
+                                                                    isAuth={
+                                                                        auth.isAuth
+                                                                    }
+                                                                    redirectionPage="/account/login"
+                                                                />
+                                                                <ProtectedRoute
+                                                                    exact
+                                                                    path="/profile/order"
+                                                                    component={
+                                                                        CustomerOrderDetails
+                                                                    }
+                                                                    isAuth={
+                                                                        auth.isAuth
+                                                                    }
+                                                                    redirectionPage="/account/login"
+                                                                />
+                                                                <Route
+                                                                    component={
+                                                                        NoPageFoundErr
+                                                                    }
+                                                                />
+                                                            </Switch>
+                                                        </Fragment>
+                                                    )}
+                                                {auth.userType &&
+                                                    auth.userType ===
+                                                        "maker" && (
+                                                        <Fragment>
+                                                            <Switch>
+                                                                <ProtectedRoute
+                                                                    path="/profile/makers/additionaldetails"
+                                                                    exact
+                                                                    component={
+                                                                        AdditionalDetailsFillUp
+                                                                    }
+                                                                    isAuth={
+                                                                        auth.isAuth
+                                                                    }
+                                                                    redirectionPage="/account/login"
+                                                                />
+                                                                <ProtectedRoute
+                                                                    path="/profile/makers/edit"
+                                                                    exact
+                                                                    component={
+                                                                        MakersProfile
+                                                                    }
+                                                                    isAuth={
+                                                                        auth.isAuth
+                                                                    }
+                                                                    redirectionPage="/account/login"
+                                                                />
+                                                                <ProtectedRoute
+                                                                    exact
+                                                                    path="/profile/makers/order"
+                                                                    component={
+                                                                        MakerOrderDetails
+                                                                    }
+                                                                    isAuth={
+                                                                        auth.isAuth
+                                                                    }
+                                                                    redirectionPage="/account/login"
+                                                                />
+                                                                <ProtectedRoute
+                                                                    path="/profile/makers/myblogs"
+                                                                    exact
+                                                                    component={
+                                                                        MyBlogs
+                                                                    }
+                                                                    isAuth={
+                                                                        auth.isAuth
+                                                                    }
+                                                                    redirectionPage="/account/login"
+                                                                />
+                                                                <Route
+                                                                    component={
+                                                                        NoPageFoundErr
+                                                                    }
+                                                                />
+                                                            </Switch>
+                                                        </Fragment>
+                                                    )}
+                                            </Switch>
                                         </div>
                                     </div>
                                 )}
 
                             {/* ProtectedRoute with sidebar */}
-
                             <Route component={NoPageFoundErr} />
                         </Switch>
                     </div>
