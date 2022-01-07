@@ -65,9 +65,8 @@ function Login() {
                             3000,
                             colors.white
                         );
-                        formRef.current.resetForm();
                         return;
-                    } else if (!userVerified && userLoggedIn == undefined) {
+                    } else if (!userVerified && userLoggedIn === undefined) {
                         Toast(
                             "Account not verified",
                             "error",
@@ -168,7 +167,7 @@ function Login() {
                                     Forget your password?
                                     <a
                                         className="font-weight-bold ml-1"
-                                        href="#"
+                                        href="/account/forgotPassword"
                                         style={{ color: colors.primary }}
                                     >
                                         Reset it Here
