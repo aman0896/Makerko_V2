@@ -1,17 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
-import DropZone from "../Components/input/DropZone";
 import WrapperComponent from "../Components/WrapperComponent";
 import FormikComponent from "../Components/formik/FormikComponent";
 import FormikController from "../Components/formik/FormikController";
 import { GetAQuoteValidationSchema } from "./Form/ValidationSchema";
-import Card from "../Components/Card";
-import { colors } from "../Values/colors";
 import { Toast } from "../Components/ReactToastify";
 import { useSelector } from "react-redux";
 import { postData } from "../commonApi/CommonApi";
 import { getAQuote } from "../commonApi/Link";
 import CardViewVerticalComponent from "../Components/card/CardViewVerticalComponent";
-import ReactHtmlParser from "react-html-parser";
 
 const InitialValues = {
     method: "",
