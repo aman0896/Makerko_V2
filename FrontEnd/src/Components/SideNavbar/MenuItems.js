@@ -7,7 +7,7 @@ import { CgPlayList } from "react-icons/cg";
 export const MakerMenuItems = [
     {
         title: "Edit Profile",
-        path: "/profile/maker/edit",
+        path: "/profile/makers/edit",
         icon: <FiUser size={25} />,
     },
     {
@@ -18,10 +18,14 @@ export const MakerMenuItems = [
 
     {
         title: "Orders",
-        path: "/profile/maker/order",
+        path: "/profile/makers/order",
         icon: <CgPlayList size={25} />,
     },
-
+    {
+        title: "Requested Design",
+        path: "/profile/request_design",
+        icon: <ImFilesEmpty size={20} />,
+    },
     {
         title: "My Projects",
         path: "/profile/myprojects",
@@ -29,7 +33,7 @@ export const MakerMenuItems = [
     },
     {
         title: "My Blogs",
-        path: "/profile/myblogs",
+        path: "/profile/makers/myblogs",
         icon: <ImFilesEmpty size={20} />,
     },
 ];
