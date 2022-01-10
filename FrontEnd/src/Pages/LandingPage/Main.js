@@ -36,7 +36,7 @@ function Main() {
     return (
         <div>
             <Carousel slides={slides} />
-            <MakerkoGIF />
+            {/* <MakerkoGIF /> */}
             <div className="main-box-2">
                 <p
                     style={{
@@ -148,7 +148,7 @@ function Main() {
                 </span>
             </div>
             <PartnersAndCollaboration partners={partners} />
-            <MakerkoGIF />
+            {/* <MakerkoGIF /> */}
             <div>
                 <img
                     style={{
