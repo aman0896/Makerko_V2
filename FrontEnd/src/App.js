@@ -5,6 +5,9 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ForgetPasword from './Components/Foormik/ForgetPassword';
 import Routing from './Routing/Routing';
 import ResetPassword from './Components/Foormik/ResetPassword';
+import Demo from './Components/Get Quote/Demo';
+import HowitWorks from './Components/Quote/HowItWorks';
+
 // import Routing from "./Routing/Routing";
 // import "./App.css";
 // import { getDataWithNoParams } from "./commonApi/CommonApi";
@@ -93,10 +96,7 @@ function App() {
 		//     </>
 		//   )}
 		// </div>
-		// <Router>
-		<ResetPassword />
-		// 	<SideBar />
-		// </Router>
+	<HowitWorks/>
 		//<Routing/>
 
 		// <ForgetPasword/>
