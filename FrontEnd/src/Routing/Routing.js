@@ -26,6 +26,8 @@ import Maker from "../Pages/Profile/Maker";
 import MakersHub from "../Pages/Profile/MakersHub";
 import Projects from "../Pages/FeatureProject/Projects";
 import ProtectedRoute from "./PrivateRoute";
+import OTPVerify from "../Pages/OTPVerify";
+import CreateFeatureProject_newest from "../Pages/FeatureProject/CreateFeatureProject_newest";
 
 function Routing({ isAuth, currentUser, userType }) {
   const auth = useSelector((state) => state.isAuth);
@@ -47,12 +49,14 @@ function Routing({ isAuth, currentUser, userType }) {
               <Route exact path="/blog" component={BlogPage} />
               <Route exact path="/account/login" component={Login} />
               <Route exact path="/account/signup" component={Signup} />
+              <Route exact path="/create-feature" component={CreateFeatureProject_newest} />
               <Route
                 exact
                 path="/account/makers-signup"
                 component={MakersSignup}
               />
-              <Route exact path="/account/verify" component={OTPVerification} />
+              {/* <Route exact path="/account/verify" component={OTPVerification} /> */}
+              <Route exact path="/account/verify" component={OTPVerify} />
               <Route
                 exact
                 path="/verify-success"

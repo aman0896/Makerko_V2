@@ -21,7 +21,7 @@ export default function TeaxtAreaComponent(props) {
         <div className="mb-2">
             {props.label && (
                 <label
-                    className="mb-1 font-weight-bold"
+                    className="mb-1 font-weight-bold sub-heading"
                     style={{ fontSize: 14 }}
                 >
                     {props.label}

@@ -58,7 +58,7 @@ const DropDown = ({
 
     return (
         <>
-            <label className="mb-1 font-weight-bold" style={{ fontSize: 14 }}>
+            <label className="mb-1 font-weight-bold sub-heading" style={{ fontSize: 14 }}>
                 {label}
             </label>
             <Select

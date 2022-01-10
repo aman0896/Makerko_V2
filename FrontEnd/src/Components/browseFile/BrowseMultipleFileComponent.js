@@ -48,7 +48,7 @@ export default function BrowseFileComponent(props) {
   return (
     <div className="mb-4">
       {props.label && (
-        <label className="mb-1 font-weight-bold" style={{ fontSize: 14 }}>
+        <label className="mb-1 font-weight-bold sub-heading" style={{ fontSize: 14 }}>
           {props.label}
         </label>
       )}
@@ -73,7 +73,7 @@ export default function BrowseFileComponent(props) {
       )}
 
       <div
-        className="d-flex  align-items-center m-0 p-0 pl-3 pt-2 w-25"
+        className="d-flex align-items-center m-0 p-0 justify-content-center"
         style={{
           border: `0.8px solid ${
             props.errors[props.name] && props.touched[props.name]
@@ -84,39 +84,39 @@ export default function BrowseFileComponent(props) {
           height: 50,
         }}
       >
-        <div className=" d-flex align-items-center">
-          <label
-            className={
-              "btn" +
-              (props.errors[props.name] && props.touched[props.name]
-                ? " is-invalid"
-                : "")
-            }
-            style={btnStyle}
-            htmlFor={props.name}
-          >
-            {props.title}
-          </label>
-          <input
-            type="file"
-            name={props.name}
-            id={props.name}
-            accept={props.accept}
-            hidden
-            onChange={(event) => {
-              handleChange(event);
-            }}
-            multiple
-            // onBlur={() => {
-            //   if (props.handleBlur) {
-            //     props.handleBlur(props.name);
-            //   }
-            // }}
-          />
-        </div>
-        <div className="ml-5">
+        <div>
           {fileLength ? fileLength + "files" : "NO FILE CHOSEN"}
         </div>
+      </div>
+      <div className=" d-flex align-items-center justify-content-start mt-3">
+        <label
+          className={
+            "btn w-50" +
+            (props.errors[props.name] && props.touched[props.name]
+              ? " is-invalid"
+              : "")
+          }
+          style={btnStyle}
+          htmlFor={props.name}
+        >
+          {props.title}
+        </label>
+        <input
+          type="file"
+          name={props.name}
+          id={props.name}
+          accept={props.accept}
+          hidden
+          onChange={(event) => {
+            handleChange(event);
+          }}
+          multiple
+          // onBlur={() => {
+          //   if (props.handleBlur) {
+          //     props.handleBlur(props.name);
+          //   }
+          // }}
+        />
       </div>
 
       <ErrorMessage

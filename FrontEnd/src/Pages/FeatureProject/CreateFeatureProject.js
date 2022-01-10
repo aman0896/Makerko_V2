@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import FormikComponent from "../../Components/formik/FormikComponent";
 import FormikController from "../../Components/formik/FormikController";
 import "./Featureproject.css";
@@ -6,8 +6,9 @@ import * as Yup from "yup";
 import BrowseFileComponent from "../../Components/browseFile/BrowseFileComponent";
 import Button from "../../Components/Button";
 import { ProjectValidationSchema } from "../Form/ValidationSchema";
-import { postData } from "../../commonApi/CommonApi";
+import { postData, postDataWithFormData } from "../../commonApi/CommonApi";
 import { createProject } from "../../commonApi/Link";
+import { Toast } from "../../Components/ReactToastify";
 
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 const SUPPORTED_FORMATS_PDF = [".pdf"];
@@ -24,14 +25,23 @@ const InitialValues = {
   files: "",
 };
 function CreateFeatureProject() {
-  const handleSubmit = (values) => {
-    console.log(values, "values");
+  // const [mainPhoto, setMainPhoto] = useState();
+  // const [otherPhotos, setOtherPhotos] = useState();
+  // const [pdfDoc, setPdfDoc] = useState();
+  const handleSubmit = (values, onSubmitProps) => {
+    console.log(values.image, "values");
+    // setMainPhoto(values.image[0]);
+    // setOtherPhotos(values.files);
+    // setPdfDoc(values.pdfDocument[0]);
+
+    onSubmitProps.resetForm();
     // const formData = new FormData();
-    // // for (let i = 0; i < values.files.length; i++) {
-    // //   formData.append("files", values.files[i]);
-    // // }
-    // formData.append("file", values.image);
+    // for (let i = 0; i < values.files.length; i++) {
+    //   formData.append("files", values.files[i]);
+    // }
+    // formData.append("file", values.image[0]);
     // formData.append("project", JSON.stringify(values));
+    // formData.append("pdfDocument", values.pdfDocument[0]);
     // postData(
     //   createProject,
     //   formData,
@@ -43,11 +53,26 @@ function CreateFeatureProject() {
     //     console.log(error, "failure");
     //   }
     // );
+    const formData = new FormData();
+    formData.append("project", JSON.stringify(values));
+    formData.append("mainPhoto", values.image);
+    formData.append("otherPhotos", values.files);
+    formData.append("pdfDocument", values.pdfDocument[0]);
+    console.log("FormData", formData);
+    postDataWithFormData(
+      createProject,
+      formData,
+      (onSuccess) => {
+        console.log(onSuccess.data, "onsuccess");
+      },
+      (onFail) => {}
+    );
   };
+
   return (
     <>
       <div className="d-flex justify-content-center">
-        <div className="row " style={{ width: "80%" }}>
+        <div className="row mt-3" style={{ width: "80%" }}>
           <div className="col-lg-4 project-title mb-4">Feature Project</div>
           <div className="col-lg-7 ml-lg-5 d-flex justify-content-end">
             <Button
@@ -90,7 +115,7 @@ function CreateFeatureProject() {
                   control="file"
                   label="Upload Documents :"
                   name="pdfDocument"
-                  title="Choose File"
+                  title="Add Documents"
                   accept={SUPPORTED_FORMATS_PDF}
                   placeholder="ex Assembly manual, flyer, proposal, etc."
                 />
@@ -104,6 +129,7 @@ function CreateFeatureProject() {
                     label="Title of Project :"
                     name="title"
                     placeholder="Enter Title of Project"
+                    setInitial=""
                   />
                 </div>
                 <div className="col-lg ml-lg-4">
@@ -130,7 +156,7 @@ function CreateFeatureProject() {
                     control="multipleFile"
                     label="Upload other Multiple Photos of Project :"
                     name="files"
-                    title="Choose Files"
+                    title="Add photos"
                     accept={SUPPORTED_FORMATS}
                   />
                 </div>
@@ -147,7 +173,7 @@ function CreateFeatureProject() {
                 <FormikController
                   name="termsCondition"
                   control="checkbox"
-                  label="before submission of Project details and files."
+                  label="I agree with Terms and Conditions before submission of Project details and files."
                 />
               </div>
               <div className="d-flex justify-content-end">
@@ -157,7 +183,7 @@ function CreateFeatureProject() {
                   type="button"
                 >
                   Cancel
-                </Button>
+                </Button> 
                 <div className="ml-5">
                   <FormikController
                     title="Upload"

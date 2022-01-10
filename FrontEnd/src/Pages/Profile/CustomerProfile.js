@@ -54,7 +54,6 @@ function CustomerProfile() {
             formData,
             (onSuccess) => {
                 console.log(onSuccess.data, "onsuccess");
-                Toast("Profile Updated Successfully", "success");
             },
             (onFail) => {}
         );
