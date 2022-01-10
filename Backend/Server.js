@@ -111,6 +111,6 @@ app.post('/download', async function (req, res) {
 });
 // End download any File or images
 
-server.listen(3002, () => {
+server.listen(3001, () => {
 	console.log('running server');
 });

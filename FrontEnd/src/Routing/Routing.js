@@ -26,7 +26,7 @@ import ProtectedRoute from './PrivateRoute';
 import CustomerOrderDetails from '../Pages/OrderDetails/CustomerOrderDetails';
 import MakerOrderDetails from '../Pages/OrderDetails/MakerOrderDetails';
 import DesignRequest from '../Pages/OrderDetails/DesignRequest';
-import SideNavbar from '../Components/SideNavbar/SideNavbar';
+
 import NoPageFoundErr from '../Pages/404ErrorPage';
 import ProjectDetailViewPage from '../Pages/FeatureProject/ProjectDetailViewPage';
 import ForgotPassword from '../Pages/ForgotPassword';
@@ -34,6 +34,7 @@ import ResetPassword from '../Pages/ResetPassword';
 import MyProjects from '../Pages/Profile/MyProjects';
 import MyBlogs from '../Pages/Profile/MyBlogs';
 import ResetScrollPosition from '../Components/ResetScrollPosition';
+import SideNavbar from '../Components/SideNavBar/SideNavbar';
 
 function Routing() {
 	const auth = useSelector((state) => state.isAuth);
