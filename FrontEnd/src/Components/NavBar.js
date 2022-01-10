@@ -70,6 +70,7 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                         backgroundColor:
                             path === "/" ? colors.white : colors.primary,
                     }}
+                    onClick={onhambergerClick}
                 >
                     <li>
                         <Link
