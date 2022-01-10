@@ -10,8 +10,9 @@ import { colors } from "../Values/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { CurrentUserdata } from "./Redux/Actions/CurrentUserdata";
 import { useWindowDimensions } from "../functions/Functions";
+import { SET_LOCATION_PATHNAME } from "./Redux/Actions/Types";
 
-function NavBar({ isAuth, currentUser, userType }) {
+function NavBar({ isAuth, currentUser, userType, setPathname }) {
     const { width, height } = useWindowDimensions();
     const [hambergerClicked, isHambergerClicked] = useState(false);
     const [path, setPath] = useState(window.location.pathname);
@@ -20,6 +21,7 @@ function NavBar({ isAuth, currentUser, userType }) {
     useEffect(() => {
         console.log(window.location.pathname, "changepaggth");
         setPath(window.location.pathname);
+        setPathname(window.location.pathname);
     }, [window.location.pathname]);
 
     const onhambergerClick = () => {
@@ -240,6 +242,7 @@ function ProfileAvatarLogout({
     handleChangePath,
 }) {
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const onClickEdit_CustomerProfile = (event) => {
         handleChangePath(event);
@@ -249,6 +252,10 @@ function ProfileAvatarLogout({
     const onClickEdit_MakerProfile = (event) => {
         handleChangePath(event);
         history.push({ pathname: "/profile/makers/edit" });
+        dispatch({
+            type: SET_LOCATION_PATHNAME,
+            pathname: "/profile/customer/edit",
+        });
     };
 
     const onclickLogout = () => {

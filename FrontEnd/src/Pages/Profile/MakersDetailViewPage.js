@@ -18,161 +18,30 @@ import {
     TextIconComponent,
 } from "./ProfileComponent";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FileDownload } from "../../commonApi/CommonApi";
-import { SetMakersServices } from "../../Components/Redux/Reducers/SetMakersServices";
-
-const profileData = require("../../data/ProfileData.json");
-
-const projects = [
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Project Sunset",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Project Sunset",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Project Sunset",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Project Sunset",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-];
-
-const blog = [
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Sunset Blog",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Sunset Blog",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Sunset Blog",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Sunset Blog",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Sunset Blog",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-    {
-        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
-        title: "Sunset Blog",
-        description:
-            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-    },
-];
-
-const images = [
-    { image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg" },
-    {
-        image: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-    },
-    {
-        image: "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_960_720.jpg",
-    },
-    {
-        image: "https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    },
-    { image: "https://www.w3schools.com/howto/img_snow.jpg" },
-    {
-        image: "https://media.istockphoto.com/photos/picturesque-morning-in-plitvice-national-park-colorful-spring-scene-picture-id1093110112?k=20&m=1093110112&s=612x612&w=0&h=3OhKOpvzOSJgwThQmGhshfOnZTvMExZX2R91jNNStBY=",
-    },
-];
-
-const services = [
-    {
-        name: "CNC Carving",
-    },
-    {
-        name: "Vaccum Forming",
-    },
-    {
-        name: "3D Printing",
-    },
-];
-
-const otherServices = [
-    {
-        name: "Plasma Cutting",
-    },
-];
-
-const cardStyle = {
-    background: "white",
-    borderRadius: "5px",
-    overflow: "hidden",
-    height: "392px",
-    width: "98%",
-};
-
-const column = [
-    {
-      field: "material",
-      subField: "Material_Name",
-      header: "Materials",
-    },
-    {
-      field: "thickness",
-      header: "Thickness",
-    },
-    {
-      field: "costUnit",
-      subField: "type",
-      header: "Cost Unit",
-    },
-    {
-      field: "unitRate",
-      header: "Unit Rate",
-    },
-    {
-      field: "leadTime",
-      header: "Lead Time",
-    },
-    {
-      field: "action",
-      header: "Action",
-    },
-  ];
+import ReactHtmlParser from "react-html-parser";
+import { FeatureProjectList } from "../../Components/Redux/Actions/FeatureProjectList";
 
 export default function MakersDetailViewPage() {
+    const dispatch = useDispatch();
     const { height, width } = useWindowDimensions();
     const [profileImagePreview, setProfileImagePreview] = useState();
     const [maker, setMaker] = useState();
     const [services, setServices] = useState();
+    const [featureProject, setFeatureProject] = useState();
+    // const [projectCoverImageView, setProjectCoverImageView] = useState();
+    // const [methodNames, setMethodNames] = useState([]);
     const makersList = useSelector((state) => state.makersList.makersList);
     const makersServices = useSelector(
         (state) => state.makersServices.services
     );
     const methods = useSelector((state) => state.method.method);
+    const projectList = useSelector((state) => state.projectList.projectList);
     const { id } = useParams();
+    const [coverImage, setCoverImage] = useState();
+    const [imageGallary, setImageGallary] = useState();
+    const [otherServices, setOtherServices] = useState();
 
     useEffect(() => {
         async function GetMakerData() {
@@ -180,14 +49,43 @@ export default function MakersDetailViewPage() {
                 makersList.filter(async (maker) => {
                     if (maker.Manufacturer_ID === id) {
                         setMaker(maker);
+
+                        //profile image
                         const imageData = JSON.parse(maker.Logo);
                         const imageBlob = await FileDownload(
                             imageData.filePath
                         );
-                        const profileImageUrl = window.URL.createObjectURL(
-                            new Blob([imageBlob])
-                        );
+                        const profileImageUrl =
+                            window.URL.createObjectURL(imageBlob);
                         setProfileImagePreview(profileImageUrl);
+
+                        //gallary image
+                        let filesUrl = [];
+                        const gallaryImage = JSON.parse(
+                            maker.Additional_Images
+                        );
+                        for (let i = 0; i < gallaryImage.length; i++) {
+                            const imageBlob = await FileDownload(
+                                gallaryImage[i].filePath,
+                                null
+                            );
+                            const gallaryImageUrl =
+                                window.URL.createObjectURL(imageBlob);
+                            filesUrl.push({
+                                image: gallaryImageUrl,
+                            });
+                        }
+                        setImageGallary(filesUrl);
+
+                        //otherservices
+                        let otherServiceNameList = [];
+                        const otherServices = JSON.parse(maker.Other_Services);
+                        for (let i = 0; i < otherServices.length; i++) {
+                            otherServiceNameList.push({
+                                name: otherServices[i].serviceName,
+                            });
+                        }
+                        setOtherServices(otherServiceNameList);
                     }
                 });
 
@@ -199,34 +97,100 @@ export default function MakersDetailViewPage() {
         }
 
         GetMakerData();
-    }, [makersList, makersServices, id]);
 
-    const showServices = services && services.map((service) => {
-        methods &&
-            methods.map((method) => {
-                if (method.Service_ID === service.Service_ID) {
-                    return (
-                        <>
-                            <div
-                                className="heading mb-3"
-                                style={{ fontSize: width < 768 ? 20 : 38 }}
-                            >
-                                Manufacturing Services
-                            </div>
-                            <div className="mb-5">
-                                <div className="border tableMainHeader">
-                                    <h2 className="mx-5">{method.Name}</h2>
+        async function SetFeatureProjectList() {
+            if (projectList) {
+                const ownProjects = projectList.filter(
+                    async (project) => project.Auther_ID === id
+                );
+                setFeatureProject(ownProjects);
+            }
+        }
+
+        SetFeatureProjectList();
+    }, [makersList, makersServices, projectList, id]);
+
+    useEffect(() => {
+        //get featureProject List
+        FeatureProjectList(dispatch);
+    }, []);
+
+    const methodsName = [];
+
+    const showServices =
+        services &&
+        services.map((service) => {
+            return (
+                methods &&
+                methods.map((method) => {
+                    if (method.Service_ID === service.Service_ID) {
+                        console.log(method.Name, "method");
+                        console.log(
+                            JSON.parse(service.Material_Name),
+                            "service"
+                        );
+                        methodsName.push({ name: method.Name });
+                        return (
+                            <>
+                                <div className="mb-5">
+                                    <div className="border tableMainHeader">
+                                        <h2 className="mx-5">{method.Name}</h2>
+                                    </div>
+                                    <TableComponent
+                                        column={column}
+                                        data={JSON.parse(service.Material_Name)}
+                                    />
                                 </div>
-                                <TableComponent
-                                    column={column}
-                                    data={service}
-                                />
-                            </div>
-                        </>
+                            </>
+                        );
+                    }
+                })
+            );
+        });
+
+    useEffect(() => {
+        async function SetCoverImage() {
+            let data = [];
+            if (featureProject) {
+                for (let i = 0; i < featureProject.length; i++) {
+                    const imageData = JSON.parse(featureProject[i].Cover_Image);
+                    const imageBlob = await FileDownload(imageData.filePath);
+                    const previewUrl = window.URL.createObjectURL(
+                        new Blob([imageBlob])
                     );
+                    data.push({
+                        previewUrl: previewUrl,
+                        projectId: featureProject[i].Project_ID,
+                    });
                 }
-            });
-    });
+            }
+            setCoverImage(data);
+        }
+
+        SetCoverImage();
+    }, [featureProject]);
+
+    const showFeatureProject =
+        featureProject &&
+        featureProject.map((project, index) => {
+            return (
+                coverImage &&
+                coverImage.map((image) => {
+                    if (image.projectId === project.Project_ID) {
+                        return (
+                            <CardViewComponent
+                                key={index}
+                                imageStyle={{
+                                    backgroundImage: `url(${image.previewUrl})`,
+                                }}
+                                title={project.Title}
+                                description={ReactHtmlParser(project.Summary)}
+                            />
+                        );
+                    }
+                })
+            );
+        });
 
     return (
         <div style={{ minHeight: height - 80, backgroundColor: colors.dark }}>
@@ -285,7 +249,7 @@ export default function MakersDetailViewPage() {
                                     </div>
                                     <ServicesComponent
                                         header="Fabrication Services"
-                                        services={services}
+                                        services={methodsName}
                                     />
                                     <ServicesComponent
                                         header="Other Services"
@@ -297,11 +261,11 @@ export default function MakersDetailViewPage() {
                                         </div>
                                         <TextIconComponent
                                             icon={<HiPhone />}
-                                            text="9815401344"
+                                            text={maker.Phone_Number}
                                         />
                                         <TextIconComponent
                                             icon={<MdMail />}
-                                            text="zener@gmail.com"
+                                            text={maker.Email}
                                         />
                                     </>
                                     <>
@@ -379,29 +343,13 @@ export default function MakersDetailViewPage() {
                             </div>
                             <p>{maker.Additional_Details}</p>
                             <>
-                                {showServices}
-                                {/* <div
+                                <div
                                     className="heading mb-3"
                                     style={{ fontSize: width < 768 ? 20 : 38 }}
                                 >
                                     Manufacturing Services
                                 </div>
-                                <div className="mb-5">
-                                    <div className="border tableMainHeader">
-                                        <h2 className="mx-5">{methodName}</h2>
-                                    </div>
-                                    <TableComponent
-                                        column={column}
-                                        data={profileData.profile}
-                                    />
-                                </div>
-                                <div className="border tableMainHeader">
-                                    <h2 className="mx-5">3D Printing</h2>
-                                </div>
-                                <TableComponent
-                                    column={column}
-                                    data={profileData.profile}
-                                /> */}
+                                {showServices}
                                 <div
                                     style={{
                                         display: width < 768 ? "block" : "none",
@@ -429,8 +377,9 @@ export default function MakersDetailViewPage() {
                                     Projects
                                 </Button>
                                 <div className="d-flex flex-column flex-md-row justify-content-between">
-                                    {projects &&
-                                        projects
+                                    {coverImage && showFeatureProject}
+                                    {/* {featureProject &&
+                                        featureProject
                                             .slice(0, 2)
                                             .map((item, index) => (
                                                 <CardViewComponent
@@ -443,7 +392,7 @@ export default function MakersDetailViewPage() {
                                                         item.description
                                                     }
                                                 />
-                                            ))}
+                                            ))} */}
                                 </div>
                             </div>
 
@@ -507,13 +456,15 @@ export default function MakersDetailViewPage() {
                             </label>
                         </div>
                     </div>
-                    <SlideView
-                        showImage={true}
-                        className="mt-5 mb-5"
-                        slides={images}
-                        imageStyle={{ height: "100%", width: "100%" }}
-                        cardStyle={cardStyle}
-                    />
+                    {imageGallary && (
+                        <SlideView
+                            showImage={true}
+                            className="mt-5 mb-5"
+                            slides={imageGallary}
+                            imageStyle={{ height: "100%", width: "100%" }}
+                            cardStyle={cardStyle}
+                        />
+                    )}
                     <div
                         className="text-white text-center"
                         style={{ display: width < 768 ? "block" : "none" }}
@@ -555,3 +506,75 @@ const styles = {
         textTransform: "uppercase",
     },
 };
+
+const blog = [
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+    {
+        image: "https://images3.alphacoders.com/853/thumb-1920-85305.jpg",
+        title: "Sunset Blog",
+        description:
+            "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
+    },
+];
+
+const cardStyle = {
+    background: "white",
+    borderRadius: "5px",
+    overflow: "hidden",
+    height: "392px",
+    width: "98%",
+};
+
+const column = [
+    {
+        field: "selectedMaterial",
+        subField: "Material_Name",
+        header: "Materials",
+    },
+    {
+        field: "thickness",
+        header: "Thickness",
+    },
+    {
+        field: "costUnit",
+        subField: "label",
+        header: "Cost Unit",
+    },
+    {
+        field: "unitRate",
+        header: "Unit Rate",
+    },
+    {
+        field: "leadTime",
+        header: "Lead Time",
+    },
+];

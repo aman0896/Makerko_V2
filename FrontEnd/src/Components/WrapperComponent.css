@@ -1,11 +1,17 @@
 .parent-container {
     width: 100%;
     display: flex;
+    min-height: 100vh;
     justify-content: center;
 }
 
 .children-container {
     width: 80%;
+    justify-content: center;
+    margin: 50px 0px;
+}
+.children-container.sidebar {
+    width: 95%;
     justify-content: center;
     margin: 50px 0px;
 }

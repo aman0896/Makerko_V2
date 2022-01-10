@@ -47,7 +47,7 @@ function CustomerProfile() {
     }, [currentUserData]);
 
     const handleSubmit = (values) => {
-        console.log(profileImage, "check")
+        console.log(profileImage, "check");
         const formData = new FormData();
         formData.append("userUpdates", JSON.stringify(values));
         formData.append("currentUser", JSON.stringify(currentUserData));
@@ -75,7 +75,7 @@ function CustomerProfile() {
         <div
             className="container-fluid"
             style={{
-                width: width <= 800 ? "95%" : "60%",
+                width: width <= 800 ? "95%" : "80%",
             }}
         >
             {currentUserData && (

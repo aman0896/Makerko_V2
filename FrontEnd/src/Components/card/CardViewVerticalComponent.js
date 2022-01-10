@@ -8,40 +8,22 @@ const CardViewVerticalComponent = ({
     description,
     image,
     imageFit,
-    selectedCard,
+    setSelectedHub,
     selected,
     data,
+    onPress,
 }) => {
-    const [imageUrl, setImageUrl] = useState();
-
     const onCardSelect = () => {
         if (selected === undefined || selected === null) {
-            window.open(
-                `/makers/${data.Manufacturer_ID}/${data.Company_Name}`,
-                "_blank"
-            );
+            onPress(data);
         } else {
-            selectedCard(index);
+            setSelectedHub(index);
         }
     };
 
-    useEffect(() => {
-        async function GetImage() {
-            if (image) {
-                const imageData = JSON.parse(image);
-                const imageBlob = await FileDownload(imageData.filePath);
-                const imageUrl = window.URL.createObjectURL(
-                    new Blob([imageBlob])
-                );
-                setImageUrl(imageUrl);
-            }
-        }
-        GetImage();
-    }, [image]);
-
     return (
         <>
-            <div className="col-xl-6 col-lg-6 col-md-12 p-3 pb-4">
+            <div key={index} className="col-xl-6 col-lg-6 col-md-12 p-3 pb-4">
                 <div
                     className="row m-auto rounded overflow-hidden"
                     style={{
@@ -49,21 +31,21 @@ const CardViewVerticalComponent = ({
                         maxHeight: "300px",
                         backgroundColor: colors.dark,
                         border: selected
-                            ? `2px solid ${colors.danger}`
+                            ? `5px solid ${colors.success}`
                             : "none",
                     }}
                     onClick={onCardSelect}
                 >
                     <img
                         className="col-lg-5 col-md-12 col-sm-12 col-12"
-                        src={imageUrl}
+                        src={image}
                         style={{
                             width: "225px",
                             height: "302px",
                             objectFit: imageFit ? imageFit : "cover",
                             padding: imageFit ? 20 : 0,
                         }}
-                        alt={name}
+                        alt={image}
                     />
 
                     <div

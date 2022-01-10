@@ -90,4 +90,25 @@ export const download = "download";
 export const getMakers = "makers/map";
 
 //makers services
-export const makers_services = "process/makers-services"
+export const makers_services = "process/makers-services";
+
+//feature project list api
+export const getFeatureProjectList = "project/get-featureproject-list";
+
+//get maker order list
+export const makerOrderList = "order/maker-order";
+
+//update order status
+export const updateOrderStatus = "order/update-status";
+
+//customer order status
+export const customerOrderList = "order/customer-order";
+
+//customer request design
+export const customerRequestDesign = "requestDesign/request_design_list";
+
+//forgot passowrd
+export const forgetPassword = "reset/forgot-password";
+
+//reset password
+export const resetPassword = "rest/reset-password";

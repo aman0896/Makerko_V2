@@ -1,6 +1,7 @@
 .aboutus-container {
     display: flex;
     justify-content: center;
+    align-items: center;
     background-color: black;
     width: 100%;
     height: auto;

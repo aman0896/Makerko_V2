@@ -6,6 +6,9 @@ import { SetCurrentUserdata } from "./SetCurrentUserData";
 import { SetMfgProcess } from "./SetManufacturingProcess";
 import { SetMakersList } from "./SetMakersList";
 import { SetMakersServices } from "./SetMakersServices";
+import { SetFeatureProjectList } from "./SetFeatureProjectList";
+import { SetLocationPathname } from "./SetLocationPath";
+import { SetSidebar } from "./SetSidebar";
 
 const allReducers = combineReducers({
     isAuth: IsAuth,
@@ -14,6 +17,9 @@ const allReducers = combineReducers({
     currentUserdata: SetCurrentUserdata,
     mfgProcess: SetMfgProcess,
     makersList: SetMakersList,
-    makersServices: SetMakersServices
+    makersServices: SetMakersServices,
+    projectList: SetFeatureProjectList,
+    pathname: SetLocationPathname,
+    setSidebar: SetSidebar,
 });
 export default allReducers;
