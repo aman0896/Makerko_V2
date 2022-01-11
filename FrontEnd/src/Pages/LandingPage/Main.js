@@ -57,8 +57,7 @@ function Main() {
 						color: colors.primary,
 						textDecoration: 'underline',
 					}}
-					to='/'
-					component={HowitWorks}
+					to='/howitworks'
 				>
 					Learn How to Place Orders
 				</Link>

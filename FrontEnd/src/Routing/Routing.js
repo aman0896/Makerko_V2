@@ -35,6 +35,7 @@ import MyProjects from '../Pages/Profile/MyProjects';
 import MyBlogs from '../Pages/Profile/MyBlogs';
 import ResetScrollPosition from '../Components/ResetScrollPosition';
 import SideNavbar from '../Components/SideNavBar/SideNavbar';
+import HowitWorks from '../Components/Quote/HowItWorks';
 
 function Routing() {
 	const auth = useSelector((state) => state.isAuth);
@@ -54,7 +55,11 @@ function Routing() {
 						/>
 						<Switch>
 							<Route exact path='/' component={Main} />
-
+							<Route
+								exact
+								path='/howitworks'
+								component={HowitWorks}
+							/>
 							{/* public routing */}
 							<Route
 								exact
