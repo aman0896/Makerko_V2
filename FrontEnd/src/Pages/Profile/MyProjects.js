@@ -54,7 +54,7 @@ function MyProjects() {
     };
 
     const onClickProjectAddBtn = () => {
-        console.log("Project Add butn clicked");
+        window.location.href = "/create-project";
     };
 
     const showProjects =

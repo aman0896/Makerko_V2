@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Form } from "formik";
+import { Formik } from "formik";
 
 export default function FormikComponent(props) {
     return (

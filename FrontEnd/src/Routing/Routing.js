@@ -34,6 +34,7 @@ import ResetPassword from "../Pages/ResetPassword";
 import MyProjects from "../Pages/Profile/MyProjects";
 import MyBlogs from "../Pages/Profile/MyBlogs";
 import ResetScrollPosition from "../Components/ResetScrollPosition";
+import CreateProjectForm from "../Pages/FeatureProject/CreatureProjectForm";
 
 function Routing() {
     const auth = useSelector((state) => state.isAuth);
@@ -109,6 +110,10 @@ function Routing() {
                                 exact
                                 path="/projects"
                                 component={Projects}
+                            />
+                            <Route
+                                path="/create-project"
+                                component={CreateProjectForm}
                             />
                             {/* public routing */}
 

@@ -22,7 +22,7 @@ function BlogComponent(props) {
     } = props;
 
     const { width, height } = useWindowDimensions();
-
+    console.log(props, "props");
     const cardStyle = {
         background: "white",
         borderRadius: "5px",
@@ -54,7 +54,7 @@ function BlogComponent(props) {
                 </div>
                 <div>{description}</div>
             </div>
-            <div style={{ background: "#C4C4C4", marginTop: "150px" }}>
+            {/* <div style={{ background: "#C4C4C4", marginTop: "150px" }}>
                 <SlideView
                     showImage={true}
                     className="mt-5 mb-5"
@@ -62,12 +62,12 @@ function BlogComponent(props) {
                     imageStyle={{ height: "100%", width: "100%" }}
                     cardStyle={cardStyle}
                 />
-            </div>
+            </div> */}
             {contents.map((content, index) => (
                 <div className="contain--80 row">
                     <div
                         className={
-                            content.image_position === "right"
+                            content.image_position.direction === "right"
                                 ? "col-xl-6 col-lg-6 col-md-6"
                                 : "col-xl-6 col-lg-6 col-md-6 position_img d-flex justify-content-end"
                         }

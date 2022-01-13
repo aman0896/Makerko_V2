@@ -63,36 +63,54 @@ export const LoginValidationSchema = Yup.object().shape({
 
 //Feature Project Validation Schema
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
-const SUPPORTED_FORMATS_PDF = [".pdf"];
+const SUPPORTED_FORMATS_PDF = ["application/pdf"];
 export const ProjectValidationSchema = Yup.object().shape({
-    title: Yup.string().required("Title is required"),
+    projectTitle: Yup.string().required("Title is required"),
 
-    process: Yup.string().required("Manufacturing process is required"),
-    materials: Yup.string().required("Materials is required"),
-    summary: Yup.string().required("Summary is required"),
+    productionDetails: Yup.string().required(
+        "Production Details process is required"
+    ),
     description: Yup.string().required("Description is required"),
-    image: Yup.mixed()
+    contents: Yup.array()
+        .of(
+            Yup.object().shape({
+                content_title: Yup.string().required(
+                    "Content title is required"
+                ),
+                content_image: Yup.mixed()
+                    .required("A photo of project is required for content")
+                    .test(
+                        "fileFormat",
+                        "Unsupported File Format",
+                        (value) =>
+                            value && SUPPORTED_FORMATS.includes(value.type)
+                    ),
+                image_position: Yup.object().required(
+                    "impagePosition title is required"
+                ),
+                content_details: Yup.string().required(
+                    "content description is required"
+                ),
+            })
+        )
+        .required("At least one content is required"),
+    coverImage: Yup.mixed()
         .required("A photo of project is required")
-        // .test(
-        //   "fileSize",
-        //   "File too large",
-        //   (value) => value && value.size <= FILE_SIZE
-        // )
         .test(
             "fileFormat",
             "Unsupported File Format",
             (value) => value && SUPPORTED_FORMATS.includes(value.type)
         ),
-    // pdfDocument: Yup.mixed().test(
-    //   "fileFormat",
-    //   "Unsupported File Format",
-    //   (value) => value && SUPPORTED_FORMATS_PDF.includes(value.type)
-    // ),
+    pdfFile: Yup.mixed().test(
+        "fileFormat",
+        "Unsupported File Format",
+        (value) => value && SUPPORTED_FORMATS_PDF.includes(value.type)
+    ),
+    gallery: Yup.mixed().required("Photos  of project is required"),
     termsCondition: Yup.bool().oneOf(
         [true],
         "Please accept the terms and conditions to continue."
     ),
-    files: Yup.mixed().required("Photos  of project is required"),
 });
 
 //Get quote Validation Schema

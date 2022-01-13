@@ -83,29 +83,32 @@ function ProjectDetailViewPage() {
 
     useEffect(() => {
         async function SetImageData(displaySelectedProject) {
+            console.log(displaySelectedProject, "display project");
             //coverImage image
             const imageData = JSON.parse(displaySelectedProject.Cover_Image);
             const imageBlob = await FileDownload(imageData.filePath);
             const profileImageUrl = window.URL.createObjectURL(imageBlob);
             displaySelectedProject.Cover_Image = profileImageUrl;
 
-            //gallary image
-            let filesUrl = [];
-            const gallaryImage = JSON.parse(displaySelectedProject.Gallary);
-            for (let i = 0; i < gallaryImage.length; i++) {
-                const imageBlob = await FileDownload(
-                    gallaryImage[i].filePath,
-                    null
-                );
-                const gallaryImageUrl = window.URL.createObjectURL(imageBlob);
-                filesUrl.push({
-                    image: gallaryImageUrl,
-                });
-            }
-            displaySelectedProject.Gallary = filesUrl;
+            // //gallary image
+            // let filesUrl = [];
+            // const gallaryImage = JSON.parse(displaySelectedProject.Gallary);
+            // for (let i = 0; i < gallaryImage.length; i++) {
+            //     const imageBlob = await FileDownload(
+            //         gallaryImage[i].filePath,
+            //         null
+            //     );
+            //     const gallaryImageUrl = window.URL.createObjectURL(imageBlob);
+            //     filesUrl.push({
+            //         image: gallaryImageUrl,
+            //     });
+            // }
+            // displaySelectedProject.Gallary = filesUrl;
 
             //set content and its images
+
             const projectContent = JSON.parse(displaySelectedProject.Content);
+
             for (let i = 0; i < projectContent.length; i++) {
                 const imageBlob = await FileDownload(
                     projectContent[i].content_image.filePath,
@@ -115,18 +118,19 @@ function ProjectDetailViewPage() {
                 projectContent[i].content_image = contentImageUrl;
             }
             displaySelectedProject.Content = projectContent;
-
+            console.log(projectContent, "content");
             setProject(displaySelectedProject);
         }
         if (projectList) {
             const displaySelectedProject = projectList.filter(
                 (project) => project.Project_ID === parseInt(params.id)
             );
+            console.log(displaySelectedProject, "project");
             SetImageData(displaySelectedProject[0]);
         }
     }, [projectList, params.id]);
     //#endregion
-
+    console.log(project, "project");
     return (
         <div>
             {project && (
@@ -134,7 +138,7 @@ function ProjectDetailViewPage() {
                     title={project.Title}
                     description={project.Description}
                     contents={project.Content}
-                    gallary={project.Gallary}
+                    // gallary={project.Gallary}
                     coverImage={project.Cover_Image}
                     publishDate={project.Publish_Date}
                     productionDetails={project.Production_Details}
