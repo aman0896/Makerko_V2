@@ -36,7 +36,7 @@ import MyBlogs from '../Pages/Profile/MyBlogs';
 import ResetScrollPosition from '../Components/ResetScrollPosition';
 import SideNavbar from '../Components/SideNavBar/SideNavbar';
 import HowitWorks from '../Components/Quote/HowItWorks';
-
+import InvalidForm from '../Components/Invalid Action/InvalidForm';
 function Routing() {
 	const auth = useSelector((state) => state.isAuth);
 	const [pathname, setPathname] = useState(window.location.pathname);
@@ -59,6 +59,10 @@ function Routing() {
 								exact
 								path='/howitworks'
 								component={HowitWorks}
+							/>
+							<Route
+								path='/invalid action'
+								component={InvalidForm}
 							/>
 							{/* public routing */}
 							<Route
@@ -111,6 +115,7 @@ function Routing() {
 								path='/projects/:id/:name'
 								component={ProjectDetailViewPage}
 							/>
+
 							<Route
 								exact
 								path='/projects'

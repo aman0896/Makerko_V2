@@ -21,7 +21,6 @@ function ResetPassword() {
 	};
 	return (
 		<>
-			
 			<div
 				className='d-flex justify-content-center align-items-center'
 				style={{ minHeight: '95vh' }}
@@ -57,24 +56,19 @@ function ResetPassword() {
 									isPassword
 								/>
 							</div>
-							
-								<FormikController
-									title='Change Password'
-									type='submit'
-									control='submit'
-									className='font-weight-bold ml-1'
-									style={{ width: '90%',margin:"0 15px"}}
-								/>
-							
-							{/* <div className='d-flex justify-content-center'>
-								<button
-									className='btn btn-primary mt-2 '
-									style={{ width: '60%', height: 'auto' }}
-								>
-									Change Password
-								</button>
-							</div> */}
-							<div className='ml-3 d-flex align-items-center' style={{height:40}}>
+
+							<FormikController
+								title='Change Password'
+								type='submit'
+								control='submit'
+								className='font-weight-bold ml-1'
+								style={{ width: '90%', margin: '0 15px' }}
+							/>
+
+							<div
+								className='ml-3 d-flex align-items-center'
+								style={{ height: 40 }}
+							>
 								<a className='' href=''>
 									Back to Log In
 								</a>

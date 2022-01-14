@@ -4,7 +4,7 @@ import { Form } from 'formik';
 import * as Yup from 'yup';
 import FormikComponent from '../formik/FormikComponent';
 import FormikController from '../formik/FormikController';
-//import './loginPage.css';
+
 function ForgetPasword() {
 	const initialValues = {
 		email: '',
@@ -60,7 +60,6 @@ function ForgetPasword() {
 									</div>
 								</div>
 							</div>
-							
 						</FormikComponent>
 					</div>
 				</div>
