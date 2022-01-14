@@ -5,6 +5,10 @@ import "./BlogComponent.css";
 import Button from "../Button";
 import { divIcon } from "leaflet";
 import SlideView from "../slideView/SlideView";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { colors } from "../../Values/colors";
+import { faEdit, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const fontWeignt = { fontWeight: "lighter" };
 const imgWidth = { maxWidth: "400px", maxHeight: "400px" };
@@ -19,6 +23,9 @@ function BlogComponent(props) {
         pdfFile,
         productionDetails,
         publishDate,
+        editable,
+        trashIconClick,
+        editIconClick,
     } = props;
 
     const { width, height } = useWindowDimensions();
@@ -45,6 +52,22 @@ function BlogComponent(props) {
                 }}
                 alt=""
             />
+            {editable && (
+                <div className="d-flex justify-content-end mx-5 my-2">
+                    <FontAwesomeIcon
+                        style={{ marginRight: 2, color: colors.success }}
+                        icon={faEdit}
+                        size="lg"
+                        onClick={editIconClick}
+                    />
+                    <FontAwesomeIcon
+                        style={{ marginLeft: 5, color: colors.danger }}
+                        icon={faTrashAlt}
+                        size="lg"
+                        onClick={trashIconClick}
+                    />
+                </div>
+            )}
             <div className="contain--80">
                 <div
                     className="heading"
@@ -54,7 +77,7 @@ function BlogComponent(props) {
                 </div>
                 <div>{description}</div>
             </div>
-            {/* <div style={{ background: "#C4C4C4", marginTop: "150px" }}>
+            <div style={{ background: "#C4C4C4", marginTop: "150px" }}>
                 <SlideView
                     showImage={true}
                     className="mt-5 mb-5"
@@ -62,7 +85,7 @@ function BlogComponent(props) {
                     imageStyle={{ height: "100%", width: "100%" }}
                     cardStyle={cardStyle}
                 />
-            </div> */}
+            </div>
             {contents.map((content, index) => (
                 <div className="contain--80 row">
                     <div

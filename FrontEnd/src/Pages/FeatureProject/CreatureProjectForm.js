@@ -50,7 +50,13 @@ function CreateProjectForm() {
     const [addMore, setAddMore] = useState(0);
     const [showPreview, setShowPreview] = useState(false);
     const { width } = useWindowDimensions();
-    const style = width > 700 ? { width: "30%" } : { width: "100%" };
+    const [imagePreview, setImagePreview] = useState();
+    const [galleryImage, setGalleryImage] = useState(null);
+    const [previousImagePath, setPreviousImagePath] = useState();
+    const [deletedImagePath, setDeletedImagepath] = useState([]);
+    const [totalGalleryImage, setTotalGalleryImage] = useState(null);
+
+    const style = width > 600 ? { width: "30%" } : { width: "100%" };
     const SUPPORTED_FORMATS = [
         "image/jpg",
         "image/jpeg",
@@ -89,6 +95,9 @@ function CreateProjectForm() {
             console.log(contents[i].content_image, "check image content");
             formData.append("contentImage", contents[i].content_image);
         }
+        for (let i = 0; i < gallery.length; i++) {
+            formData.append("gallery", gallery[i]);
+        }
 
         postDataWithFormData(
             createProject,
@@ -109,6 +118,52 @@ function CreateProjectForm() {
             "formref"
         );
     }, [formRef]);
+
+    const onDeleteClick = (img) => {
+        const filterData = imagePreview.filter(
+            (data) => data.filePath !== img.filePath
+        );
+
+        setImagePreview(filterData);
+
+        let filteredData = previousImagePath.filter(
+            (data) => data.fileName !== img.fileName
+        );
+        const deletedData = previousImagePath.filter(
+            (data) => data.fileName == img.fileName
+        );
+
+        setDeletedImagepath([...deletedImagePath, ...deletedData]);
+
+        setPreviousImagePath(filteredData);
+    };
+
+    const handleOnMultipleImageUpload = (event) => {
+        const galleryImage = event.target.files;
+        console.log(galleryImage, ";line no 93");
+
+        if (galleryImage.length > 0) {
+            formRef.current.setFieldValue("gallery", galleryImage);
+
+            let filePreview = [];
+
+            for (let i = 0; i < galleryImage.length; i++) {
+                filePreview.push({
+                    filePath: URL.createObjectURL(galleryImage[i]),
+                    fileName: galleryImage[i].Name,
+                });
+                //file.push(galleryImage[i]);
+            }
+            setGalleryImage(filePreview);
+            setTotalGalleryImage(galleryImage.length);
+        } else {
+            formRef.current.setFieldValue("gallery", null);
+            setGalleryImage(null);
+            setTotalGalleryImage(null);
+            formRef.current.setFieldTouched("gallery");
+        }
+    };
+
     return (
         <WrapperComponent>
             <div
@@ -126,7 +181,7 @@ function CreateProjectForm() {
                         initialValues={InitialValues}
                         onSubmit={handleSubmit}
                         validationSchema={ProjectValidationSchema}
-                        innerRef={formRef}
+                        formRef={formRef}
                     >
                         <FormikController
                             control="file"
@@ -276,15 +331,58 @@ function CreateProjectForm() {
                                 accept={SUPPORTED_FORMATS_PDF}
                                 placeholder="ex Assembly manual, flyer, proposal, etc."
                             />
-
-                            <FormikController
-                                control="multipleFile"
-                                label="Upload other Multiple Photos of Project :"
-                                name="gallery"
-                                title="Add photos"
-                                accept={SUPPORTED_FORMATS}
-                            />
                         </div>
+                        <FormikController
+                            control="multipleFile"
+                            label="Upload Multiple Photos:"
+                            name="gallery"
+                            title="Choose Files"
+                            accept={SUPPORTED_FORMATS}
+                            onChange={handleOnMultipleImageUpload}
+                            fileLength={totalGalleryImage}
+                        />
+
+                        {imagePreview && (
+                            <div className="row m-2">
+                                {imagePreview.map((src, index) => (
+                                    <div className="col-lg-2 m-3" key={index}>
+                                        <div className="image-container">
+                                            <div>
+                                                <img
+                                                    src={src.filePath}
+                                                    className="image"
+                                                    alt=""
+                                                />
+                                            </div>
+                                            <div
+                                                className="delete-icon"
+                                                onClick={() =>
+                                                    onDeleteClick(src)
+                                                }
+                                            >
+                                                <i className="fas fa-times-circle"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {galleryImage && (
+                            <div className="row m-2">
+                                {galleryImage.map((src, index) => (
+                                    <div className="col-lg-2 m-3" key={index}>
+                                        <div>
+                                            <img
+                                                src={src.filePath}
+                                                className="image"
+                                                alt=""
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
 
                         <div className="d-flex justify-content-end">
                             <FormikController
@@ -320,8 +418,3 @@ function CreateProjectForm() {
 }
 
 export default CreateProjectForm;
-
-const errorStyle = {
-    color: colors.danger,
-    fontSize: 14,
-};

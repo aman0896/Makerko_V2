@@ -94,8 +94,6 @@ function MakersProfile() {
     };
 
     const handleSubmit = (values) => {
-        console.log("sfsdfsdf");
-        console.log(profileImage, "profile image");
         const formData = new FormData();
         formData.append("userUpdates", JSON.stringify(values));
         formData.append("currentUser", JSON.stringify(currentUserData));
@@ -188,6 +186,7 @@ function MakersProfile() {
                                         ? profileImagePreview
                                         : "http://localhost:3000/assests/user.png"
                                 }
+                                alt=""
                             />
 
                             <div className="icon-edit">
@@ -204,8 +203,7 @@ function MakersProfile() {
                         </div>
 
                         <div className="profile-name">
-                            {"Zener"}&nbsp;
-                            {"Technologies"}
+                            {currentUserData.Company_Name}
                         </div>
                     </div>
                     <div className="section-heading mb-3">Edit Profile</div>

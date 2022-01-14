@@ -10,7 +10,7 @@ router.post("/create", (req, res) => {
         { name: "coverImage", maxCount: 1 },
         { name: "pdfFile", maxCount: 1 },
         { name: "contentImage" },
-        { name: "gallery", maxCount: 10 },
+        { name: "gallery" },
     ];
     try {
         const upload = MultipleFieldUpload(fields);
@@ -20,14 +20,17 @@ router.post("/create", (req, res) => {
             const content_images = req.files.contentImage;
             const coverImage = req.files.coverImage[0];
             const pdfFile = req.files.pdfFile[0];
+            const gallery = req.files.gallery;
             const restDetails = JSON.parse(req.body.restDetails);
             const author = JSON.parse(req.body.author);
 
             //#region author id
             if (Object.keys(author).includes("Customer_ID")) {
                 var authorId = author.Customer_ID;
+                var authorType = "customer";
             } else {
-                var authorId = author.Manufacturer_ID;
+                authorId = author.Manufacturer_ID;
+                authorType = "maker";
             }
             const projectId = `${authorId}` + `${randomID()}`;
             //#endregion
@@ -141,6 +144,46 @@ router.post("/create", (req, res) => {
             }
             //#endregion
 
+            console.log(gallery, "gallery");
+            //#region gallery image
+            if (gallery.length > 0) {
+                console.log("inside if line 73");
+                var gallery_dir = `./public/uploads/${authorType}/${authorId}/feature_project/${projectId}/${gallery[0].fieldname}/`;
+                if (!fs.existsSync(gallery_dir)) {
+                    fs.mkdirSync(gallery_dir, { recursive: true });
+                }
+                // if (prevImage) {
+                //   for (let i = 0; i < prevImage.length; i++) {
+                //     FileDelete(prevImage[0].filePath);
+                //   }
+                // }
+            } else {
+                // console.log("line 79");
+                // console.log(prevImage, "line 79");
+                // imageFile = prevImage;
+            }
+            let newGallery = [];
+            for (let i = 0; i < gallery.length; i++) {
+                let gallery_tmp_path = gallery[i].path;
+                console.log(gallery_tmp_path, "path");
+                let gallery_target_path = gallery_dir + gallery[i].filename;
+                const gallery_filePath = await FileMove(
+                    gallery_tmp_path,
+                    gallery_target_path
+                );
+                newGallery.push({
+                    fileName: gallery[i].filename,
+                    filePath:
+                        gallery.length > 0
+                            ? gallery_filePath
+                            : gallery[i].filePath,
+                });
+            }
+
+            let overallGallery = newGallery;
+            // if (prevImage) overallGallery = [...overallGallery, ...prevImage];
+            //#endregion
+
             //#region data  storing in db
             const sqlQuery =
                 "INSERT INTO project(Project_ID, Author_ID, Publish_Date, Production_Details, Title, Cover_Image, Description, PdfDocument, Gallary, Content) VALUES(?,?,?,?,?,?,?,?,?,?)";
@@ -162,7 +205,7 @@ router.post("/create", (req, res) => {
                     filename: pdfFile.filename,
                     filePath: pdfFilePath,
                 }),
-                "",
+                JSON.stringify(overallGallery),
                 JSON.stringify(contents),
             ];
             DBQuery(sqlQuery, data, (err, result) => {

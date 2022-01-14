@@ -190,29 +190,6 @@ function AdditionalDetailsFillUp() {
                 validationSchema={MakersValidationSchema}
                 formRef={formRef}
             >
-                {imagePreview && (
-                    <div className="row m-2">
-                        {imagePreview.map((src, index) => (
-                            <div className="col-lg-2 m-3" key={index}>
-                                <div className="image-container">
-                                    <div>
-                                        <img
-                                            src={src.filePath}
-                                            className="image"
-                                        />
-                                    </div>
-                                    <div
-                                        className="delete-icon"
-                                        onClick={() => onDeleteClick(src)}
-                                    >
-                                        <i className="fas fa-times-circle"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
-
                 <div className="mt-5 mb-5">
                     <FormikController
                         control="multipleFile"
@@ -229,12 +206,40 @@ function AdditionalDetailsFillUp() {
                     />
                 </div>
 
+                {imagePreview && (
+                    <div className="row m-2">
+                        {imagePreview.map((src, index) => (
+                            <div className="col-lg-2 m-3" key={index}>
+                                <div className="image-container">
+                                    <div>
+                                        <img
+                                            src={src.filePath}
+                                            className="image"
+                                            alt=""
+                                        />
+                                    </div>
+                                    <div
+                                        className="delete-icon"
+                                        onClick={() => onDeleteClick(src)}
+                                    >
+                                        <i className="fas fa-times-circle"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
                 {file && (
                     <div className="row m-2">
                         {file.map((src, index) => (
                             <div className="col-lg-2 m-3" key={index}>
                                 <div>
-                                    <img src={src.filePath} className="image" />
+                                    <img
+                                        src={src.filePath}
+                                        className="image"
+                                        alt=""
+                                    />
                                 </div>
                             </div>
                         ))}

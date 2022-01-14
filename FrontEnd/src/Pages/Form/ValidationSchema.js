@@ -94,13 +94,11 @@ export const ProjectValidationSchema = Yup.object().shape({
             })
         )
         .required("At least one content is required"),
-    coverImage: Yup.mixed()
-        .required("A photo of project is required")
-        .test(
-            "fileFormat",
-            "Unsupported File Format",
-            (value) => value && SUPPORTED_FORMATS.includes(value.type)
-        ),
+    coverImage: Yup.mixed().test(
+        "fileFormat",
+        "Unsupported File Format",
+        (value) => value && SUPPORTED_FORMATS.includes(value.type)
+    ),
     pdfFile: Yup.mixed().test(
         "fileFormat",
         "Unsupported File Format",

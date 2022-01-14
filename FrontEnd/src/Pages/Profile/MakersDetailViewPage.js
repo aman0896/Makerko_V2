@@ -98,10 +98,11 @@ export default function MakersDetailViewPage() {
 
         GetMakerData();
 
-        async function SetFeatureProjectList() {
+        function SetFeatureProjectList() {
             if (projectList) {
+                console.log(projectList, "list");
                 const ownProjects = projectList.filter(
-                    async (project) => project.Auther_ID === id
+                    (project) => project.Author_ID === id
                 );
                 setFeatureProject(ownProjects);
             }
@@ -184,7 +185,7 @@ export default function MakersDetailViewPage() {
                                     backgroundImage: `url(${image.previewUrl})`,
                                 }}
                                 title={project.Title}
-                                description={ReactHtmlParser(project.Summary)}
+                                description={project.Description}
                             />
                         );
                     }

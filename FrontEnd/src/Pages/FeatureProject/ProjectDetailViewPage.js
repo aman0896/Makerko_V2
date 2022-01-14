@@ -5,6 +5,7 @@ import BlogComponent from "../../Components/BlogComponent/BlogComponent";
 import { FeatureProjectList } from "../../Components/Redux/Actions/FeatureProjectList";
 import { FileDownload, getData } from "../../commonApi/CommonApi";
 import { currentUserLink } from "../../commonApi/Link";
+import SimpleModal from "../../Components/modal/SimpleModal";
 
 function ProjectDetailViewPage() {
     //#region Hooks define
@@ -14,11 +15,16 @@ function ProjectDetailViewPage() {
 
     //#regionGetting data using react-redux
     const projectList = useSelector((state) => state.projectList.projectList);
+    const currentUserData = useSelector(
+        (state) => state.currentUserdata.currentUserdata
+    );
     //#endregion
 
     //#region states define
     const [author, setAuthor] = useState();
     const [project, setProject] = useState(null);
+    const [editable, setEditable] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     //#endregion
 
     //#region useeffect call
@@ -26,10 +32,10 @@ function ProjectDetailViewPage() {
         FeatureProjectList(dispatch);
     }, []);
 
-    useEffect(() => {
-        if (projectList) {
-        }
-    }, [projectList]);
+    // useEffect(() => {
+    //     if (projectList) {
+    //     }
+    // }, [projectList]);
 
     useEffect(() => {
         // FeatureProjectList(dispatch);
@@ -90,23 +96,22 @@ function ProjectDetailViewPage() {
             const profileImageUrl = window.URL.createObjectURL(imageBlob);
             displaySelectedProject.Cover_Image = profileImageUrl;
 
-            // //gallary image
-            // let filesUrl = [];
-            // const gallaryImage = JSON.parse(displaySelectedProject.Gallary);
-            // for (let i = 0; i < gallaryImage.length; i++) {
-            //     const imageBlob = await FileDownload(
-            //         gallaryImage[i].filePath,
-            //         null
-            //     );
-            //     const gallaryImageUrl = window.URL.createObjectURL(imageBlob);
-            //     filesUrl.push({
-            //         image: gallaryImageUrl,
-            //     });
-            // }
-            // displaySelectedProject.Gallary = filesUrl;
+            //gallary image
+            let filesUrl = [];
+            const gallaryImage = JSON.parse(displaySelectedProject.Gallary);
+            for (let i = 0; i < gallaryImage.length; i++) {
+                const imageBlob = await FileDownload(
+                    gallaryImage[i].filePath,
+                    null
+                );
+                const gallaryImageUrl = window.URL.createObjectURL(imageBlob);
+                filesUrl.push({
+                    image: gallaryImageUrl,
+                });
+            }
+            displaySelectedProject.Gallary = filesUrl;
 
             //set content and its images
-
             const projectContent = JSON.parse(displaySelectedProject.Content);
 
             for (let i = 0; i < projectContent.length; i++) {
@@ -130,7 +135,38 @@ function ProjectDetailViewPage() {
         }
     }, [projectList, params.id]);
     //#endregion
-    console.log(project, "project");
+
+    useEffect(() => {
+        if (currentUserData && project) {
+            if (
+                (Object.keys(currentUserData).includes("Customer_ID") &&
+                    currentUserData.Customer_ID == project.Author_ID) ||
+                (Object.keys(currentUserData).includes("Manufacturer_ID") &&
+                    currentUserData.Manufacturer_ID == project.Author_ID)
+            ) {
+                console.log("true");
+                setEditable(true);
+            } else {
+                setEditable(false);
+            }
+        }
+    }, [currentUserData, project]);
+
+    const trashIconClick = () => {
+        setShowModal(true);
+        console.log("delete key press");
+    };
+
+    const editIconClick = () => {
+        console.log("edit key press");
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+    };
+
+    const projectDelete = () => {};
+
     return (
         <div>
             {project && (
@@ -138,14 +174,33 @@ function ProjectDetailViewPage() {
                     title={project.Title}
                     description={project.Description}
                     contents={project.Content}
-                    // gallary={project.Gallary}
+                    gallary={project.Gallary}
                     coverImage={project.Cover_Image}
                     publishDate={project.Publish_Date}
                     productionDetails={project.Production_Details}
                     author={author ? author : ""}
                     pdfFile={project.PdfFile}
+                    editable={editable}
+                    editIconClick={editIconClick}
+                    trashIconClick={trashIconClick}
                 />
             )}
+
+            <div>
+                <SimpleModal
+                    show={showModal}
+                    handleClose={handleModalClose}
+                    title={<span className="text-danger">Delete ? </span>}
+                    body={
+                        <div style={{ fontSize: "1rem" }} className="">
+                            Are you sure you want to delete this project ?
+                        </div>
+                    }
+                    buttonName="Delete"
+                    buttonStyle="button--danger--solid"
+                    onClickButton={projectDelete}
+                />
+            </div>
         </div>
     );
 }

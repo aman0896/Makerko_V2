@@ -24,8 +24,16 @@ function SimpleModal(props) {
                         <Modal.Footer>
                             <Button
                                 onClick={props.onClickButton}
-                                buttonStyle="button--primary--solid"
-                                buttonSize="button--small"
+                                buttonStyle={
+                                    props.buttonStyle
+                                        ? props.buttonStyle
+                                        : "button--primary--solid"
+                                }
+                                buttonSize={
+                                    props.buttonSize
+                                        ? props.buttonSize
+                                        : "button--small"
+                                }
                             >
                                 {props.buttonName}
                             </Button>
