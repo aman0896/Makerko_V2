@@ -13,7 +13,9 @@ import { CurrentUserdata } from './Components/Redux/Actions/CurrentUserdata';
 import { MakersList } from './Components/Redux/Actions/MakersList';
 import { MakersServices } from './Components/Redux/Actions/MakersServices';
 import { FeatureProjectList } from './Components/Redux/Actions/FeatureProjectList';
-import InvalidForm from './Components/Invalid Action/InvalidForm';
+
+import MakersProfile from './Pages/Profile/MakersProfile';
+import { Route } from 'react-router-dom';
 function App() {
 	const dispatch = useDispatch();
 	const [isLoading, setIsLoading] = useState(true);
@@ -85,7 +87,6 @@ function App() {
 			) : (
 				<>
 					<Routing />
-					{/* <InvalidForm /> */}
 				</>
 			)}
 		</div>

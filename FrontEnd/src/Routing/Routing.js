@@ -111,6 +111,7 @@ function Routing() {
 								path='/makers/:id/:name'
 								component={MakersDetailViewPage}
 							/>
+
 							<Route
 								path='/projects/:id/:name'
 								component={ProjectDetailViewPage}
