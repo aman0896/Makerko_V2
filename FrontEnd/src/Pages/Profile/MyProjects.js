@@ -13,7 +13,6 @@ function MyProjects() {
     const currentUserData = useSelector(
         (state) => state.currentUserdata.currentUserdata
     );
-    console.log(currentUserData, "data");
 
     const [projects, setProjects] = useState(null);
 

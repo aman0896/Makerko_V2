@@ -24,8 +24,8 @@ function BlogComponent(props) {
         productionDetails,
         publishDate,
         editable,
-        trashIconClick,
-        editIconClick,
+        onEditBtnClick,
+        onDeleteBtnClick,
     } = props;
 
     const { width, height } = useWindowDimensions();
@@ -54,18 +54,26 @@ function BlogComponent(props) {
             />
             {editable && (
                 <div className="d-flex justify-content-end mx-5 my-2">
-                    <FontAwesomeIcon
-                        style={{ marginRight: 2, color: colors.success }}
-                        icon={faEdit}
-                        size="lg"
-                        onClick={editIconClick}
-                    />
-                    <FontAwesomeIcon
-                        style={{ marginLeft: 5, color: colors.danger }}
-                        icon={faTrashAlt}
-                        size="lg"
-                        onClick={trashIconClick}
-                    />
+                    <Button style={{ marginRight: 2 }} onClick={onEditBtnClick}>
+                        <FontAwesomeIcon
+                            style={{ marginRight: 2 }}
+                            icon={faEdit}
+                            size="xl"
+                        />
+                        Edit
+                    </Button>
+                    <Button
+                        style={{ marginLeft: 2 }}
+                        buttonStyle="button--danger--solid"
+                        onClick={onDeleteBtnClick}
+                    >
+                        <FontAwesomeIcon
+                            style={{ marginRight: 5 }}
+                            icon={faTrashAlt}
+                            size="xl"
+                        />{" "}
+                        Delete
+                    </Button>
                 </div>
             )}
             <div className="contain--80">

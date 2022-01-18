@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 
 function FileDelete(filePath) {
     try {
@@ -6,17 +7,22 @@ function FileDelete(filePath) {
         const uploadedPath = `${filePath}`;
         return new Promise((resolve) => {
             if (fs.existsSync(uploadedPath)) {
+                console.log(uploadedPath);
                 fs.unlink(uploadedPath, (err) => {
                     if (err) {
+                        console.log(err, "err");
                         fileDelete = false;
                         resolve(fileDelete);
                         return;
                     }
 
                     fileDelete = true;
+                    console.log("delete", fileDelete);
                     resolve(fileDelete);
                     return;
                 });
+            } else {
+                resolve(false);
             }
         });
     } catch {
@@ -25,4 +31,33 @@ function FileDelete(filePath) {
     }
 }
 
-module.exports = FileDelete;
+function deleteFolderRecursive(directoryPath) {
+    return new Promise((resolve) => {
+        if (fs.existsSync(directoryPath)) {
+            fs.readdirSync(directoryPath).forEach((file, index) => {
+                const curPath = path.join(directoryPath, file);
+                if (fs.lstatSync(curPath).isDirectory()) {
+                    // recurse
+                    deleteFolderRecursive(curPath);
+                } else {
+                    // delete file
+                    fs.unlink(curPath, (err) => {
+                        if (err) {
+                            console.log(err, "err");
+                            resolve(false);
+                            return;
+                        }
+                    });
+                }
+            });
+            fs.rm(directoryPath, { recursive: true }, (err) => {
+                if (err) {
+                    return console.log(err, "deleterror");
+                }
+                resolve(true);
+                return;
+            });
+        } else resolve(false);
+    });
+}
+module.exports = { FileDelete, deleteFolderRecursive };

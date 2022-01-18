@@ -86,19 +86,6 @@ const ForgotPassword = require("./routes/ForgotPassword");
 app.use("/reset", ForgotPassword);
 //#endregion
 
-//Serve the static files from the React app
-app.use(
-    "/counselling/triage/",
-    express.static(path.join(projectPath, "build"))
-);
-
-//Handle any request that don't match the ones above
-const root = path.join(projectPath, "build");
-
-// app.get('*', (req, res) => {
-//     res.sendFile('index.html', { root });
-// });
-
 // Start download any File or images
 app.post("/download", async function (req, res) {
     const path = req.body.filedir;
@@ -110,6 +97,19 @@ app.post("/download", async function (req, res) {
     }
 });
 // End download any File or images
+
+//Serve the static files from the React app
+app.use(
+    "/counselling/triage/",
+    express.static(path.join(projectPath, "build"))
+);
+
+//Handle any request that don't match the ones above
+const root = path.join(projectPath, "build");
+
+app.get("*", (req, res) => {
+    res.sendFile("index.html", { root });
+});
 
 server.listen(3001, () => {
     console.log("running server");

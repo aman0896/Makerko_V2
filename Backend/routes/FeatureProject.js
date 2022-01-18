@@ -4,6 +4,7 @@ const { MultipleFieldUpload } = require("../Utils/MultarFileUpload");
 const router = express.Router();
 var fs = require("fs");
 const { FileMove } = require("../Utils/Operations");
+const { FileDelete, deleteFolderRecursive } = require("../Utils/FileDelete");
 
 router.post("/create", (req, res) => {
     const fields = [
@@ -235,6 +236,37 @@ router.get("/get-featureproject-list", async (req, res) => {
     console.log(JSON.parse(data[0].Content)[0], "data");
     res.json(data);
 });
+
+//delete project
+router.delete("/delete-project", async (req, res) => {
+    const params = JSON.parse(req.query.path);
+    const { authorId, projectId } = params;
+    console.log(params.projectId, "query");
+    const sqlQuery = "DELETE FROM project WHERE Project_ID = ?";
+    const data = [projectId];
+
+    const customerProjectPath = `./public/uploads/customer/${authorId}/feature_project/${projectId}`;
+    const makerProjectPath = `./public/uploads/maker/${authorId}/feature_project/${projectId}`;
+    const isCustomerProjectDelete = await deleteFolderRecursive(
+        customerProjectPath
+    );
+    const isMakerProjectDelete = await deleteFolderRecursive(makerProjectPath);
+    console.log(isCustomerProjectDelete, isMakerProjectDelete, "delete");
+    if (isCustomerProjectDelete) {
+        DBQuery(sqlQuery, data, (err, result) => {
+            if (err) return res.json({ delete: "false" });
+            return res.json({ delete: "success" });
+        });
+    } else if (isMakerProjectDelete) {
+        DBQuery(sqlQuery, data, (err, result) => {
+            if (err) return res.json({ delete: "false" });
+            return res.json({ delete: "success" });
+        });
+    } else {
+        res.json({ delete: "false" });
+    }
+});
+
 module.exports = router;
 
 const randomID = () => {

@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import "./WrapperComponent.css";
 
-function WrapperComponent({ children }) {
+function WrapperComponent({ children, style }) {
     const isSidebar = useSelector((state) => state.setSidebar.sidebar);
     console.log(isSidebar, "sidebarcheck");
     return (

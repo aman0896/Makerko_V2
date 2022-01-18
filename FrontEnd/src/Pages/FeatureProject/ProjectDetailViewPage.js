@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import BlogComponent from "../../Components/BlogComponent/BlogComponent";
 import { FeatureProjectList } from "../../Components/Redux/Actions/FeatureProjectList";
-import { FileDownload, getData } from "../../commonApi/CommonApi";
-import { currentUserLink } from "../../commonApi/Link";
+import { deleteData, FileDownload, getData } from "../../commonApi/CommonApi";
+import { currentUserLink, deleteProject } from "../../commonApi/Link";
 import SimpleModal from "../../Components/modal/SimpleModal";
+import { Toast } from "../../Components/ReactToastify";
+import CreateProjectForm from "./CreatureProjectForm";
 
 function ProjectDetailViewPage() {
     //#region Hooks define
     const params = useParams();
     const dispatch = useDispatch();
+    const history = useHistory();
     //#endregion
 
     //#regionGetting data using react-redux
@@ -25,6 +28,8 @@ function ProjectDetailViewPage() {
     const [project, setProject] = useState(null);
     const [editable, setEditable] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [edit, setEdit] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
     //#endregion
 
     //#region useeffect call
@@ -128,7 +133,7 @@ function ProjectDetailViewPage() {
         }
         if (projectList) {
             const displaySelectedProject = projectList.filter(
-                (project) => project.Project_ID === parseInt(params.id)
+                (project) => project.Project_ID == params.id
             );
             console.log(displaySelectedProject, "project");
             SetImageData(displaySelectedProject[0]);
@@ -152,12 +157,16 @@ function ProjectDetailViewPage() {
         }
     }, [currentUserData, project]);
 
-    const trashIconClick = () => {
+    const onDeleteBtnClick = () => {
         setShowModal(true);
-        console.log("delete key press");
+        setEdit(false);
+        setDeleteModal(true);
     };
 
-    const editIconClick = () => {
+    const onEditBtnClick = () => {
+        setShowModal(true);
+        setEdit(true);
+        setDeleteModal(false);
         console.log("edit key press");
     };
 
@@ -165,7 +174,33 @@ function ProjectDetailViewPage() {
         setShowModal(false);
     };
 
-    const projectDelete = () => {};
+    const projectDelete = () => {
+        const projectId = params.id;
+        const authorId = project.Author_ID;
+        deleteData(
+            deleteProject,
+            { projectId, authorId },
+            (onSuccess) => {
+                if (onSuccess.data.delete === "success") {
+                    setShowModal(false);
+                    history.push({
+                        pathname: "/profile/myprojects",
+                        state: onSuccess.data,
+                    });
+                    console.log(onSuccess, "on delete project success");
+                } else {
+                    setShowModal(false);
+                    Toast("Project Delete Fail", "error");
+                }
+            },
+            (onFail) => {
+                setShowModal(false);
+                Toast("Project Delete Fail", "error");
+                console.log(onFail, "on delete project fail");
+            }
+        );
+        console.log("delete clicked", projectId);
+    };
 
     return (
         <div>
@@ -181,25 +216,35 @@ function ProjectDetailViewPage() {
                     author={author ? author : ""}
                     pdfFile={project.PdfFile}
                     editable={editable}
-                    editIconClick={editIconClick}
-                    trashIconClick={trashIconClick}
+                    onEditBtnClick={onEditBtnClick}
+                    onDeleteBtnClick={onDeleteBtnClick}
                 />
             )}
 
             <div>
-                <SimpleModal
-                    show={showModal}
-                    handleClose={handleModalClose}
-                    title={<span className="text-danger">Delete ? </span>}
-                    body={
-                        <div style={{ fontSize: "1rem" }} className="">
-                            Are you sure you want to delete this project ?
-                        </div>
-                    }
-                    buttonName="Delete"
-                    buttonStyle="button--danger--solid"
-                    onClickButton={projectDelete}
-                />
+                {edit ? (
+                    <SimpleModal
+                        show={showModal}
+                        handleClose={handleModalClose}
+                        title="Edit Project"
+                        size="lg"
+                        body={<CreateProjectForm />}
+                    />
+                ) : deleteModal ? (
+                    <SimpleModal
+                        show={showModal}
+                        handleClose={handleModalClose}
+                        title={<span className="text-danger">Delete ? </span>}
+                        body={
+                            <div style={{ fontSize: "1rem" }} className="">
+                                Are you sure you want to delete this project ?
+                            </div>
+                        }
+                        buttonName="Delete"
+                        buttonStyle="button--danger--solid"
+                        onClickButton={projectDelete}
+                    />
+                ) : null}
             </div>
         </div>
     );

@@ -10,7 +10,7 @@ const {
 const FileDownload = require("../Utils/FileDownload");
 const { FileMove } = require("../Utils/Operations");
 const { DBQuery } = require("../DBController/DatabaseQuery");
-const FileDelete = require("../Utils/FileDelete");
+const { FileDelete } = require("../Utils/FileDelete");
 const {
     PasswordEncryption,
     PasswordCheck,

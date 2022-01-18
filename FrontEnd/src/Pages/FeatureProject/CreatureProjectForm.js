@@ -41,7 +41,7 @@ const imagePosition = [
     },
 ];
 
-function CreateProjectForm() {
+function CreateProjectForm(props) {
     const formRef = useRef();
     const currentUserData = useSelector(
         (state) => state.currentUserdata.currentUserdata
