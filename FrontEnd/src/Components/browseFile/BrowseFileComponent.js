@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormikContext, Field } from "formik";
 import { Button } from "@material-ui/core";
 import { colors } from "../../Values/colors";
 import ErrorMessage from "../formik/ErrorMessage";
 
 export default function BrowseFileComponent(props) {
+    console.log(props, "browsefile");
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState(null);
 
@@ -28,6 +29,14 @@ export default function BrowseFileComponent(props) {
             }
         }
     };
+
+    useEffect(() => {
+        console.log(props.setInitial);
+        if (props.setInitial) {
+            setFile(props.setInitial);
+            props.setFieldValue(props.name, props.setInitial);
+        }
+    }, [props.setInitial]);
 
     const btnStyle = {
         backgroundColor: colors.primary,
@@ -68,7 +77,9 @@ export default function BrowseFileComponent(props) {
                             height: props.height ? props.height : 200,
                             width: "100%",
                             borderRadius: 5,
+                            objectFit: "cover",
                         }}
+                        alt=""
                     />
                 </div>
             )}

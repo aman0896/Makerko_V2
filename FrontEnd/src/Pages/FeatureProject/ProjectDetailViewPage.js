@@ -8,6 +8,7 @@ import { currentUserLink, deleteProject } from "../../commonApi/Link";
 import SimpleModal from "../../Components/modal/SimpleModal";
 import { Toast } from "../../Components/ReactToastify";
 import CreateProjectForm from "./CreatureProjectForm";
+import ProjectEditModal from "./ProjectEditModal";
 
 function ProjectDetailViewPage() {
     //#region Hooks define
@@ -28,8 +29,7 @@ function ProjectDetailViewPage() {
     const [project, setProject] = useState(null);
     const [editable, setEditable] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    const [edit, setEdit] = useState(false);
-    const [deleteModal, setDeleteModal] = useState(false);
+    const [showProjectEditModal, setProjectEditModal] = useState(false);
     //#endregion
 
     //#region useeffect call
@@ -99,7 +99,11 @@ function ProjectDetailViewPage() {
             const imageData = JSON.parse(displaySelectedProject.Cover_Image);
             const imageBlob = await FileDownload(imageData.filePath);
             const profileImageUrl = window.URL.createObjectURL(imageBlob);
-            displaySelectedProject.Cover_Image = profileImageUrl;
+            displaySelectedProject.Cover_Image = {
+                url: profileImageUrl,
+                filePath: imageData.filePath,
+                fileName: imageData.filename,
+            };
 
             //gallary image
             let filesUrl = [];
@@ -159,15 +163,15 @@ function ProjectDetailViewPage() {
 
     const onDeleteBtnClick = () => {
         setShowModal(true);
-        setEdit(false);
-        setDeleteModal(true);
     };
 
     const onEditBtnClick = () => {
-        setShowModal(true);
-        setEdit(true);
-        setDeleteModal(false);
+        setProjectEditModal(true);
         console.log("edit key press");
+    };
+
+    const handleProjectEditModalClose = () => {
+        setProjectEditModal(false);
     };
 
     const handleModalClose = () => {
@@ -210,7 +214,7 @@ function ProjectDetailViewPage() {
                     description={project.Description}
                     contents={project.Content}
                     gallary={project.Gallary}
-                    coverImage={project.Cover_Image}
+                    coverImage={project.Cover_Image.url}
                     publishDate={project.Publish_Date}
                     productionDetails={project.Production_Details}
                     author={author ? author : ""}
@@ -222,29 +226,29 @@ function ProjectDetailViewPage() {
             )}
 
             <div>
-                {edit ? (
-                    <SimpleModal
-                        show={showModal}
-                        handleClose={handleModalClose}
+                {project && (
+                    <ProjectEditModal
+                        show={showProjectEditModal}
+                        handleClose={handleProjectEditModalClose}
                         title="Edit Project"
                         size="lg"
-                        body={<CreateProjectForm />}
+                        data={project}
                     />
-                ) : deleteModal ? (
-                    <SimpleModal
-                        show={showModal}
-                        handleClose={handleModalClose}
-                        title={<span className="text-danger">Delete ? </span>}
-                        body={
-                            <div style={{ fontSize: "1rem" }} className="">
-                                Are you sure you want to delete this project ?
-                            </div>
-                        }
-                        buttonName="Delete"
-                        buttonStyle="button--danger--solid"
-                        onClickButton={projectDelete}
-                    />
-                ) : null}
+                )}
+
+                <SimpleModal
+                    show={showModal}
+                    handleClose={handleModalClose}
+                    title={<span className="text-danger">Delete ? </span>}
+                    body={
+                        <div style={{ fontSize: "1rem" }} className="">
+                            Are you sure you want to delete this project ?
+                        </div>
+                    }
+                    buttonName="Delete"
+                    buttonStyle="button--danger--solid"
+                    onClickButton={projectDelete}
+                />
             </div>
         </div>
     );

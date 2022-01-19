@@ -11,7 +11,7 @@ function SimpleModal(props) {
                 {/* ------Modal------- */}
                 <Modal
                     size={props.size ? props.size : ""}
-                    style={{ zIndex: 9999 }}
+                    style={{ zIndex: 99999 }}
                     show={props.show}
                     onHide={props.handleClose}
                     centered

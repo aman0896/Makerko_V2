@@ -54,7 +54,11 @@ function BlogComponent(props) {
             />
             {editable && (
                 <div className="d-flex justify-content-end mx-5 my-2">
-                    <Button style={{ marginRight: 2 }} onClick={onEditBtnClick}>
+                    <Button
+                        style={{ marginRight: 2 }}
+                        buttonStyle="button-primary--solid"
+                        onClick={onEditBtnClick}
+                    >
                         <FontAwesomeIcon
                             style={{ marginRight: 2 }}
                             icon={faEdit}

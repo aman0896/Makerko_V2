@@ -8,7 +8,7 @@ export default function FormikComponent(props) {
             validationSchema={props.validationSchema}
             onSubmit={props.onSubmit}
             innerRef={props.formRef}
-            // enableReinitialize
+            enableReinitialize={props.enableReinitialize}
         >
             {() => <>{props.children}</>}
         </Formik>
