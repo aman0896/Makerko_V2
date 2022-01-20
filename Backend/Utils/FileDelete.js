@@ -7,7 +7,6 @@ function FileDelete(filePath) {
         const uploadedPath = `${filePath}`;
         return new Promise((resolve) => {
             if (fs.existsSync(uploadedPath)) {
-                console.log(uploadedPath);
                 fs.unlink(uploadedPath, (err) => {
                     if (err) {
                         console.log(err, "err");

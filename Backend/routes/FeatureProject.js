@@ -1,6 +1,10 @@
 const express = require("express");
 const { DBQuery2, DBQuery } = require("../DBController/DatabaseQuery");
-const { MultipleFieldUpload } = require("../Utils/MultarFileUpload");
+const {
+    MultipleFieldUpload,
+    MultipleFileUpload,
+    SingleFileUpload,
+} = require("../Utils/MultarFileUpload");
 const router = express.Router();
 var fs = require("fs");
 const { FileMove } = require("../Utils/Operations");
@@ -265,6 +269,115 @@ router.delete("/delete-project", async (req, res) => {
     } else {
         res.json({ delete: "false" });
     }
+});
+
+router.post("/content-edit", async (req, res) => {
+    const upload = MultipleFileUpload("contentImage");
+
+    upload(req, res, async (err) => {
+        if (err) return console.log(err, "edit-content-project");
+        const contents = JSON.parse(req.body.content);
+        const contentImage = req.files;
+        const projectId = req.body.projectId;
+        const authorId = req.body.authorId;
+        console.log(contents, contentImage, projectId, authorId);
+
+        //#region content images
+        if (contentImage.length > 0) {
+            const customerDir = `./public/uploads/customer/${authorId}/feature_project/${projectId}/`;
+            // const makerDir = `./public/uploads/maker/${authorId}/feature_project/${projectId}/`;
+            if (fs.existsSync(customerDir)) {
+                var dir = `./public/uploads/customer/${authorId}/feature_project/${projectId}/${contentImage[0].fieldname}/`;
+                fs.mkdirSync(dir, { recursive: true });
+            } else {
+                var dir = `./public/uploads/maker/${authorId}/feature_project/${projectId}/${contentImage[0].fieldname}/`;
+                fs.mkdirSync(dir, { recursive: true });
+            }
+        } else {
+            // console.log("line 46");
+            // console.log(prevImage, "line 47");
+            // imageFile = prevImage;
+        }
+        for (let j = 0; j < contents.length; j++) {
+            if (Object.keys(contents[j].content_image).length === 0) {
+                for (let i = 0; i < contentImage.length; i++) {
+                    let tmp_path = contentImage[i].path;
+                    let target_path = dir + contentImage[i].filename;
+                    const filePath = await FileMove(tmp_path, target_path);
+                    contents[j].content_image = {
+                        filename: contentImage[i].filename,
+                        filePath: filePath,
+                    };
+
+                    // file.push({
+                    //     fileName: files[i].filename,
+                    //     filePath:
+                    //         req.files.length > 0 ? filePath : files[i].filePath,
+                    // });
+                }
+            } else {
+                delete contents[j].content_image.url;
+            }
+        }
+        console.log(contents, "contents");
+        const sqlQuery = "UPDATE project SET Content = ? WHERE Project_ID = ?";
+        data = [JSON.stringify(contents), projectId];
+        DBQuery(sqlQuery, data, (err, result) => {
+            if (err) return console.log(err, "featureproject create line 160");
+            res.json({ contentEdit: "success" });
+        });
+        //#endregion
+    });
+});
+
+//cover image edit
+router.post("/cover-edit", (req, res) => {
+    const upload = SingleFileUpload("coverImage");
+
+    upload(req, res, async (err) => {
+        const coverImage = req.file;
+        const authorId = req.body.authorId;
+        const projectId = req.body.projectId;
+        const prevImage = req.body.prevImage;
+        //#region cover images
+        if (coverImage) {
+            const customerDir = `./public/uploads/customer/${authorId}/feature_project/${projectId}/`;
+            // const makerDir = `./public/uploads/maker/${authorId}/feature_project/${projectId}/`;
+            if (fs.existsSync(customerDir)) {
+                var coverImageDir = `./public/uploads/customer/${authorId}/feature_project/${projectId}/`;
+            } else {
+                var coverImageDir = `./public/uploads/maker/${authorId}/feature_project/${projectId}/`;
+            }
+        }
+
+        //coverimage path
+        let coverImage_tmp_path = coverImage.path;
+        let coverImage_target_path = coverImageDir + coverImage.filename;
+        const coverImagePath = await FileMove(
+            coverImage_tmp_path,
+            coverImage_target_path
+        );
+        console.log(coverImagePath, "filepath");
+
+        const sqlQuery =
+            "UPDATE project SET Cover_Image = ? WHERE Project_ID = ?";
+
+        data = [
+            JSON.stringify({
+                filename: coverImage.filename,
+                filePath: coverImagePath,
+            }),
+            projectId,
+        ];
+        DBQuery(sqlQuery, data, (err, result) => {
+            if (err) return console.log(err, "featureproject create line 160");
+            FileDelete(prevImage);
+            console.log(result, "result");
+            res.json({ coverImageUpdate: "success" });
+        });
+
+        //#endregion
+    });
 });
 
 module.exports = router;

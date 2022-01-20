@@ -102,7 +102,7 @@ function ProjectDetailViewPage() {
             displaySelectedProject.Cover_Image = {
                 url: profileImageUrl,
                 filePath: imageData.filePath,
-                fileName: imageData.filename,
+                filename: imageData.filename,
             };
 
             //gallary image
@@ -129,7 +129,11 @@ function ProjectDetailViewPage() {
                     null
                 );
                 const contentImageUrl = window.URL.createObjectURL(imageBlob);
-                projectContent[i].content_image = contentImageUrl;
+                projectContent[i].content_image = {
+                    url: contentImageUrl,
+                    filename: projectContent[i].content_image.filename,
+                    filePath: projectContent[i].content_image.filePath,
+                };
             }
             displaySelectedProject.Content = projectContent;
             console.log(projectContent, "content");

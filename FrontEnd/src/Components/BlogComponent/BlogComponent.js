@@ -46,7 +46,7 @@ function BlogComponent(props) {
                 src={coverImage}
                 style={{
                     width: "100%",
-                    height: "400px",
+                    height: "600px",
                     objectFit: "cover",
                     backgroundPosition: "center",
                 }}
@@ -102,7 +102,7 @@ function BlogComponent(props) {
                 <div className="contain--80 row">
                     <div
                         className={
-                            content.image_position.direction === "right"
+                            content.image_position.direction === "left"
                                 ? "col-xl-6 col-lg-6 col-md-6"
                                 : "col-xl-6 col-lg-6 col-md-6 position_img d-flex justify-content-end"
                         }
@@ -112,7 +112,7 @@ function BlogComponent(props) {
                                 width: width < 768 ? "100%" : "80%",
                                 height: "100%",
                             }}
-                            src={content.content_image}
+                            src={content.content_image.url}
                             alt=""
                         />
                     </div>
