@@ -17,7 +17,7 @@ function FileMove(tmp_path, target_path) {
                 });
                 src.on("close", function (err) {
                     fs.unlink(tmp_path, function (err) {
-                        console.log(err);
+                        console.log(err, "errr");
                     });
                 });
                 return;

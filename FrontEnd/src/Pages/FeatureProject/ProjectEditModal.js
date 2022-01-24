@@ -1,11 +1,21 @@
-import { faPlus, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+    faPlus,
+    faPlusCircle,
+    faPlusSquare,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FieldArray } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { postDataWithFormData } from "../../commonApi/CommonApi";
-import { projectContentEdit, projectCoverEdit } from "../../commonApi/Link";
+import { postData, postDataWithFormData } from "../../commonApi/CommonApi";
+import {
+    projectContentEdit,
+    projectCoverEdit,
+    projectDetailEdit,
+    projectGalleryImageAdd,
+    updateGallery,
+} from "../../commonApi/Link";
 import Button from "../../Components/Button";
 import FormikComponent from "../../Components/formik/FormikComponent";
 import FormikController from "../../Components/formik/FormikController";
@@ -15,21 +25,9 @@ import { useWindowDimensions } from "../../functions/Functions";
 import { colors } from "../../Values/colors";
 
 const InitialValues = {
-    coverImage: "",
     projectTitle: "",
     productionDetails: "",
     description: "",
-    contents: [
-        {
-            content_title: "",
-            content_image: "",
-            image_position: "",
-            content_details: "",
-        },
-    ],
-    pdfFile: "",
-    gallery: "",
-    termsCondition: false,
 };
 
 const imagePosition = [
@@ -54,6 +52,10 @@ function ProjectEditModal(props) {
     console.log(props, "props");
     const [showContentModal, setContentModal] = useState(false);
     const [coverImage, setCoverImage] = useState();
+    const [newGalleryImage, setNewGalleryImage] = useState();
+    const [galleryImage, setGalleryImage] = useState(props.data.Gallary);
+    const [deletedGalleryImage, setDeletedGalleryImage] = useState([]);
+
     const SUPPORTED_FORMATS = [
         "image/jpg",
         "image/jpeg",
@@ -65,6 +67,17 @@ function ProjectEditModal(props) {
     //ref
     const formRef = useRef();
     const handleSubmit = (values) => {
+        values.projectId = props.data.Project_ID;
+        postData(
+            projectDetailEdit,
+            values,
+            (onSuccess) => {
+                if (onSuccess.data.detailUpdate === "success") {
+                    window.location.reload();
+                }
+            },
+            (onFail) => {}
+        );
         console.log(values, "edit content");
     };
 
@@ -129,6 +142,93 @@ function ProjectEditModal(props) {
                 </div>
             </div>
         ));
+
+    const onDeleteClick = (img) => {
+        const filterOldGallery = galleryImage.filter(
+            (data) => data.filePath !== img.filePath
+        );
+        setGalleryImage(filterOldGallery);
+        const deletedData = galleryImage.filter(
+            (data) => data.fileName === img.fileName
+        );
+        console.log(deletedData, "delete");
+        setDeletedGalleryImage([...deletedGalleryImage, ...deletedData]);
+    };
+
+    const saveGallery = () => {
+        const data = {
+            deletedGalleryImage,
+            galleryImage,
+            authorId: props.data.Author_ID,
+            projectId: props.data.Project_ID,
+        };
+        postData(
+            updateGallery,
+            data,
+            (onSuccess) => {
+                if (onSuccess.data.galleryUpdate === "success") {
+                    console.log(onSuccess.data, "data");
+                    setDeletedGalleryImage([]);
+                }
+            },
+            (onFail) => {}
+        );
+    };
+
+    useEffect(() => {
+        console.log(galleryImage, "gallery Image");
+        console.log(deletedGalleryImage, "deletedImage");
+    }, [galleryImage, deletedGalleryImage]);
+
+    const onGalleryImageAdd = (e) => {
+        const images = e.target.files;
+        const imageData = [];
+        const formData = new FormData();
+        for (let i = 0; i < images.length; i++) {
+            const url = URL.createObjectURL(images[i]);
+            imageData.push({
+                url: url,
+                filename: images[i].name,
+                filePath: images[i].name,
+            });
+            formData.append("gallery", images[i]);
+        }
+        setGalleryImage([...galleryImage, ...imageData]);
+
+        postDataWithFormData(
+            projectGalleryImageAdd,
+            formData,
+            (onSuccess) => {
+                if (onSuccess.data) {
+                    const { galleryImages } = onSuccess.data;
+                    if (galleryImages) {
+                        setNewGalleryImage(galleryImages);
+                    }
+                }
+            },
+            (onFail) => {
+                console.log(onFail);
+            }
+        );
+    };
+
+    useEffect(() => {
+        if (newGalleryImage) {
+            let oldData = galleryImage;
+            for (let i = 0; i < newGalleryImage.length; i++) {
+                for (let j = 0; j < oldData.length; j++) {
+                    if (
+                        oldData[j].filename === newGalleryImage[i].originalname
+                    ) {
+                        oldData[j].fileName = newGalleryImage[i].filename;
+                        oldData[j].filePath = newGalleryImage[i].path;
+                        oldData[j].newUpload = true;
+                    }
+                }
+            }
+            setGalleryImage(oldData);
+        }
+    }, [newGalleryImage]);
 
     return (
         <>
@@ -238,15 +338,23 @@ function ProjectEditModal(props) {
                                                     props.data.Description
                                                 }
                                             />
-                                            <div
-                                                className="sub-heading  mr-2"
-                                                style={{ fontSize: 14 }}
-                                            >
-                                                Content:
+
+                                            <div className="mt-1 mb-1 d-flex justify-content-end">
+                                                <FormikController
+                                                    title="Save"
+                                                    type="submit"
+                                                    control="submit"
+                                                />
                                             </div>
                                         </>
                                     )}
                                 </FormikComponent>
+                                <div
+                                    className="sub-heading  mr-2"
+                                    style={{ fontSize: 14 }}
+                                >
+                                    Content:
+                                </div>
                                 {content}
                                 <Button
                                     buttonStyle="button--primary--solid"
@@ -277,6 +385,78 @@ function ProjectEditModal(props) {
                                         </div>
                                     }
                                 />
+                                <div
+                                    className="sub-heading  mr-2"
+                                    style={{ fontSize: 14 }}
+                                >
+                                    Gallery:
+                                </div>
+
+                                {galleryImage && (
+                                    <div className="row justify-content-start">
+                                        {galleryImage.map((src, index) => {
+                                            return (
+                                                <div
+                                                    className="col-lg-3 col-md-4 col-sm-6 col-6 mb-2 mt-2"
+                                                    key={index}
+                                                >
+                                                    <div className="image-container">
+                                                        <div>
+                                                            <img
+                                                                src={src.url}
+                                                                className="image"
+                                                                alt=""
+                                                            />
+                                                        </div>
+                                                        <div
+                                                            className="delete-icon"
+                                                            onClick={() =>
+                                                                onDeleteClick(
+                                                                    src
+                                                                )
+                                                            }
+                                                        >
+                                                            <i className="fas fa-times-circle"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+
+                                        <span className=" col-lg-3 col-md-4 col-sm-6 col-6 mb-2 mt-2">
+                                            <label
+                                                className="image"
+                                                style={{ border: "0px" }}
+                                                htmlFor="new-gallery-image"
+                                            >
+                                                <FontAwesomeIcon
+                                                    style={{
+                                                        height: "inherit",
+                                                        width: "inherit",
+                                                        color: colors.gray,
+                                                        padding: "0 0",
+                                                    }}
+                                                    icon={faPlusSquare}
+                                                />
+                                            </label>
+                                            <input
+                                                type="file"
+                                                id="new-gallery-image"
+                                                hidden
+                                                multiple
+                                                onChange={onGalleryImageAdd}
+                                                accept={SUPPORTED_FORMATS}
+                                            />
+                                        </span>
+                                    </div>
+                                )}
+                                <Button
+                                    buttonStyle="button--primary--solid"
+                                    buttonSize="button--small"
+                                    onClick={saveGallery}
+                                >
+                                    Save Gallery
+                                </Button>
                             </div>
                         </div>
                     </Modal.Body>

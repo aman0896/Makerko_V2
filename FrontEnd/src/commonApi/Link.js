@@ -104,6 +104,15 @@ export const projectContentEdit = "project/content-edit";
 //feature project cover image edit
 export const projectCoverEdit = "project/cover-edit";
 
+//feature project title, description, productdetails
+export const projectDetailEdit = "project/detail-edit";
+
+//new image add Gallery feature project
+export const projectGalleryImageAdd = "project/gallery-image";
+
+//save gallery Images
+export const updateGallery = "project/update-gallery";
+
 //get maker order list
 export const makerOrderList = "order/maker-order";
 

@@ -271,6 +271,7 @@ router.delete("/delete-project", async (req, res) => {
     }
 });
 
+//content Edit
 router.post("/content-edit", async (req, res) => {
     const upload = MultipleFileUpload("contentImage");
 
@@ -372,12 +373,104 @@ router.post("/cover-edit", (req, res) => {
         DBQuery(sqlQuery, data, (err, result) => {
             if (err) return console.log(err, "featureproject create line 160");
             FileDelete(prevImage);
-            console.log(result, "result");
             res.json({ coverImageUpdate: "success" });
         });
 
         //#endregion
     });
+});
+
+//project title ,production details & description edit
+router.post("/detail-edit", (req, res) => {
+    const projectTitle = req.body.projectTitle;
+    const productionDetails = req.body.productionDetails;
+    const description = req.body.description;
+    const projectId = req.body.projectId;
+
+    const sqlQuery =
+        "UPDATE project SET Title = ?, Production_Details = ?, Description = ? WHERE Project_ID = ?";
+
+    data = [projectTitle, productionDetails, description, projectId];
+
+    DBQuery(sqlQuery, data, (err, result) => {
+        if (err) return console.log(err, "projectDetail updtate fail");
+        res.json({ detailUpdate: "success" });
+    });
+});
+
+//gallery new image add
+router.post("/gallery-image", async (req, res) => {
+    const upload = MultipleFileUpload("gallery");
+    upload(req, res, async (err) => {
+        if (err)
+            return console.log(
+                err,
+                "from Gallery Image new Upload featureProject.js line 404"
+            );
+
+        const galleryImages = req.files;
+        if (req.files) {
+            res.json({ galleryImages: req.files });
+        }
+        console.log(galleryImages, "images Gallery");
+    });
+});
+
+//update gallery
+router.post("/update-gallery", async (req, res) => {
+    const deletedGalleryImage = req.body.deletedGalleryImage;
+    const galleryImage = req.body.galleryImage;
+    const authorId = req.body.authorId;
+    const projectId = req.body.projectId;
+
+    if (deletedGalleryImage.length > 0) {
+        console.log("delete image");
+        for (let i = 0; i < deletedGalleryImage.length; i++) {
+            console.log(deletedGalleryImage[i].filePath, "delete path");
+            const isDelete = await FileDelete(deletedGalleryImage[i].filePath);
+            console.log(isDelete, "delete");
+        }
+    }
+
+    if (galleryImage) {
+        if (galleryImage.length > 0) {
+            const customerDir = `./public/uploads/customer/${authorId}/feature_project/${projectId}/`;
+            if (fs.existsSync(customerDir)) {
+                var dir = `./public/uploads/customer/${authorId}/feature_project/${projectId}/gallery/`;
+                fs.mkdirSync(dir, { recursive: true });
+            } else {
+                var dir = `./public/uploads/maker/${authorId}/feature_project/${projectId}/gallery/`;
+                fs.mkdirSync(dir, { recursive: true });
+            }
+        }
+
+        for (let i = 0; i < galleryImage.length; i++) {
+            if (galleryImage[i].newUpload === true) {
+                if (fs.existsSync(galleryImage[i].filePath)) {
+                    let gallery_tmp_path = galleryImage[i].filePath;
+                    let gallery_target_path = dir + galleryImage[i].fileName;
+                    const imagePath = await FileMove(
+                        gallery_tmp_path,
+                        gallery_target_path
+                    );
+                    galleryImage[i] = {
+                        fileName: galleryImage[i].fileName,
+                        filePath: imagePath,
+                    };
+                }
+            } else {
+                console.log("path exist");
+                delete galleryImage[i].url;
+            }
+        }
+        const sqlQuery = "UPDATE project SET Gallary = ? WHERE Project_ID = ?";
+        const data = [JSON.stringify(galleryImage), projectId];
+        DBQuery(sqlQuery, data, (err, result) => {
+            if (err) return console.log(err, "err featureproject.js line 472");
+            console.log(result, "gallery update");
+            res.json({ galleryUpdate: "success" });
+        });
+    }
 });
 
 module.exports = router;

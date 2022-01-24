@@ -107,15 +107,17 @@ function ProjectDetailViewPage() {
 
             //gallary image
             let filesUrl = [];
-            const gallaryImage = JSON.parse(displaySelectedProject.Gallary);
-            for (let i = 0; i < gallaryImage.length; i++) {
+            const galleryImage = JSON.parse(displaySelectedProject.Gallary);
+            for (let i = 0; i < galleryImage.length; i++) {
                 const imageBlob = await FileDownload(
-                    gallaryImage[i].filePath,
+                    galleryImage[i].filePath,
                     null
                 );
                 const gallaryImageUrl = window.URL.createObjectURL(imageBlob);
                 filesUrl.push({
-                    image: gallaryImageUrl,
+                    url: gallaryImageUrl,
+                    filePath: galleryImage[i].filePath,
+                    fileName: galleryImage[i].fileName,
                 });
             }
             displaySelectedProject.Gallary = filesUrl;

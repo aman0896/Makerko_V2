@@ -19,7 +19,7 @@ function Card({
         <div className="card-bank text-center" style={cardStyle}>
             <img
                 className="mb-4"
-                src={data.image}
+                src={data.image || data.url}
                 style={imageStyle}
                 onClick={handleClick}
             />

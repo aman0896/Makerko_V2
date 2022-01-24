@@ -2,11 +2,14 @@ const fs = require("fs");
 const path = require("path");
 
 function FileDelete(filePath) {
+    console.log("enter");
     try {
         let fileDelete;
         const uploadedPath = `${filePath}`;
+        console.log(uploadedPath, "path");
         return new Promise((resolve) => {
             if (fs.existsSync(uploadedPath)) {
+                console.log("check");
                 fs.unlink(uploadedPath, (err) => {
                     if (err) {
                         console.log(err, "err");
