@@ -167,8 +167,7 @@ function ProjectEditModal(props) {
             data,
             (onSuccess) => {
                 if (onSuccess.data.galleryUpdate === "success") {
-                    console.log(onSuccess.data, "data");
-                    setDeletedGalleryImage([]);
+                    window.location.reload();
                 }
             },
             (onFail) => {}
