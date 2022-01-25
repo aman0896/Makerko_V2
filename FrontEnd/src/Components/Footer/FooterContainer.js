@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from "./FooterIndex";
 import { Link, useHistory } from "react-router-dom";
+import { webDomain } from "../../commonApi/Link";
 
 function FooterContainer() {
     const history = useHistory();
@@ -10,7 +11,7 @@ function FooterContainer() {
                 <Footer.Row>
                     <Footer.LogoColumn>
                         <Footer.Logo
-                            src="http://localhost:3000/assests/makerkowhite.png"
+                            src={`${webDomain}/assests/makerkowhite.png`}
                             alt="logo"
                             preview=""
                         />

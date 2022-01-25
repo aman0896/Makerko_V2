@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import "./NavBar.css";
 import { FiUser } from "react-icons/fi";
 import { getData, getDataWithNoParams } from "../commonApi/CommonApi";
-import { logout } from "../commonApi/Link";
+import { logout, webDomain } from "../commonApi/Link";
 import ModalChoice from "./modal/ModalChoice";
 import { colors } from "../Values/colors";
 
@@ -49,7 +49,7 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                         className={path !== "/" ? "text-white" : ""}
                     >
                         <img
-                            src="./assests/logo-05@2x.png"
+                            src={`${webDomain}/assests/logo-05@2x.png`}
                             style={{ width: 200 }}
                             alt=""
                         />
