@@ -17,7 +17,7 @@ const db = require("./DBController/DBConnect");
 
 //server ip
 var ipAddress = "172.31.32.139";
-// var hostAddress = "https://makerko.com";
+var hostAddress = "https://makerko.com";
 
 // var ipAddress = "192.168.10.67";
 // var hostAddress = "http://192.168.10.67:3000";
@@ -44,7 +44,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(cookieParser());
 
 //#region init routes
-const login = require("./routes/Login");
+const login = require("./routes/login");
 app.use("/account", login);
 
 const signup = require("./routes/Signup");
