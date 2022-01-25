@@ -14,6 +14,7 @@ function SlideView({
     titleStyle,
     descriptionStyle = null,
     showImage,
+    onClick,
 }) {
     const [photoIndex, setPhotoIndex] = useState(0);
     const [imageView, setImageView] = useState(false);
@@ -69,7 +70,7 @@ function SlideView({
                     imageStyle={imageStyle}
                     titleStyle={titleStyle}
                     descriptionStyle={descriptionStyle}
-                    handleClick={() => onImageClick(index)}
+                    handleClick={onClick ? onClick : () => onImageClick(index)}
                 />
             </div>
         );

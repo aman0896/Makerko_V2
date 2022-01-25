@@ -44,12 +44,16 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                     onClick={handleChangePath}
                     to={{ pathname: "/" }}
                 >
-                    <h2
+                    <div
                         data-name="/"
                         className={path !== "/" ? "text-white" : ""}
                     >
-                        Makerko
-                    </h2>
+                        <img
+                            src="./assests/logo-05@2x.png"
+                            style={{ width: 200 }}
+                            alt=""
+                        />
+                    </div>
                 </Link>
 
                 <div className="menu-icon" onClick={onhambergerClick}>

@@ -23,7 +23,7 @@ async function CreateHash(email) {
         .update(data)
         .digest("hex"); //creating SHA256 hash of the data
     const fullHash = `${hash}.${expires}`; // Hash.expires, format to send to the user
-
+    console.log(fullHash, "hash");
     // //#region Send_Mail
     const isSent = await SendOTP(email, otp);
     //#endregion

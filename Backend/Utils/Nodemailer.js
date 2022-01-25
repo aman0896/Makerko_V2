@@ -118,6 +118,7 @@ async function SendRequestDesignMail(userEmail, username, imageUri, sketchUri) {
 
 //#region request-design
 async function SendOTP(userEmail, otp) {
+    console.log(userEmail, "otp", otp);
     //#region Send_Mail
     var mailOptions = {
         from: '"Makerko" <enquiry@makerko.com>',

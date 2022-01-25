@@ -22,6 +22,10 @@ function AboutUs({ data, aboutRef }) {
         width: "100%",
     };
 
+    const onClickCard = () => {
+        window.location.href = "/blogs";
+    };
+
     return (
         <div className="aboutus-container" ref={aboutRef}>
             <div className="aboutus-sub-container">
@@ -32,6 +36,7 @@ function AboutUs({ data, aboutRef }) {
                     slides={data}
                     imageStyle={imageStyle}
                     titleStyle={titleStyle}
+                    onClick={onClickCard}
                 />
             </div>
         </div>

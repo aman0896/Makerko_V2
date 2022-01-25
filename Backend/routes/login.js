@@ -51,6 +51,7 @@ router.post("/login", (req, res) => {
 router.post("/send-otp", async (req, res) => {
     console.log("check", "check");
     const email = req.body.email;
+    console.log(email, "email");
     const hash = await CreateHash(email);
     console.log(hash, "hash");
     if (hash) {

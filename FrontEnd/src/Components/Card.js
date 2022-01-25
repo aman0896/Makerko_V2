@@ -16,12 +16,16 @@ function Card({
     // };
 
     return (
-        <div className="card-bank text-center" style={cardStyle}>
+        <div
+            className="card-bank text-center"
+            style={cardStyle}
+            onClick={handleClick}
+        >
             <img
                 className="mb-4"
                 src={data.image || data.url}
                 style={imageStyle}
-                onClick={handleClick}
+                alt=""
             />
             {path === "aboutUs" && (
                 <div

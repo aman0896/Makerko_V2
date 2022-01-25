@@ -100,7 +100,7 @@ function Login() {
         event.preventDefault();
         postData(
             sendOTP,
-            { email: email },
+            { email: email ? email : formRef.current.values.email },
             (onSuccess) => {
                 const { hash, message } = onSuccess.data;
                 Toast(message, "info", 2000);
