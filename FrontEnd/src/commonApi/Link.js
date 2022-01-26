@@ -4,15 +4,15 @@ import Axios from "axios";
 export const File_Server = "https://images.makerko.com";
 
 //web domain
-export const webDomain = "https://makerko.com";
-// export const webDomain = "http://localhost:3000/";
+// export const webDomain = "https://makerko.com";
+export const webDomain = "http://localhost:3000/";
 
 // "https://api.makerko.com"; //API HOST URL
 // "https://makerko.com"; //WEB HOST URL
 
 //host api
-export const mainHost = "https://api.makerko.com/";
-// export const mainHost = "http://192.168.10.67:3001/";
+// export const mainHost = "https://api.makerko.com/";
+export const mainHost = "http://localhost:3001/";
 
 export const hostApi = Axios.create({ baseURL: mainHost });
 
