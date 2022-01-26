@@ -21,6 +21,8 @@ const CardViewVerticalComponent = ({
         }
     };
 
+    console.log(image, "image hub");
+
     return (
         <>
             <div key={index} className="col-xl-6 col-lg-6 col-md-12 p-3 pb-4">

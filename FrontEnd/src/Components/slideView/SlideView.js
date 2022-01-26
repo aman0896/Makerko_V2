@@ -61,7 +61,7 @@ function SlideView({
     };
     const slidesView = slides.map((slide, index) => {
         return (
-            <div className={className}>
+            <div key={index} className={className}>
                 <CustomSlide
                     path={path}
                     cardStyle={cardStyle}
