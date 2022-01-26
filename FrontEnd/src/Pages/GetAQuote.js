@@ -5,7 +5,7 @@ import FormikController from "../Components/formik/FormikController";
 import { GetAQuoteValidationSchema } from "./Form/ValidationSchema";
 import { Toast } from "../Components/ReactToastify";
 import { useSelector } from "react-redux";
-import { postData } from "../commonApi/CommonApi";
+import { FileDownload, postData } from "../commonApi/CommonApi";
 import { getAQuote } from "../commonApi/Link";
 import CardViewVerticalComponent from "../Components/card/CardViewVerticalComponent";
 
@@ -60,23 +60,42 @@ function GetAQuote() {
     };
 
     useEffect(() => {
-        if (makersList && makersServices && selectedMethod) {
-            const filteredServices = makersServices.filter(
-                (service) => service.Service_ID === selectedMethod.Service_ID
-            );
-            const filteredMakersList = makersList.filter((maker) => {
-                if (filteredServices.length > 0) {
-                    const data = filteredServices.map((service) => {
-                        if (service.Manufacturer_ID === maker.Manufacturer_ID)
-                            return maker;
-                    });
-                    return data;
-                } else return null;
-            });
-            if (filteredMakersList && filteredMakersList.length > 0) {
-                setHubList(filteredMakersList);
-            } else setHubList([]);
+        async function GetFilteredHub() {
+            if (makersList && makersServices && selectedMethod) {
+                const filteredServices = makersServices.filter(
+                    (service) =>
+                        service.Service_ID === selectedMethod.Service_ID
+                );
+                const filteredMakersList = makersList.filter((maker) => {
+                    if (filteredServices.length > 0) {
+                        const data = filteredServices.map((service) => {
+                            if (
+                                service.Manufacturer_ID ===
+                                maker.Manufacturer_ID
+                            )
+                                return maker;
+                        });
+                        return data;
+                    } else return null;
+                });
+                if (filteredMakersList && filteredMakersList.length > 0) {
+                    for (let i = 0; i < filteredMakersList.length; i++) {
+                        const imageData = JSON.parse(
+                            filteredMakersList[i].Logo
+                        );
+                        const imageBlob = await FileDownload(
+                            imageData.filePath
+                        );
+                        const previewUrl =
+                            window.URL.createObjectURL(imageBlob);
+                        filteredMakersList[i].Logo = previewUrl;
+                    }
+                    setHubList(filteredMakersList);
+                } else setHubList([]);
+            }
         }
+
+        GetFilteredHub();
     }, [makersList, makersServices, selectedMethod]);
 
     const list =
