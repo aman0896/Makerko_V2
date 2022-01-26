@@ -6,7 +6,7 @@ const { DBQuery } = require("../DBController/DatabaseQuery");
 const {
     SendOrderSpecificationMail,
     SendRequestDesignMail,
-} = require("../Utils/nodemailer");
+} = require("../Utils/Nodemailer");
 
 router.post("/get-quote", async (req, res) => {
     try {

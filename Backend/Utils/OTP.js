@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const { NodeMailer, SendOTP } = require("./nodemailer");
+const { NodeMailer, SendOTP } = require("./Nodemailer");
 
 // #region Generate 6 digit Random OTP
 const GenerateOTP = () => {

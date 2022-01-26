@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../DBController/DBConnect");
-const { ResetPassword } = require("../Utils/nodemailer");
+const { ResetPassword } = require("../Utils/Nodemailer");
 
 router.post("/forgot-password", (req, res) => {
     try {
