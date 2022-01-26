@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FileDownload } from "../../commonApi/CommonApi";
 import ReactHtmlParser from "react-html-parser";
 import { FeatureProjectList } from "../../Components/Redux/Actions/FeatureProjectList";
+import { webDomain } from "../../commonApi/Link";
 
 export default function MakersDetailViewPage() {
     const dispatch = useDispatch();
@@ -36,12 +37,13 @@ export default function MakersDetailViewPage() {
     const makersServices = useSelector(
         (state) => state.makersServices.services
     );
-    const methods = useSelector((state) => state.method.method);
+    const process = useSelector((state) => state.method.method);
     const projectList = useSelector((state) => state.projectList.projectList);
     const { id } = useParams();
     const [coverImage, setCoverImage] = useState();
     const [imageGallary, setImageGallary] = useState();
     const [otherServices, setOtherServices] = useState();
+    const [methods, setMethods] = useState();
 
     useEffect(() => {
         async function GetMakerData() {
@@ -51,31 +53,39 @@ export default function MakersDetailViewPage() {
                         setMaker(maker);
 
                         //profile image
-                        const imageData = JSON.parse(maker.Logo);
-                        const imageBlob = await FileDownload(
-                            imageData.filePath
-                        );
-                        const profileImageUrl =
-                            window.URL.createObjectURL(imageBlob);
-                        setProfileImagePreview(profileImageUrl);
+                        if (maker.Logo) {
+                            const imageData = JSON.parse(maker.Logo);
+                            const imageBlob = await FileDownload(
+                                imageData.filePath
+                            );
+                            const profileImageUrl =
+                                window.URL.createObjectURL(imageBlob);
+                            setProfileImagePreview(profileImageUrl);
+                        } else {
+                            setProfileImagePreview(
+                                `${webDomain}assests/makerlogo.jpg`
+                            );
+                        }
 
                         //gallary image
                         let filesUrl = [];
-                        const gallaryImage = JSON.parse(
-                            maker.Additional_Images
-                        );
-                        for (let i = 0; i < gallaryImage.length; i++) {
-                            const imageBlob = await FileDownload(
-                                gallaryImage[i].filePath,
-                                null
+                        if (maker.Additional_Images) {
+                            const gallaryImage = JSON.parse(
+                                maker.Additional_Images
                             );
-                            const gallaryImageUrl =
-                                window.URL.createObjectURL(imageBlob);
-                            filesUrl.push({
-                                image: gallaryImageUrl,
-                            });
+                            for (let i = 0; i < gallaryImage.length; i++) {
+                                const imageBlob = await FileDownload(
+                                    gallaryImage[i].filePath,
+                                    null
+                                );
+                                const gallaryImageUrl =
+                                    window.URL.createObjectURL(imageBlob);
+                                filesUrl.push({
+                                    image: gallaryImageUrl,
+                                });
+                            }
+                            setImageGallary(filesUrl);
                         }
-                        setImageGallary(filesUrl);
 
                         //otherservices
                         let otherServiceNameList = [];
@@ -115,6 +125,12 @@ export default function MakersDetailViewPage() {
         //get featureProject List
         FeatureProjectList(dispatch);
     }, []);
+
+    useEffect(() => {
+        if (process) {
+            setMethods(process);
+        }
+    }, [process]);
 
     const methodsName = [];
 
@@ -474,11 +490,11 @@ export default function MakersDetailViewPage() {
                             <div className="heading my-3 mt-5">Contact</div>
                             <TextIconComponent
                                 icon={<HiPhone />}
-                                text="9815401344"
+                                text={maker.Phone_Number}
                             />
                             <TextIconComponent
                                 icon={<MdMail />}
-                                text="zener@gmail.com"
+                                text={maker.Email}
                             />
                         </>
                         <>

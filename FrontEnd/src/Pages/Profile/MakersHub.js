@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { FileDownload } from "../../commonApi/CommonApi";
+import { webDomain } from "../../commonApi/Link";
 import CardViewVerticalComponent from "../../Components/card/CardViewVerticalComponent";
 
 function MakersHub() {
@@ -21,10 +22,14 @@ function MakersHub() {
     async function UpdateMakerList(makersList) {
         if (makersList) {
             for (let i = 0; i < makersList.length; i++) {
-                const imageData = JSON.parse(makersList[i].Logo);
-                const imageBlob = await FileDownload(imageData.filePath);
-                const previewUrl = window.URL.createObjectURL(imageBlob);
-                makersList[i].Logo = previewUrl;
+                if (makersList[i].Logo) {
+                    const imageData = JSON.parse(makersList[i].Logo);
+                    const imageBlob = await FileDownload(imageData.filePath);
+                    const previewUrl = window.URL.createObjectURL(imageBlob);
+                    makersList[i].Logo = previewUrl;
+                } else {
+                    makersList[i].Logo = `${webDomain}assests/makerlogo.jpg`;
+                }
             }
         }
         setHubs(makersList);
