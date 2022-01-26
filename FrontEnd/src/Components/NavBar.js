@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./NavBar.css";
 import { FiUser } from "react-icons/fi";
-import { getData, getDataWithNoParams } from "../commonApi/CommonApi";
+import { getDataWithNoParams } from "../commonApi/CommonApi";
 import { logout, webDomain } from "../commonApi/Link";
 import ModalChoice from "./modal/ModalChoice";
 import { colors } from "../Values/colors";
 
 import { useDispatch, useSelector } from "react-redux";
-import { CurrentUserdata } from "./Redux/Actions/CurrentUserdata";
 import { useWindowDimensions } from "../functions/Functions";
 import { SET_LOCATION_PATHNAME } from "./Redux/Actions/Types";
 
@@ -19,7 +18,6 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
     // const [currentUserData, setCurrentUserData] = useState();
 
     useEffect(() => {
-        console.log(window.location.pathname, "changepaggth");
         setPath(window.location.pathname);
         setPathname(window.location.pathname);
     }, [window.location.pathname]);
@@ -36,8 +34,18 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
         setPath(event.target.dataset.name);
     };
 
+    useEffect(() => {
+        console.log(path, "path");
+    }, [path]);
+
     return (
-        <nav className={path === "/" ? "NavbarItems" : "PrimaryNavbarItems"}>
+        <nav
+            className={
+                path === undefined || path === "/"
+                    ? "NavbarItems"
+                    : "PrimaryNavbarItems"
+            }
+        >
             <div className="navbar-container">
                 <Link
                     className="navbar-logo"
@@ -62,7 +70,10 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                             hambergerClicked ? "fas fa-times" : "fas fa-bars"
                         }
                         style={{
-                            color: path === "/" ? colors.primary : colors.white,
+                            color:
+                                path === undefined || path === "/"
+                                    ? colors.primary
+                                    : colors.white,
                         }}
                     ></i>
                 </div>
@@ -72,7 +83,9 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                     }
                     style={{
                         backgroundColor:
-                            path === "/" ? colors.white : colors.primary,
+                            path === undefined || path === "/"
+                                ? colors.white
+                                : colors.primary,
                     }}
                     onClick={onhambergerClick}
                 >
@@ -90,7 +103,7 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                                 borderRadius: 5,
                             }}
                             className={
-                                path === "/"
+                                path === undefined || path === "/"
                                     ? "navbar-links"
                                     : "whiteNavbar-links"
                             }
@@ -114,7 +127,7 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                                 borderRadius: 5,
                             }}
                             className={
-                                path === "/"
+                                path === undefined || path === "/"
                                     ? "navbar-links"
                                     : "whiteNavbar-links"
                             }
@@ -138,7 +151,7 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                                 borderRadius: 5,
                             }}
                             className={
-                                path === "/"
+                                path === undefined || path === "/"
                                     ? "navbar-links"
                                     : "whiteNavbar-links"
                             }
@@ -204,8 +217,13 @@ function ProfileAvatarLogin({ path, handleChangePath = { handleChangePath } }) {
                 className="dropdown navbar-login"
                 style={{
                     backgroundColor:
-                        path === "/" ? colors.primary : colors.white,
-                    color: path === "/" ? colors.white : colors.primary,
+                        path === undefined || path === "/"
+                            ? colors.primary
+                            : colors.white,
+                    color:
+                        path === undefined || path === "/"
+                            ? colors.white
+                            : colors.primary,
                 }}
             >
                 <FiUser />
@@ -284,8 +302,13 @@ function ProfileAvatarLogout({
                 className="dropdown navbar-login text-uppercase"
                 style={{
                     backgroundColor:
-                        path === "/" ? colors.primary : colors.white,
-                    color: path === "/" ? colors.white : colors.primary,
+                        path === undefined || path === "/"
+                            ? colors.primary
+                            : colors.white,
+                    color:
+                        path === undefined || path === "/"
+                            ? colors.white
+                            : colors.primary,
                 }}
             >
                 {userName.charAt(0)}

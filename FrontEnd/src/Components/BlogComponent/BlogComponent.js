@@ -40,6 +40,21 @@ function BlogComponent(props) {
 
     console.log(author, "author");
 
+    const authorProfile = () => {
+        console.log(author);
+        if (Object.keys(author).includes("Customer_ID")) {
+            window.open(
+                `/customer/${author.Customer_ID}/${author.First_Name}.${author.Last_Name}`,
+                "_blank"
+            );
+        } else {
+            window.open(
+                `/makers/${author.Manufacturer_ID}/${author.Company_Name}`,
+                "_blank"
+            );
+        }
+    };
+
     return (
         <div>
             <img
@@ -181,6 +196,7 @@ function BlogComponent(props) {
                             style={{
                                 fontSize: "14px",
                             }}
+                            onClick={authorProfile}
                         >
                             Check profile
                         </Button>
