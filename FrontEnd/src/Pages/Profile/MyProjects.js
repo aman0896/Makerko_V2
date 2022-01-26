@@ -13,7 +13,7 @@ function MyProjects() {
     const currentUserData = useSelector(
         (state) => state.currentUserdata.currentUserdata
     );
-
+    console.log(currentUserData, "myproject");
     const [projects, setProjects] = useState(null);
 
     useEffect(() => {

@@ -36,6 +36,7 @@ import MyBlogs from "../Pages/Profile/MyBlogs";
 import ResetScrollPosition from "../Components/ResetScrollPosition";
 import CreateProjectForm from "../Pages/FeatureProject/CreatureProjectForm";
 import AboutUs from "../Pages/AboutUs";
+import CustomerDetailViewPage from "../Pages/Profile/CustomerDetailViewPage";
 
 function Routing() {
     const auth = useSelector((state) => state.isAuth);
@@ -98,13 +99,20 @@ function Routing() {
                                 component={MakersHub}
                             />
                             <Route exact path="/makers" component={Maker} />
-                            <Route path="/makers/map" component={Map} />
-                            <Route path="/blogs" component={AboutUs} />
+                            <Route exact path="/makers/map" component={Map} />
+                            <Route exact path="/blogs" component={AboutUs} />
                             <Route
+                                exact
                                 path="/makers/:id/:name"
                                 component={MakersDetailViewPage}
                             />
                             <Route
+                                exact
+                                path="/customer/:id/:name"
+                                component={CustomerDetailViewPage}
+                            />
+                            <Route
+                                exact
                                 path="/projects/:id/:name"
                                 component={ProjectDetailViewPage}
                             />
@@ -114,6 +122,7 @@ function Routing() {
                                 component={Projects}
                             />
                             <Route
+                                exact
                                 path="/create-project"
                                 component={CreateProjectForm}
                             />
