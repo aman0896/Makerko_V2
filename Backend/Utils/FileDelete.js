@@ -34,32 +34,34 @@ function FileDelete(filePath) {
 }
 
 function deleteFolderRecursive(directoryPath) {
-    return new Promise((resolve) => {
-        if (fs.existsSync(directoryPath)) {
-            fs.readdirSync(directoryPath).forEach((file, index) => {
-                const curPath = path.join(directoryPath, file);
-                if (fs.lstatSync(curPath).isDirectory()) {
-                    // recurse
-                    deleteFolderRecursive(curPath);
-                } else {
-                    // delete file
-                    fs.unlink(curPath, (err) => {
-                        if (err) {
-                            console.log(err, "err");
-                            resolve(false);
-                            return;
-                        }
-                    });
-                }
-            });
-            fs.rm(directoryPath, { recursive: true }, (err) => {
-                if (err) {
-                    return console.log(err, "deleterror");
-                }
-                resolve(true);
-                return;
-            });
-        } else resolve(false);
-    });
+    try {
+        return new Promise((resolve) => {
+            if (fs.existsSync(directoryPath)) {
+                fs.readdirSync(directoryPath).forEach((file, index) => {
+                    const curPath = path.join(directoryPath, file);
+                    if (fs.lstatSync(curPath).isDirectory()) {
+                        // recurse
+                        deleteFolderRecursive(curPath);
+                    } else {
+                        // delete file
+                        fs.unlink(curPath, (err) => {
+                            if (err) {
+                                console.log(err, "err");
+                                resolve(false);
+                                return;
+                            }
+                        });
+                    }
+                });
+                fs.rm(directoryPath, { recursive: true }, (err) => {
+                    if (err) {
+                        return console.log(err, "deleterror");
+                    }
+                    resolve(true);
+                    return;
+                });
+            } else resolve(false);
+        });
+    } catch {}
 }
 module.exports = { FileDelete, deleteFolderRecursive };

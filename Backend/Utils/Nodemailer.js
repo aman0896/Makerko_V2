@@ -67,7 +67,7 @@ async function SendOrderSpecificationMail(
                 "</h1>",
         };
         const success = await Tranporter(mailOptions);
-        result.push({ requestPrototpe: success });
+        result.push({ requestPrototype: success });
     }
     if (orderType.includes("Request Quotation")) {
         console.log(manufacturerEmail, "mEmaiil");
