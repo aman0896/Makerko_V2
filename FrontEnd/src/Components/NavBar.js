@@ -274,11 +274,13 @@ function ProfileAvatarLogout({
 
     const onClickEdit_MakerProfile = (event) => {
         handleChangePath(event);
-        history.push({ pathname: "/profile/makers/edit" });
-        dispatch({
-            type: SET_LOCATION_PATHNAME,
-            pathname: "/profile/customer/edit",
-        });
+        // history.push({ pathname: "/profile/makers/edit" });
+        // dispatch({
+        //     type: SET_LOCATION_PATHNAME,
+        //     pathname: "/profile/customer/edit",
+        // });
+
+        window.open(`/makers/${userId}/${userName}`, "_blank");
     };
 
     const onclickLogout = () => {
@@ -323,6 +325,7 @@ function ProfileAvatarLogout({
                 // }}
             >
                 <a
+                    href
                     className="dropdown-item  dropdown-item-style"
                     onClick={
                         userType === "customer"
@@ -334,6 +337,7 @@ function ProfileAvatarLogout({
                     <span className="ml-1">My Profile</span>
                 </a>
                 <a
+                    href
                     className="dropdown-item dropdown-item-style"
                     onClick={onclickLogout}
                 >

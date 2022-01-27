@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FooterContainer from "../Components/Footer/FooterContainer";
 import NavBar from "../Components/NavBar";
@@ -41,7 +41,13 @@ import CustomerDetailViewPage from "../Pages/Profile/CustomerDetailViewPage";
 function Routing() {
     const auth = useSelector((state) => state.isAuth);
     const [pathname, setPathname] = useState(window.location.pathname);
-    console.log(auth.userType, pathname, "routing pathname");
+    console.log(pathname, "routing pathname");
+    const path = useSelector((state) => state.pathname.pathname);
+    console.log(path, " pathname");
+    useEffect(() => {
+        if (path) console.log(path, " pathname");
+    }, [path]);
+
     return (
         <div>
             <Router>

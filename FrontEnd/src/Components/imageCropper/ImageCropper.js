@@ -3,14 +3,14 @@ import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
 import "./ImageCropper.css";
 import { useRef } from "react";
-import Button from "./Button";
+import Button from "../Button";
 
 export default function ImageCropper({
     src,
     setImageDestination,
     onSaveClick,
     onCancelClick,
-    aspectRatio = 1,
+    aspectRatio = 16 / 9,
 }) {
     const imageElement = useRef();
 
@@ -20,7 +20,6 @@ export default function ImageCropper({
             scalable: false,
             aspectRatio: aspectRatio,
             viewMode: 2,
-
             crop: () => {
                 const canavas = cropper.getCroppedCanvas();
                 setImageDestination(canavas.toDataURL("image/png"));
@@ -35,34 +34,19 @@ export default function ImageCropper({
             </div>
             <div className="d-flex flex-row justify-content-end">
                 <Button
-                    btnName="Save"
-                    type="button"
-                    styleClass="btn mt-2"
+                    buttonStyle="button--primary--solid"
                     onClick={onSaveClick}
-                    style={{
-                        fontSize: "16px",
-                        backgroundColor: "#5044FD",
-                        borderRadius: "5px",
-                        color: "white",
-                        display: "flex",
-                        justifyContent: "center",
-                        width: "100px",
-                    }}
-                />
+                    style={{ marginRight: 2 }}
+                >
+                    Save
+                </Button>
                 <Button
-                    btnName="Cancel"
-                    type="button"
-                    styleClass="btn bg-danger ml-2 mt-2"
+                    buttonStyle="button--danger--outline"
                     onClick={onCancelClick}
-                    style={{
-                        fontSize: "16px",
-                        borderRadius: "5px",
-                        color: "white",
-                        display: "flex",
-                        justifyContent: "center",
-                        width: "100px",
-                    }}
-                />
+                    style={{ marginLeft: 2 }}
+                >
+                    Cancel
+                </Button>
             </div>
         </div>
     );

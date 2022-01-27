@@ -25,6 +25,8 @@ import {
     makerProfileEdit,
 } from "../../commonApi/Link";
 import { Toast } from "../../Components/ReactToastify";
+import { colors } from "../../Values/colors";
+import ImageCropper from "../../Components/imageCropper/ImageCropper";
 
 // const mapData = require("../../data/MapData.json");
 
@@ -57,6 +59,9 @@ function MakersProfile() {
     const [profileImage, setProfileImage] = useState();
     const [profileImagePreview, setProfileImagePreview] = useState();
     const [prevProfileImage, setPrevProfileImage] = useState();
+    const [prevCoverImage, setCoverImage] = useState();
+    const [showImageCropper, setImageCropper] = useState(false);
+    const [imageDestination, setImageDestination] = useState();
 
     const companyStatus = [
         {
@@ -168,6 +173,21 @@ function MakersProfile() {
             (onFail) => {}
         );
     };
+
+    const coverImageUpdate = (e) => {
+        const file = e.target.files[0];
+        setImageCropper(true);
+        if (file) {
+            // setTargetName(e.target.name);
+            // setTargetFile(file);
+            setCoverImage(URL.createObjectURL(file));
+        }
+    };
+
+    const onCroppedImageSave = () => {};
+
+    const onImageCropCancel = () => {};
+
     return (
         <div
             className="container-fluid"
@@ -177,6 +197,50 @@ function MakersProfile() {
         >
             {currentUserData && (
                 <>
+                    <div className="cover-image my-4">
+                        {showImageCropper ? (
+                            <ImageCropper
+                                src={prevCoverImage}
+                                setImageDestination={setImageDestination}
+                                onSaveClick={onCroppedImageSave}
+                                onCancelClick={onImageCropCancel}
+                            />
+                        ) : (
+                            <>
+                                <img
+                                    className="cover-image-profile"
+                                    src={
+                                        prevCoverImage
+                                            ? prevCoverImage
+                                            : profileImagePreview
+                                            ? profileImagePreview
+                                            : "http://localhost:3000/assests/maker.png"
+                                    }
+                                    alt=""
+                                />
+                                <label
+                                    className="button cover-edit"
+                                    htmlFor="cover-image"
+                                >
+                                    <span>
+                                        <MdEdit style={{ margin: 1 }} />
+                                    </span>
+                                    <span style={{ margin: 1 }}>
+                                        Edit Cover
+                                    </span>
+                                </label>
+
+                                <input
+                                    id="cover-image"
+                                    type="file"
+                                    name="file"
+                                    hidden
+                                    accept={".jpg, .jpeg, .png"}
+                                    onChange={coverImageUpdate}
+                                />
+                            </>
+                        )}
+                    </div>
                     <div className="d-flex align-items-center flex-column my-4">
                         <div className="change-image">
                             <img
@@ -184,7 +248,7 @@ function MakersProfile() {
                                 src={
                                     profileImagePreview
                                         ? profileImagePreview
-                                        : "http://localhost:3000/assests/user.png"
+                                        : "http://localhost:3000/assests/maker.png"
                                 }
                                 alt=""
                             />

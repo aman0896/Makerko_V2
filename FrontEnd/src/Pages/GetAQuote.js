@@ -300,26 +300,20 @@ export default GetAQuote;
 function GetOrderType(requestPrototype, checkDesign, requestQuotation) {
     let checkedList;
 
-    if (checkDesign && requestPrototype && requestQuotation) {
+    if (checkDesign && requestPrototype && requestQuotation)
         return (checkedList = [
             "Check Design",
             "Request Prototype",
             "Request Quotation",
         ]);
-    } else if (checkDesign && requestPrototype) {
+    else if (checkDesign && requestPrototype)
         return (checkedList = ["Check Design", "Request Prototype"]);
-    } else if (checkDesign && requestQuotation) {
+    else if (checkDesign && requestQuotation)
         return (checkedList = ["Check Design", "Request Quotation"]);
-    } else if (requestPrototype && requestQuotation) {
+    else if (requestPrototype && requestQuotation)
         return (checkedList = ["Request Prototype", "Request Quotation"]);
-    } else if (checkDesign) {
-        return (checkedList = ["Check Design"]);
-    } else if (requestPrototype) {
-        return (checkedList = ["Request Prototype"]);
-    } else if (requestQuotation) {
-        return (checkedList = ["Request Quotation"]);
-    } else {
-        Toast("Atleast one check box must be selected", "error");
-        return;
-    }
+    else if (checkDesign) return (checkedList = ["Check Design"]);
+    else if (requestPrototype) return (checkedList = ["Request Prototype"]);
+    else if (requestQuotation) return (checkedList = ["Request Quotation"]);
+    else return Toast("Atleast one check box must be selected", "error");
 }

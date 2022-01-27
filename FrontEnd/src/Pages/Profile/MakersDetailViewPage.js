@@ -17,33 +17,62 @@ import {
     ServicesComponent,
     TextIconComponent,
 } from "./ProfileComponent";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FileDownload } from "../../commonApi/CommonApi";
-import ReactHtmlParser from "react-html-parser";
 import { FeatureProjectList } from "../../Components/Redux/Actions/FeatureProjectList";
 import { webDomain } from "../../commonApi/Link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-regular-svg-icons";
+import { SET_LOCATION_PATHNAME } from "../../Components/Redux/Actions/Types";
 
 export default function MakersDetailViewPage() {
+    //#region hooks call
     const dispatch = useDispatch();
+    const { id } = useParams();
+    const history = useHistory();
+    //#endregion
+
     const { height, width } = useWindowDimensions();
+
+    //#region State Define
     const [profileImagePreview, setProfileImagePreview] = useState();
     const [maker, setMaker] = useState();
     const [services, setServices] = useState();
     const [featureProject, setFeatureProject] = useState();
-    // const [projectCoverImageView, setProjectCoverImageView] = useState();
-    // const [methodNames, setMethodNames] = useState([]);
+    const [coverImage, setCoverImage] = useState();
+    const [imageGallary, setImageGallary] = useState();
+    const [otherServices, setOtherServices] = useState();
+    const [methods, setMethods] = useState();
+    const [myProject, setMyProject] = useState(false);
+    //#endregion
+
+    //#region react redux call
     const makersList = useSelector((state) => state.makersList.makersList);
     const makersServices = useSelector(
         (state) => state.makersServices.services
     );
     const process = useSelector((state) => state.method.method);
     const projectList = useSelector((state) => state.projectList.projectList);
-    const { id } = useParams();
-    const [coverImage, setCoverImage] = useState();
-    const [imageGallary, setImageGallary] = useState();
-    const [otherServices, setOtherServices] = useState();
-    const [methods, setMethods] = useState();
+    const currentUserData = useSelector(
+        (state) => state.currentUserdata.currentUserdata
+    );
+    //#endregion
+
+    useEffect(() => {
+        if (currentUserData && id) {
+            if (
+                (Object.keys(currentUserData).includes("Customer_ID") &&
+                    currentUserData.Customer_ID == id) ||
+                (Object.keys(currentUserData).includes("Manufacturer_ID") &&
+                    currentUserData.Manufacturer_ID == id)
+            ) {
+                setMyProject(true);
+            } else {
+                setMyProject(false);
+            }
+        }
+    }, [currentUserData, id]);
 
     useEffect(() => {
         async function GetMakerData() {
@@ -134,11 +163,14 @@ export default function MakersDetailViewPage() {
 
     const methodsName = [];
 
+    console.log(methods, "methods");
+
     const showServices =
         services &&
         services.map((service) => {
             return (
                 methods &&
+                methods.length > 0 &&
                 methods.map((method) => {
                     if (method.Service_ID === service.Service_ID) {
                         console.log(method.Name, "method");
@@ -209,6 +241,25 @@ export default function MakersDetailViewPage() {
             );
         });
 
+    const onEditBtnClick = () => {
+        history.push({ pathname: "/profile/makers/edit" });
+        dispatch({
+            type: SET_LOCATION_PATHNAME,
+            pathname: "/profile/customer/edit",
+        });
+    };
+    const onProjectBtnClick = () => {
+        history.push({ pathname: "/profile/myprojects" });
+        dispatch({
+            type: SET_LOCATION_PATHNAME,
+            pathname: "/profile/myprojects",
+        });
+    };
+
+    const onBlogBtnClick = () => {
+        console.log("open blog");
+    };
+
     return (
         <div style={{ minHeight: height - 80, backgroundColor: colors.dark }}>
             {maker && (
@@ -218,6 +269,27 @@ export default function MakersDetailViewPage() {
                         style={{ width: "100%", height: height / 2 }}
                         alt="Profile Cover"
                     />
+                    {myProject && (
+                        <div className="d-flex justify-content-end mx-5 my-2">
+                            <Button
+                                style={{
+                                    marginRight: 2,
+                                    fontSize: "0.9rem",
+                                    fontWeight: 700,
+                                }}
+                                buttonStyle="button--white--solid"
+                                buttonSize="button--small"
+                                onClick={onEditBtnClick}
+                            >
+                                <FontAwesomeIcon
+                                    style={{ marginRight: 2 }}
+                                    icon={faEdit}
+                                    size="xl"
+                                />
+                                Edit Profile
+                            </Button>
+                        </div>
+                    )}
                     <div className="row m-auto">
                         <div
                             className="col-4"
@@ -244,19 +316,27 @@ export default function MakersDetailViewPage() {
                                             <p className="px-3">
                                                 {maker.Brief_Description}
                                             </p>
-                                            <p>
+                                            <a
+                                                style={{
+                                                    color: colors.primary,
+                                                }}
+                                                href={`https://${maker.Website}/`}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                            >
                                                 {maker.Website}
-                                                <br />
-                                                {maker.Address}
-                                            </p>
+                                            </a>
+                                            <p>{maker.Address}</p>
                                         </div>
-                                        <div>
-                                            <QuoteButton
-                                                value="get a quote"
-                                                textTransform="capitalize"
-                                                buttonStyle="button--primary--solid"
-                                            />
-                                        </div>
+                                        {myProject === false && (
+                                            <div>
+                                                <QuoteButton
+                                                    value="get a quote"
+                                                    textTransform="capitalize"
+                                                    buttonStyle="button--primary--solid"
+                                                />
+                                            </div>
+                                        )}
                                         <div>
                                             <StarRatingAverage
                                                 widgetDimensions="20px"
@@ -306,7 +386,9 @@ export default function MakersDetailViewPage() {
                                     display: width < 768 ? "block" : "none",
                                 }}
                             >
-                                <h4 className="heading">Zener Technology</h4>
+                                <h4 className="heading">
+                                    {maker.Company_Name}
+                                </h4>
                                 <div className="my-4 p-3 mobileLogo">
                                     <img
                                         src={profileImagePreview}
@@ -327,22 +409,15 @@ export default function MakersDetailViewPage() {
                                         <br />
                                         {maker.Address}
                                     </p>
-                                    <div>
-                                        <QuoteButton
-                                            value="get a quote"
-                                            textTransform="capitalize"
-                                            buttonStyle="button--primary--solid"
-                                        />
-                                        {/* <Button
-                                    buttonStyle="button--primary--solid"
-                                    style={{
-                                        fontWeight: 100,
-                                        minWidth: 150,
-                                    }}
-                                >
-                                    <b>Get A Quote</b>
-                                </Button> */}
-                                    </div>
+                                    {myProject === false && (
+                                        <div>
+                                            <QuoteButton
+                                                value="get a quote"
+                                                textTransform="capitalize"
+                                                buttonStyle="button--primary--solid"
+                                            />
+                                        </div>
+                                    )}
                                     <div className="w-100 d-flex justify-content-center">
                                         <StarRatingAverage
                                             widgetDimensions="20px"
@@ -390,7 +465,11 @@ export default function MakersDetailViewPage() {
                             </>
 
                             <div className="mt-5">
-                                <Button style={styles.whiteButton}>
+                                <Button
+                                    buttonStyle="button--white--solid"
+                                    style={{ fontWeight: 700 }}
+                                    onClick={onProjectBtnClick}
+                                >
                                     Projects
                                 </Button>
                                 <div className="d-flex flex-column flex-md-row justify-content-between">
@@ -414,7 +493,11 @@ export default function MakersDetailViewPage() {
                             </div>
 
                             <div className="mt-5">
-                                <Button style={styles.whiteButton}>
+                                <Button
+                                    buttonStyle="button--white--solid"
+                                    style={{ fontWeight: 700 }}
+                                    onClick={onBlogBtnClick}
+                                >
                                     Blogs
                                 </Button>
                                 <div className="d-flex flex-column flex-md-row justify-content-between">
@@ -432,29 +515,31 @@ export default function MakersDetailViewPage() {
                                 </div>
                             </div>
 
-                            <div>
-                                <p
-                                    className="text-center mt-5"
-                                    style={{
-                                        width: width < 768 ? "100%" : "50%",
-                                    }}
-                                >
-                                    Found what you are looking for?
-                                </p>
-                                <Button
-                                    buttonStyle="button--white--solid"
-                                    buttonSize={
-                                        width < 768
-                                            ? "button--large--100"
-                                            : "button--large--50"
-                                    }
-                                >
-                                    <b>Get A Quote</b>
-                                </Button>
-                            </div>
+                            {!myProject && (
+                                <div>
+                                    <p
+                                        className="text-center mt-5"
+                                        style={{
+                                            width: width < 768 ? "100%" : "50%",
+                                        }}
+                                    >
+                                        Found what you are looking for?
+                                    </p>
+                                    <Button
+                                        buttonStyle="button--white--solid"
+                                        buttonSize={
+                                            width < 768
+                                                ? "button--large--100"
+                                                : "button--large--50"
+                                        }
+                                    >
+                                        <b>Get A Quote</b>
+                                    </Button>
+                                </div>
+                            )}
                         </div>
                         <div
-                            className="text-white text-center w-100 p-3 heading"
+                            className="text-white text-center w-100 p-3 heading mt-5"
                             style={{
                                 backgroundColor: colors.primary,
                             }}
