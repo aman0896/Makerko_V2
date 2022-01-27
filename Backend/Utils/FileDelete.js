@@ -11,17 +11,19 @@ function FileDelete(filePath) {
             if (fs.existsSync(uploadedPath)) {
                 console.log("check");
                 fs.unlink(uploadedPath, (err) => {
-                    if (err) {
-                        console.log(err, "err");
-                        fileDelete = false;
+                    try {
+                        if (err) {
+                            console.log(err, "err");
+                            fileDelete = false;
+                            resolve(fileDelete);
+                            return;
+                        }
+
+                        fileDelete = true;
+                        console.log("delete", fileDelete);
                         resolve(fileDelete);
                         return;
-                    }
-
-                    fileDelete = true;
-                    console.log("delete", fileDelete);
-                    resolve(fileDelete);
-                    return;
+                    } catch {}
                 });
             } else {
                 resolve(false);
@@ -45,20 +47,24 @@ function deleteFolderRecursive(directoryPath) {
                     } else {
                         // delete file
                         fs.unlink(curPath, (err) => {
-                            if (err) {
-                                console.log(err, "err");
-                                resolve(false);
-                                return;
-                            }
+                            try {
+                                if (err) {
+                                    console.log(err, "err");
+                                    resolve(false);
+                                    return;
+                                }
+                            } catch {}
                         });
                     }
                 });
                 fs.rm(directoryPath, { recursive: true }, (err) => {
-                    if (err) {
-                        return console.log(err, "deleterror");
-                    }
-                    resolve(true);
-                    return;
+                    try {
+                        if (err) {
+                            return console.log(err, "deleterror");
+                        }
+                        resolve(true);
+                        return;
+                    } catch {}
                 });
             } else resolve(false);
         });

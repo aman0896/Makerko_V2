@@ -49,12 +49,14 @@ router.get("/customer-order", (req, res) => {
             "SELECT * FROM order_specification WHERE Customer_ID = ?";
         const data = [id];
         DBQuery(sqlQuery, data, (err, result) => {
-            if (err) {
-                return console.log(err, "line no 14, order.js");
-            } else {
-                console.log(result, "result");
-                res.json({ result });
-            }
+            try {
+                if (err) {
+                    return console.log(err, "line no 14, order.js");
+                } else {
+                    console.log(result, "result");
+                    res.json({ result });
+                }
+            } catch {}
         });
     } catch {}
 });

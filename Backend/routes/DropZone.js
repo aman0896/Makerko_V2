@@ -32,12 +32,14 @@ router.post("/file-drop", (req, res) => {
         //     fs.mkdirSync(dir, { recursive: true });
         // }
         upload(req, res, (err) => {
-            if (err) {
-                return console.log(err, "error");
-            } else {
-                console.log(req.files, "files");
-                res.json({ fileDetails: req.files });
-            }
+            try {
+                if (err) {
+                    return console.log(err, "error");
+                } else {
+                    console.log(req.files, "files");
+                    res.json({ fileDetails: req.files });
+                }
+            } catch {}
         });
     } catch {}
 });

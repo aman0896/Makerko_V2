@@ -22,67 +22,75 @@ router.post("/customer-edit", (req, res) => {
     try {
         const upload = SingleFileUpload("profileImage", null);
         upload(req, res, async (err) => {
-            var imageFile = req.file;
-            const prevImage =
-                req.body.prevImage !== "undefined"
-                    ? JSON.parse(req.body.prevImage)
-                    : null;
+            try {
+                var imageFile = req.file;
+                const prevImage =
+                    req.body.prevImage !== "undefined"
+                        ? JSON.parse(req.body.prevImage)
+                        : null;
 
-            const userDetails = JSON.parse(req.body.currentUser);
-            const userUpdateDetails = JSON.parse(req.body.userUpdates);
-            console.log(imageFile, userDetails, userUpdateDetails, "details");
-            // const dir = `./public/uploads/customer/${userDetails.Customer_ID}/${imageFile.fieldname}/`;
-            // if (!fs.existsSync(dir)) {
-            //     fs.mkdirSync(dir, { recursive: true });
-            // }
-            if (req.file) {
-                console.log("inside if line 37");
-                var dir = `./public/uploads/customer/${userDetails.Customer_ID}/${imageFile.fieldname}/`;
-                if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir, { recursive: true });
-                }
-                if (prevImage && prevImage.filePath) {
-                    FileDelete(prevImage.filePath);
-                }
-            } else {
-                console.log("line 46");
-                console.log(prevImage, "line 47");
-                imageFile = prevImage;
-            }
-
-            if (err) {
-                console.log(err, "error");
-            } else {
-                let tmp_path = imageFile.path;
-                let target_path = dir + imageFile.filename;
-                const filePath = await FileMove(tmp_path, target_path);
-                const sqlQuery =
-                    "UPDATE customer SET First_Name =?, Last_Name=?, Email=?, Phone_Number=?, Address=?, Company_Type=?, Profile_Image = ?, Bio = ? WHERE Customer_ID = ?";
-                const data = [
-                    userUpdateDetails.firstName,
-                    userUpdateDetails.lastName,
-                    userUpdateDetails.email,
-                    userUpdateDetails.phoneNumber,
-                    userUpdateDetails.address,
-                    userUpdateDetails.companyStatus.type,
-                    JSON.stringify({
-                        filename: imageFile.filename,
-                        filePath: req.file ? filePath : imageFile.filePath,
-                    }),
-                    userUpdateDetails.bio,
-                    userDetails.Customer_ID,
-                ];
-                DBQuery(sqlQuery, data, (err, result) => {
-                    if (err) {
-                        return console.log(
-                            err,
-                            "update customer profile error"
-                        );
-                    } else {
-                        res.json(result);
-                        return;
+                const userDetails = JSON.parse(req.body.currentUser);
+                const userUpdateDetails = JSON.parse(req.body.userUpdates);
+                console.log(
+                    imageFile,
+                    userDetails,
+                    userUpdateDetails,
+                    "details"
+                );
+                // const dir = `./public/uploads/customer/${userDetails.Customer_ID}/${imageFile.fieldname}/`;
+                // if (!fs.existsSync(dir)) {
+                //     fs.mkdirSync(dir, { recursive: true });
+                // }
+                if (req.file) {
+                    console.log("inside if line 37");
+                    var dir = `./public/uploads/customer/${userDetails.Customer_ID}/${imageFile.fieldname}/`;
+                    if (!fs.existsSync(dir)) {
+                        fs.mkdirSync(dir, { recursive: true });
                     }
-                });
+                    if (prevImage && prevImage.filePath) {
+                        FileDelete(prevImage.filePath);
+                    }
+                } else {
+                    console.log("line 46");
+                    console.log(prevImage, "line 47");
+                    imageFile = prevImage;
+                }
+
+                if (err) {
+                    console.log(err, "error");
+                } else {
+                    let tmp_path = imageFile.path;
+                    let target_path = dir + imageFile.filename;
+                    const filePath = await FileMove(tmp_path, target_path);
+                    const sqlQuery =
+                        "UPDATE customer SET First_Name =?, Last_Name=?, Email=?, Phone_Number=?, Address=?, Profile_Image = ?, Bio = ? WHERE Customer_ID = ?";
+                    const data = [
+                        userUpdateDetails.firstName,
+                        userUpdateDetails.lastName,
+                        userUpdateDetails.email,
+                        userUpdateDetails.phoneNumber,
+                        userUpdateDetails.address,
+                        JSON.stringify({
+                            filename: imageFile.filename,
+                            filePath: req.file ? filePath : imageFile.filePath,
+                        }),
+                        userUpdateDetails.bio,
+                        userDetails.Customer_ID,
+                    ];
+                    DBQuery(sqlQuery, data, (err, result) => {
+                        if (err) {
+                            return console.log(
+                                err,
+                                "update customer profile error"
+                            );
+                        } else {
+                            res.json(result);
+                            return;
+                        }
+                    });
+                }
+            } catch {
+                console.log("customerprofileerror");
             }
         });
     } catch (error) {
@@ -94,64 +102,76 @@ router.post("/maker-edit", (req, res) => {
     try {
         const upload = SingleFileUpload("profileImage", null);
         upload(req, res, async (err) => {
-            console.log(req.body, "___________________________");
-            var imageFile = req.file;
-            const prevImage =
-                req.body.prevImage !== "undefined"
-                    ? JSON.parse(req.body.prevImage)
-                    : null;
-            const userDetails = JSON.parse(req.body.currentUser);
-            const userUpdateDetails = JSON.parse(req.body.userUpdates);
-            console.log(imageFile, userDetails, userUpdateDetails, "details");
-            console.log(req.file, "file line 71");
-            if (req.file) {
-                console.log("inside if line 73");
-                var dir = `./public/uploads/maker/${userDetails.Manufacturer_ID}/${imageFile.fieldname}/`;
-                if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir, { recursive: true });
-                }
-                if (prevImage && prevImage.filePath) {
-                    FileDelete(prevImage.filePath);
-                }
-            } else {
-                console.log("line 79");
-                console.log(prevImage, "line 79");
-                imageFile = prevImage;
-            }
-
-            if (err) {
-                console.log(err, "error");
-            } else {
-                let tmp_path = imageFile.path;
-                let target_path = dir + imageFile.filename;
-                const filePath = await FileMove(tmp_path, target_path);
-                console.log(userUpdateDetails, "user");
-                const sqlQuery =
-                    "UPDATE manufacturer SET Company_Name=?, Logo=?, Contact_Person=?,Email=?,Phone_Number=?, Address = ?, Brief_Description = ?, Additional_Details = ? WHERE Manufacturer_ID = ?";
-                const data = [
-                    userUpdateDetails.companyName,
-                    JSON.stringify({
-                        filename: imageFile.filename,
-                        filePath: req.file ? filePath : imageFile.filePath,
-                    }),
-                    userUpdateDetails.contactPerson,
-                    userUpdateDetails.email,
-                    userUpdateDetails.phoneNumber,
-                    userUpdateDetails.address,
-                    userUpdateDetails.brief_description,
-                    userUpdateDetails.additional_details,
-
-                    userDetails.Manufacturer_ID,
-                ];
-                DBQuery(sqlQuery, data, (err, result) => {
-                    if (err) {
-                        return console.log(err, "update maker profile error");
-                    } else {
-                        res.json(result);
-                        return;
+            try {
+                console.log(req.body, "___________________________");
+                var imageFile = req.file;
+                const prevImage =
+                    req.body.prevImage !== "undefined"
+                        ? JSON.parse(req.body.prevImage)
+                        : null;
+                const userDetails = JSON.parse(req.body.currentUser);
+                const userUpdateDetails = JSON.parse(req.body.userUpdates);
+                console.log(
+                    imageFile,
+                    userDetails,
+                    userUpdateDetails,
+                    "details"
+                );
+                console.log(req.file, "file line 71");
+                if (req.file) {
+                    console.log("inside if line 73");
+                    var dir = `./public/uploads/maker/${userDetails.Manufacturer_ID}/${imageFile.fieldname}/`;
+                    if (!fs.existsSync(dir)) {
+                        fs.mkdirSync(dir, { recursive: true });
                     }
-                });
-            }
+                    if (prevImage && prevImage.filePath) {
+                        FileDelete(prevImage.filePath);
+                    }
+                } else {
+                    console.log("line 79");
+                    console.log(prevImage, "line 79");
+                    imageFile = prevImage;
+                }
+
+                if (err) {
+                    console.log(err, "error");
+                } else {
+                    let tmp_path = imageFile.path;
+                    let target_path = dir + imageFile.filename;
+                    const filePath = await FileMove(tmp_path, target_path);
+                    console.log(userUpdateDetails, "user");
+                    const sqlQuery =
+                        "UPDATE manufacturer SET Company_Name=?, Logo=?, Contact_Person=?,Email=?,Phone_Number=?,Website=?, Company_Type=?, Address = ?, Brief_Description = ?, Additional_Details = ? WHERE Manufacturer_ID = ?";
+                    const data = [
+                        userUpdateDetails.companyName,
+                        JSON.stringify({
+                            filename: imageFile.filename,
+                            filePath: req.file ? filePath : imageFile.filePath,
+                        }),
+                        userUpdateDetails.contactPerson,
+                        userUpdateDetails.email,
+                        userUpdateDetails.phoneNumber,
+                        userUpdateDetails.address,
+                        userUpdateDetails.website,
+                        userUpdateDetails.companyStatus.type,
+                        userUpdateDetails.brief_description,
+                        userUpdateDetails.additional_details,
+
+                        userDetails.Manufacturer_ID,
+                    ];
+                    DBQuery(sqlQuery, data, (err, result) => {
+                        if (err) {
+                            return console.log(
+                                err,
+                                "update maker profile error"
+                            );
+                        } else {
+                            res.json(result);
+                            return;
+                        }
+                    });
+                }
+            } catch {}
         });
     } catch {}
 });
@@ -191,30 +211,34 @@ router.post("/maker-map-edit", async (req, res) => {
                 "UPDATE location SET Latitude=?, Longitude=? WHERE Manufacturer_ID = ?";
             let data = [latitude, longitude, Manufacturer_ID];
             DBQuery(sqlQuery, data, (err, result) => {
-                if (err) {
-                    return console.log(
-                        err,
-                        "Location update failed. Something went wrong. please try again later"
-                    );
-                } else {
-                    res.json(result);
-                    return;
-                }
+                try {
+                    if (err) {
+                        return console.log(
+                            err,
+                            "Location update failed. Something went wrong. please try again later"
+                        );
+                    } else {
+                        res.json(result);
+                        return;
+                    }
+                } catch {}
             });
         } else {
             let sqlQuery =
                 "INSERT INTO location (Manufacturer_ID, Latitude, Longitude) VALUES (?, ?, ?)";
             let data = [Manufacturer_ID, latitude, longitude];
             DBQuery(sqlQuery, data, (err, result) => {
-                if (err) {
-                    return console.log(
-                        err,
-                        "Location update failed. Something went wrong. please try again later"
-                    );
-                } else {
-                    res.json(result);
-                    return;
-                }
+                try {
+                    if (err) {
+                        return console.log(
+                            err,
+                            "Location update failed. Something went wrong. please try again later"
+                        );
+                    } else {
+                        res.json(result);
+                        return;
+                    }
+                } catch {}
             });
         }
     } catch {
@@ -247,20 +271,22 @@ router.post("/maker-password-edit", async (req, res) => {
         );
         if (checkPassword) {
             PasswordEncryption(new_password, (err, hash) => {
-                const sqlQuery =
-                    "UPDATE manufacturer SET Password=? WHERE Manufacturer_ID = ?";
-                const data = [hash, Manufacturer_ID];
-                DBQuery(sqlQuery, data, (err, result) => {
-                    if (err) {
-                        return console.log(
-                            err,
-                            "Password update failed. Something went wrong. please try again later"
-                        );
-                    } else {
-                        res.json(result);
-                        return;
-                    }
-                });
+                try {
+                    const sqlQuery =
+                        "UPDATE manufacturer SET Password=? WHERE Manufacturer_ID = ?";
+                    const data = [hash, Manufacturer_ID];
+                    DBQuery(sqlQuery, data, (err, result) => {
+                        if (err) {
+                            return console.log(
+                                err,
+                                "Password update failed. Something went wrong. please try again later"
+                            );
+                        } else {
+                            res.json(result);
+                            return;
+                        }
+                    });
+                } catch {}
             });
         } else {
             res.json(false);

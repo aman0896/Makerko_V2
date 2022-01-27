@@ -118,24 +118,26 @@ router.post("/request-design", async (req, res) => {
             userDetails.Customer_ID,
         ];
         DBQuery(sqlQuery, data, async (err, result) => {
-            if (err) {
-                console.log(err, "request design  error");
-                return;
-            } else {
-                console.log(result, "result");
-                const mailSent = await SendRequestDesignMail(
-                    userDetails.Email,
-                    userDetails.First_Name,
-                    process.env.File_Server +
-                        "/public/uploads/customer/109/design/" +
-                        productFile.filename,
-                    process.env.File_Server +
-                        "/public/uploads/customer/109/design/" +
-                        sketchFile.filename,
-                    description
-                );
-                res.json({ mailSent: mailSent });
-            }
+            try {
+                if (err) {
+                    console.log(err, "request design  error");
+                    return;
+                } else {
+                    console.log(result, "result");
+                    const mailSent = await SendRequestDesignMail(
+                        userDetails.Email,
+                        userDetails.First_Name,
+                        process.env.File_Server +
+                            "/public/uploads/customer/109/design/" +
+                            productFile.filename,
+                        process.env.File_Server +
+                            "/public/uploads/customer/109/design/" +
+                            sketchFile.filename,
+                        description
+                    );
+                    res.json({ mailSent: mailSent });
+                }
+            } catch {}
         });
     } catch {}
 });

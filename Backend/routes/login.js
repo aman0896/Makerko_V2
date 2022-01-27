@@ -17,35 +17,37 @@ router.post("/login", (req, res) => {
         var date = new Date();
         date.setFullYear(date.getFullYear() + 1);
         UserCheck(email, password, (err, response) => {
-            if (err) {
-                console.log(err);
-                if (err.verified != undefined && err.verified == false) {
-                    console.log(err.verified, "verified");
-                    res.send({ userVerified: false });
-                } else if (
-                    err.userLoggedIn != undefined &&
-                    err.userLoggedIn == false
-                ) {
-                    res.send({ userLoggedIn: false });
-                    console.log(err.userLoggedIn, "login");
-                } else if (!err.emailExist) {
-                    res.send({ emailExist: false });
+            try {
+                if (err) {
+                    console.log(err);
+                    if (err.verified != undefined && err.verified == false) {
+                        console.log(err.verified, "verified");
+                        res.send({ userVerified: false });
+                    } else if (
+                        err.userLoggedIn != undefined &&
+                        err.userLoggedIn == false
+                    ) {
+                        res.send({ userLoggedIn: false });
+                        console.log(err.userLoggedIn, "login");
+                    } else if (!err.emailExist) {
+                        res.send({ emailExist: false });
+                    }
+                } else {
+                    console.log(response, "responsetoken");
+                    var accessToken = response.accessToken;
+                    res.status(202)
+                        .cookie("u_id", accessToken, {
+                            sameSite: "strict",
+                            path: "/",
+                            expires: date,
+                            httpOnly: true,
+                        })
+                        .send({
+                            userLoggedIn: true,
+                            userVerified: true,
+                        });
                 }
-            } else {
-                console.log(response, "responsetoken");
-                var accessToken = response.accessToken;
-                res.status(202)
-                    .cookie("u_id", accessToken, {
-                        sameSite: "strict",
-                        path: "/",
-                        expires: date,
-                        httpOnly: true,
-                    })
-                    .send({
-                        userLoggedIn: true,
-                        userVerified: true,
-                    });
-            }
+            } catch {}
         });
     } catch {}
 });
@@ -129,45 +131,50 @@ async function EmailExistCheck(inputEmail) {
 
         return new Promise((resolve, reject) => {
             DBQuery(customerSQLQuery, [inputEmail], function (err, result) {
-                console.log(result, "result");
-                if (err) {
-                    return console.log(err, "login error");
-                }
-                if (result.length > 0) {
-                    let userData = {
-                        emailExist: true,
-                        uid: result[0].Customer_ID,
-                        userType: "customer",
-                        password: result[0].Password,
-                        emailVerfication: result[0].Verified,
-                    };
-                    resolve(userData);
-                } else {
-                    DBQuery(
-                        makerSQLQuery,
-                        [inputEmail],
-                        function (err, result) {
-                            if (err)
-                                return console.log(err, "maker login error");
-                            if (result.length > 0) {
-                                console.log(result, "makerresult");
-                                let userData = {
-                                    emailExist: true,
-                                    uid: result[0].Manufacturer_ID,
-                                    userType: "maker",
-                                    password: result[0].Password,
-                                    emailVerfication:
-                                        result[0].Email_Verification,
-                                };
-                                resolve(userData);
-                            } else {
-                                resolve({
-                                    emailExist: false,
-                                });
+                try {
+                    console.log(result, "result");
+                    if (err) {
+                        return console.log(err, "login error");
+                    }
+                    if (result.length > 0) {
+                        let userData = {
+                            emailExist: true,
+                            uid: result[0].Customer_ID,
+                            userType: "customer",
+                            password: result[0].Password,
+                            emailVerfication: result[0].Verified,
+                        };
+                        resolve(userData);
+                    } else {
+                        DBQuery(
+                            makerSQLQuery,
+                            [inputEmail],
+                            function (err, result) {
+                                if (err)
+                                    return console.log(
+                                        err,
+                                        "maker login error"
+                                    );
+                                if (result.length > 0) {
+                                    console.log(result, "makerresult");
+                                    let userData = {
+                                        emailExist: true,
+                                        uid: result[0].Manufacturer_ID,
+                                        userType: "maker",
+                                        password: result[0].Password,
+                                        emailVerfication:
+                                            result[0].Email_Verification,
+                                    };
+                                    resolve(userData);
+                                } else {
+                                    resolve({
+                                        emailExist: false,
+                                    });
+                                }
                             }
-                        }
-                    );
-                }
+                        );
+                    }
+                } catch {}
             });
         });
     } catch {}

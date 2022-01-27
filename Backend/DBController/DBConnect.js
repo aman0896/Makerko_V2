@@ -20,8 +20,10 @@ const db = mysql.createConnection({
 });
 
 db.connect((err) => {
-    if (!err) console.log("DB connection Succedded");
-    else console.log("failed \n Error:" + JSON.stringify(err.message));
+    try {
+        if (!err) console.log("DB connection Succedded");
+        else console.log("failed \n Error:" + JSON.stringify(err.message));
+    } catch {}
 });
 
 module.exports = db;

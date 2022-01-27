@@ -39,18 +39,20 @@ router.post("/signup", async (req, res) => {
                 ];
 
                 DBQuery(sqlQuery, params, async function (err, result) {
-                    if (err) {
-                        if (err.errno == 1062) {
-                            console.log("userSignup", err);
-                            return res.send({
-                                emailExist: true,
-                            });
+                    try {
+                        if (err) {
+                            if (err.errno == 1062) {
+                                console.log("userSignup", err);
+                                return res.send({
+                                    emailExist: true,
+                                });
+                            }
+                            return console.log(err);
                         }
-                        return console.log(err);
-                    }
-                    const fullHash = await CreateHash(email);
-                    //Create OTP and send mail to email
-                    res.json({ hash: fullHash });
+                        const fullHash = await CreateHash(email);
+                        //Create OTP and send mail to email
+                        res.json({ hash: fullHash });
+                    } catch {}
                 });
             });
         } else return res.send({ emailExist: true });

@@ -12,10 +12,12 @@ async function GetUserData(sqlQuery, data) {
     // sqlQuery = "SELECT * FROM customer WHERE Email = ? ";
     return new Promise((resolve) => {
         DBQuery(sqlQuery, [data], function (err, result) {
-            if (err) {
-                return console.log(err, "error getting userData");
-            }
-            resolve(result);
+            try {
+                if (err) {
+                    return console.log(err, "error getting userData");
+                }
+                resolve(result);
+            } catch {}
         });
     });
 }
@@ -25,10 +27,12 @@ async function UpdateUserData(sqlQuery, data) {
     // sqlQuery = "SELECT * FROM customer WHERE Email = ? ";
     return new Promise((resolve) => {
         DBQuery(sqlQuery, data, function (err, result) {
-            if (err) {
-                return console.log(err, "error updating userData");
-            }
-            resolve(result);
+            try {
+                if (err) {
+                    return console.log(err, "error updating userData");
+                }
+                resolve(result);
+            } catch {}
         });
     });
 }

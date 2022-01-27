@@ -11,16 +11,18 @@ function FileDownload(filePath) {
             if (filedir) {
                 const file = filedir;
                 fs.access(file, fs.F_OK, (err) => {
-                    if (err) {
-                        console.log(
-                            "no Such File or Directory",
-                            "File Download line 14",
-                            err
-                        );
-                    } else {
-                        // Set disposition and send it.
-                        resolve(file);
-                    }
+                    try {
+                        if (err) {
+                            console.log(
+                                "no Such File or Directory",
+                                "File Download line 14",
+                                err
+                            );
+                        } else {
+                            // Set disposition and send it.
+                            resolve(file);
+                        }
+                    } catch {}
                 });
             } else {
                 console.log("incorrect file url", "fileDownload line 21");
