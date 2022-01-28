@@ -4,7 +4,6 @@ import "./WrapperComponent.css";
 
 function WrapperComponent({ children, style }) {
     const isSidebar = useSelector((state) => state.setSidebar.sidebar);
-    console.log(isSidebar, "sidebarcheck");
     return (
         <div className="parent-container">
             <div

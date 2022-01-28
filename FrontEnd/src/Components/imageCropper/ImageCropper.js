@@ -10,12 +10,13 @@ export default function ImageCropper({
     setImageDestination,
     onSaveClick,
     onCancelClick,
-    aspectRatio = 16 / 9,
+    aspectRatio = 1,
 }) {
     const imageElement = useRef();
 
     useEffect(() => {
         const cropper = new Cropper(imageElement.current, {
+            dragMode: "move",
             zoomable: false,
             scalable: false,
             aspectRatio: aspectRatio,
@@ -24,13 +25,24 @@ export default function ImageCropper({
                 const canavas = cropper.getCroppedCanvas();
                 setImageDestination(canavas.toDataURL("image/png"));
             },
+            restore: false,
+            guides: false,
+            center: false,
+            highlight: false,
+            cropBoxMovable: true,
+            toggleDragModeOnDblclick: false,
         });
-    }, []);
+    }, [aspectRatio, setImageDestination]);
 
     return (
         <div>
-            <div className="image-container">
-                <img ref={imageElement} src={src} alt="source" />
+            <div className="cropper_container">
+                <img
+                    ref={imageElement}
+                    style={{ maxWidth: "100%" }}
+                    src={src}
+                    alt="source"
+                />
             </div>
             <div className="d-flex flex-row justify-content-end">
                 <Button
