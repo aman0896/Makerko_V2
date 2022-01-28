@@ -45,6 +45,7 @@ export default function MakersDetailViewPage() {
     const [otherServices, setOtherServices] = useState();
     const [methods, setMethods] = useState();
     const [myProject, setMyProject] = useState(false);
+    const [coverImagePreview, setCoverImagePreview] = useState();
     //#endregion
 
     //#region react redux call
@@ -80,6 +81,22 @@ export default function MakersDetailViewPage() {
                 makersList.filter(async (maker) => {
                     if (maker.Manufacturer_ID === id) {
                         setMaker(maker);
+
+                        //cover image
+                        if (maker.CoverImage) {
+                            const imageData = JSON.parse(maker.CoverImage);
+                            const imageBlob = await FileDownload(
+                                imageData.filePath
+                            );
+                            const coverImageUrl = window.URL.createObjectURL(
+                                new Blob([imageBlob])
+                            );
+                            setCoverImagePreview(coverImageUrl);
+                        } else {
+                            setCoverImagePreview(
+                                `${webDomain}assests/makerlogo.jpg`
+                            );
+                        }
 
                         //profile image
                         if (maker.Logo) {
@@ -265,8 +282,18 @@ export default function MakersDetailViewPage() {
             {maker && (
                 <>
                     <img
-                        src={myImage.cover}
-                        style={{ width: "100%", height: height / 2 }}
+                        src={coverImagePreview}
+                        style={{
+                            width: "100%",
+                            height:
+                                width <= 500
+                                    ? "300px"
+                                    : width <= 766
+                                    ? "400px"
+                                    : "600px",
+                            backgroundPosition: "center",
+                            objectFit: "cover",
+                        }}
                         alt="Profile Cover"
                     />
                     {myProject && (

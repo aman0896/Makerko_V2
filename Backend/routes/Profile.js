@@ -18,6 +18,7 @@ const {
 const { GetUserData } = require("../DBController/DBController");
 const router = express.Router();
 
+//#region customer profile edit api
 router.post("/customer-edit", (req, res) => {
     try {
         const upload = SingleFileUpload("profileImage", null);
@@ -98,6 +99,9 @@ router.post("/customer-edit", (req, res) => {
     }
 });
 
+//#endregion
+
+//#region maker profile edit
 router.post("/maker-edit", (req, res) => {
     try {
         const upload = SingleFileUpload("profileImage", null);
@@ -293,5 +297,55 @@ router.post("/maker-password-edit", async (req, res) => {
         }
     } catch {}
 });
+
+router.post("/maker-cover-edit", async (req, res) => {
+    try {
+        const upload = SingleFileUpload("cover");
+
+        upload(req, res, async (err) => {
+            try {
+                if (err) return res.status(400).json(err);
+                const coverImage = req.file;
+                console.log(coverImage, "image");
+                const u_Id = req.body.userId;
+                const prevImage = JSON.parse(req.body.prevImage);
+                console.log(prevImage, "prevImage");
+                if (coverImage) {
+                    console.log("inside if line 309");
+                    var dir = `./public/uploads/maker/${u_Id}/`;
+                    if (!fs.existsSync(dir)) {
+                        fs.mkdirSync(dir, { recursive: true });
+                    }
+                    if (prevImage && prevImage.filePath) {
+                        FileDelete(prevImage.filePath);
+                    }
+                } else {
+                    console.log(prevImage, "line 322");
+                    coverImage = prevImage;
+                }
+                let tmp_path = coverImage.path;
+                let target_path = dir + coverImage.filename;
+                const filePath = await FileMove(tmp_path, target_path);
+                const sqlQuery =
+                    "UPDATE manufacturer SET CoverImage=? WHERE Manufacturer_ID = ?";
+                const data = [
+                    JSON.stringify({
+                        filename: coverImage.filename,
+                        filePath: req.file ? filePath : coverImage.filePath,
+                    }),
+                    u_Id,
+                ];
+                DBQuery(sqlQuery, data, (err, result) => {
+                    if (err) return res.status(304).send(err);
+                    res.json({ coverUpdate: "success" });
+                });
+            } catch {}
+        });
+    } catch (err) {
+        console.log(err, "catch line 306 profile.js");
+    }
+});
+
+//#endregion
 
 module.exports = router;

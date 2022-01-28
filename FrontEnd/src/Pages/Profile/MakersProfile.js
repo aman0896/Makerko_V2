@@ -21,12 +21,15 @@ import {
 } from "../../commonApi/CommonApi";
 import {
     getMakerLocation,
+    makerCoverImage,
     makerMapEdit,
     makerProfileEdit,
 } from "../../commonApi/Link";
 import { Toast } from "../../Components/ReactToastify";
 import { colors } from "../../Values/colors";
-import ImageCropper from "../../Components/imageCropper/ImageCropper";
+import ImageCropper, {
+    dataURItoBlob,
+} from "../../Components/imageCropper/ImageCropper";
 
 // const mapData = require("../../data/MapData.json");
 
@@ -59,9 +62,11 @@ function MakersProfile() {
     const [profileImage, setProfileImage] = useState();
     const [profileImagePreview, setProfileImagePreview] = useState();
     const [prevProfileImage, setPrevProfileImage] = useState();
-    const [prevCoverImage, setCoverImage] = useState();
+    const [showCoverImage, setShowCoverImage] = useState();
     const [showImageCropper, setImageCropper] = useState(false);
     const [imageDestination, setImageDestination] = useState();
+    const [prevCoverImage, setPrevCoverImage] = useState();
+    const [targetFile, setTargetFile] = useState();
 
     const companyStatus = [
         {
@@ -116,6 +121,22 @@ function MakersProfile() {
     };
 
     useEffect(() => {
+        //cover image
+        async function GetCoverImage() {
+            if (currentUserData && currentUserData.CoverImage) {
+                const imageData = JSON.parse(currentUserData.CoverImage);
+                const imageBlob = await FileDownload(imageData.filePath);
+                const profileImageUrl = window.URL.createObjectURL(
+                    new Blob([imageBlob])
+                );
+                setShowCoverImage(profileImageUrl);
+                setPrevCoverImage(currentUserData.CoverImage);
+            }
+        }
+
+        GetCoverImage();
+
+        //profile image
         async function GetProfileImage() {
             if (currentUserData && currentUserData.Logo) {
                 const imageData = JSON.parse(currentUserData.Logo);
@@ -130,6 +151,7 @@ function MakersProfile() {
 
         GetProfileImage();
 
+        //location
         async function GetLocation() {
             if (currentUserData && currentUserData.Manufacturer_ID) {
                 getData(
@@ -177,22 +199,48 @@ function MakersProfile() {
     const coverImageUpdate = (e) => {
         const file = e.target.files[0];
         setImageCropper(true);
+
         if (file) {
             // setTargetName(e.target.name);
             // setTargetFile(file);
-            setCoverImage(URL.createObjectURL(file));
+            setShowCoverImage(URL.createObjectURL(file));
+            setTargetFile(file);
         }
     };
 
-    const onCroppedImageSave = () => {};
+    const onCroppedImageSave = () => {
+        const formData = new FormData();
+        const blob = dataURItoBlob(imageDestination);
+        formData.append("cover", blob, targetFile.name);
+        formData.append("userId", currentUserData.Manufacturer_ID);
+        formData.append("prevImage", prevCoverImage);
+        postDataWithFormData(
+            makerCoverImage,
+            formData,
+            (onSuccess) => {
+                if (onSuccess.data) {
+                    const url = URL.createObjectURL(blob);
+                    setShowCoverImage(url);
+                    Toast("Cover Image Changed", "success");
+                    setImageCropper(false);
+                    window.location.reload();
+                }
+            },
+            (onFail) => {}
+        );
+    };
 
-    const onImageCropCancel = () => {};
+    const onImageCropCancel = () => {
+        setImageCropper(false);
+        setImageDestination(profileImagePreview);
+        setShowCoverImage();
+    };
 
     return (
         <div
             className="container-fluid"
             style={{
-                width: width <= 800 ? "95%" : "50%",
+                width: width <= 800 ? "95%" : "80%",
             }}
         >
             {currentUserData && (
@@ -200,7 +248,8 @@ function MakersProfile() {
                     <div className="cover-image my-4">
                         {showImageCropper ? (
                             <ImageCropper
-                                src={prevCoverImage}
+                                src={showCoverImage}
+                                aspectRatio={16 / 6}
                                 setImageDestination={setImageDestination}
                                 onSaveClick={onCroppedImageSave}
                                 onCancelClick={onImageCropCancel}
@@ -210,10 +259,8 @@ function MakersProfile() {
                                 <img
                                     className="cover-image-profile"
                                     src={
-                                        prevCoverImage
-                                            ? prevCoverImage
-                                            : profileImagePreview
-                                            ? profileImagePreview
+                                        showCoverImage
+                                            ? showCoverImage
                                             : "http://localhost:3000/assests/maker.png"
                                     }
                                     alt=""

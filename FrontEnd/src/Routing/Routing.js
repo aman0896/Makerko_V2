@@ -37,6 +37,7 @@ import ResetScrollPosition from "../Components/ResetScrollPosition";
 import CreateProjectForm from "../Pages/FeatureProject/CreatureProjectForm";
 import AboutUs from "../Pages/AboutUs";
 import CustomerDetailViewPage from "../Pages/Profile/CustomerDetailViewPage";
+import ImageCropperTest from "../Test/ImageCropper";
 
 function Routing() {
     const auth = useSelector((state) => state.isAuth);
@@ -126,6 +127,11 @@ function Routing() {
                                 exact
                                 path="/projects"
                                 component={Projects}
+                            />
+                            <Route
+                                exact
+                                path="/imageCropper"
+                                component={ImageCropperTest}
                             />
                             <Route
                                 exact

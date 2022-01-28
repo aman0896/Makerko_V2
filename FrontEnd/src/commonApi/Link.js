@@ -81,6 +81,9 @@ export const getMakerLocation = "profile/maker-get-map";
 //maker profile edit
 export const makerProfileEdit = "profile/maker-edit";
 
+//maker cover Image
+export const makerCoverImage = "profile/maker-cover-edit";
+
 // maker map edit
 export const makerMapEdit = "profile/maker-map-edit";
 
