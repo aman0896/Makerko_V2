@@ -27,7 +27,6 @@ export const MakersValidationSchema = Yup.object().shape({
 });
 
 function AdditionalDetailsFillUp() {
-    const [formikData, setFormikData] = useState([]);
     const mfgProcess = useSelector((state) => state.mfgProcess.mfgProcess);
     const [otherServices, setOtherServices] = useState();
     const [oldOtherServices, setOldOtherServices] = useState();
