@@ -3,26 +3,54 @@ import Button from "../../Components/Button";
 import CardViewComponent from "../../Components/card/CardViewComponent";
 import { useWindowDimensions } from "../../functions/Functions";
 import { colors } from "../../Values/colors";
-import myImage from "../../Values/Images";
 import "./Profile.css";
 import { HiPhone } from "react-icons/hi";
 import { MdLocationOn, MdMail } from "react-icons/md";
-import { QuoteButton, TextIconComponent } from "./ProfileComponent";
-import { useParams } from "react-router-dom";
+import { TextIconComponent } from "./ProfileComponent";
+import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FileDownload, getData } from "../../commonApi/CommonApi";
 import { FeatureProjectList } from "../../Components/Redux/Actions/FeatureProjectList";
-import { currentUserLink } from "../../commonApi/Link";
+import { currentUserLink, webDomain } from "../../commonApi/Link";
+import { SET_LOCATION_PATHNAME } from "../../Components/Redux/Actions/Types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-regular-svg-icons";
 
 export default function CustomerDetailViewPage() {
+    //#region hooks
     const dispatch = useDispatch();
+    const history = useHistory();
+    const { id } = useParams();
+    //#endregion
+
+    //#region react-redux
+    const projectList = useSelector((state) => state.projectList.projectList);
+    const loggedInUser = useSelector(
+        (state) => state.currentUserdata.currentUserdata
+    );
+    //#endregion
+
+    //#region state define
     const { height, width } = useWindowDimensions();
     const [customer, setCustomer] = useState();
     const [featureProject, setFeatureProject] = useState();
-
-    const projectList = useSelector((state) => state.projectList.projectList);
-    const { id } = useParams();
     const [coverImage, setCoverImage] = useState();
+    const [coverImagePreview, setCoverImagePreview] = useState();
+    const [myProfile, setMyProfile] = useState(false);
+    //#endregion
+
+    useEffect(() => {
+        if (loggedInUser && id) {
+            if (
+                Object.keys(loggedInUser).includes("Customer_ID") &&
+                loggedInUser.Customer_ID == id
+            ) {
+                setMyProfile(true);
+            } else {
+                setMyProfile(false);
+            }
+        }
+    }, [loggedInUser, id]);
 
     useEffect(() => {
         async function GetCustomerDetail() {
@@ -32,6 +60,23 @@ export default function CustomerDetailViewPage() {
                 async (onSuccess) => {
                     let { currentUserData } = onSuccess.data;
 
+                    //cover image
+                    if (currentUserData[0] && currentUserData[0].CoverImage) {
+                        const imageData = JSON.parse(
+                            currentUserData[0].CoverImage
+                        );
+                        const imageBlob = await FileDownload(
+                            imageData.filePath
+                        );
+                        const coverImageUrl = window.URL.createObjectURL(
+                            new Blob([imageBlob])
+                        );
+                        setCoverImagePreview(coverImageUrl);
+                    } else {
+                        setCoverImagePreview(`${webDomain}assests/cover.jpg`);
+                    }
+
+                    //profile image
                     if (
                         currentUserData[0] &&
                         currentUserData[0].Profile_Image
@@ -120,15 +165,61 @@ export default function CustomerDetailViewPage() {
             );
         });
 
+    const onEditBtnClick = () => {
+        history.push({ pathname: "/profile/customer/edit" });
+        dispatch({
+            type: SET_LOCATION_PATHNAME,
+            pathname: "/profile/customer/edit",
+        });
+    };
+    const onProjectBtnClick = () => {
+        history.push({ pathname: "/profile/myprojects" });
+        dispatch({
+            type: SET_LOCATION_PATHNAME,
+            pathname: "/profile/myprojects",
+        });
+    };
+
     return (
         <div style={{ minHeight: height - 80, backgroundColor: colors.dark }}>
             {customer && (
                 <>
                     <img
-                        src={myImage.cover}
-                        style={{ width: "100%", height: height / 2 }}
+                        src={coverImagePreview}
+                        style={{
+                            width: "100%",
+                            height:
+                                width <= 500
+                                    ? "300px"
+                                    : width <= 766
+                                    ? "400px"
+                                    : "600px",
+                            backgroundPosition: "center",
+                            objectFit: "cover",
+                        }}
                         alt="Profile Cover"
                     />
+                    {myProfile && (
+                        <div className="d-flex justify-content-end mx-5 my-2">
+                            <Button
+                                style={{
+                                    marginRight: 2,
+                                    fontSize: "0.9rem",
+                                    fontWeight: 700,
+                                }}
+                                buttonStyle="button--white--solid"
+                                buttonSize="button--small"
+                                onClick={onEditBtnClick}
+                            >
+                                <FontAwesomeIcon
+                                    style={{ marginRight: 2 }}
+                                    icon={faEdit}
+                                    size="xl"
+                                />
+                                Edit Profile
+                            </Button>
+                        </div>
+                    )}
                     <div className="row m-auto">
                         <div
                             className="col-4"
@@ -192,19 +283,6 @@ export default function CustomerDetailViewPage() {
                                         }}
                                     />
                                 </div>
-                                <div className="text-center mb-5">
-                                    <div>
-                                        {/* <Button
-                                    buttonStyle="button--primary--solid"
-                                    style={{
-                                        fontWeight: 100,
-                                        minWidth: 150,
-                                    }}
-                                >
-                                    <b>Get A Quote</b>
-                                </Button> */}
-                                    </div>
-                                </div>
                             </div>
                             <div
                                 className="heading mb-3 text-left"
@@ -215,7 +293,11 @@ export default function CustomerDetailViewPage() {
                             <p>{customer.Bio}</p>
 
                             <div className="mt-5">
-                                <Button style={styles.whiteButton}>
+                                <Button
+                                    buttonStyle="button--white--solid"
+                                    style={{ fontWeight: 700 }}
+                                    onClick={onProjectBtnClick}
+                                >
                                     Projects
                                 </Button>
                                 <div className="d-flex flex-column flex-md-row justify-content-between">

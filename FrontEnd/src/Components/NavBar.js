@@ -169,7 +169,7 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                             userName={
                                 userType === "maker"
                                     ? currentUserData.Company_Name
-                                    : currentUserData.First_Name
+                                    : `${currentUserData.First_Name}.${currentUserData.Last_Name}`
                             }
                             userId={currentUser}
                             userType={userType}
@@ -269,7 +269,8 @@ function ProfileAvatarLogout({
 
     const onClickEdit_CustomerProfile = (event) => {
         handleChangePath(event);
-        history.push({ pathname: "/profile/customer/edit" });
+        // history.push({ pathname: "/profile/customer/edit" });
+        window.open(`/customer/${userId}/${userName}`, "_blank");
     };
 
     const onClickEdit_MakerProfile = (event) => {

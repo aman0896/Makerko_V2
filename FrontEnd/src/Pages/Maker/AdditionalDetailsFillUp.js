@@ -2,9 +2,7 @@ import * as Yup from "yup";
 import FormikComponent from "../../Components/formik/FormikComponent";
 import FormikController from "../../Components/formik/FormikController";
 import { useWindowDimensions } from "../../Functions";
-import { colors } from "../../Values/colors";
 import OtherServices from "./OtherServices";
-import TableComponent from "../../Components/table/TableComponent";
 import { useEffect, useRef, useState } from "react";
 import ManufacturingServices from "./ManufacturingServices";
 import "./AdditionalDetails.css";
@@ -17,7 +15,6 @@ import {
 import { makersAdditionalDetails, makersServices } from "../../commonApi/Link";
 import { Toast } from "../../Components/ReactToastify";
 import { GetMfgProcess } from "../../Components/Redux/Actions/MfgProcess";
-import { data } from "jquery";
 
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 

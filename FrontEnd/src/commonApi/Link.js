@@ -75,6 +75,9 @@ export const requestDesign = "quote/request-design";
 //custoemr profile edit
 export const customerProfileEdit = "profile/customer-edit";
 
+//custome cover image
+export const customerCoverImage = "profile/customer-cover-edit";
+
 // maker location
 export const getMakerLocation = "profile/maker-get-map";
 

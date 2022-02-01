@@ -5,7 +5,6 @@ import SlideView from "../../Components/slideView/SlideView";
 import TableComponent from "../../Components/table/TableComponent";
 import { useWindowDimensions } from "../../functions/Functions";
 import { colors } from "../../Values/colors";
-import myImage from "../../Values/Images";
 import "./Profile.css";
 import { HiPhone } from "react-icons/hi";
 import { MdMail } from "react-icons/md";
@@ -44,7 +43,7 @@ export default function MakersDetailViewPage() {
     const [imageGallary, setImageGallary] = useState();
     const [otherServices, setOtherServices] = useState();
     const [methods, setMethods] = useState();
-    const [myProject, setMyProject] = useState(false);
+    const [myProfile, setMyProfile] = useState(false);
     const [coverImagePreview, setCoverImagePreview] = useState();
     //#endregion
 
@@ -63,14 +62,12 @@ export default function MakersDetailViewPage() {
     useEffect(() => {
         if (currentUserData && id) {
             if (
-                (Object.keys(currentUserData).includes("Customer_ID") &&
-                    currentUserData.Customer_ID == id) ||
-                (Object.keys(currentUserData).includes("Manufacturer_ID") &&
-                    currentUserData.Manufacturer_ID == id)
+                Object.keys(currentUserData).includes("Manufacturer_ID") &&
+                currentUserData.Manufacturer_ID == id
             ) {
-                setMyProject(true);
+                setMyProfile(true);
             } else {
-                setMyProject(false);
+                setMyProfile(false);
             }
         }
     }, [currentUserData, id]);
@@ -296,7 +293,7 @@ export default function MakersDetailViewPage() {
                         }}
                         alt="Profile Cover"
                     />
-                    {myProject && (
+                    {myProfile && (
                         <div className="d-flex justify-content-end mx-5 my-2">
                             <Button
                                 style={{
@@ -355,7 +352,7 @@ export default function MakersDetailViewPage() {
                                             </a>
                                             <p>{maker.Address}</p>
                                         </div>
-                                        {myProject === false && (
+                                        {myProfile === false && (
                                             <div>
                                                 <QuoteButton
                                                     value="get a quote"
@@ -436,7 +433,7 @@ export default function MakersDetailViewPage() {
                                         <br />
                                         {maker.Address}
                                     </p>
-                                    {myProject === false && (
+                                    {myProfile === false && (
                                         <div>
                                             <QuoteButton
                                                 value="get a quote"
@@ -542,7 +539,7 @@ export default function MakersDetailViewPage() {
                                 </div>
                             </div>
 
-                            {!myProject && (
+                            {!myProfile && (
                                 <div>
                                     <p
                                         className="text-center mt-5"

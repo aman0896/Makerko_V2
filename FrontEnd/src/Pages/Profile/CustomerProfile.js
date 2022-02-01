@@ -8,8 +8,11 @@ import ChangePasswordComponent from "../../Components/Password/ChangePasswordCom
 import { ValidationSchemaCustomerProfile } from "../Form/ValidationSchema";
 import { useSelector } from "react-redux";
 import { FileDownload, postDataWithFormData } from "../../commonApi/CommonApi";
-import { customerProfileEdit } from "../../commonApi/Link";
+import { customerCoverImage, customerProfileEdit } from "../../commonApi/Link";
 import { Toast } from "../../Components/ReactToastify";
+import ImageCropper, {
+    dataURItoBlob,
+} from "../../Components/imageCropper/ImageCropper";
 
 const InitialValues = {
     firstName: "",
@@ -25,11 +28,34 @@ function CustomerProfile() {
         (state) => state.currentUserdata.currentUserdata
     );
 
+    const { width } = useWindowDimensions();
+
     const [profileImage, setProfileImage] = useState();
     const [profileImagePreview, setProfileImagePreview] = useState();
     const [prevProfileImage, setPrevProfileImage] = useState();
+    const [showCoverImage, setShowCoverImage] = useState();
+    const [showImageCropper, setImageCropper] = useState(false);
+    const [imageDestination, setImageDestination] = useState();
+    const [prevCoverImage, setPrevCoverImage] = useState();
+    const [targetFile, setTargetFile] = useState();
 
     useEffect(() => {
+        //cover image
+        async function GetCoverImage() {
+            if (currentUserData && currentUserData.CoverImage) {
+                const imageData = JSON.parse(currentUserData.CoverImage);
+                const imageBlob = await FileDownload(imageData.filePath);
+                const profileImageUrl = window.URL.createObjectURL(
+                    new Blob([imageBlob])
+                );
+                setShowCoverImage(profileImageUrl);
+                setPrevCoverImage(currentUserData.CoverImage);
+            }
+        }
+
+        GetCoverImage();
+
+        //profile image
         async function GetProfileImage() {
             if (currentUserData && currentUserData.Profile_Image) {
                 const imageData = JSON.parse(currentUserData.Profile_Image);
@@ -70,7 +96,44 @@ function CustomerProfile() {
         setProfileImagePreview(url);
     };
 
-    const { width } = useWindowDimensions();
+    const coverImageUpdate = (e) => {
+        const file = e.target.files[0];
+        setImageCropper(true);
+
+        if (file) {
+            setShowCoverImage(URL.createObjectURL(file));
+            setTargetFile(file);
+        }
+    };
+
+    const onCroppedImageSave = () => {
+        const formData = new FormData();
+        const blob = dataURItoBlob(imageDestination);
+        formData.append("cover", blob, targetFile.name);
+        formData.append("userId", currentUserData.Customer_ID);
+        formData.append("prevImage", prevCoverImage);
+        postDataWithFormData(
+            customerCoverImage,
+            formData,
+            (onSuccess) => {
+                if (onSuccess.data) {
+                    const url = URL.createObjectURL(blob);
+                    setShowCoverImage(url);
+                    Toast("Cover Image Changed", "success");
+                    setImageCropper(false);
+                    window.location.reload();
+                }
+            },
+            (onFail) => {}
+        );
+    };
+
+    const onImageCropCancel = () => {
+        setImageCropper(false);
+        setImageDestination(profileImagePreview);
+        setShowCoverImage();
+    };
+
     return (
         <div
             className="container-fluid"
@@ -80,6 +143,49 @@ function CustomerProfile() {
         >
             {currentUserData && (
                 <>
+                    <div className="cover-image my-4">
+                        {showImageCropper ? (
+                            <ImageCropper
+                                src={showCoverImage}
+                                aspectRatio={16 / 6}
+                                setImageDestination={setImageDestination}
+                                onSaveClick={onCroppedImageSave}
+                                onCancelClick={onImageCropCancel}
+                            />
+                        ) : (
+                            <>
+                                <img
+                                    className="cover-image-profile"
+                                    src={
+                                        showCoverImage
+                                            ? showCoverImage
+                                            : "http://localhost:3000/assests/cover.jpg"
+                                    }
+                                    alt=""
+                                />
+                                <label
+                                    className="button cover-edit"
+                                    htmlFor="cover-image"
+                                >
+                                    <span>
+                                        <MdEdit style={{ margin: 1 }} />
+                                    </span>
+                                    <span style={{ margin: 1 }}>
+                                        Edit Cover
+                                    </span>
+                                </label>
+
+                                <input
+                                    id="cover-image"
+                                    type="file"
+                                    name="file"
+                                    hidden
+                                    accept={".jpg, .jpeg, .png"}
+                                    onChange={coverImageUpdate}
+                                />
+                            </>
+                        )}
+                    </div>
                     <div className="d-flex align-items-center flex-column my-4">
                         <div className="change-image">
                             <img
@@ -89,6 +195,7 @@ function CustomerProfile() {
                                         ? profileImagePreview
                                         : "http://localhost:3000/assests/user.png"
                                 }
+                                alt=""
                             />
 
                             <div className="icon-edit">

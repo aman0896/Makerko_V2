@@ -99,6 +99,56 @@ router.post("/customer-edit", (req, res) => {
     }
 });
 
+router.post("/customer-cover-edit", async (req, res) => {
+    try {
+        const upload = SingleFileUpload("cover");
+
+        upload(req, res, async (err) => {
+            try {
+                if (err) return res.status(400).json(err);
+                const coverImage = req.file;
+                const u_Id = req.body.userId;
+                const prevImage =
+                    req.body.prevImage !== "undefined"
+                        ? JSON.parse(req.body.prevImage)
+                        : null;
+                if (coverImage) {
+                    var dir = `./public/uploads/customer/${u_Id}/`;
+                    if (!fs.existsSync(dir)) {
+                        fs.mkdirSync(dir, { recursive: true });
+                    }
+                    if (prevImage && prevImage.filePath) {
+                        FileDelete(prevImage.filePath);
+                    }
+                } else {
+                    coverImage = prevImage;
+                }
+
+                let tmp_path = coverImage.path;
+                let target_path = dir + coverImage.filename;
+
+                const filePath = await FileMove(tmp_path, target_path);
+                console.log(filePath, "filepath");
+                const sqlQuery =
+                    "UPDATE customer SET CoverImage=? WHERE Customer_ID = ?";
+                const data = [
+                    JSON.stringify({
+                        filename: coverImage.filename,
+                        filePath: req.file ? filePath : coverImage.filePath,
+                    }),
+                    u_Id,
+                ];
+                DBQuery(sqlQuery, data, (err, result) => {
+                    if (err) return res.status(304).send(err);
+                    res.json({ coverUpdate: "success" });
+                });
+            } catch {}
+        });
+    } catch (err) {
+        console.log(err, "catch line 306 profile.js");
+    }
+});
+
 //#endregion
 
 //#region maker profile edit
@@ -298,6 +348,7 @@ router.post("/maker-password-edit", async (req, res) => {
     } catch {}
 });
 
+//maker cover image edit
 router.post("/maker-cover-edit", async (req, res) => {
     try {
         const upload = SingleFileUpload("cover");
@@ -308,7 +359,10 @@ router.post("/maker-cover-edit", async (req, res) => {
                 const coverImage = req.file;
                 console.log(coverImage, "image");
                 const u_Id = req.body.userId;
-                const prevImage = JSON.parse(req.body.prevImage);
+                const prevImage =
+                    req.body.prevImage !== "undefined"
+                        ? JSON.parse(req.body.prevImage)
+                        : null;
                 console.log(prevImage, "prevImage");
                 if (coverImage) {
                     console.log("inside if line 309");
