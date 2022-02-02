@@ -58,6 +58,7 @@ CREATE TABLE `customer` (
   `Verified` tinyint NOT NULL,
   `Profile_Image` text,
   `Bio` text,
+  `CoverImage` text,
   PRIMARY KEY (`Customer_ID`,`Email`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -69,7 +70,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (98,'amansainju12@gmail.com','Aman','Sainju','$2b$10$ntudw6VWTMmUjX2p2wQ..e1slFZS1F2v6w7d7JelbJ3o0o4gQntN2',9843645385,'Bhaktapur',1,'{\"filename\":\"profileImage1639724273449.jpg\",\"filePath\":\"./public/uploads/customer/98/profileImage/profileImage1639724273449.jpg\"}','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.');
+INSERT INTO `customer` VALUES (98,'amansainju12@gmail.com','Aman','Shrestha','$2b$10$ntudw6VWTMmUjX2p2wQ..e1slFZS1F2v6w7d7JelbJ3o0o4gQntN2',9843645385,'Bhaktapur',1,'{\"filename\":\"profileImage1639724273449.jpg\",\"filePath\":\"./public/uploads/customer/98/profileImage/profileImage1639724273449.jpg\"}','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.','{\"filename\":\"cover1643691995695.jpg\",\"filePath\":\"./public/uploads/customer/98/cover1643691995695.jpg\"}');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -256,7 +257,7 @@ CREATE TABLE `manufacturer` (
 
 LOCK TABLES `manufacturer` WRITE;
 /*!40000 ALTER TABLE `manufacturer` DISABLE KEYS */;
-INSERT INTO `manufacturer` VALUES ('fd8af40f00de353b64211ddaf4c821f9','aman.promech@gmail.com','12/17/2021','3D Innovation','$2b$10$Y7VFlgTdbd9699o7FzSbDuqQx1Rb3RuCezQeLmXsES93KxUyMHfcm','Aman',9851202020,NULL,'www.3dinnovation.com','Registered Company','Bhaktapur','{\"filename\":\"profileImage1642145336930.jpg\",\"filePath\":\"./public/uploads/maker/fd8af40f00de353b64211ddaf4c821f9/profileImage/profileImage1642145336930.jpg\"}',NULL,'We offer the perfect gift giving solution. We specialize in custom laser-etched 3D crystals keepsakes that are beautiful, unique and \'from the heart\'.','[{\"serviceName\":\"Pattern Making\",\"materials\":[\"Wood\",\"Aluminium\"]},{\"serviceName\":\"Heat Treatment\",\"materials\":[\"Cast Iron\",\"Steel\"]},{\"serviceName\":\"Powder Coating\",\"materials\":[\"Enamel Colors\",\"Paints\"]},{\"serviceName\":\"Sand Blasting\",\"materials\":[\"Cast Iron\",\"Steel\",\"Metal Alloys\"]}]','We offer the perfect gift giving solution. We specialize in custom laser-etched 3D crystals keepsakes that are beautiful, unique and \'from the heart\'.','All Nepal','Verified','Verified','To promote technological growth in Nepal and to contribute in future technological advancement of the world.','[{\"fileName\":\"multipleImage1642131791002.jpg\",\"filePath\":\"./public/uploads/maker/fd8af40f00de353b64211ddaf4c821f9/multipleImage/multipleImage1642131791002.jpg\"},{\"fileName\":\"multipleImage1641528542242.jpg\",\"filePath\":\"./public/uploads/maker/fd8af40f00de353b64211ddaf4c821f9/multipleImage/multipleImage1641528542242.jpg\"},{\"fileName\":\"multipleImage1641528542244.jpg\",\"filePath\":\"./public/uploads/maker/fd8af40f00de353b64211ddaf4c821f9/multipleImage/multipleImage1641528542244.jpg\"},{\"fileName\":\"multipleImage1641528542245.jpg\",\"filePath\":\"./public/uploads/maker/fd8af40f00de353b64211ddaf4c821f9/multipleImage/multipleImage1641528542245.jpg\"},{\"fileName\":\"multipleImage1641528542247.jpg\",\"filePath\":\"./public/uploads/maker/fd8af40f00de353b64211ddaf4c821f9/multipleImage/multipleImage1641528542247.jpg\"}]');
+INSERT INTO `manufacturer` VALUES ('fd8af40f00de353b64211ddaf4c821f9','aman.promech@gmail.com','12/17/2021','3D Innovation','$2b$10$Y7VFlgTdbd9699o7FzSbDuqQx1Rb3RuCezQeLmXsES93KxUyMHfcm','Aman',9851202020,NULL,'www.3dinnovation.com','Bhaktapur','Individual/Hobbyist','{\"filename\":\"profileImage1642145336930.jpg\",\"filePath\":\"./public/uploads/maker/fd8af40f00de353b64211ddaf4c821f9/profileImage/profileImage1642145336930.jpg\"}','{\"filename\":\"cover1643353292240.jpg\",\"filePath\":\"./public/uploads/maker/fd8af40f00de353b64211ddaf4c821f9/cover1643353292240.jpg\"}','We offer the perfect gift giving solution. We specialize in custom laser-etched 3D crystals keepsakes that are beautiful, unique and \'from the heart\'.','[{\"serviceName\":\"Pattern Making\",\"materials\":[\"Wood\",\"Aluminium\"]},{\"serviceName\":\"Heat Treatment\",\"materials\":[\"Cast Iron\",\"Steel\"]},{\"serviceName\":\"Powder Coating\",\"materials\":[\"Enamel Colors\",\"Paints\"]},{\"serviceName\":\"Sand Blasting\",\"materials\":[\"Cast Iron\",\"Steel\",\"Metal Alloys\"]}]','We offer the perfect gift giving solution. We specialize in custom laser-etched 3D crystals keepsakes that are beautiful, unique and \'from the heart\'.','All Nepal','Verified','Verified','To promote technological growth in Nepal and to contribute in future technological advancement of the world.','[{\"fileName\":\"multipleImage1642131791002.jpg\",\"filePath\":\"./public/uploads/maker/fd8af40f00de353b64211ddaf4c821f9/multipleImage/multipleImage1642131791002.jpg\"},{\"fileName\":\"multipleImage1641528542242.jpg\",\"filePath\":\"./public/uploads/maker/fd8af40f00de353b64211ddaf4c821f9/multipleImage/multipleImage1641528542242.jpg\"},{\"fileName\":\"multipleImage1641528542244.jpg\",\"filePath\":\"./public/uploads/maker/fd8af40f00de353b64211ddaf4c821f9/multipleImage/multipleImage1641528542244.jpg\"},{\"fileName\":\"multipleImage1641528542245.jpg\",\"filePath\":\"./public/uploads/maker/fd8af40f00de353b64211ddaf4c821f9/multipleImage/multipleImage1641528542245.jpg\"},{\"fileName\":\"multipleImage1641528542247.jpg\",\"filePath\":\"./public/uploads/maker/fd8af40f00de353b64211ddaf4c821f9/multipleImage/multipleImage1641528542247.jpg\"}]');
 /*!40000 ALTER TABLE `manufacturer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -303,15 +304,14 @@ CREATE TABLE `order_specification` (
   `Thickness` varchar(45) NOT NULL,
   `Quantity` varchar(45) NOT NULL,
   `Model_Path` text NOT NULL,
-  `Customer_ID` int NOT NULL,
+  `Customer_ID` varchar(50) NOT NULL,
   `Manufacturer_ID` varchar(50) NOT NULL,
   `Status` varchar(100) NOT NULL,
   `Amount` int DEFAULT NULL,
   `Date` varchar(45) NOT NULL,
-  PRIMARY KEY (`Order_ID`,`Model_Name`,`Customer_ID`),
-  KEY `Customer_ID_fk_idx` (`Customer_ID`),
-  CONSTRAINT `Customer_ID_fk` FOREIGN KEY (`Customer_ID`) REFERENCES `customer` (`Customer_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=372 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`Order_ID`,`Model_Name`),
+  KEY `Customer_ID_fk_idx` (`Customer_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=373 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -320,7 +320,7 @@ CREATE TABLE `order_specification` (
 
 LOCK TABLES `order_specification` WRITE;
 /*!40000 ALTER TABLE `order_specification` DISABLE KEYS */;
-INSERT INTO `order_specification` VALUES (369,'Check Design,Request Quotation','file1640576306765.pdf','Laser Cutting','MDF','123','123','./public/uploads/customer/98/file/file1640576306765.pdf',98,'fd8af40f00de353b64211ddaf4c821f9','completed',0,'1640576341422'),(370,'Request Prototype','file1640600304233.pdf','Laser Cutting','MDF','0.1','500','./public/uploads/customer/98/file/file1640600304233.pdf',98,'fd8af40f00de353b64211ddaf4c821f9','completed',0,'1640600327288'),(371,'Request Quotation','file1640600394323.pdf','Laser Cutting','MDF','0.1','500','./public/uploads/customer/98/file/file1640600394323.pdf',98,'fd8af40f00de353b64211ddaf4c821f9','building',0,'1640600397536');
+INSERT INTO `order_specification` VALUES (369,'Check Design,Request Quotation','file1640576306765.pdf','Laser Cutting','MDF','123','123','./public/uploads/customer/98/file/file1640576306765.pdf','98','fd8af40f00de353b64211ddaf4c821f9','pending',0,'1640576341422'),(370,'Request Prototype','file1640600304233.pdf','Laser Cutting','MDF','0.1','500','./public/uploads/customer/98/file/file1640600304233.pdf','98','fd8af40f00de353b64211ddaf4c821f9','completed',0,'1640600327288'),(371,'Request Quotation','file1640600394323.pdf','Laser Cutting','MDF','0.1','500','./public/uploads/customer/98/file/file1640600394323.pdf','98','fd8af40f00de353b64211ddaf4c821f9','building',0,'1640600397536'),(372,'Request Prototype','file1643190753892.jpeg','Laser Cutting','MDF','123','1','./public/uploads/maker/fd8af40f00de353b64211ddaf4c821f9/file/file1643190753892.jpeg','fd8af40f00de353b64211ddaf4c821f9','fd8af40f00de353b64211ddaf4c821f9','pending',0,'1643190762645');
 /*!40000 ALTER TABLE `order_specification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -445,4 +445,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-01-25 16:05:55
+-- Dump completed on 2022-02-02 10:17:27
