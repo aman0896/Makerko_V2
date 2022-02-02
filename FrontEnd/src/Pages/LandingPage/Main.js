@@ -1,7 +1,7 @@
 import React, { createRef, useEffect, useRef } from "react";
 import Carousel from "../../Components/LandingPage/Carousel";
-import data from "../../config/Data.json";
-import MakerkoGIF from "../../Components/LandingPage/MakerkoGIF";
+import data from "../../config/SlliderImageData.json";
+// import MakerkoGIF from "../../Components/LandingPage/MakerkoGIF";
 import { colors } from "../../Values/colors";
 import ProductionCapabilities from "../../Components/LandingPage/ProductionCapabilities";
 import productionType from "../../config/ProductionCapabilities.json";
@@ -10,7 +10,7 @@ import aboutUs from "../../config/AboutUs.json";
 import "./Main.css";
 import partners from "../../config/Partners.json";
 import PartnersAndCollaboration from "../../Components/LandingPage/PartnersAndCollaboration";
-import Button, { Button2 } from "../../Components/Button";
+import { Button2 } from "../../Components/Button";
 import { useHistory, useLocation } from "react-router-dom";
 
 function Main() {
@@ -143,8 +143,9 @@ function Main() {
                         color: colors.white,
                     }}
                 >
-                    “Creativity is allowing yourself to make mistakes. Art is
-                    knowing which ones to keep.” - Susan Tamrakar
+                    "Distributed Manufacturing is the Future of Production. It
+                    Helps you reach your market with near to zero investment in
+                    less time and minimum carbon footprint - all done locally."
                 </span>
             </div>
             <PartnersAndCollaboration partners={partners} />
@@ -157,7 +158,7 @@ function Main() {
                         objectFit: "cover",
                     }}
                     src="https://makerko.com/KnowledgeBank/Vacuum%20Forming%20.jpg"
-                    alt="image"
+                    alt=""
                 />
             </div>
         </div>

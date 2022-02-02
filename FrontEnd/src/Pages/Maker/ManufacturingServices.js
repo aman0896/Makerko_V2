@@ -1,9 +1,7 @@
 import * as Yup from "yup";
 import FormikComponent from "../../Components/formik/FormikComponent";
 import FormikController from "../../Components/formik/FormikController";
-import { useWindowDimensions } from "../../Functions";
 import { colors } from "../../Values/colors";
-import OtherServices from "./OtherServices";
 import TableComponent from "../../Components/table/TableComponent";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,14 +12,12 @@ import {
 } from "../../Components/Redux/Actions/MfgProcess";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import {
     faChevronCircleUp,
     faChevronCircleDown,
 } from "@fortawesome/free-solid-svg-icons";
-import { Toast } from "../../Components/ReactToastify";
 
-const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
+// const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 
 export const MakersValidationSchema = Yup.object().shape({
     fabricationService: Yup.object().required(
@@ -37,9 +33,9 @@ export const MakersValidationSchema = Yup.object().shape({
 const InitialValues = {
     fabricationService: "",
     material: "",
-    materialDetails: "",
-    pricing: "",
-    // unitRate: "",
+    thickness: "",
+    costUnit: "",
+    unitRate: "",
     acceptedFiles: "",
     MoQ: "",
     leadTime: "",
@@ -86,10 +82,8 @@ function ManufacturingServices(props) {
     };
 
     const onMaterialSelect = (material) => {
-        {
-            formRef.current.setFieldValue("material", material);
-            setSelectedMaterial(material);
-        }
+        formRef.current.setFieldValue("material", material);
+        setSelectedMaterial(material);
     };
 
     const costUnit = [
@@ -121,9 +115,9 @@ function ManufacturingServices(props) {
         const {
             fabricationService,
             material,
-            materialDetails,
-            pricing,
-            // unitRate,
+            thickness,
+            costUnit,
+            unitRate,
             acceptedFiles,
             MoQ,
             leadTime,
@@ -136,10 +130,10 @@ function ManufacturingServices(props) {
             },
             materialDetails: [
                 {
-                    selectedMaterial: material,
-                    materialDetails,
-                    pricing: pricing,
-                    // unitRate,
+                    material: material,
+                    thickness,
+                    costUnit: costUnit,
+                    unitRate,
                     MoQ,
                     leadTime,
                 },
@@ -156,18 +150,18 @@ function ManufacturingServices(props) {
             header: "Materials",
         },
         {
-            field: "materialDetails",
-            header: "Material Details",
+            field: "thickness",
+            header: "Thickness",
         },
         {
-            field: "pricing",
+            field: "costUnit",
             subField: "type",
-            header: "Pricing/Costing",
+            header: "Cost Unit",
         },
-        // {
-        //     field: "unitRate",
-        //     header: "Unit Rate",
-        // },
+        {
+            field: "unitRate",
+            header: "Unit Rate",
+        },
         {
             field: "leadTime",
             header: "Lead Time",
@@ -296,30 +290,31 @@ function ManufacturingServices(props) {
                     </div>
                     <div className="col-lg">
                         <FormikController
-                            name="materialDetails"
+                            name="thickness"
                             control="input"
-                            label="Material Details"
+                            label="Thickness"
+                            type="number"
                             setInitial=""
                         />
                     </div>
                     <div className="col-lg">
                         <FormikController
-                            name="pricing"
+                            name="costUnit"
                             control="select"
-                            label="Pricing/Costing"
+                            label="Cost Unit"
                             options={costUnit}
                             getOptionLabel={(options) => options.type}
                         />
                     </div>
-                    {/* <div className="col-lg">
+                    <div className="col-lg">
                         <FormikController
                             name="unitRate"
                             control="input"
                             label="Unit Rate"
                             //type="number"
-                            setInitial={12}
+                            setInitial=""
                         />
-                    </div> */}
+                    </div>
                 </div>
                 <div className="row mt-2">
                     <div className="col-lg-3">

@@ -47,7 +47,7 @@ export default Carousel;
 
 const CustomSlide = ({ slide }) => {
     const styles = {
-        objectFit: "cover",
+        objectFit: "contain",
         width: "100%",
         backgroundPosition: "center",
     };
@@ -71,6 +71,16 @@ const CustomSlide = ({ slide }) => {
         // }}
         >
             <img src={slide.image} className="carousel" style={styles} alt="" />
+            <div
+                style={{
+                    position: "absolute",
+                    bottom: 0,
+                    width: "100%",
+                    height: "100px",
+                    backgroundImage:
+                        "linear-gradient(rgb(255, 255, 255, 0.1), rgb(255, 255, 255, 0.5))",
+                }}
+            />
         </div>
     );
 };
