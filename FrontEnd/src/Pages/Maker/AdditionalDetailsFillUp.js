@@ -49,7 +49,6 @@ function AdditionalDetailsFillUp() {
 
     useEffect(() => {
         if (hub) {
-            console.log(hub, "hubs");
             setOldOtherServices(JSON.parse(hub.Other_Services));
             async function GetMultipleImage() {
                 if (hub.Additional_Images) {

@@ -37,9 +37,9 @@ export const MakersValidationSchema = Yup.object().shape({
 const InitialValues = {
     fabricationService: "",
     material: "",
-    thickness: "",
-    costUnit: "",
-    unitRate: "",
+    materialDetails: "",
+    pricing: "",
+    // unitRate: "",
     acceptedFiles: "",
     MoQ: "",
     leadTime: "",
@@ -121,9 +121,9 @@ function ManufacturingServices(props) {
         const {
             fabricationService,
             material,
-            thickness,
-            costUnit,
-            unitRate,
+            materialDetails,
+            pricing,
+            // unitRate,
             acceptedFiles,
             MoQ,
             leadTime,
@@ -137,9 +137,9 @@ function ManufacturingServices(props) {
             materialDetails: [
                 {
                     selectedMaterial: material,
-                    thickness,
-                    costUnit: costUnit,
-                    unitRate,
+                    materialDetails,
+                    pricing: pricing,
+                    // unitRate,
                     MoQ,
                     leadTime,
                 },
@@ -156,18 +156,18 @@ function ManufacturingServices(props) {
             header: "Materials",
         },
         {
-            field: "thickness",
-            header: "Thickness",
+            field: "materialDetails",
+            header: "Material Details",
         },
         {
-            field: "costUnit",
+            field: "pricing",
             subField: "type",
-            header: "Cost Unit",
+            header: "Pricing/Costing",
         },
-        {
-            field: "unitRate",
-            header: "Unit Rate",
-        },
+        // {
+        //     field: "unitRate",
+        //     header: "Unit Rate",
+        // },
         {
             field: "leadTime",
             header: "Lead Time",
@@ -296,23 +296,22 @@ function ManufacturingServices(props) {
                     </div>
                     <div className="col-lg">
                         <FormikController
-                            name="thickness"
+                            name="materialDetails"
                             control="input"
-                            label="Thickness"
-                            type="number"
-                            setInitial={12}
+                            label="Material Details"
+                            setInitial=""
                         />
                     </div>
                     <div className="col-lg">
                         <FormikController
-                            name="costUnit"
+                            name="pricing"
                             control="select"
-                            label="Cost Unit"
+                            label="Pricing/Costing"
                             options={costUnit}
                             getOptionLabel={(options) => options.type}
                         />
                     </div>
-                    <div className="col-lg">
+                    {/* <div className="col-lg">
                         <FormikController
                             name="unitRate"
                             control="input"
@@ -320,7 +319,7 @@ function ManufacturingServices(props) {
                             //type="number"
                             setInitial={12}
                         />
-                    </div>
+                    </div> */}
                 </div>
                 <div className="row mt-2">
                     <div className="col-lg-3">
@@ -337,7 +336,7 @@ function ManufacturingServices(props) {
                             name="MoQ"
                             control="input"
                             label="Moq"
-                            setInitial={12}
+                            setInitial=""
                         />
                     </div>
                     <div className="col-lg-3">
@@ -345,7 +344,7 @@ function ManufacturingServices(props) {
                             name="leadTime"
                             control="input"
                             label="Lead Time"
-                            setInitial={12}
+                            setInitial=""
                         />
                     </div>
                 </div>

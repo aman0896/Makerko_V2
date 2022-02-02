@@ -38,6 +38,7 @@ import CreateProjectForm from "../Pages/FeatureProject/CreatureProjectForm";
 import AboutUs from "../Pages/AboutUs";
 import CustomerDetailViewPage from "../Pages/Profile/CustomerDetailViewPage";
 import ImageCropperTest from "../Test/ImageCropper";
+import ReactSelect from "../Test/ReactSelect";
 
 function Routing() {
     const auth = useSelector((state) => state.isAuth);
@@ -63,6 +64,14 @@ function Routing() {
                         />
                         <Switch>
                             <Route exact path="/" component={Main} />
+
+                            {/* Test Route*/}
+                            <Route
+                                exact
+                                path="/test/creatable"
+                                component={ReactSelect}
+                            />
+                            {/* Test Route*/}
 
                             {/* public routing */}
                             <Route
