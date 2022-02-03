@@ -47,7 +47,7 @@ export default Carousel;
 
 const CustomSlide = ({ slide }) => {
     const styles = {
-        objectFit: "contain",
+        objectFit: "cover",
         width: "100%",
         backgroundPosition: "center",
     };
