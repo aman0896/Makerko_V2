@@ -27,7 +27,7 @@ function ProductionCapabilities({ productionType }) {
         background: "white",
         borderRadius: "5px",
         overflow: "hidden",
-        height: "392px",
+        height: "430px",
         width: "98%",
     };
 
@@ -62,8 +62,9 @@ function ProductionCapabilities({ productionType }) {
                 />
                 <div className="mt-5 m-3 d-flex justify-content-between">
                     <span style={{ color: colors.white }}>
-                        Other Local manufacturing: Injection Molding / Tool and
-                        Die Making / Casting / Metal Fabrication / Wood Working
+                        Other Local manufacturing: Vacuum Forming / Injection
+                        Molding / Tool and Die Making / Casting / Metal
+                        Fabrication / Wood Working
                     </span>
                     <span>
                         <Button2
