@@ -34,7 +34,7 @@ import ResetPassword from '../Pages/ResetPassword';
 import MyProjects from '../Pages/Profile/MyProjects';
 import MyBlogs from '../Pages/Profile/MyBlogs';
 import ResetScrollPosition from '../Components/ResetScrollPosition';
-import SideNavbar from '../Components/SideNavBar/SideNavbar';
+import SideNavbar from "../Components/SideNavbar/SideNavbar"
 import HowitWorks from '../Components/Quote/HowItWorks';
 import InvalidForm from '../Components/Invalid Action/InvalidForm';
 function Routing() {
@@ -61,7 +61,7 @@ function Routing() {
 								component={HowitWorks}
 							/>
 							<Route
-								path='/invalid action'
+								path='/invalidaction'
 								component={InvalidForm}
 							/>
 							{/* public routing */}

@@ -10,18 +10,15 @@ const mysql = require('mysql');
 // });
 
 const db = mysql.createConnection({
-	// user: "root",
-	// host: "localhost",
-	// password: "fabhubs",
-	// database: "makerko",
-	user: 'root',
-	host: 'localhost',
-	password: 'fabhubs',
-	database: 'makerko',
+	user: "root",
+	 host: "localhost",
+	password: "root123",
+	database: "invalid",
+	
 });
 
 db.connect((err) => {
-	if (!err) console.log('DB connection Succedded');
+	if (!err) console.log('DB connection Succedded from invalid');
 	else console.log('failed \n Error:' + JSON.stringify(err.message));
 });
 

@@ -64,19 +64,19 @@ function App() {
 		}
 	}, [auth]);
 
-	useEffect(() => {
-		//get fabrication
-		FabricationMethod(dispatch);
+	// useEffect(() => {
+	// 	//get fabrication
+	// 	FabricationMethod(dispatch);
 
-		//gett material
-		Material(dispatch);
+	// 	//gett material
+	// 	Material(dispatch);
 
-		// get all makers list
-		MakersList(dispatch);
+	// 	// get all makers list
+	// 	MakersList(dispatch);
 
-		//get all makers services
-		MakersServices(dispatch);
-	}, [dispatch]);
+	// 	//get all makers services
+	// 	MakersServices(dispatch);
+	// }, [dispatch]);
 
 	return (
 		<div>

@@ -7,7 +7,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './Components/Redux/Store';
-import { BrowserRouter } from 'react-router-dom';
+
 
 // if (process.env.NODE_ENV === "production") {
 //     console.log = function () {};
