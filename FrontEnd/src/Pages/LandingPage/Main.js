@@ -1,6 +1,7 @@
 import React, { createRef, useEffect, useRef } from "react";
 import Carousel from "../../Components/LandingPage/Carousel";
-import data from "../../config/SlliderImageData.json";
+// import data from "../../config/SlliderImageData.json";
+import { slideData } from "../../Components/LandingPage/data";
 // import MakerkoGIF from "../../Components/LandingPage/MakerkoGIF";
 import { colors } from "../../Values/colors";
 import ProductionCapabilities from "../../Components/LandingPage/ProductionCapabilities";
@@ -17,7 +18,7 @@ function Main() {
     const history = useHistory();
     const location = useLocation();
     console.log(location, "location");
-    const slides = data;
+    const slides = slideData;
     const aboutRef = useRef(null);
 
     useEffect(() => {
