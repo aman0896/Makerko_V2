@@ -1,27 +1,22 @@
 [
     {
         "name": "CNC Cutting",
-        "description": "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-        "image": "https://prototypeinfo.com/wp-content/uploads/sites/43/2019/12/1.png"
+        "description": "Effective both for 2D and 3D model making in versatile materials - wood, composite, metal and styrofoam. #Furniture #Signage #Interior #Decoration #Architecture #Prototyping",
+        "image": "./assests/productioncapabilities/cnccutting.png"
     },
     {
         "name": "Laser Cutting",
-        "description": "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-        "image": "https://d2n4wb9orp1vta.cloudfront.net/cms/brand/mms/2021-mms/mms-merspotlight-032621-optlasercuttinghead.jpg;maxWidth=385;maxWidth=300;quality=70"
+        "description": "For precision 2D profile cutting, template and decoration items. #Signage #Garment #Architecture #Art&Craft",
+        "image": "./assests/productioncapabilities/lasecutting.jpg"
     },
     {
         "name": "3D Printing",
-        "description": "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-        "image": "https://3dinsider.com/wp-content/uploads/2021/03/How-to-Estimate-3D-Printing-Time-1280x720.png"
+        "description": "Rapid prototyping and customized product development made easy with additive manufacturing. #Medical #Dental #IndustrialProduct #Prototyping #Architecture #Art&Craft ",
+        "image": "./assests/productioncapabilities/3dprinting.webp"
     },
     {
         "name": "Plasma Cutting",
-        "description": "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-        "image": "https://www.saf-fro.com/sites/saffro/files/styles/retina_cover_page/public/2016/09/26/plasma_cutting_automation_air_liquide_welding_2015-632_2_1.jpg?itok=Y8feKn-q"
-    },
-    {
-        "name": "Plasma Cutting",
-        "description": "At eripuit signiferumque sea, vel ad mucius molestie, cu labitur.",
-        "image": "https://www.saf-fro.com/sites/saffro/files/styles/retina_cover_page/public/2016/09/26/plasma_cutting_automation_air_liquide_welding_2015-632_2_1.jpg?itok=Y8feKn-q"
+        "description": "Quick and simple way to cut any metal that conducts electricity such as steel, stainless steel, aluminium, copper, brass and other conductive metals. #Signage #MetalCut #Engineering #Construction",
+        "image": "./assests/productioncapabilities/plasmacutting.jpg"
     }
 ]
