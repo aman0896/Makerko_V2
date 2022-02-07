@@ -43,6 +43,7 @@ code {
     margin-top: 136px;
     margin-right: 122px;
     margin-bottom: 112px;
+    min-height: 70vh;
 }
 
 @media screen and (max-width: 768px) {
