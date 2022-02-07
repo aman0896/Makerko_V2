@@ -1,7 +1,14 @@
 import React from "react";
 import Footer from "./FooterIndex";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { webDomain } from "../../commonApi/Link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faFacebook,
+    faInstagram,
+    faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
+import { faLocationArrow, faPhone } from "@fortawesome/free-solid-svg-icons";
 
 function FooterContainer() {
     const history = useHistory();
@@ -54,19 +61,55 @@ function FooterContainer() {
                     <Footer.Column>
                         <Footer.Title>Socials</Footer.Title>
                         <Footer.Link
-                            href="https://www.facebook.com"
+                            href="https://www.facebook.com/makerko.np"
                             target="_blank"
                         >
+                            <FontAwesomeIcon
+                                icon={faFacebook}
+                                size="lg"
+                                style={{ marginRight: "5px" }}
+                            />
                             Facebook
                         </Footer.Link>
-                        <Footer.Link href="#" target="_blank">
+                        <Footer.Link
+                            href="https://www.instagram.com/makerko.np/"
+                            target="_blank"
+                        >
+                            <FontAwesomeIcon
+                                icon={faInstagram}
+                                size="lg"
+                                style={{ marginRight: "5px" }}
+                            />
+                            Instagram
+                        </Footer.Link>
+                        <Footer.Link href="https://twitter.com" target="_blank">
+                            <FontAwesomeIcon
+                                icon={faTwitter}
+                                size="lg"
+                                style={{ marginRight: "5px" }}
+                            />
                             Twitter
                         </Footer.Link>
                     </Footer.Column>
                     <Footer.Column>
                         <Footer.Title>Contact and Support</Footer.Title>
-                        <Footer.Link>Phone no</Footer.Link>
-                        <Footer.Link href="#">Contact Us</Footer.Link>
+                        <Footer.Link>
+                            <FontAwesomeIcon
+                                icon={faPhone}
+                                size="lg"
+                                style={{ marginRight: "5px" }}
+                            />
+                            +977-9851206487
+                        </Footer.Link>
+                        <Footer.Link>
+                            {" "}
+                            <FontAwesomeIcon
+                                icon={faLocationArrow}
+                                size="lg"
+                                style={{ marginRight: "5px" }}
+                            />
+                            makerkodesigns@gmail.com Lalitpur-44700, Nepal
+                        </Footer.Link>
                         <Footer.Link href="#">Give Feedback</Footer.Link>
                     </Footer.Column>
                 </Footer.Row>
