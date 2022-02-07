@@ -28,11 +28,11 @@ function Maker() {
             <div className="mainComponent">
                 <label
                     className="heading text-uppercase"
-                    style={{ fontSize: 38 }}
+                    style={{ fontSize: "2rem" }}
                 >
                     Makers
                 </label>
-                <div className="image-overlay-block">
+                <div className="image-overlay-block mt-3">
                     <div className="image-overlay">
                         <div
                             className="label-overlay"
@@ -46,6 +46,7 @@ function Maker() {
                             src={MyImages.HubImage}
                             className="image-block"
                             style={styles.responsiveHeight}
+                            alt=""
                         />
                     </div>
                     <div className="image-overlay">
@@ -61,6 +62,7 @@ function Maker() {
                             src={MyImages.MapImage}
                             className="image-block"
                             style={styles.responsiveHeight}
+                            alt=""
                         />
                     </div>
                 </div>
