@@ -56,7 +56,8 @@ function Main() {
                         color: colors.primary,
                         textDecoration: "underline",
                     }}
-                    href="https://www.google.com"
+                    href="/how-it-works"
+                    target="_blank"
                 >
                     Learn How to Place Orders
                 </a>
@@ -88,7 +89,7 @@ function Main() {
                             </span>
                         </Button2>
 
-                        <a href="#">
+                        <a href="/account/makers-signup">
                             Are you a Maker? Sign Up to build your portfolio
                         </a>
                     </div>
@@ -115,7 +116,7 @@ function Main() {
                                 PROJECTS
                             </span>
                         </Button2>
-                        <a href="#">
+                        <a href="/create-project">
                             Share your innovation/ product/ project to feature
                             in our platform.
                         </a>
