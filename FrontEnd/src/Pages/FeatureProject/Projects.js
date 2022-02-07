@@ -60,7 +60,7 @@ function Projects() {
                 <div className="d-flex justify-content-between align-items-center flex-wrap">
                     <span
                         className="heading text-uppercase"
-                        style={{ fontSize: "36px", color: "black" }}
+                        style={{ fontSize: "2rem" }}
                     >
                         PROJECTS
                     </span>
@@ -87,7 +87,7 @@ function Projects() {
                         </div>
                     </form>
                 </div>
-                <div className="row justify-content-around mt-4">
+                <div className="row justify-content-around mt-3">
                     {showProjects}
                 </div>
             </div>
