@@ -49,7 +49,13 @@ function FooterContainer() {
                         >
                             Projects
                         </Footer.Link>
-                        <Footer.Link>Blog</Footer.Link>
+                        <Footer.Link
+                            onClick={() => {
+                                history.push({ pathname: "/blogs" });
+                            }}
+                        >
+                            Blog
+                        </Footer.Link>
                         <Footer.Link>Get A Quote</Footer.Link>
                     </Footer.Column>
                     <Footer.Column>
