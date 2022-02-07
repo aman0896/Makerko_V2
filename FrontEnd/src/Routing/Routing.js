@@ -39,6 +39,7 @@ import AboutUs from "../Pages/AboutUs";
 import CustomerDetailViewPage from "../Pages/Profile/CustomerDetailViewPage";
 import ImageCropperTest from "../Test/ImageCropper";
 import ReactSelect from "../Test/ReactSelect";
+import HowitWorks from "../Pages/HowItWorks/HowItWorks";
 
 function Routing() {
     const auth = useSelector((state) => state.isAuth);
@@ -142,17 +143,22 @@ function Routing() {
                                 path="/imageCropper"
                                 component={ImageCropperTest}
                             />
-                            <Route
+                            {/* <Route
                                 exact
                                 path="/create-project"
                                 component={CreateProjectForm}
+                            /> */}
+                            <Route
+                                exact
+                                path="/how-it-works"
+                                component={HowitWorks}
                             />
                             {/* public routing */}
 
                             <ProtectedRoute
-                                path="/CreateFeatureProject"
+                                path="/create-project"
                                 exact
-                                component={CreateFeatureProject}
+                                component={CreateProjectForm}
                                 isAuth={auth.isAuth}
                                 redirectionPage="/account/login"
                             />
