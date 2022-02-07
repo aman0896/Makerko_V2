@@ -41,6 +41,10 @@
     border: 2px solid var(--primary);
     color: var(--primary);
 }
+.button--primary--outline:hover {
+    background-color: var(--primary);
+    color: var(--white);
+}
 .button--success--outline {
     background-color: transparent;
     border: 2px solid var(--success);
