@@ -680,25 +680,58 @@ const cardStyle = {
     width: "98%",
 };
 
+// const column = [
+//     {
+//         field: "material",
+//         subField: "Material_Name",
+//         header: "Materials",
+//     },
+//     {
+//         field: "thickness",
+//         header: "Thickness",
+//     },
+//     {
+//         field: "costUnit",
+//         subField: "label",
+//         header: "Cost Unit",
+//     },
+//     {
+//         field: "unitRate",
+//         header: "Unit Rate",
+//     },
+//     {
+//         field: "leadTime",
+//         header: "Lead Time",
+//     },
+// ];
+
 const column = [
     {
-        field: "selectedMaterial",
+        field: "material",
         subField: "Material_Name",
         header: "Materials",
     },
     {
-        field: "thickness",
-        header: "Thickness",
+        field: "materialDetails",
+        header: "Material Details",
     },
     {
-        field: "costUnit",
-        subField: "label",
-        header: "Cost Unit",
+        field: "pricing",
+        header: "Pricing/Costing",
     },
-    {
-        field: "unitRate",
-        header: "Unit Rate",
-    },
+    // {
+    //     field: "thickness",
+    //     header: "Thickness",
+    // },
+    // {
+    //     field: "costUnit",
+    //     subField: "type",
+    //     header: "Cost Unit",
+    // },
+    // {
+    //     field: "unitRate",
+    //     header: "Unit Rate",
+    // },
     {
         field: "leadTime",
         header: "Lead Time",

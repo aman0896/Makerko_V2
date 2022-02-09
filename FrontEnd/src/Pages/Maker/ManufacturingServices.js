@@ -24,18 +24,22 @@ export const MakersValidationSchema = Yup.object().shape({
         "Fabrication Service Status is required."
     ),
     material: Yup.object().required("Material is required."),
-    thickness: Yup.number().required("Thickness is required."),
-    costUnit: Yup.object().required("Cost Unit is required."),
-    unitRate: Yup.string().required("Material is required."),
+    materialDetails: Yup.string().required("Material details is required"),
+    pricing: Yup.string().required("Pricing and Costing is required"),
+    // thickness: Yup.number().required("Thickness is required."),
+    // costUnit: Yup.object().required("Cost Unit is required."),
+    // unitRate: Yup.string().required("Material is required."),
     MoQ: Yup.string().required("MoQ is required."),
     leadTime: Yup.string().required("Lead Time is required."),
 });
 const InitialValues = {
     fabricationService: "",
     material: "",
-    thickness: "",
-    costUnit: "",
-    unitRate: "",
+    materialDetails: "",
+    pricing: "",
+    // thickness: "",
+    // costUnit: "",
+    // unitRate: "",
     acceptedFiles: "",
     MoQ: "",
     leadTime: "",
@@ -86,28 +90,28 @@ function ManufacturingServices(props) {
         setSelectedMaterial(material);
     };
 
-    const costUnit = [
-        {
-            value: 1,
-            type: "Gram",
-        },
-        {
-            value: 2,
-            type: "Kg",
-        },
-        {
-            value: 3,
-            type: "Sq.feet",
-        },
-        {
-            value: 3,
-            type: "Minute",
-        },
-        {
-            value: 3,
-            type: "Cubic Inch",
-        },
-    ];
+    // const costUnit = [
+    //     {
+    //         value: 1,
+    //         type: "Gram",
+    //     },
+    //     {
+    //         value: 2,
+    //         type: "Kg",
+    //     },
+    //     {
+    //         value: 3,
+    //         type: "Sq.feet",
+    //     },
+    //     {
+    //         value: 3,
+    //         type: "Minute",
+    //     },
+    //     {
+    //         value: 3,
+    //         type: "Cubic Inch",
+    //     },
+    // ];
 
     const handleSubmit = (values) => {
         console.log(mfgProcess, "values");
@@ -115,9 +119,11 @@ function ManufacturingServices(props) {
         const {
             fabricationService,
             material,
-            thickness,
-            costUnit,
-            unitRate,
+            materialDetails,
+            pricing,
+            // thickness,
+            // costUnit,
+            // unitRate,
             acceptedFiles,
             MoQ,
             leadTime,
@@ -131,9 +137,11 @@ function ManufacturingServices(props) {
             materialDetails: [
                 {
                     material: material,
-                    thickness,
-                    costUnit: costUnit,
-                    unitRate,
+                    materialDetails,
+                    pricing,
+                    // thickness,
+                    // costUnit: costUnit,
+                    // unitRate,
                     MoQ,
                     leadTime,
                 },
@@ -145,23 +153,31 @@ function ManufacturingServices(props) {
 
     const column = [
         {
-            field: "selectedMaterial",
+            field: "material",
             subField: "Material_Name",
             header: "Materials",
         },
         {
-            field: "thickness",
-            header: "Thickness",
+            field: "materialDetails",
+            header: "Material Details",
         },
         {
-            field: "costUnit",
-            subField: "type",
-            header: "Cost Unit",
+            field: "pricing",
+            header: "Pricing/Costing",
         },
-        {
-            field: "unitRate",
-            header: "Unit Rate",
-        },
+        // {
+        //     field: "thickness",
+        //     header: "Thickness",
+        // },
+        // {
+        //     field: "costUnit",
+        //     subField: "type",
+        //     header: "Cost Unit",
+        // },
+        // {
+        //     field: "unitRate",
+        //     header: "Unit Rate",
+        // },
         {
             field: "leadTime",
             header: "Lead Time",
@@ -290,14 +306,22 @@ function ManufacturingServices(props) {
                     </div>
                     <div className="col-lg">
                         <FormikController
-                            name="thickness"
+                            name="materialDetails"
+                            placeholder="Eg: color, thickness"
                             control="input"
-                            label="Thickness"
-                            type="number"
+                            label="Material Details"
                             setInitial=""
                         />
                     </div>
                     <div className="col-lg">
+                        <FormikController
+                            name="pricing"
+                            control="input"
+                            label="Pricing/Costing"
+                            placeholder="Eg: 5.5/gram + 150/hour"
+                        />
+                    </div>
+                    {/* <div className="col-lg">
                         <FormikController
                             name="costUnit"
                             control="select"
@@ -314,7 +338,7 @@ function ManufacturingServices(props) {
                             //type="number"
                             setInitial=""
                         />
-                    </div>
+                    </div> */}
                 </div>
                 <div className="row mt-2">
                     <div className="col-lg-3">
