@@ -81,7 +81,7 @@ const CustomSlide = ({ slide }) => {
                     width: "100%",
                     height: "100px",
                     backgroundImage:
-                        "linear-gradient(rgb(255, 255, 255, 0.1), rgb(255, 255, 255, 0.5))",
+                        "linear-gradient(rgb(255, 255, 255, 0.1), rgb(122, 122, 122, 0.8))",
                 }}
             >
                 {slide.description && (
