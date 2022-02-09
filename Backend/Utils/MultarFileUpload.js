@@ -3,17 +3,20 @@ var multer = require("multer");
 const path = require("path");
 const projectPath = path.dirname(process.cwd());
 const util = require("util");
+const fs = require("fs");
 
 //single file uploads
 function SingleFileUpload(fieldName, filePath) {
     try {
         var storage = multer.diskStorage({
             destination: function (req, file, cb) {
-                let dir = "./public/temp/";
-                if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir, { recursive: true });
-                }
-                cb(null, dir);
+                try {
+                    let dir = "./public/temp/";
+                    if (!fs.existsSync(dir)) {
+                        fs.mkdirSync(dir, { recursive: true });
+                    }
+                    cb(null, dir);
+                } catch {}
             },
             filename: function (req, file, cb) {
                 cb(
@@ -36,11 +39,13 @@ function MultipleFileUpload(fieldName, filepath) {
     try {
         var storage = multer.diskStorage({
             destination: function (req, file, cb) {
-                let dir = "./public/temp/";
-                if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir, { recursive: true });
-                }
-                cb(null, dir);
+                try {
+                    let dir = "./public/temp/";
+                    if (!fs.existsSync(dir)) {
+                        fs.mkdirSync(dir, { recursive: true });
+                    }
+                    cb(null, dir);
+                } catch {}
             },
             filename: function (req, file, cb) {
                 cb(
@@ -61,11 +66,13 @@ function MultipleFieldUpload(fieldData) {
     try {
         var storage = multer.diskStorage({
             destination: function (req, file, cb) {
-                let dir = "./public/temp/";
-                if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir, { recursive: true });
-                }
-                cb(null, dir);
+                try {
+                    let dir = "./public/temp/";
+                    if (!fs.existsSync(dir)) {
+                        fs.mkdirSync(dir, { recursive: true });
+                    }
+                    cb(null, dir);
+                } catch {}
             },
             filename: function (req, file, cb) {
                 cb(
