@@ -13,6 +13,7 @@ import partners from "../../config/Partners.json";
 import PartnersAndCollaboration from "../../Components/LandingPage/PartnersAndCollaboration";
 import { Button2 } from "../../Components/Button";
 import { useHistory, useLocation } from "react-router-dom";
+import { useWindowDimensions } from "../../Functions";
 
 function Main() {
     const history = useHistory();
@@ -20,6 +21,7 @@ function Main() {
     console.log(location, "location");
     const slides = slideData;
     const aboutRef = useRef(null);
+    const { width } = useWindowDimensions();
 
     useEffect(() => {
         if (location.state && location.state.toScroll === "aboutUs")
@@ -140,9 +142,9 @@ function Main() {
                     style={{
                         position: "absolute",
                         width: "80%",
-                        fontSize: "2rem",
                         textAlign: "center",
                         color: colors.white,
+                        fontSize: width <= 500 ? "1.5rem" : "2rem",
                     }}
                 >
                     "Distributed Manufacturing is the Future of Production. It
