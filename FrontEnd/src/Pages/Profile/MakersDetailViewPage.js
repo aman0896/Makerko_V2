@@ -372,10 +372,10 @@ export default function MakersDetailViewPage() {
                                         header="Fabrication Services"
                                         services={methodsName}
                                     />
-                                    <ServicesComponent
+                                    {/* <ServicesComponent
                                         header="Other Services"
                                         services={otherServices}
-                                    />
+                                    /> */}
                                     <>
                                         <div className="heading my-3 mt-5">
                                             Contact
@@ -478,13 +478,13 @@ export default function MakersDetailViewPage() {
                                             fontSize: width < 768 ? 20 : 38,
                                         }}
                                     />
-                                    <ServicesComponent
+                                    {/* <ServicesComponent
                                         header="Other Services"
                                         services={otherServices}
                                         style={{
                                             fontSize: width < 768 ? 20 : 38,
                                         }}
-                                    />
+                                    /> */}
                                 </div>
                             </>
 
