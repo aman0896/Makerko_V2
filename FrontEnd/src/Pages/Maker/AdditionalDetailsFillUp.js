@@ -49,7 +49,7 @@ function AdditionalDetailsFillUp() {
 
     useEffect(() => {
         if (hub) {
-            setOldOtherServices(JSON.parse(hub.Other_Services));
+            // setOldOtherServices(JSON.parse(hub.Other_Services));
             async function GetMultipleImage() {
                 if (hub.Additional_Images) {
                     let filesUrl = [];
@@ -173,12 +173,12 @@ function AdditionalDetailsFillUp() {
         >
             <ManufacturingServices />
 
-            <div className="mt-4">
+            {/* <div className="mt-4">
                 <OtherServices
                     getData={(data) => setOtherServices(data)}
                     oldOtherServices={oldOtherServices}
                 />
-            </div>
+            </div> */}
             <FormikComponent
                 initialValues={InitialValues}
                 onSubmit={handleSubmit}
