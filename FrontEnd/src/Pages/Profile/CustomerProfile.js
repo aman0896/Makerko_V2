@@ -299,7 +299,7 @@ function CustomerProfile() {
                             />
                         </div>
                     </FormikComponent>
-                    <ChangePasswordComponent />
+                    <ChangePasswordComponent id={currentUserData.Customer_ID} />
                 </>
             )}
         </div>

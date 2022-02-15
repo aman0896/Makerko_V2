@@ -3,7 +3,7 @@ import FormikComponent from "../formik/FormikComponent";
 import FormikController from "../formik/FormikController";
 import * as Yup from "yup";
 import { postData, postDataWithFormData } from "../../commonApi/CommonApi";
-import { makerPasswordEdit } from "../../commonApi/Link";
+import { passwordEdit } from "../../commonApi/Link";
 import { Toast } from "../ReactToastify";
 
 const InitialValues = {
@@ -42,7 +42,7 @@ function ChangePasswordComponent({ id }) {
         setLoading(true);
         console.log(values, "values");
         const body = {
-            Manufacturer_ID: id,
+            userID: id,
             old_password: values.old_password,
             new_password: values.new_password,
             confirm_password: values.confirm_password,
@@ -52,7 +52,7 @@ function ChangePasswordComponent({ id }) {
         // formData.append("new_password", values.new_password);
         // formData.append("confirm_password", values.confirm_password);
         postData(
-            makerPasswordEdit,
+            passwordEdit,
             body,
             (onSuccess) => {
                 console.log(onSuccess.data, "onsuccess");

@@ -133,12 +133,14 @@ export default function MakersDetailViewPage() {
                         //otherservices
                         let otherServiceNameList = [];
                         const otherServices = JSON.parse(maker.Other_Services);
-                        for (let i = 0; i < otherServices.length; i++) {
-                            otherServiceNameList.push({
+                        if (otherServices !== null) {
+                            for (let i = 0; i < otherServices.length; i++) {
+                              otherServiceNameList.push({
                                 name: otherServices[i].serviceName,
-                            });
-                        }
-                        setOtherServices(otherServiceNameList);
+                              });
+                            }
+                            setOtherServices(otherServiceNameList);
+                          }
                     }
                 });
 
@@ -538,29 +540,6 @@ export default function MakersDetailViewPage() {
                                         ))}
                                 </div>
                             </div>
-
-                            {!myProfile && (
-                                <div>
-                                    <p
-                                        className="text-center mt-5"
-                                        style={{
-                                            width: width < 768 ? "100%" : "50%",
-                                        }}
-                                    >
-                                        Found what you are looking for?
-                                    </p>
-                                    <Button
-                                        buttonStyle="button--white--solid"
-                                        buttonSize={
-                                            width < 768
-                                                ? "button--large--100"
-                                                : "button--large--50"
-                                        }
-                                    >
-                                        <b>Get A Quote</b>
-                                    </Button>
-                                </div>
-                            )}
                         </div>
                         <div
                             className="text-white text-center w-100 p-3 heading mt-5"
@@ -707,33 +686,26 @@ const cardStyle = {
 
 const column = [
     {
-        field: "material",
-        subField: "Material_Name",
-        header: "Materials",
+      field: "material",
+      subField: "Material_Name",
+      header: "Materials",
     },
     {
-        field: "materialDetails",
-        header: "Material Details",
+      field: "thickness",
+      header: "Thickness",
     },
     {
-        field: "pricing",
-        header: "Pricing/Costing",
+      field: "costUnit",
+      subField: "label",
+      header: "Cost Unit",
     },
-    // {
-    //     field: "thickness",
-    //     header: "Thickness",
-    // },
-    // {
-    //     field: "costUnit",
-    //     subField: "type",
-    //     header: "Cost Unit",
-    // },
-    // {
-    //     field: "unitRate",
-    //     header: "Unit Rate",
-    // },
     {
-        field: "leadTime",
-        header: "Lead Time",
+      field: "unitRate",
+      header: "Unit Rate",
     },
-];
+    {
+      field: "leadTime",
+      header: "Lead Time",
+    },
+  ];
+  

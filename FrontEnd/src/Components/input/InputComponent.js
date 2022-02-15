@@ -9,7 +9,6 @@ export default function InputComponent(props) {
   // console.log(props, "From input component");
   const [data, setData] = useState();
   const [secureTextEntry, setSecureTextEntry] = useState(true);
-  const { values } = useFormikContext();
   const handleShowPassword = () => {
     setSecureTextEntry(!secureTextEntry);
   };
@@ -21,13 +20,13 @@ export default function InputComponent(props) {
   }, [props.setInitial]);
 
   const handleChange = (event) => {
-    // setData(event.target.value);
+    setData(event.target.value);
     props.setFieldValue(props.name, event.target.value);
-    // let data = {
-    //     name: props.name,
-    //     value: event.target.value,
-    // };
-    // if (props.handleChange) props.handleChange(data);
+    let data = {
+        name: props.name,
+        value: event.target.value,
+    };
+    if (props.handleChange) props.handleChange(data);
   };
 
   return (
@@ -53,7 +52,7 @@ export default function InputComponent(props) {
           aria-haspopup="true"
           className={props.className ? props.className : "form-control"}
           placeholder={props.placeholder}
-          value={values[props.name]}
+          value={props.value ? props.value : data}
           onChange={(event) => {
             props.setFieldValue
               ? handleChange(event)

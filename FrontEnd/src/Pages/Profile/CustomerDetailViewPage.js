@@ -319,27 +319,6 @@ export default function CustomerDetailViewPage() {
                                             ))} */}
                                 </div>
                             </div>
-
-                            <div>
-                                <p
-                                    className="text-center mt-5"
-                                    style={{
-                                        width: width < 768 ? "100%" : "50%",
-                                    }}
-                                >
-                                    Found what you are looking for?
-                                </p>
-                                <Button
-                                    buttonStyle="button--white--solid"
-                                    buttonSize={
-                                        width < 768
-                                            ? "button--large--100"
-                                            : "button--large--50"
-                                    }
-                                >
-                                    <b>Get A Quote</b>
-                                </Button>
-                            </div>
                         </div>
                     </div>
 
