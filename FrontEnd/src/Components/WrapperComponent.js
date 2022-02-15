@@ -1,10 +1,20 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import "./WrapperComponent.css";
 
-function WrapperComponent({ children }) {
+function WrapperComponent({ children, style }) {
+    const isSidebar = useSelector((state) => state.setSidebar.sidebar);
     return (
         <div className="parent-container">
-            <div className="children-container">{children}</div>
+            <div
+                className={
+                    isSidebar && isSidebar === true
+                        ? "children-container sidebar"
+                        : "children-container"
+                }
+            >
+                {children}
+            </div>
         </div>
     );
 }

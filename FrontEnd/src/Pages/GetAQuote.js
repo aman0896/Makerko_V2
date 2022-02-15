@@ -1,16 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
-import DropZone from "../Components/input/DropZone";
 import WrapperComponent from "../Components/WrapperComponent";
 import FormikComponent from "../Components/formik/FormikComponent";
 import FormikController from "../Components/formik/FormikController";
 import { GetAQuoteValidationSchema } from "./Form/ValidationSchema";
-import hubListData from "../config/HubList.json";
-import Card from "../Components/Card";
-import { colors } from "../Values/colors";
 import { Toast } from "../Components/ReactToastify";
 import { useSelector } from "react-redux";
-import { postData } from "../commonApi/CommonApi";
+import { FileDownload, postData } from "../commonApi/CommonApi";
 import { getAQuote } from "../commonApi/Link";
+import CardViewVerticalComponent from "../Components/card/CardViewVerticalComponent";
 
 const InitialValues = {
     method: "",
@@ -18,6 +15,7 @@ const InitialValues = {
     thickness: "",
     quantity: "",
     file: "",
+    description: "",
     requestPrototype: false,
     checkDesign: false,
     requestQuotation: false,
@@ -25,9 +23,16 @@ const InitialValues = {
 
 function GetAQuote() {
     const formRef = useRef();
-    const [selectedCard, setSelectedCard] = useState();
+    const [selectedHub, setSelectedHub] = useState();
+    const [hub, setHubs] = useState(null);
+    const [filteredHub, setHubList] = useState();
+    const makersList = useSelector((state) => state.makersList.makersList);
+
     const methods = useSelector((state) => state.method.method);
     const materials = useSelector((state) => state.material.material);
+    const makersServices = useSelector(
+        (state) => state.makersServices.services
+    );
     const currentUserData = useSelector(
         (state) => state.currentUserdata.currentUserdata
     );
@@ -39,7 +44,7 @@ function GetAQuote() {
     const onMethodSelect = (method) => {
         formRef.current.setFieldValue("method", method);
         setSelectedMethod(method);
-        console.log(method, "methods");
+
         setAcceptedFiles(method.Accepted_Files);
         const filteredMaterial = materials.filter(
             (material) => material.Service_ID === method.Service_ID
@@ -50,69 +55,75 @@ function GetAQuote() {
     };
 
     const onMaterialSelect = (material) => {
-        {
-            formRef.current.setFieldValue("material", material);
-            setSelectedMaterial(material);
-        }
+        formRef.current.setFieldValue("material", material);
+        setSelectedMaterial(material);
     };
 
-    const imageStyle = {
-        objectFit: "cover",
-        width: "100%",
-        height: "260px",
-    };
-
-    const titleStyle = {
-        color: colors.primary,
-    };
-
-    const cardStyle = {
-        borderRadius: "5px",
-        overflow: "hidden",
-        height: "392px",
-        width: "98%",
-    };
-
-    const cardStyleActive = {
-        borderRadius: "5px",
-        overflow: "hidden",
-        height: "392px",
-        width: "98%",
-        border: `1px solid ${colors.primary}`,
-    };
-
-    const descriptionStyle = {
-        color: colors.primary,
-    };
-
-    const list = hubListData.map((hub, index) => {
-        if (
-            selectedCard &&
-            selectedCard.Manufacturer_ID === hub.Manufacturer_ID
-        ) {
-            var selected = true;
-        } else {
-            selected = false;
-        }
-
-        return (
-            <div className="col-lg-3 col-md-3 col-6">
-                <Card
-                    data={hub}
-                    cardStyle={selected ? cardStyleActive : cardStyle}
-                    imageStyle={imageStyle}
-                    descriptionStyle={descriptionStyle}
-                    titleStyle={titleStyle}
-                    selectedCard={(selectedCard) =>
-                        setSelectedCard(selectedCard)
+    useEffect(() => {
+        async function GetFilteredHub() {
+            if (makersList && makersServices && selectedMethod) {
+                const filteredServices = makersServices.filter(
+                    (service) =>
+                        service.Service_ID === selectedMethod.Service_ID
+                );
+                const filteredMakersList = makersList.filter((maker) => {
+                    if (filteredServices.length > 0) {
+                        const data = filteredServices.map((service) => {
+                            if (
+                                service.Manufacturer_ID ===
+                                maker.Manufacturer_ID
+                            )
+                                return maker;
+                        });
+                        return data;
+                    } else return null;
+                });
+                if (filteredMakersList && filteredMakersList.length > 0) {
+                    for (let i = 0; i < filteredMakersList.length; i++) {
+                        const imageData = JSON.parse(
+                            filteredMakersList[i].Logo
+                        );
+                        const imageBlob = await FileDownload(
+                            imageData.filePath
+                        );
+                        const previewUrl =
+                            window.URL.createObjectURL(imageBlob);
+                        filteredMakersList[i].Logo = previewUrl;
                     }
-                />
-            </div>
-        );
-    });
+                    setHubList(filteredMakersList);
+                } else setHubList([]);
+            }
+        }
+
+        GetFilteredHub();
+    }, [makersList, makersServices, selectedMethod]);
+
+    const list =
+        filteredHub && filteredHub.length > 0
+            ? filteredHub.map((hub, index) => {
+                  if (selectedHub === index) {
+                      var selected = true;
+                  } else {
+                      selected = false;
+                  }
+
+                  return (
+                      <CardViewVerticalComponent
+                          selected={selected}
+                          index={index}
+                          header="makers hub"
+                          name={hub.Company_Name}
+                          image={hub.Logo}
+                          description={hub.Brief_Description}
+                          imageFit="contain"
+                          setSelectedHub={setSelectedHub}
+                      />
+                  );
+              })
+            : "There are no hubs with selected method";
 
     const handleSubmit = (values) => {
-        if (selectedCard === null || selectedCard === undefined) {
+        if (selectedHub === null || selectedHub === undefined) {
             Toast("Hub is not selected", "error");
             return;
         }
@@ -130,10 +141,11 @@ function GetAQuote() {
             thickness: values.thickness,
             quantity: values.quantity,
         };
+        console.log(hub, "chekchub");
         const data = {
             process,
             orderType,
-            maker: selectedCard,
+            maker: filteredHub[selectedHub],
             currentUserData,
             file: values.file,
         };
@@ -141,11 +153,22 @@ function GetAQuote() {
             getAQuote,
             data,
             (onSuccess) => {
-                Toast(onSuccess.data.message, "success");
-                console.log(onSuccess, "success");
+                console.log(onSuccess.data, "check quote");
+                if (
+                    onSuccess.data.mailSent[0].checkDesign === true ||
+                    onSuccess.data.mailSent[1].requestPrototype === true ||
+                    onSuccess.data.mailSent[2].requestQuotation === true
+                ) {
+                    Toast("Request Sent Successfully", "success");
+                }
             },
             (onFail) => {}
         );
+    };
+
+    const onCancel = () => {
+        formRef.current.resetForm();
+        window.location.href = "/";
     };
     return (
         <WrapperComponent>
@@ -212,9 +235,21 @@ function GetAQuote() {
                         requirementNote="File size < 15 MB"
                     />
                 </div>
+
                 <div className="row mt-5 mx-auto heading">Select your hub</div>
                 <div className=" row mx-auto mt-2 p-3 border d-flex justify-content-center align-items-center">
                     {list}
+                </div>
+                <div className="row mt-5 mx-auto heading">
+                    Description of your project
+                </div>
+                <div className="col mt-2">
+                    <FormikController
+                        name="description"
+                        control="textarea"
+                        placeholder="Description of your project"
+                        // setInitial={currentUserData.Brief_Description}
+                    />
                 </div>
                 <div className="d-flex mt-3 justify-content-end">
                     <div className="m-1">
@@ -240,6 +275,15 @@ function GetAQuote() {
                     </div>
                 </div>
                 <div className="col mt-3 d-flex justify-content-end">
+                    <div className="cancelButton">
+                        <FormikController
+                            title="Cancel"
+                            type="button"
+                            control="cancel"
+                            buttonStyle="button--danger--outline"
+                            onClick={onCancel}
+                        />
+                    </div>
                     <FormikController
                         title="Upload"
                         type="submit"
@@ -256,26 +300,20 @@ export default GetAQuote;
 function GetOrderType(requestPrototype, checkDesign, requestQuotation) {
     let checkedList;
 
-    if (checkDesign && requestPrototype && requestQuotation) {
+    if (checkDesign && requestPrototype && requestQuotation)
         return (checkedList = [
             "Check Design",
             "Request Prototype",
             "Request Quotation",
         ]);
-    } else if (checkDesign && requestPrototype) {
+    else if (checkDesign && requestPrototype)
         return (checkedList = ["Check Design", "Request Prototype"]);
-    } else if (checkDesign && requestQuotation) {
+    else if (checkDesign && requestQuotation)
         return (checkedList = ["Check Design", "Request Quotation"]);
-    } else if (requestPrototype && requestQuotation) {
+    else if (requestPrototype && requestQuotation)
         return (checkedList = ["Request Prototype", "Request Quotation"]);
-    } else if (checkDesign) {
-        return (checkedList = ["Check Design"]);
-    } else if (requestPrototype) {
-        return (checkedList = ["Request Prototype"]);
-    } else if (requestQuotation) {
-        return (checkedList = ["Request Quotation"]);
-    } else {
-        Toast("Atleast one check box must be selected", "error");
-        return;
-    }
+    else if (checkDesign) return (checkedList = ["Check Design"]);
+    else if (requestPrototype) return (checkedList = ["Request Prototype"]);
+    else if (requestQuotation) return (checkedList = ["Request Quotation"]);
+    else return Toast("Atleast one check box must be selected", "error");
 }

@@ -1,9 +1,7 @@
 import * as Yup from "yup";
 import FormikComponent from "../../Components/formik/FormikComponent";
 import FormikController from "../../Components/formik/FormikController";
-import { useWindowDimensions } from "../../Functions";
 import { colors } from "../../Values/colors";
-import OtherServices from "./OtherServices";
 import TableComponent from "../../Components/table/TableComponent";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,32 +12,35 @@ import {
 } from "../../Components/Redux/Actions/MfgProcess";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import {
     faChevronCircleUp,
     faChevronCircleDown,
 } from "@fortawesome/free-solid-svg-icons";
-import { Toast } from "../../Components/ReactToastify";
+import ReactCreatbale from "../../Test/ReactSelect";
 
-const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
+// const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 
 export const MakersValidationSchema = Yup.object().shape({
     fabricationService: Yup.object().required(
         "Fabrication Service Status is required."
     ),
     material: Yup.object().required("Material is required."),
-    thickness: Yup.number().required("Thickness is required."),
-    costUnit: Yup.object().required("Cost Unit is required."),
-    unitRate: Yup.string().required("Material is required."),
+    materialDetails: Yup.string().required("Material details is required"),
+    pricing: Yup.string().required("Pricing and Costing is required"),
+    // thickness: Yup.number().required("Thickness is required."),
+    // costUnit: Yup.object().required("Cost Unit is required."),
+    // unitRate: Yup.string().required("Material is required."),
     MoQ: Yup.string().required("MoQ is required."),
     leadTime: Yup.string().required("Lead Time is required."),
 });
 const InitialValues = {
     fabricationService: "",
     material: "",
-    thickness: "",
-    costUnit: "",
-    unitRate: "",
+    materialDetails: "",
+    pricing: "",
+    // thickness: "",
+    // costUnit: "",
+    // unitRate: "",
     acceptedFiles: "",
     MoQ: "",
     leadTime: "",
@@ -58,16 +59,22 @@ function ManufacturingServices(props) {
     const [status, setStatus] = useState(false);
     const [key, setKey] = useState();
     const [error, setError] = useState(false);
+    const [customMaterial, setCustomMaterial] = useState();
+    const [newMaterial, setNewMaterial] = useState(false);
 
     const dispatch = useDispatch();
     const mfgProcess = useSelector((state) => state.mfgProcess.mfgProcess);
     const materialError = useSelector(
         (state) => state.mfgProcess.materialError
     );
+    const currentUserData = useSelector(
+        (state) => state.currentUserdata.currentUserdata
+    );
 
     useEffect(() => {
-        GetMfgProcess(dispatch);
-    }, []);
+        console.log(currentUserData, "inside useeffect");
+        GetMfgProcess(dispatch, currentUserData);
+    }, [currentUserData]);
 
     const onMethodSelect = (method) => {
         formRef.current.setFieldValue("fabricationService", method);
@@ -75,41 +82,60 @@ function ManufacturingServices(props) {
         const filteredMaterial = materials.filter(
             (material) => material.Service_ID === method.Service_ID
         );
-        setFilteredMaterial(filteredMaterial);
         setSelectedMaterial(filteredMaterial[0]);
+        setFilteredMaterial([
+            ...filteredMaterial,
+            { Material_Name: "Add New..." },
+        ]);
         formRef.current.setFieldValue("material", filteredMaterial[0]);
         setAcceptedFiles(method.Accepted_Files);
+        setNewMaterial(false);
     };
 
     const onMaterialSelect = (material) => {
-        {
-            formRef.current.setFieldValue("material", material);
-            setSelectedMaterial(material);
+        console.log(material, "material");
+        if (material.Material_Name === "Add New...") {
+            return setNewMaterial(true);
         }
+        formRef.current.setFieldValue("material", material);
+        setSelectedMaterial(material);
     };
 
-    const costUnit = [
-        {
-            value: 1,
-            type: "Gram",
-        },
-        {
-            value: 2,
-            type: "Kg",
-        },
-        {
-            value: 3,
-            type: "Sq.feet",
-        },
-        {
-            value: 3,
-            type: "Minute",
-        },
-        {
-            value: 3,
-            type: "Cubic Inch",
-        },
-    ];
+    useEffect(() => {
+        if (selectedMethod && customMaterial) {
+            const newMaterial = {
+                Service_ID: selectedMethod.Service_ID,
+                Material_Name: customMaterial.label,
+                Material_ID: "new",
+            };
+            formRef.current.setFieldValue("material", newMaterial);
+            setSelectedMaterial(newMaterial);
+            setNewMaterial(false);
+        }
+    }, [customMaterial, selectedMethod]);
+
+    // const costUnit = [
+    //     {
+    //         value: 1,
+    //         type: "Gram",
+    //     },
+    //     {
+    //         value: 2,
+    //         type: "Kg",
+    //     },
+    //     {
+    //         value: 3,
+    //         type: "Sq.feet",
+    //     },
+    //     {
+    //         value: 3,
+    //         type: "Minute",
+    //     },
+    //     {
+    //         value: 3,
+    //         type: "Cubic Inch",
+    //     },
+    // ];
 
     const handleSubmit = (values) => {
         console.log(mfgProcess, "values");
@@ -117,9 +143,11 @@ function ManufacturingServices(props) {
         const {
             fabricationService,
             material,
-            thickness,
-            costUnit,
-            unitRate,
+            materialDetails,
+            pricing,
+            // thickness,
+            // costUnit,
+            // unitRate,
             acceptedFiles,
             MoQ,
             leadTime,
@@ -133,9 +161,11 @@ function ManufacturingServices(props) {
             materialDetails: [
                 {
                     material: material,
-                    thickness,
-                    costUnit: costUnit,
-                    unitRate,
+                    materialDetails,
+                    pricing,
+                    // thickness,
+                    // costUnit: costUnit,
+                    // unitRate,
                     MoQ,
                     leadTime,
                 },
@@ -145,7 +175,6 @@ function ManufacturingServices(props) {
         setStatus(true);
     };
 
-    const { width } = useWindowDimensions();
     const column = [
         {
             field: "material",
@@ -153,18 +182,26 @@ function ManufacturingServices(props) {
             header: "Materials",
         },
         {
-            field: "thickness",
-            header: "Thickness",
+            field: "materialDetails",
+            header: "Material Details",
         },
         {
-            field: "costUnit",
-            subField: "type",
-            header: "Cost Unit",
+            field: "pricing",
+            header: "Pricing/Costing",
         },
-        {
-            field: "unitRate",
-            header: "Unit Rate",
-        },
+        // {
+        //     field: "thickness",
+        //     header: "Thickness",
+        // },
+        // {
+        //     field: "costUnit",
+        //     subField: "type",
+        //     header: "Cost Unit",
+        // },
+        // {
+        //     field: "unitRate",
+        //     header: "Unit Rate",
+        // },
         {
             field: "leadTime",
             header: "Lead Time",
@@ -175,13 +212,6 @@ function ManufacturingServices(props) {
         },
     ];
 
-    const [expandToggle, setExpandToggle] = useState(false);
-    const onExpandToggleClick = (index) => {
-        console.log(index);
-        setKey(index);
-        setExpandToggle(!expandToggle);
-    };
-
     const onDeleteClick = (materialData) => {
         const tempData = mfgProcess.map((data) => {
             const filteredData = data.materialDetails.filter(
@@ -190,6 +220,7 @@ function ManufacturingServices(props) {
             data.materialDetails = filteredData;
             return data;
         });
+
         const newTempData = tempData.filter((data) => {
             if (data.materialDetails.length > 0) {
                 return data;
@@ -198,61 +229,63 @@ function ManufacturingServices(props) {
 
         dispatch(DeleteMfgProcess(newTempData));
     };
+
     useEffect(() => {
-        console.log("inside useeffect1", mfgProcess);
-        // setMfgData(mfgProcess);
         setStatus(false);
     }, [mfgProcess, status]);
 
-    const tableData =
-        mfgProcess.length > 0 &&
-        mfgProcess.map((data, index) => {
-            return (
-                <div className="mb-2" key={index}>
-                    {console.log(mfgProcess, "manufacturing process 169")}
-                    <div className="">
-                        <div
-                            className="d-flex justify-content-between align-items-center pl-3 pr-3 "
-                            style={{
-                                backgroundColor: colors.primary,
-                                height: "40px",
-                                borderRadius: "3px",
-                                position: "relative",
-                                color: colors.white,
-                                width: "100%",
-                            }}
-                        >
-                            <div style={{ marginLeft: 2, fontWeight: "bold" }}>
-                                {`${data.fabricationService.Name}`}
-                            </div>
+    const TableData = ({ data }) => {
+        const [expandToggle, setExpandToggle] = useState(false);
+        const onExpandToggleClick = () => {
+            setExpandToggle(!expandToggle);
+        };
+        return (
+            <div className="mb-2">
+                <div className="">
+                    <div
+                        className="d-flex justify-content-between align-items-center pl-3 pr-3 "
+                        style={{
+                            backgroundColor: colors.primary,
+                            height: "40px",
+                            borderRadius: "3px",
+                            position: "relative",
+                            color: colors.white,
+                            width: "100%",
+                        }}
+                    >
+                        <div style={{ marginLeft: 2, fontWeight: "bold" }}>
+                            {`${data.fabricationService.Name}`}
+                        </div>
 
-                            <div style={{ marginRight: 3 }}>
-                                <FontAwesomeIcon
-                                    style={{ transition: "all 0.5s ease" }}
-                                    icon={
-                                        expandToggle
-                                            ? faChevronCircleUp
-                                            : faChevronCircleDown
-                                    }
-                                    onClick={() => onExpandToggleClick(index)}
-                                />
-                            </div>
+                        <div style={{ marginRight: 3 }}>
+                            <FontAwesomeIcon
+                                style={{ transition: "all 0.5s ease" }}
+                                icon={
+                                    expandToggle
+                                        ? faChevronCircleUp
+                                        : faChevronCircleDown
+                                }
+                                onClick={() => onExpandToggleClick()}
+                            />
                         </div>
                     </div>
-                    {expandToggle && key == index && (
-                        <TableComponent
-                            column={column}
-                            data={data.materialDetails}
-                            onDeleteClick={onDeleteClick}
-                        />
-                    )}
                 </div>
-            );
-        });
+
+                {expandToggle && (
+                    <TableComponent
+                        column={column}
+                        data={data.materialDetails}
+                        onDeleteClick={onDeleteClick}
+                    />
+                )}
+            </div>
+        );
+    };
 
     return (
         <div>
-            {tableData}
+            {mfgProcess.length > 0 &&
+                mfgProcess.map((data) => <TableData data={data} />)}
 
             <div className="heading title">Manufacturing Process:</div>
             <FormikComponent
@@ -269,7 +302,7 @@ function ManufacturingServices(props) {
                     />
                 </div>
                 <div className="row mt-3">
-                    <div className="col-lg-3">
+                    <div className="col-lg-6">
                         <FormikController
                             name="fabricationService"
                             control="select"
@@ -281,30 +314,87 @@ function ManufacturingServices(props) {
                             onChange={onMethodSelect}
                         />
                     </div>
+                    {newMaterial && (
+                        <div className="col-lg-6">
+                            <ReactCreatbale
+                                material={filteredMaterial}
+                                selectedMaterial={(newMaterial) =>
+                                    setCustomMaterial(newMaterial)
+                                }
+                                placeholder="Add New Material..."
+                            />
+                        </div>
+                    )}
+                    {!newMaterial && (
+                        <div className="col-lg-6">
+                            <FormikController
+                                name="material"
+                                control="select"
+                                label="Material"
+                                value={selectedMaterial}
+                                options={filteredMaterial}
+                                getOptionLabel={(options) =>
+                                    options.Material_Name
+                                }
+                                getOptionValue={(options) =>
+                                    options.Material_ID
+                                }
+                                onChange={onMaterialSelect}
+                            />
+                        </div>
+                    )}
                 </div>
                 <div className="row mt-2">
-                    <div className="col-lg">
-                        <FormikController
-                            name="material"
-                            control="select"
-                            label="Material"
-                            value={selectedMaterial}
-                            options={filteredMaterial}
-                            getOptionLabel={(options) => options.Material_Name}
-                            getOptionValue={(options) => options.Material_ID}
-                            onChange={onMaterialSelect}
-                        />
-                    </div>
-                    <div className="col-lg">
-                        <FormikController
-                            name="thickness"
+                    <div className="col-lg-6">
+                        {/* <FormikController
+                            name="materialDetails"
+                            placeholder="Eg: color, thickness"
                             control="input"
-                            label="Thickness"
-                            type="number"
-                            setInitial={12}
+                            label="Material Details"
+                            setInitial=""
+                        /> */}
+
+                        <FormikController
+                            name="materialDetails"
+                            placeholder="Specify color, thickness, design considerations and special information 
+                            Eg. PLA(white, blue), 1.75mm dig, design wall thicnkess 2mm, 1kg roll costs NPR 6000"
+                            control="textarea"
+                            label="Material Details"
+                            setInitial=""
                         />
                     </div>
                     <div className="col-lg">
+                        <FormikController
+                            name="pricing"
+                            control="input"
+                            label="Pricing/Costing"
+                            placeholder="Eg: 5.5/gram + 150/hour"
+                        />
+                        <FormikController
+                            name="acceptedFiles"
+                            control="input"
+                            label="Accepted Files"
+                            readOnly
+                            value={acceptedFiles}
+                        />
+                    </div>
+                    <div className="col-lg">
+                        <FormikController
+                            name="MoQ"
+                            control="input"
+                            label="MoQ"
+                            placeholder="Eg. N/A, 5pcs, 10kg, 10sq.ft"
+                            setInitial=""
+                        />
+                        <FormikController
+                            name="leadTime"
+                            control="input"
+                            label="Lead Time"
+                            placeholder="Eg. 1 day, 3 days, 7 days"
+                            setInitial=""
+                        />
+                    </div>
+                    {/* <div className="col-lg">
                         <FormikController
                             name="costUnit"
                             control="select"
@@ -319,11 +409,11 @@ function ManufacturingServices(props) {
                             control="input"
                             label="Unit Rate"
                             //type="number"
-                            setInitial={12}
+                            setInitial=""
                         />
-                    </div>
+                    </div> */}
                 </div>
-                <div className="row mt-2">
+                {/* <div className="row mt-2">
                     <div className="col-lg-3">
                         <FormikController
                             name="acceptedFiles"
@@ -338,7 +428,7 @@ function ManufacturingServices(props) {
                             name="MoQ"
                             control="input"
                             label="Moq"
-                            setInitial={12}
+                            setInitial=""
                         />
                     </div>
                     <div className="col-lg-3">
@@ -346,10 +436,10 @@ function ManufacturingServices(props) {
                             name="leadTime"
                             control="input"
                             label="Lead Time"
-                            setInitial={12}
+                            setInitial=""
                         />
                     </div>
-                </div>
+                </div> */}
             </FormikComponent>
         </div>
     );

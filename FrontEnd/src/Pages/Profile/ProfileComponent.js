@@ -23,8 +23,9 @@ function ServicesComponent({ header, services, style }) {
                 {header}
             </div>
             <div className="row text-center">
-                {services?.map((item) => (
+                {services?.map((item, index) => (
                     <div
+                        key={index}
                         className="p-2 ml-3 mb-2 rounded text-white"
                         style={{ backgroundColor: "#0000ff" }}
                     >

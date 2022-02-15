@@ -19,19 +19,24 @@ function AboutUs({ data, aboutRef }) {
         borderRadius: "5px",
         overflow: "hidden",
         height: "392px",
-        width: "98%",
+        width: "100%",
+    };
+
+    const onClickCard = () => {
+        window.location.href = "/blogs";
     };
 
     return (
         <div className="aboutus-container" ref={aboutRef}>
             <div className="aboutus-sub-container">
-                <h2 className="aboutus-heading">AboutUs</h2>
+                <h2 className="aboutus-heading">About Us</h2>
                 <SlideView
                     path="aboutUs"
                     cardStyle={cardStyle}
                     slides={data}
                     imageStyle={imageStyle}
                     titleStyle={titleStyle}
+                    onClick={onClickCard}
                 />
             </div>
         </div>

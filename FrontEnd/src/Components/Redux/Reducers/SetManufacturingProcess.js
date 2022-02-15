@@ -1,3 +1,4 @@
+import { Toast } from "../../ReactToastify";
 import {
     DELETE_MFG_PROCCESS,
     GET_MFG_PROCCESS,
@@ -7,6 +8,7 @@ import {
 const initialSates = {
     mfgProcess: [],
     materialError: false,
+    hub: "",
 };
 
 export const SetMfgProcess = (state = initialSates, action) => {
@@ -24,7 +26,8 @@ export const SetMfgProcess = (state = initialSates, action) => {
                         action.mfgProcess.fabricationService.Name
                 );
 
-                if (index != -1) {
+                if (index !== -1) {
+                    console.log("inside");
                     const materialIndex = services[
                         index
                     ].materialDetails.findIndex(
@@ -33,13 +36,13 @@ export const SetMfgProcess = (state = initialSates, action) => {
                             action.mfgProcess.materialDetails[0].material
                                 .Material_Name
                     );
-                    if (materialIndex == -1) {
+                    if (materialIndex === -1) {
                         services[index].materialDetails = [
                             ...services[index].materialDetails,
                             action.mfgProcess.materialDetails[0],
                         ];
                     } else {
-                        materialError = true;
+                        return Toast("Material exist", "error");
                     }
                 } else {
                     services = [...services, action.mfgProcess];
@@ -47,6 +50,8 @@ export const SetMfgProcess = (state = initialSates, action) => {
             } else {
                 services = [...services, action.mfgProcess];
             }
+
+            console.log(services, "services");
 
             return {
                 ...state,
@@ -57,6 +62,7 @@ export const SetMfgProcess = (state = initialSates, action) => {
             return {
                 ...state,
                 mfgProcess: action.mfgProcess,
+                hub: action.hub,
             };
 
         case DELETE_MFG_PROCCESS:

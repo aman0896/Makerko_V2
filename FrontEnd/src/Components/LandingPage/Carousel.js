@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Carousel.css";
+import { colors } from "../../Values/colors";
 
 function Carousel({ slides }) {
     const settings = {
@@ -49,7 +50,7 @@ const CustomSlide = ({ slide }) => {
     const styles = {
         objectFit: "cover",
         width: "100%",
-        height: window.innerHeight / 2,
+        backgroundPosition: "center",
     };
 
     return (
@@ -70,7 +71,32 @@ const CustomSlide = ({ slide }) => {
         //     setSwiping(false);
         // }}
         >
-            <img src={slide.image} style={styles} alt="" />
+            <img src={slide.image} className="carousel" style={styles} alt="" />
+            <div
+                style={{
+                    position: "absolute",
+                    display: "flex",
+                    alignItems: "center",
+                    bottom: 0,
+                    width: "100%",
+                    height: "100px",
+                    backgroundImage:
+                        "linear-gradient(rgb(255, 255, 255, 0.1), rgb(122, 122, 122, 0.8))",
+                }}
+            >
+                {slide.description && (
+                    <span
+                        style={{
+                            marginLeft: "100px",
+                            fontSize: "1.5rem",
+                            color: colors.primary,
+                        }}
+                    >
+                        {slide.description}
+                    </span>
+                )}
+                {slide.button && slide.button}
+            </div>
         </div>
     );
 };

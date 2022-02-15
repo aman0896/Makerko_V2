@@ -1,18 +1,18 @@
 [
     {
-        "image": "https://live.staticflickr.com/4561/38054606355_26429c884f_b.jpg",
+        "image": "./assests/aboutus/local_production.png",
         "name": "Local Production"
     },
     {
-        "image": "https://live.staticflickr.com/4561/38054606355_26429c884f_b.jpg",
+        "image": "./assests/aboutus/collaborative_manufactring.png",
         "name": "Collaborative Manufacturing"
     },
     {
-        "image": "https://live.staticflickr.com/4561/38054606355_26429c884f_b.jpg",
+        "image": "./assests/aboutus/design&prototyping.png",
         "name": "Design & Prototyping Support"
     },
     {
-        "image": "https://live.staticflickr.com/4561/38054606355_26429c884f_b.jpg",
+        "image": "./assests/aboutus/design_challenge.png",
         "name": "Design Challenges"
     }
 ]

@@ -6,6 +6,7 @@ var cookieParser = require("cookie-parser");
 require("dotenv").config();
 var multer = require("multer");
 var fs = require("fs");
+const Makers = require("./routes/Makers");
 
 //project path define
 const path = require("path");
@@ -14,11 +15,12 @@ const projectPath = path.dirname(process.cwd());
 //db initialization
 const db = require("./DBController/DBConnect");
 
+//server ip
 // var ipAddress = "172.31.32.139";
 // var hostAddress = "https://makerko.com";
 
-// var ipAddress = "192.168.88.182";
-// var hostAddress = "http://192.168.88.182:3000";
+// var ipAddress = "192.168.10.67";
+// var hostAddress = "http://192.168.10.67:3000";
 
 // var ipAddress = "192.168.1.103";
 // var hostAddress = "http://192.168.1.103:5000";
@@ -42,7 +44,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(cookieParser());
 
 //#region init routes
-const login = require("./routes/Login");
+const login = require("./routes/login");
 app.use("/account", login);
 
 const signup = require("./routes/Signup");
@@ -72,20 +74,18 @@ app.use("/process", Process);
 const Quote = require("./routes/Quote");
 const FileDownload = require("./Utils/FileDownload");
 app.use("/quote", Quote);
+
+app.use("/makers", Makers);
+
+const Order = require("./routes/Order");
+app.use("/order", Order);
+
+const DesignRequest = require("./routes/DesignRequest");
+app.use("/requestDesign", DesignRequest);
+
+const ForgotPassword = require("./routes/ForgotPassword");
+app.use("/reset", ForgotPassword);
 //#endregion
-
-//Serve the static files from the React app
-app.use(
-    "/counselling/triage/",
-    express.static(path.join(projectPath, "build"))
-);
-
-//Handle any request that don't match the ones above
-const root = path.join(projectPath, "build");
-
-// app.get('*', (req, res) => {
-//     res.sendFile('index.html', { root });
-// });
 
 // Start download any File or images
 app.post("/download", async function (req, res) {
@@ -99,6 +99,22 @@ app.post("/download", async function (req, res) {
 });
 // End download any File or images
 
+//Serve the static files from the React app
+app.use(
+    "/counselling/triage/",
+    express.static(path.join(projectPath, "build"))
+);
+
+//Handle any request that don't match the ones above
+const root = path.join(projectPath, "build");
+
+app.get("*", (req, res) => {
+    res.sendFile("index.html", { root });
+});
+
+// server.listen(3001, `${ipAddress}`, () => {
+//     console.log("running server");
+// });
 server.listen(3001, () => {
     console.log("running server");
 });

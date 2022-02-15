@@ -90,13 +90,17 @@ export default function OtherService({ getData, oldOtherServices }) {
   return (
     <div className="pt-5">
       {console.log(fabData)}
-      <div className={rowView}>
+      {/* <div className={rowView}>
         <div className="col-lg  m-0 p-0 font-weight-bold">
           <div className="heading title m-0 p-0">Other Services:</div>
         </div>
         <div className="col-lg d-flex justify-content-end">
           <Button onClick={onClickAddBtn}>Add New</Button>
         </div>
+      </div> */}
+      <div className="heading title">Other Services:</div>
+      <div className="d-flex justify-content-end mt-2">
+        <Button onClick={onClickAddBtn}>Add New</Button>
       </div>
       <ViewFabData
         fabData={fabData}
@@ -164,6 +168,9 @@ export const ViewFabData = ({ fabData, setFabData, getData }) => {
     console.log("new", tempFabData);
   };
   var dataList;
+  {
+    console.log(fabData, "fabdataaaa");
+  }
   if (fabData) {
     dataList = fabData.map((item, index) => {
       return (

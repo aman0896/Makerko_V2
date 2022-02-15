@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import FormikComponent from "../Components/formik/FormikComponent";
 import FormikController from "../Components/formik/FormikController";
 import "./Login.css";
@@ -14,6 +14,7 @@ import { useWindowDimensions } from "../Functions";
 const InitialValues = { email: "", password: "" };
 
 function Login() {
+    const formRef = useRef();
     const history = useHistory();
     const [showModal, setShowModal] = useState(false);
     const [verifyHidden, setVerifyHidden] = useState(true);
@@ -32,6 +33,7 @@ function Login() {
                         onSuccess.data;
                     console.log(onSuccess.data, "data");
                     if (emailExist === false) {
+                        formRef.current.resetForm();
                         Toast(
                             "User does not exist",
                             "error",
@@ -64,7 +66,7 @@ function Login() {
                             colors.white
                         );
                         return;
-                    } else if (!userVerified && userLoggedIn == undefined) {
+                    } else if (!userVerified && userLoggedIn === undefined) {
                         Toast(
                             "Account not verified",
                             "error",
@@ -98,7 +100,7 @@ function Login() {
         event.preventDefault();
         postData(
             sendOTP,
-            { email: email },
+            { email: email ? email : formRef.current.values.email },
             (onSuccess) => {
                 const { hash, message } = onSuccess.data;
                 Toast(message, "info", 2000);
@@ -145,6 +147,7 @@ function Login() {
                                 initialValues={InitialValues}
                                 onSubmit={handleSubmit}
                                 validationSchema={LoginValidationSchema}
+                                formRef={formRef}
                             >
                                 <FormikController
                                     name="email"
@@ -164,7 +167,7 @@ function Login() {
                                     Forget your password?
                                     <a
                                         className="font-weight-bold ml-1"
-                                        href="#"
+                                        href="/account/forgotPassword"
                                         style={{ color: colors.primary }}
                                     >
                                         Reset it Here

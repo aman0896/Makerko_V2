@@ -1,0 +1,138 @@
+/* .icon {
+    flex: 30%;
+    display: grid;
+    grid-template-columns: ;
+    place-items: center;
+}
+.title {
+    flex: 70%;
+    font-weight: bold;
+}
+/* .d-flex:hover {
+	cursor: pointer;
+	background-color: blue;
+	color: white;
+} */
+/* .active-class {
+    background-color: blue;
+    color: red;
+    border: 1px solid blue;
+} */
+/* .d-flex{
+  background-color: blue;
+} */
+/* .navlink {
+    cursor: pointer;
+    background-color: blue;
+    color: blue;
+    border: 1px solid blue;
+    display: flex;
+}  */
+
+.sidebar_container {
+    width: 250px;
+    height: auto;
+    border-right: 1px solid var(--gray);
+    padding-left: 20px;
+    padding-top: 20px;
+    position: sticky;
+    top: 80px;
+}
+
+.sidebar_menuitems {
+    color: var(--white);
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar_link {
+    list-style: none;
+}
+
+.sidebar_navlink {
+    color: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.sidebar_navlink:hover {
+    color: var(--white);
+    background-color: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 25px 0px 0px 25px;
+}
+
+.sidebar_navlink.active {
+    color: var(--white);
+    background-color: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 25px 0px 0px 25px;
+}
+
+.profile_view {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.profile_section {
+    flex-grow: 999;
+    flex-basis: 0;
+}
+
+.sidebar_section {
+    flex-grow: 1;
+}
+
+@media screen and (max-width: 600px) {
+    .sidebar_container {
+        width: 100%;
+        height: auto;
+        padding-left: 20px;
+        padding-top: 20px;
+        padding-right: 20px;
+        top: 80px;
+    }
+
+    .sidebar_menuitems {
+        color: var(--white);
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: stretch;
+    }
+
+    .sidebar_navlink {
+        color: var(--primary);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        text-decoration: none;
+    }
+
+    .sidebar_navlink.active {
+        color: var(--white);
+        background-color: var(--primary);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        text-decoration: none;
+        border-radius: 25px 25px 25px 25px;
+    }
+}

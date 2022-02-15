@@ -1,6 +1,7 @@
 .aboutus-container {
     display: flex;
     justify-content: center;
+    align-items: center;
     background-color: black;
     width: 100%;
     height: auto;
@@ -19,7 +20,8 @@
 }
 
 .aboutus-heading {
-    color: #0000ff;
+    color: var(--white);
+    margin-bottom: 100px;
     font-weight: bold;
     text-align: center;
 }

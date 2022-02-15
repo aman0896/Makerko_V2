@@ -10,3 +10,24 @@
     font-size: 10px;
     color: white;
 }
+
+.carousel {
+    height: 766px;
+}
+
+@media screen and (max-width: 768px) {
+    .carousel {
+        height: 600px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .carousel {
+        height: 400px;
+    }
+}
+@media screen and (max-width: 400px) {
+    .carousel {
+        height: 200px;
+    }
+}

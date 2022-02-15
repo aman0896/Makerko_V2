@@ -1,0 +1,18 @@
+.request-design-subtitle::after {
+    content: "*";
+    color: red;
+    font-family: "Syne", sans-serif;
+}
+
+.request-design-subtitle {
+    font-size: 18px;
+}
+
+.request-design-title {
+    font-size: 36px;
+    color: var(--primary);
+}
+
+.cancelButton {
+    margin-right: 10px;
+}

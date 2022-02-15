@@ -14,6 +14,7 @@ function SlideView({
     titleStyle,
     descriptionStyle = null,
     showImage,
+    onClick,
 }) {
     const [photoIndex, setPhotoIndex] = useState(0);
     const [imageView, setImageView] = useState(false);
@@ -60,7 +61,7 @@ function SlideView({
     };
     const slidesView = slides.map((slide, index) => {
         return (
-            <div className={className}>
+            <div key={index} className={className}>
                 <CustomSlide
                     path={path}
                     cardStyle={cardStyle}
@@ -69,7 +70,7 @@ function SlideView({
                     imageStyle={imageStyle}
                     titleStyle={titleStyle}
                     descriptionStyle={descriptionStyle}
-                    handleClick={() => onImageClick(index)}
+                    handleClick={onClick ? onClick : () => onImageClick(index)}
                 />
             </div>
         );
@@ -83,11 +84,16 @@ function SlideView({
         <div>
             {imageView && showImage && (
                 <Lightbox
-                    mainSrc={slides[photoIndex].image}
-                    nextSrc={slides[(photoIndex + 1) % slides.length].image}
+                    mainSrc={slides[photoIndex].image || slides[photoIndex].url}
+                    nextSrc={
+                        slides[(photoIndex + 1) % slides.length].image ||
+                        slides[(photoIndex + 1) % slides.length].url
+                    }
                     prevSrc={
                         slides[(photoIndex + slides.length - 1) % slides.length]
-                            .image
+                            .image ||
+                        slides[(photoIndex + slides.length - 1) % slides.length]
+                            .url
                     }
                     onCloseRequest={onCloseClick}
                     onMovePrevRequest={() =>

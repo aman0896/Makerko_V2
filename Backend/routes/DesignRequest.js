@@ -1,0 +1,25 @@
+const express = require("express");
+const { DBQuery } = require("../DBController/DatabaseQuery");
+const router = express.Router();
+router.get("/request_design_list", (req, res) => {
+    try {
+        const id = req.query[0];
+
+        const sqlQuery = "SELECT * FROM design_request WHERE Customer_ID = ?";
+        const data = [id];
+        DBQuery(sqlQuery, data, (err, result) => {
+            try {
+                if (err) {
+                    return console.log(err, "line no 10, designrequest.js");
+                } else {
+                    console.log(result, "result");
+                    res.json({ result });
+                }
+            } catch {}
+        });
+    } catch (err) {
+        return console.log(err, "request_design_list");
+    }
+});
+
+module.exports = router;

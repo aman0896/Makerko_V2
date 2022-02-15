@@ -13,46 +13,50 @@ const router = express.Router();
 
 //#region Signup process
 router.post("/signup", async (req, res) => {
-    console.log(req.body, "info");
-    const { firstName, lastName, email, address, password, phoneNumber } =
-        req.body;
-    const sqlQuery =
-        "INSERT INTO customer (First_Name, Last_Name, Password, Email, Phone_Number, Address, Verified) VALUES (?,?,?,?,?,?,?)";
+    try {
+        console.log(req.body, "info");
+        const { firstName, lastName, email, address, password, phoneNumber } =
+            req.body;
+        const sqlQuery =
+            "INSERT INTO customer (First_Name, Last_Name, Password, Email, Phone_Number, Address, Verified) VALUES (?,?,?,?,?,?,?)";
 
-    const data = await GetAllUsersData();
-    var index = data.findIndex((item) => item.Email === email);
-    if (index == -1) {
-        PasswordEncryption(password, (err, hash) => {
-            if (err) {
-                console.log(err, "password hasing error");
-                return err;
-            }
-            const params = [
-                firstName,
-                lastName,
-                hash,
-                email,
-                phoneNumber,
-                address,
-                0,
-            ];
-
-            DBQuery(sqlQuery, params, async function (err, result) {
+        const data = await GetAllUsersData();
+        var index = data.findIndex((item) => item.Email === email);
+        if (index == -1) {
+            PasswordEncryption(password, (err, hash) => {
                 if (err) {
-                    if (err.errno == 1062) {
-                        console.log("userSignup", err);
-                        return res.send({
-                            emailExist: true,
-                        });
-                    }
-                    return console.log(err);
+                    console.log(err, "password hasing error");
+                    return err;
                 }
-                const fullHash = await CreateHash(email);
-                //Create OTP and send mail to email
-                res.json({ hash: fullHash });
+                const params = [
+                    firstName,
+                    lastName,
+                    hash,
+                    email,
+                    phoneNumber,
+                    address,
+                    0,
+                ];
+
+                DBQuery(sqlQuery, params, async function (err, result) {
+                    try {
+                        if (err) {
+                            if (err.errno == 1062) {
+                                console.log("userSignup", err);
+                                return res.send({
+                                    emailExist: true,
+                                });
+                            }
+                            return console.log(err);
+                        }
+                        const fullHash = await CreateHash(email);
+                        //Create OTP and send mail to email
+                        res.json({ hash: fullHash });
+                    } catch {}
+                });
             });
-        });
-    } else return res.send({ emailExist: true });
+        } else return res.send({ emailExist: true });
+    } catch {}
 });
 //#endregion
 

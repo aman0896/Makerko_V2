@@ -23,8 +23,8 @@ export default function MapMarkerComponent(props) {
                 {props.data?.map((item) => (
                     <Marker
                         position={[
-                            parseFloat(item.latitude),
-                            parseFloat(item.longitude),
+                            parseFloat(item.Latitude),
+                            parseFloat(item.Longitude),
                         ]}
                         icon={markerIcon}
                         eventHandlers={{

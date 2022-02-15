@@ -6,8 +6,9 @@
 }
 
 .button:active {
-  background-color: var(--primary);
-  opacity: 0.8;
+    background-color: var(--secondary);
+    border: none;
+    color: var(--light);
 }
 
 .button--primary--solid {
@@ -45,6 +46,10 @@
   border: 2px solid var(--primary);
   color: var(--primary);
 }
+.button--primary--outline:hover {
+    background-color: var(--primary);
+    color: var(--white);
+}
 .button--success--outline {
   background-color: transparent;
   border: 2px solid var(--success);
@@ -68,9 +73,9 @@
 }
 
 .button--medium {
-  width: 150px;
-  height: 30px;
-  font-size: 16px;
+    width: 150px;
+    height: 50px;
+    font-size: 16px;
 }
 
 .button--large {
@@ -99,6 +104,25 @@
 .button2 {
   font-weight: 400;
   cursor: pointer;
+}
+
+.button2:hover {
+    animation: button2 0.5s ease-in-out;
+}
+
+.button2:active {
+    background-color: var(--secondary);
+    border: none;
+    color: var(--light);
+}
+
+@keyframes button2 {
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .button2-container--medium {

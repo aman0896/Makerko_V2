@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Form } from "formik";
+import { Formik } from "formik";
 
 export default function FormikComponent(props) {
     return (
@@ -8,7 +8,7 @@ export default function FormikComponent(props) {
             validationSchema={props.validationSchema}
             onSubmit={props.onSubmit}
             innerRef={props.formRef}
-            // enableReinitialize
+            enableReinitialize={props.enableReinitialize}
         >
             {() => <>{props.children}</>}
         </Formik>

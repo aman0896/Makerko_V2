@@ -2,21 +2,27 @@ import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./NavBar.css";
 import { FiUser } from "react-icons/fi";
-import { getData, getDataWithNoParams } from "../commonApi/CommonApi";
-import { logout } from "../commonApi/Link";
+import { getDataWithNoParams } from "../commonApi/CommonApi";
+import { logout, webDomain } from "../commonApi/Link";
 import ModalChoice from "./modal/ModalChoice";
 import { colors } from "../Values/colors";
 
 import { useDispatch, useSelector } from "react-redux";
-import { CurrentUserdata } from "./Redux/Actions/CurrentUserdata";
 import { useWindowDimensions } from "../functions/Functions";
+import { SET_LOCATION_PATHNAME } from "./Redux/Actions/Types";
+import Button from "./Button";
 
-function NavBar({ isAuth, currentUser, userType }) {
-    const dispatch = useDispatch();
+function NavBar({ isAuth, currentUser, userType, setPathname }) {
     const { width, height } = useWindowDimensions();
     const [hambergerClicked, isHambergerClicked] = useState(false);
     const [path, setPath] = useState(window.location.pathname);
+    const [showModal, setShowModal] = useState(false);
     // const [currentUserData, setCurrentUserData] = useState();
+
+    useEffect(() => {
+        setPath(window.location.pathname);
+        setPathname(window.location.pathname);
+    }, [window.location.pathname]);
 
     const onhambergerClick = () => {
         isHambergerClicked(!hambergerClicked);
@@ -30,20 +36,54 @@ function NavBar({ isAuth, currentUser, userType }) {
         setPath(event.target.dataset.name);
     };
 
+    const showModalChoice = () => {
+        setShowModal(true);
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
+    };
+
+    const onClickHaveDesign = () => {
+        window.location.href = "/get-quote";
+    };
+
+    const onClickRequestDesign = () => {
+        window.location.href = "/request-design";
+    };
+
+    useEffect(() => {
+        console.log(path, "path");
+    }, [path]);
+
     return (
-        <nav className={path === "/" ? "NavbarItems" : "PrimaryNavbarItems"}>
+        <nav
+            className={
+                path === undefined || path === "/"
+                    ? "NavbarItems"
+                    : "PrimaryNavbarItems"
+            }
+        >
             <div className="navbar-container">
                 <Link
                     className="navbar-logo"
                     onClick={handleChangePath}
                     to={{ pathname: "/" }}
                 >
-                    <h2
+                    <div
                         data-name="/"
                         className={path !== "/" ? "text-white" : ""}
                     >
-                        Makerko
-                    </h2>
+                        <img
+                            src={
+                                path === undefined || path === "/"
+                                    ? `${webDomain}/assests/logo-05@2x.png`
+                                    : `${webDomain}/assests/variationwhite-05 1.png`
+                            }
+                            style={{ width: 200 }}
+                            alt=""
+                        />
+                    </div>
                 </Link>
 
                 <div className="menu-icon" onClick={onhambergerClick}>
@@ -52,7 +92,10 @@ function NavBar({ isAuth, currentUser, userType }) {
                             hambergerClicked ? "fas fa-times" : "fas fa-bars"
                         }
                         style={{
-                            color: path === "/" ? colors.primary : colors.white,
+                            color:
+                                path === undefined || path === "/"
+                                    ? colors.primary
+                                    : colors.white,
                         }}
                     ></i>
                 </div>
@@ -62,8 +105,11 @@ function NavBar({ isAuth, currentUser, userType }) {
                     }
                     style={{
                         backgroundColor:
-                            path === "/" ? colors.white : colors.primary,
+                            path === undefined || path === "/"
+                                ? colors.white
+                                : colors.primary,
                     }}
+                    onClick={onhambergerClick}
                 >
                     <li>
                         <Link
@@ -79,7 +125,7 @@ function NavBar({ isAuth, currentUser, userType }) {
                                 borderRadius: 5,
                             }}
                             className={
-                                path === "/"
+                                path === undefined || path === "/"
                                     ? "navbar-links"
                                     : "whiteNavbar-links"
                             }
@@ -103,7 +149,7 @@ function NavBar({ isAuth, currentUser, userType }) {
                                 borderRadius: 5,
                             }}
                             className={
-                                path === "/"
+                                path === undefined || path === "/"
                                     ? "navbar-links"
                                     : "whiteNavbar-links"
                             }
@@ -127,7 +173,7 @@ function NavBar({ isAuth, currentUser, userType }) {
                                 borderRadius: 5,
                             }}
                             className={
-                                path === "/"
+                                path === undefined || path === "/"
                                     ? "navbar-links"
                                     : "whiteNavbar-links"
                             }
@@ -139,13 +185,43 @@ function NavBar({ isAuth, currentUser, userType }) {
                     </li>
                 </ul>
 
+                <div className="navbar-button">
+                    <Button
+                        buttonStyle={
+                            path === undefined || path === "/"
+                                ? "button--primary--solid"
+                                : "button--white--solid"
+                        }
+                        buttonSize={
+                            width <= 1230 ? "button--small" : "button--medium"
+                        }
+                        style={
+                            width <= 1230
+                                ? { fontWeight: "bold" }
+                                : { fontWeight: "bold", fontSize: "1.2rem" }
+                        }
+                        onClick={showModalChoice}
+                    >
+                        Get a Quote
+                    </Button>
+                    <ModalChoice
+                        show={showModal}
+                        handleClose={handleClose}
+                        onClickButton1={onClickHaveDesign}
+                        onClickButton2={onClickRequestDesign}
+                        title="Get a quote"
+                        btnTitle1="Have a Design"
+                        btnTitle2="Request a Desgin"
+                    />
+                </div>
+
                 <div>
                     {isAuth && currentUserData !== null ? (
                         <ProfileAvatarLogout
                             userName={
                                 userType === "maker"
                                     ? currentUserData.Company_Name
-                                    : currentUserData.First_Name
+                                    : `${currentUserData.First_Name}.${currentUserData.Last_Name}`
                             }
                             userId={currentUser}
                             userType={userType}
@@ -193,8 +269,13 @@ function ProfileAvatarLogin({ path, handleChangePath = { handleChangePath } }) {
                 className="dropdown navbar-login"
                 style={{
                     backgroundColor:
-                        path === "/" ? colors.primary : colors.white,
-                    color: path === "/" ? colors.white : colors.primary,
+                        path === undefined || path === "/"
+                            ? colors.primary
+                            : colors.white,
+                    color:
+                        path === undefined || path === "/"
+                            ? colors.white
+                            : colors.primary,
                 }}
             >
                 <FiUser />
@@ -236,15 +317,23 @@ function ProfileAvatarLogout({
     handleChangePath,
 }) {
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const onClickEdit_CustomerProfile = (event) => {
         handleChangePath(event);
-        history.push({ pathname: "/profile/customer/edit" });
+        // history.push({ pathname: "/profile/customer/edit" });
+        window.open(`/customer/${userId}/${userName}`, "_blank");
     };
 
     const onClickEdit_MakerProfile = (event) => {
         handleChangePath(event);
-        history.push({ pathname: "/profile/makers/edit" });
+        // history.push({ pathname: "/profile/makers/edit" });
+        // dispatch({
+        //     type: SET_LOCATION_PATHNAME,
+        //     pathname: "/profile/customer/edit",
+        // });
+
+        window.open(`/makers/${userId}/${userName}`, "_blank");
     };
 
     const onclickLogout = () => {
@@ -268,8 +357,13 @@ function ProfileAvatarLogout({
                 className="dropdown navbar-login text-uppercase"
                 style={{
                     backgroundColor:
-                        path === "/" ? colors.primary : colors.white,
-                    color: path === "/" ? colors.white : colors.primary,
+                        path === undefined || path === "/"
+                            ? colors.primary
+                            : colors.white,
+                    color:
+                        path === undefined || path === "/"
+                            ? colors.white
+                            : colors.primary,
                 }}
             >
                 {userName.charAt(0)}
@@ -284,6 +378,7 @@ function ProfileAvatarLogout({
                 // }}
             >
                 <a
+                    href
                     className="dropdown-item  dropdown-item-style"
                     onClick={
                         userType === "customer"
@@ -295,6 +390,7 @@ function ProfileAvatarLogout({
                     <span className="ml-1">My Profile</span>
                 </a>
                 <a
+                    href
                     className="dropdown-item dropdown-item-style"
                     onClick={onclickLogout}
                 >

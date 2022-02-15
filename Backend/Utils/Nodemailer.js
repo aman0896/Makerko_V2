@@ -67,7 +67,7 @@ async function SendOrderSpecificationMail(
                 "</h1>",
         };
         const success = await Tranporter(mailOptions);
-        result.push({ requestPrototpe: success });
+        result.push({ requestPrototype: success });
     }
     if (orderType.includes("Request Quotation")) {
         console.log(manufacturerEmail, "mEmaiil");
@@ -90,7 +90,6 @@ async function SendOrderSpecificationMail(
 
 //#region request-design
 async function SendRequestDesignMail(userEmail, username, imageUri, sketchUri) {
-    console.log(imageUri, sketchUri, "uruu");
     var mailOptions = {
         from: `"${username}" <${userEmail}>`,
         to: "enquiry@makerko.com",
@@ -118,25 +117,8 @@ async function SendRequestDesignMail(userEmail, username, imageUri, sketchUri) {
 //#endregion
 
 //#region request-design
-async function ResetPasswordMail(userEmail, url) {
-    var mailOptions = {
-        from: '"Makerko" <enquiry@makerko.com>',
-        to: userEmail,
-        subject: "Reset Password ",
-        html:
-            "<h3>Click the link below to reset password. </h3>" +
-            "<h4>" +
-            url +
-            "</h4>",
-    };
-
-    const sent = await Tranporter(mailOptions);
-    return sent;
-}
-//#endregion
-
-//#region request-design
 async function SendOTP(userEmail, otp) {
+    console.log(userEmail, "otp", otp);
     //#region Send_Mail
     var mailOptions = {
         from: '"Makerko" <enquiry@makerko.com>',
@@ -154,10 +136,29 @@ async function SendOTP(userEmail, otp) {
 }
 //#endregion
 
+//#region password reset
+async function ResetPassword(userEmail, resetLink) {
+    //#region Send_Mail
+    var mailOptions = {
+        from: '"Makerko" <enquiry@makerko.com>',
+        to: userEmail,
+        subject: "Reset Password ",
+        html:
+            "<h3>Clink the following link to reset your passowrd" +
+            "<h2 style ='font-weight:bold;'>" +
+            resetLink +
+            "</h2>",
+    };
+
+    const sent = await Tranporter(mailOptions);
+    return sent;
+}
+//#endregion
+
 module.exports = {
     NodeMailer,
     SendOrderSpecificationMail,
     SendRequestDesignMail,
-    ResetPasswordMail,
     SendOTP,
+    ResetPassword,
 };

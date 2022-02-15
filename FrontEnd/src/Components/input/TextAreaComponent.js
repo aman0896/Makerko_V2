@@ -1,9 +1,11 @@
+import { useFormikContext } from "formik";
 import React, { useEffect, useState } from "react";
 import { colors } from "../../Values/colors";
 import ErrorMessage from "../formik/ErrorMessage";
 
 export default function TeaxtAreaComponent(props) {
     const [data, setData] = useState();
+    const { values } = useFormikContext();
 
     useEffect(() => {
         if (props.setInitial) {
@@ -13,7 +15,7 @@ export default function TeaxtAreaComponent(props) {
     }, []);
 
     const handleChange = (event) => {
-        setData(event.target.value);
+        // setData(event.target.value);
         props.setFieldValue(props.name, event.target.value);
     };
 
@@ -33,7 +35,7 @@ export default function TeaxtAreaComponent(props) {
                         props.className ? props.className : "form-control"
                     }
                     placeholder={props.placeholder}
-                    value={props.value ? props.value : data}
+                    value={data ? data : values[props.name]}
                     onChange={(event) => {
                         props.setFieldValue
                             ? handleChange(event)

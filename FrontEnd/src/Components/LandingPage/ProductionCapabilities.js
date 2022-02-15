@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ProductionCapabilities.css";
 import SlideView from "../slideView/SlideView";
 import { colors } from "../../Values/colors";
 import { Button2 } from "../Button";
+import ModalChoice from "../modal/ModalChoice";
+import { useHistory } from "react-router-dom";
 
 function ProductionCapabilities({ productionType }) {
+    const history = useHistory();
+    const [showModal, setShowModal] = useState(false);
+
     const imageStyle = {
         objectFit: "cover",
         width: "100%",
@@ -22,8 +27,24 @@ function ProductionCapabilities({ productionType }) {
         background: "white",
         borderRadius: "5px",
         overflow: "hidden",
-        height: "392px",
+        height: "430px",
         width: "98%",
+    };
+
+    const showModalChoice = () => {
+        setShowModal(true);
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
+    };
+
+    const onClickHaveDesign = () => {
+        window.location.href = "/get-quote";
+    };
+
+    const onClickRequestDesign = () => {
+        window.location.href = "/request-design";
     };
 
     return (
@@ -41,16 +62,29 @@ function ProductionCapabilities({ productionType }) {
                 />
                 <div className="mt-5 m-3 d-flex justify-content-between">
                     <span style={{ color: colors.white }}>
-                        Other Local manufacturing: Injection Molding / Tool and
-                        Die Making / Casting / Metal Fabrication / Wood Working
+                        Other Local manufacturing: Vacuum Forming / Injection
+                        Molding / Tool and Die Making / Casting / Metal
+                        Fabrication / Wood Working
                     </span>
                     <span>
-                        <Button2 buttonSize="button2--large">
+                        <Button2
+                            onClick={showModalChoice}
+                            buttonSize="button2--large"
+                        >
                             Get a Quote
                         </Button2>
                     </span>
                 </div>
             </div>
+            <ModalChoice
+                show={showModal}
+                handleClose={handleClose}
+                onClickButton1={onClickHaveDesign}
+                onClickButton2={onClickRequestDesign}
+                title="Get a quote"
+                btnTitle1="Have a Design"
+                btnTitle2="Request a Desgin"
+            />
         </div>
     );
 }

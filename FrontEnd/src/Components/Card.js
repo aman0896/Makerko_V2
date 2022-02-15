@@ -3,40 +3,44 @@ import { colors } from "../Values/colors";
 import "./Card.css";
 
 function Card({
-  data,
-  path,
-  imageStyle,
-  titleStyle,
-  descriptionStyle,
-  cardStyle,
-  handleClick,
+    data,
+    path,
+    imageStyle,
+    titleStyle,
+    descriptionStyle,
+    cardStyle,
+    handleClick,
 }) {
-  // const onCardSelect = () => {
-  //   selectedCard(data);
-  // };
+    // const onCardSelect = () => {
+    //   selectedCard(data);
+    // };
 
-  return (
-    <div className="card-bank text-center" style={cardStyle}>
-      <img
-        className="mb-4"
-        src={data.image}
-        style={imageStyle}
-        onClick={handleClick}
-      />
-      {path === "aboutUs" && (
+    return (
         <div
-          className="hr-divider"
-          style={{ background: colors.primary }}
-        ></div>
-      )}
-      <h4 className="m-1" style={titleStyle}>
-        {data.name}
-      </h4>
-      <p className="m-1" style={descriptionStyle}>
-        {data.description}
-      </p>
-    </div>
-  );
+            className="card-bank text-center"
+            style={cardStyle}
+            onClick={handleClick}
+        >
+            <img
+                className="mb-4"
+                src={data.image || data.url}
+                style={imageStyle}
+                alt=""
+            />
+            {path === "aboutUs" && (
+                <div
+                    className="hr-divider"
+                    style={{ background: colors.primary }}
+                ></div>
+            )}
+            <h4 className="m-1" style={titleStyle}>
+                {data.name}
+            </h4>
+            <p className="m-1" style={descriptionStyle}>
+                {data.description}
+            </p>
+        </div>
+    );
 }
 
 export default Card;

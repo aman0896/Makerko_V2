@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormikContext, Field } from "formik";
 import { Button } from "@material-ui/core";
 import { colors } from "../../Values/colors";
@@ -8,15 +8,16 @@ export default function BrowseFileComponent(props) {
   const [file, setFile] = useState(null);
   const [fileLength, setFileLength] = useState(null);
 
+  // useEffect(() => {
+  //   setFile(props.setInitial);
+  //   props.setFieldValue(props.name, props.setInitial);
+  // }, [props.setInitial]);
+
   const handleChange = (event) => {
     const files = event.target.files;
 
     if (files) {
       props.setFieldValue(props.name, files);
-      //setFile(URL.createObjectURL(file));
-      //   for (let i = 0; i < files.length; i++) {
-      //     file.push(URL.createObjectURL(files[i]));
-      //   }
 
       let filePreview = [];
 
@@ -45,6 +46,7 @@ export default function BrowseFileComponent(props) {
     fontSize: 15,
     color: colors.white,
   };
+
   return (
     <div className="mb-4">
       {props.label && (
@@ -52,31 +54,14 @@ export default function BrowseFileComponent(props) {
           {props.label}
         </label>
       )}
-      {file && (
-        <div className="row m-2">
-          {file.map((src) => (
-            <div className="col-sm m-2">
-              <img
-                style={{
-                  height: 150,
-                  width: 150,
-                  border: "1px solid",
-                  borderRadius: 5,
-                  objectFit: "cover",
-                }}
-                src={src}
-                alt="image"
-              />
-            </div>
-          ))}
-        </div>
-      )}
 
       <div
         className="d-flex align-items-center m-0 p-0 justify-content-center"
         style={{
           border: `0.8px solid ${
-            props.errors[props.name] && props.touched[props.name]
+            props.errors && props.errors[props.name] &&
+            props.touched &&
+            props.touched[props.name]
               ? colors.danger
               : colors.gray
           }`,
@@ -84,8 +69,41 @@ export default function BrowseFileComponent(props) {
           height: 50,
         }}
       >
-        <div>
-          {fileLength ? fileLength + "files" : "NO FILE CHOSEN"}
+        <div className=" d-flex align-items-center">
+          <label
+            className={
+              "btn" +
+              (props.errors &&
+              props.errors[props.name] &&
+              props.touched &&
+              props.touched[props.name]
+                ? " is-invalid"
+                : "")
+            }
+            style={btnStyle}
+            htmlFor={props.name}
+          >
+            {props.title}
+          </label>
+          <input
+            type="file"
+            name={props.name}
+            id={props.name}
+            accept={props.accept}
+            hidden
+            multiple
+            onBlur={() => {
+              if (props.handleBlur) {
+                props.handleBlur(props.name);
+              }
+            }}
+            onChange={(event) => {
+              props.onChange ? props.onChange(event) : handleChange(event);
+            }}
+          />
+        </div>
+        <div className="ml-5">
+          {props.fileLength ? props.fileLength + "files" : "NO FILE CHOSEN"}
         </div>
       </div>
       <div className=" d-flex align-items-center justify-content-start mt-3">
@@ -120,8 +138,8 @@ export default function BrowseFileComponent(props) {
       </div>
 
       <ErrorMessage
-        error={props.errors[props.name]}
-        visible={props.touched[props.name]}
+        error={props.errors && props.errors[props.name]}
+        visible={props.touched && props.touched[props.name]}
       />
     </div>
   );
