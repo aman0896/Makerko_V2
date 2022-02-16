@@ -5,15 +5,14 @@ import { colors } from "../../Values/colors";
 import ErrorMessage from "../formik/ErrorMessage";
 
 export default function BrowseFileComponent(props) {
-    console.log(props, "browsefile");
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState(null);
 
     const handleChange = (event) => {
         const file = event.target.files[0];
-        console.log(file, "file");
 
         if (file) {
+            console.log(file, "file if");
             props.setFieldValue(props.name, file);
             setFile(URL.createObjectURL(file));
             setFileName(file.name);
@@ -21,6 +20,7 @@ export default function BrowseFileComponent(props) {
                 props.handleChange(event);
             }
         } else {
+            console.log(file, "file else");
             props.setFieldValue(props.name, file);
             setFile(null);
             setFileName(null);
