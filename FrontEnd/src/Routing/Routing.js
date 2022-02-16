@@ -3,12 +3,10 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FooterContainer from "../Components/Footer/FooterContainer";
 import NavBar from "../Components/NavBar";
 import ReactToastify from "../Components/ReactToastify";
-import CreateFeatureProject from "../Pages/FeatureProject/CreateFeatureProject";
 import GetAQuote from "../Pages/GetAQuote";
 import Main from "../Pages/LandingPage/Main";
 import Login from "../Pages/Login";
 import MakersSignup from "../Pages/MakersSignup";
-import OTPVerification from "../Pages/OTPVerification";
 import CustomerProfile from "../Pages/Profile/CustomerProfile";
 import Signup from "../Pages/Signup";
 import VerificationSuccess from "../Pages/VerificationSuccess";
@@ -40,6 +38,7 @@ import CustomerDetailViewPage from "../Pages/Profile/CustomerDetailViewPage";
 import ImageCropperTest from "../Test/ImageCropper";
 import ReactSelect from "../Test/ReactSelect";
 import HowitWorks from "../Pages/HowItWorks/HowItWorks";
+import OTPVerification from "../Pages/OTPVerification";
 
 function Routing() {
     const auth = useSelector((state) => state.isAuth);
