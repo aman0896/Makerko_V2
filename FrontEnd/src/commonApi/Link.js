@@ -91,7 +91,7 @@ export const makerCoverImage = "profile/maker-cover-edit";
 export const makerMapEdit = "profile/maker-map-edit";
 
 // maker password edit
-export const makerPasswordEdit = "profile/maker-password-edit";
+export const passwordEdit = "profile/password-edit";
 
 // makers list
 export const makersList = "account/makers";

@@ -133,12 +133,14 @@ export default function MakersDetailViewPage() {
                         //otherservices
                         let otherServiceNameList = [];
                         const otherServices = JSON.parse(maker.Other_Services);
-                        for (let i = 0; i < otherServices.length; i++) {
-                            otherServiceNameList.push({
-                                name: otherServices[i].serviceName,
-                            });
+                        if (otherServices !== null) {
+                            for (let i = 0; i < otherServices.length; i++) {
+                                otherServiceNameList.push({
+                                    name: otherServices[i].serviceName,
+                                });
+                            }
+                            setOtherServices(otherServiceNameList);
                         }
-                        setOtherServices(otherServiceNameList);
                     }
                 });
 

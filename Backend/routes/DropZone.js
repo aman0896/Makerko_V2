@@ -7,7 +7,7 @@ const router = express.Router();
 var fs = require("fs");
 
 const path = require("path");
-const FileDelete = require("../Utils/FileDelete");
+const { FileDelete } = require("../Utils/FileDelete");
 const projectPath = path.dirname(process.cwd());
 console.log(projectPath, "path");
 

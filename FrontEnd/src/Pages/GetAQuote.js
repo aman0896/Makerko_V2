@@ -81,15 +81,17 @@ function GetAQuote() {
                 });
                 if (filteredMakersList && filteredMakersList.length > 0) {
                     for (let i = 0; i < filteredMakersList.length; i++) {
-                        const imageData = JSON.parse(
-                            filteredMakersList[i].Logo
-                        );
-                        const imageBlob = await FileDownload(
-                            imageData.filePath
-                        );
-                        const previewUrl =
-                            window.URL.createObjectURL(imageBlob);
-                        filteredMakersList[i].Logo = previewUrl;
+                        if (filteredMakersList[i].Logo !== null) {
+                            const imageData = JSON.parse(
+                                filteredMakersList[i].Logo
+                            );
+                            const imageBlob = await FileDownload(
+                                imageData.filePath
+                            );
+                            const previewUrl =
+                                window.URL.createObjectURL(imageBlob);
+                            filteredMakersList[i].Logo = previewUrl;
+                        }
                     }
                     setHubList(filteredMakersList);
                 } else setHubList([]);

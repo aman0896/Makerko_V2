@@ -320,7 +320,7 @@ export default function CustomerDetailViewPage() {
                                 </div>
                             </div>
 
-                            <div>
+                            {/* <div>
                                 <p
                                     className="text-center mt-5"
                                     style={{
@@ -339,7 +339,7 @@ export default function CustomerDetailViewPage() {
                                 >
                                     <b>Get A Quote</b>
                                 </Button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
