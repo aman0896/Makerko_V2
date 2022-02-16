@@ -15,6 +15,7 @@ import { MdEdit } from "react-icons/md";
 import ImageCropper, {
     dataURItoBlob,
 } from "../../Components/imageCropper/ImageCropper";
+import { useHistory } from "react-router-dom";
 
 const InitialValues = {
     coverImage: "",
@@ -46,6 +47,7 @@ const imagePosition = [
 ];
 
 function CreateProjectForm(props) {
+    const history = useHistory();
     const formRef = useRef();
     const currentUserData = useSelector(
         (state) => state.currentUserdata.currentUserdata
@@ -114,10 +116,21 @@ function CreateProjectForm(props) {
         postDataWithFormData(
             createProject,
             formData,
-            (onSuccess) => {},
-            (onFail) => {}
+            (onSuccess) => {
+                if (onSuccess.data.create === "success") {
+                    history.push({
+                        pathname: "/projects",
+                        state: {
+                            message:
+                                "Thank you for sharing your project/innovation with MAKERKO.",
+                        },
+                    });
+                }
+            },
+            (onFail) => {
+                console.log(onFail);
+            }
         );
-        console.log("Values", values);
     };
 
     const onCancel = () => {
