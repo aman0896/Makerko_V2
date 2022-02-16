@@ -35,6 +35,10 @@ function Signup() {
                 }
                 const { hash } = onSuccess.data;
                 history.push({
+                    state: {
+                        message:
+                            "Your request to join the platform has been submitted. Please check your inbox or spam folder in your email for the OTP.",
+                    },
                     pathname: `/account/verify`,
                     search: `?email=${values.email}&hash=${hash}`,
                     //send data to verify page
