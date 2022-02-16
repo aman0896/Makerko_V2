@@ -3,9 +3,15 @@ import CardViewVerticalComponent from "../../Components/card/CardViewVerticalCom
 import { useDispatch, useSelector } from "react-redux";
 import { FeatureProjectList } from "../../Components/Redux/Actions/FeatureProjectList";
 import { FileDownload } from "../../commonApi/CommonApi";
+import { useLocation } from "react-router-dom";
+import { Toast } from "../../Components/ReactToastify";
 
 function Projects() {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const { state } = location;
+    console.log(state, "state");
+
     const projectList = useSelector((state) => state.projectList.projectList);
 
     const [projects, setProjects] = useState(null);
@@ -19,6 +25,12 @@ function Projects() {
             SetCoverImage(projectList);
         }
     }, [projectList]);
+
+    useEffect(() => {
+        if (state !== undefined) {
+            Toast(state.message, "success");
+        }
+    }, [state]);
 
     async function SetCoverImage(projectList) {
         if (projectList) {
