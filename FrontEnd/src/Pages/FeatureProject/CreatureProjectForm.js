@@ -11,6 +11,10 @@ import { useWindowDimensions } from "../../functions/Functions";
 import { colors } from "../../Values/colors";
 import { ProjectValidationSchema } from "../Form/ValidationSchema";
 import "./Featureproject.css";
+import { MdEdit } from "react-icons/md";
+import ImageCropper, {
+    dataURItoBlob,
+} from "../../Components/imageCropper/ImageCropper";
 
 const InitialValues = {
     coverImage: "",
@@ -55,6 +59,14 @@ function CreateProjectForm(props) {
     const [previousImagePath, setPreviousImagePath] = useState();
     const [deletedImagePath, setDeletedImagepath] = useState([]);
     const [totalGalleryImage, setTotalGalleryImage] = useState(null);
+    const [profileImage, setProfileImage] = useState();
+    const [profileImagePreview, setProfileImagePreview] = useState();
+    const [prevProfileImage, setPrevProfileImage] = useState();
+    const [showCoverImage, setShowCoverImage] = useState();
+    const [showImageCropper, setImageCropper] = useState(false);
+    const [imageDestination, setImageDestination] = useState();
+    const [prevCoverImage, setPrevCoverImage] = useState();
+    const [targetFile, setTargetFile] = useState();
 
     const style = width > 600 ? { width: "30%" } : { width: "100%" };
     const SUPPORTED_FORMATS = [
@@ -112,12 +124,8 @@ function CreateProjectForm(props) {
         window.location.href = "/";
     };
 
-    useEffect(() => {
-        console.log(
-            formRef.current && formRef.current.setFieldValue("pdfFile", "file"),
-            "formref"
-        );
-    }, [formRef]);
+    console.log(formRef.current && formRef.current.values, "formref");
+    console.log(formRef.current && formRef.current.values, "formref");
 
     const onDeleteClick = (img) => {
         const filterData = imagePreview.filter(
@@ -164,6 +172,36 @@ function CreateProjectForm(props) {
         }
     };
 
+    const handleOnChangeImage = (e) => {
+        setProfileImage(e.target.files[0]);
+        const url = URL.createObjectURL(e.target.files[0]);
+        setProfileImagePreview(url);
+    };
+
+    const coverImageUpdate = (e) => {
+        const file = e.target.files[0];
+        setImageCropper(true);
+
+        if (file) {
+            setShowCoverImage(URL.createObjectURL(file));
+            setTargetFile(file);
+        }
+    };
+
+    const onCroppedImageSave = () => {
+        const formData = new FormData();
+        const blob = dataURItoBlob(imageDestination);
+        formData.append("cover", blob, targetFile.name);
+        formData.append("userId", currentUserData.Customer_ID);
+        formData.append("prevImage", prevCoverImage);
+    };
+
+    const onImageCropCancel = () => {
+        setImageCropper(false);
+        setImageDestination(profileImagePreview);
+        setShowCoverImage();
+    };
+
     return (
         <WrapperComponent>
             <div
@@ -183,6 +221,29 @@ function CreateProjectForm(props) {
                         validationSchema={ProjectValidationSchema}
                         formRef={formRef}
                     >
+                        {/* <div className="cover-image my-4">
+                            {showImageCropper ? (
+                                <ImageCropper
+                                    src={showCoverImage}
+                                    aspectRatio={16 / 6}
+                                    setImageDestination={setImageDestination}
+                                    onSaveClick={onCroppedImageSave}
+                                    onCancelClick={onImageCropCancel}
+                                />
+                            ) : (
+                                <>
+                                    <img
+                                        className="cover-image-profile"
+                                        src={
+                                            showCoverImage
+                                                ? showCoverImage
+                                                : "http://localhost:3000/assests/cover.jpg"
+                                        }
+                                        alt=""
+                                    />
+                                </>
+                            )}
+                        </div> */}
                         <FormikController
                             control="file"
                             label="Choose Main Photo of Project:"
@@ -262,7 +323,7 @@ function CreateProjectForm(props) {
                                             <div className="d-flex justify-content-end">
                                                 {addMore === index && (
                                                     <>
-                                                        {!showPreview ? (
+                                                        {/* {!showPreview ? (
                                                             <Button
                                                                 buttonStyle="button--primary--solid"
                                                                 buttonSize="button--medium"
@@ -296,7 +357,7 @@ function CreateProjectForm(props) {
                                                             >
                                                                 Hide Preview
                                                             </Button>
-                                                        )}
+                                                        )} */}
                                                         <Button
                                                             buttonStyle="button--primary--solid"
                                                             buttonSize="button--medium"
