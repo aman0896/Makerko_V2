@@ -222,6 +222,7 @@ router.post("/create", (req, res) => {
                                 err,
                                 "featureproject create line 160"
                             );
+                        res.json({ create: "success" });
                         console.log(result, "featureproject create line 162");
                     } catch {}
                 });
