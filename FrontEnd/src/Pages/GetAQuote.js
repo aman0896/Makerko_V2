@@ -13,6 +13,7 @@ const InitialValues = {
     method: "",
     material: "",
     thickness: "",
+    materialDetails: "",
     quantity: "",
     file: "",
     description: "",
@@ -159,7 +160,7 @@ function GetAQuote() {
                     onSuccess.data.mailSent[1].requestPrototype === true ||
                     onSuccess.data.mailSent[2].requestQuotation === true
                 ) {
-                    Toast("Request Sent Successfully", "success");
+                    Toast("Your order request has been sent!", "success");
                 }
             },
             (onFail) => {}
@@ -204,7 +205,7 @@ function GetAQuote() {
                             onChange={onMaterialSelect}
                         />
                     </div>
-                    <div className="position-relative col-lg">
+                    {/* <div className="position-relative col-lg">
                         <FormikController
                             name="thickness"
                             control="input"
@@ -213,7 +214,7 @@ function GetAQuote() {
                             isUnit
                             unit="mm"
                         />
-                    </div>
+                    </div> */}
                     <div className="col-lg">
                         <FormikController
                             name="quantity"
@@ -222,6 +223,17 @@ function GetAQuote() {
                             label="Quantity"
                             isUnit
                             unit="pcs"
+                        />
+                    </div>
+                </div>
+                <div className="row mt-5 mx-auto heading">
+                    <div className="col-lg-6">
+                        <FormikController
+                            name="materialDetails"
+                            control="textarea"
+                            placeholder="Specify color, thickness, design considerations and special information 
+                            Eg. PLA(white, blue), 1.75mm dig, design wall thicnkess 2mm, 1kg roll costs NPR 6000"
+                            label="Material Details"
                         />
                     </div>
                 </div>
