@@ -15,7 +15,7 @@ export default function TeaxtAreaComponent(props) {
     }, []);
 
     const handleChange = (event) => {
-        // setData(event.target.value);
+        setData(event.target.value);
         props.setFieldValue(props.name, event.target.value);
     };
 
@@ -35,7 +35,7 @@ export default function TeaxtAreaComponent(props) {
                         props.className ? props.className : "form-control"
                     }
                     placeholder={props.placeholder}
-                    value={data ? data : values[props.name]}
+                    value={data}
                     onChange={(event) => {
                         props.setFieldValue
                             ? handleChange(event)
