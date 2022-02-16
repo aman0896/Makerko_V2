@@ -114,9 +114,9 @@ export const ProjectValidationSchema = Yup.object().shape({
 //Get quote Validation Schema
 export const GetAQuoteValidationSchema = Yup.object().shape({
     method: Yup.object().required("Method is required"),
-
     material: Yup.object().required("Material is required"),
-    thickness: Yup.string().required("Thickness is required"),
+    // thickness: Yup.string().required("Thickness is required"),
+    materialDetails: Yup.string().required("Material Details are required"),
     quantity: Yup.string().required("Quantity is required"),
     file: Yup.object().required("No file Uploaded"),
     description: Yup.string().required("Brief Description is required"),
