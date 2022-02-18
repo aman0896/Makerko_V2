@@ -480,13 +480,13 @@ export default function MakersDetailViewPage() {
                                             fontSize: width < 768 ? 20 : 38,
                                         }}
                                     />
-                                    {/* <ServicesComponent
+                                    <ServicesComponent
                                         header="Other Services"
                                         services={otherServices}
                                         style={{
                                             fontSize: width < 768 ? 20 : 38,
                                         }}
-                                    /> */}
+                                    />
                                 </div>
                             </>
 
