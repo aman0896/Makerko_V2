@@ -20,7 +20,7 @@
 
 .partners-heading {
     margin-bottom: 100px;
-    color: #0000ff;
+    color: var(--white);
     font-weight: bold;
     text-align: center;
 }
