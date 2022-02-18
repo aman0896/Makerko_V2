@@ -27,7 +27,7 @@ function Projects() {
     }, [projectList]);
 
     useEffect(() => {
-        if (state !== undefined) {
+        if (state !== undefined && state !== null) {
             Toast(state.message, "success");
         }
     }, [state]);
@@ -56,9 +56,12 @@ function Projects() {
         projects.map((project, index) => {
             return (
                 <CardViewVerticalComponent
+                    type="project"
                     index={index}
                     name={project.Title}
                     image={project.Cover_Image}
+                    category={project.Category}
+                    materials={project.Materials}
                     data={project}
                     description={project.Description}
                     onPress={onProjectClick}
