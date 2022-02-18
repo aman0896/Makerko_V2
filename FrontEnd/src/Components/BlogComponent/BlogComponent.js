@@ -61,12 +61,27 @@ function BlogComponent(props) {
                 src={coverImage}
                 style={{
                     width: "100%",
+                    height:
+                        width <= 500
+                            ? "300px"
+                            : width <= 766
+                            ? "400px"
+                            : "600px",
+                    backgroundPosition: "center",
+                    objectFit: "cover",
+                }}
+                alt="Project Cover"
+            />
+            {/* <img
+                src={coverImage}
+                style={{
+                    width: "100%",
                     height: "600px",
                     objectFit: "cover",
                     backgroundPosition: "center",
                 }}
                 alt=""
-            />
+            /> */}
             {editable && (
                 <div className="d-flex justify-content-end mx-5 my-2">
                     <Button
