@@ -20,7 +20,7 @@ function ProductionCapabilities({ productionType }) {
         color: colors.primary,
     };
     const descriptionStyle = {
-        color: colors.primary,
+        color: colors.dark,
     };
 
     const cardStyle = {
