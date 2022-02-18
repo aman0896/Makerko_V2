@@ -214,7 +214,7 @@ export default function CustomerDetailViewPage() {
                                 <FontAwesomeIcon
                                     style={{ marginRight: 2 }}
                                     icon={faEdit}
-                                    size="xl"
+                                    size="1x"
                                 />
                                 Edit Profile
                             </Button>
