@@ -1,7 +1,7 @@
 import { GET_MATERIAL } from "../Actions/Types";
 
 const initialState = {
-    material: {},
+    material: null,
 };
 
 export const GetMaterial = (state = initialState, action) => {
