@@ -67,9 +67,8 @@ const SUPPORTED_FORMATS_PDF = ["application/pdf"];
 export const ProjectValidationSchema = Yup.object().shape({
     projectTitle: Yup.string().required("Title is required"),
 
-    productionDetails: Yup.string().required(
-        "Production Details process is required"
-    ),
+    materials: Yup.string().required("Materials is required"),
+    category: Yup.string().required("Selector/Category is required"),
     description: Yup.string().required("Description is required"),
     contents: Yup.array()
         .of(
