@@ -45,7 +45,11 @@ const DropDown = ({
             return {
                 ...styles,
                 backgroundColor: isFocused ? colors.primary : null,
-                color: isFocused ? colors.white : null,
+                color: isFocused
+                    ? colors.white
+                    : data.Material_Name === "Add New..."
+                    ? colors.primary
+                    : null,
             };
         },
 

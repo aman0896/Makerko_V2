@@ -8,11 +8,13 @@ import { useSelector } from "react-redux";
 import { FileDownload, postData } from "../commonApi/CommonApi";
 import { getAQuote } from "../commonApi/Link";
 import CardViewVerticalComponent from "../Components/card/CardViewVerticalComponent";
+import { useHistory } from "react-router-dom";
 
 const InitialValues = {
     method: "",
     material: "",
     thickness: "",
+    materialDetails: "",
     quantity: "",
     file: "",
     description: "",
@@ -23,11 +25,13 @@ const InitialValues = {
 
 function GetAQuote() {
     const formRef = useRef();
+    const history = useHistory();
+
     const [selectedHub, setSelectedHub] = useState();
     const [hub, setHubs] = useState(null);
     const [filteredHub, setHubList] = useState();
-    const makersList = useSelector((state) => state.makersList.makersList);
 
+    const makersList = useSelector((state) => state.makersList.makersList);
     const methods = useSelector((state) => state.method.method);
     const materials = useSelector((state) => state.material.material);
     const makersServices = useSelector(
@@ -36,6 +40,7 @@ function GetAQuote() {
     const currentUserData = useSelector(
         (state) => state.currentUserdata.currentUserdata
     );
+    console.log(currentUserData, "userData");
     const [filteredMaterial, setFilteredMaterial] = useState();
     const [selectedMaterial, setSelectedMaterial] = useState();
     const [selectedMethod, setSelectedMethod] = useState();
@@ -80,15 +85,17 @@ function GetAQuote() {
                 });
                 if (filteredMakersList && filteredMakersList.length > 0) {
                     for (let i = 0; i < filteredMakersList.length; i++) {
-                        const imageData = JSON.parse(
-                            filteredMakersList[i].Logo
-                        );
-                        const imageBlob = await FileDownload(
-                            imageData.filePath
-                        );
-                        const previewUrl =
-                            window.URL.createObjectURL(imageBlob);
-                        filteredMakersList[i].Logo = previewUrl;
+                        if (filteredMakersList[i].Logo !== null) {
+                            const imageData = JSON.parse(
+                                filteredMakersList[i].Logo
+                            );
+                            const imageBlob = await FileDownload(
+                                imageData.filePath
+                            );
+                            const previewUrl =
+                                window.URL.createObjectURL(imageBlob);
+                            filteredMakersList[i].Logo = previewUrl;
+                        }
                     }
                     setHubList(filteredMakersList);
                 } else setHubList([]);
@@ -159,7 +166,24 @@ function GetAQuote() {
                     onSuccess.data.mailSent[1].requestPrototype === true ||
                     onSuccess.data.mailSent[2].requestQuotation === true
                 ) {
-                    Toast("Request Sent Successfully", "success");
+                    Toast("Your order request has been sent!", "success");
+                    if (
+                        Object.keys(currentUserData).includes("Manufacturer_ID")
+                    ) {
+                        history.push({
+                            pathname: "/profile/maker/order",
+                            state: {
+                                message: "Your order request has been sent!",
+                            },
+                        });
+                    } else {
+                        history.push({
+                            pathname: "/profile/order",
+                            state: {
+                                message: "Your order request has been sent!",
+                            },
+                        });
+                    }
                 }
             },
             (onFail) => {}
@@ -204,7 +228,7 @@ function GetAQuote() {
                             onChange={onMaterialSelect}
                         />
                     </div>
-                    <div className="position-relative col-lg">
+                    {/* <div className="position-relative col-lg">
                         <FormikController
                             name="thickness"
                             control="input"
@@ -213,7 +237,7 @@ function GetAQuote() {
                             isUnit
                             unit="mm"
                         />
-                    </div>
+                    </div> */}
                     <div className="col-lg">
                         <FormikController
                             name="quantity"
@@ -222,6 +246,17 @@ function GetAQuote() {
                             label="Quantity"
                             isUnit
                             unit="pcs"
+                        />
+                    </div>
+                </div>
+                <div className="row mt-5 mx-auto heading">
+                    <div className="col-lg-6">
+                        <FormikController
+                            name="materialDetails"
+                            control="textarea"
+                            placeholder="Specify color, thickness, design considerations and special information 
+                            Eg. PLA(white, blue), 1.75mm dig, design wall thicnkess 2mm, 1kg roll costs NPR 6000"
+                            label="Material Details"
                         />
                     </div>
                 </div>

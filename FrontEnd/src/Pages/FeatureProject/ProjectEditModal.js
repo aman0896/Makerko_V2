@@ -19,6 +19,9 @@ import {
 import Button from "../../Components/Button";
 import FormikComponent from "../../Components/formik/FormikComponent";
 import FormikController from "../../Components/formik/FormikController";
+import ImageCropper, {
+    dataURItoBlob,
+} from "../../Components/imageCropper/ImageCropper";
 import SimpleModal from "../../Components/modal/SimpleModal";
 import { Toast } from "../../Components/ReactToastify";
 import { useWindowDimensions } from "../../functions/Functions";
@@ -55,6 +58,13 @@ function ProjectEditModal(props) {
     const [newGalleryImage, setNewGalleryImage] = useState();
     const [galleryImage, setGalleryImage] = useState(props.data.Gallary);
     const [deletedGalleryImage, setDeletedGalleryImage] = useState([]);
+    const [showCoverImage, setShowCoverImage] = useState();
+    const [showImageCropper, setImageCropper] = useState(false);
+    const [imageDestination, setImageDestination] = useState();
+    const [prevCoverImage, setPrevCoverImage] = useState();
+    const [targetFile, setTargetFile] = useState();
+    const [profileImagePreview, setProfileImagePreview] = useState();
+    const [showCropImageModal, setCropImageModal] = useState(false);
 
     const SUPPORTED_FORMATS = [
         "image/jpg",
@@ -81,14 +91,50 @@ function ProjectEditModal(props) {
         console.log(values, "edit content");
     };
 
-    const coverImageUpdate = (event) => {
+    const coverImageUpdate = (e) => {
+        const file = e.target.files[0];
+        setImageCropper(true);
+
+        if (file) {
+            setShowCoverImage(URL.createObjectURL(file));
+            setTargetFile(file);
+            setCropImageModal(true);
+        }
         // console.log(props.data.Cover_Image);
+        // const prevImage = props.data.Cover_Image.filePath;
+
+        // const formData = new FormData();
+        // formData.append("coverImage", event.target.files[0]);
+        // formData.append("authorId", props.data.Author_ID);
+        // formData.append("projectId", props.data.Project_ID);
+        // formData.append("prevImage", prevImage);
+
+        // postDataWithFormData(
+        //     projectCoverEdit,
+        //     formData,
+        //     (onSuccess) => {
+        //         if (onSuccess.data.coverImageUpdate === "success") {
+        //             window.location.reload();
+        //         }
+        //     },
+        //     (onFail) => {}
+        // );
+    };
+
+    const onCroppedImageSave = () => {
+        const blob = dataURItoBlob(imageDestination);
+        console.log(blob, "blob");
+        formRef.current.setFieldValue("coverImage", blob);
+        const url = URL.createObjectURL(blob);
+        setCoverImage(url);
+        setShowCoverImage(url);
+        setImageCropper(false);
+        // window.location.reload();
+        console.log(props.data.Cover_Image);
         const prevImage = props.data.Cover_Image.filePath;
 
-        setCoverImage(URL.createObjectURL(event.target.files[0]));
-
         const formData = new FormData();
-        formData.append("coverImage", event.target.files[0]);
+        formData.append("coverImage", blob, targetFile.name);
         formData.append("authorId", props.data.Author_ID);
         formData.append("projectId", props.data.Project_ID);
         formData.append("prevImage", prevImage);
@@ -103,6 +149,12 @@ function ProjectEditModal(props) {
             },
             (onFail) => {}
         );
+    };
+
+    const onImageCropCancel = () => {
+        setImageCropper(false);
+        setImageDestination(profileImagePreview);
+        setShowCoverImage();
     };
 
     const onClickEditContent = () => {
@@ -261,37 +313,51 @@ function ProjectEditModal(props) {
                             }}
                         >
                             <div>
-                                <div
-                                    style={{
-                                        height: props.height
-                                            ? props.height
-                                            : 200,
-                                        borderRadius: 5,
-                                        backgroundColor: colors.gray,
-                                        marginBottom: 20,
-                                    }}
-                                >
-                                    <img
-                                        src={
-                                            coverImage
-                                                ? coverImage
-                                                : props.data.Cover_Image.url
-                                        }
-                                        style={{
-                                            height: props.height
-                                                ? props.height
-                                                : 200,
-                                            width: "100%",
-                                            borderRadius: 5,
-                                            objectFit: "cover",
-                                        }}
-                                        alt=""
-                                    />
+                                <div>
+                                    <>
+                                        <img
+                                            style={{
+                                                width: "100%",
+                                                height: "auto",
+                                            }}
+                                            src={
+                                                coverImage
+                                                    ? coverImage
+                                                    : props.data.Cover_Image.url
+                                            }
+                                            alt=""
+                                        />
+                                    </>
+                                    {showImageCropper && (
+                                        <SimpleModal
+                                            title="Edit Content"
+                                            size="xl"
+                                            show={showCropImageModal}
+                                            handleClose={() =>
+                                                setContentModal(false)
+                                            }
+                                            body={
+                                                <ImageCropper
+                                                    src={showCoverImage}
+                                                    aspectRatio={16 / 6}
+                                                    setImageDestination={
+                                                        setImageDestination
+                                                    }
+                                                    onSaveClick={
+                                                        onCroppedImageSave
+                                                    }
+                                                    onCancelClick={
+                                                        onImageCropCancel
+                                                    }
+                                                />
+                                            }
+                                        />
+                                    )}
                                 </div>
 
                                 <label
                                     htmlFor="coverImage"
-                                    className="btn"
+                                    className="btn mt-2"
                                     style={btnStyle}
                                 >
                                     Edit Cover Image

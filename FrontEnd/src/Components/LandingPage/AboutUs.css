@@ -20,7 +20,8 @@
 }
 
 .aboutus-heading {
-    color: #0000ff;
+    color: var(--white);
+    margin-bottom: 100px;
     font-weight: bold;
     text-align: center;
 }

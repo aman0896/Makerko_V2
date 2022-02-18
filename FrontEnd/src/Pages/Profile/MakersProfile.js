@@ -30,6 +30,7 @@ import { colors } from "../../Values/colors";
 import ImageCropper, {
     dataURItoBlob,
 } from "../../Components/imageCropper/ImageCropper";
+import { useLocation } from "react-router-dom";
 
 // const mapData = require("../../data/MapData.json");
 
@@ -54,11 +55,13 @@ const InitialMapValues = {
 };
 
 function MakersProfile() {
+    const location = useLocation();
+    const { state } = location;
+
     const currentUserData = useSelector(
         (state) => state.currentUserdata.currentUserdata
     );
 
-    console.log(currentUserData);
     const [profileImage, setProfileImage] = useState();
     const [profileImagePreview, setProfileImagePreview] = useState();
     const [prevProfileImage, setPrevProfileImage] = useState();
@@ -235,6 +238,12 @@ function MakersProfile() {
         setImageDestination(profileImagePreview);
         setShowCoverImage();
     };
+
+    useEffect(() => {
+        if (state !== undefined && state !== null) {
+            Toast(state.message, "success");
+        }
+    }, [state]);
 
     return (
         <div

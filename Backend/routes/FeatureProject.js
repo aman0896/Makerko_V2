@@ -193,15 +193,15 @@ router.post("/create", (req, res) => {
 
                 //#region data  storing in db
                 const sqlQuery =
-                    "INSERT INTO project(Project_ID, Author_ID, Publish_Date, Production_Details, Title, Cover_Image, Description, PdfDocument, Gallary, Content) VALUES(?,?,?,?,?,?,?,?,?,?)";
-                const { productionDetails, projectTitle, description } =
+                    "INSERT INTO project(Project_ID, Author_ID, Publish_Date, Materials, Title, Cover_Image, Description, PdfDocument, Gallary, Content, Category) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+                const { materials, projectTitle, description, category } =
                     restDetails;
 
                 const data = [
                     projectId,
                     authorId,
                     Date.now(),
-                    productionDetails,
+                    materials,
                     projectTitle,
                     JSON.stringify({
                         filename: coverImage.filename,
@@ -214,6 +214,7 @@ router.post("/create", (req, res) => {
                     }),
                     JSON.stringify(overallGallery),
                     JSON.stringify(contents),
+                    category,
                 ];
                 DBQuery(sqlQuery, data, (err, result) => {
                     try {
@@ -222,6 +223,7 @@ router.post("/create", (req, res) => {
                                 err,
                                 "featureproject create line 160"
                             );
+                        res.json({ create: "success" });
                         console.log(result, "featureproject create line 162");
                     } catch {}
                 });

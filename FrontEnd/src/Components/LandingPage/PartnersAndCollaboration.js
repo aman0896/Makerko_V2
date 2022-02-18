@@ -9,10 +9,15 @@ function PartnersAndCollaboration({ partners }) {
                 <div className="partners-list">
                     {partners.map((item, index) => (
                         <div key={index}>
-                            <a href={item.href} target="_blank">
+                            <a
+                                href={item.href}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
                                 <img
                                     className="partners-image"
                                     src={item.src}
+                                    alt=""
                                 />
                             </a>
                         </div>

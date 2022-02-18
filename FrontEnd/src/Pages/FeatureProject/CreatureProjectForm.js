@@ -11,11 +11,17 @@ import { useWindowDimensions } from "../../functions/Functions";
 import { colors } from "../../Values/colors";
 import { ProjectValidationSchema } from "../Form/ValidationSchema";
 import "./Featureproject.css";
+import { MdEdit } from "react-icons/md";
+import ImageCropper, {
+    dataURItoBlob,
+} from "../../Components/imageCropper/ImageCropper";
+import { useHistory } from "react-router-dom";
 
 const InitialValues = {
     coverImage: "",
     projectTitle: "",
-    productionDetails: "",
+    materials: "",
+    category: "",
     description: "",
     contents: [
         {
@@ -42,6 +48,7 @@ const imagePosition = [
 ];
 
 function CreateProjectForm(props) {
+    const history = useHistory();
     const formRef = useRef();
     const currentUserData = useSelector(
         (state) => state.currentUserdata.currentUserdata
@@ -55,6 +62,14 @@ function CreateProjectForm(props) {
     const [previousImagePath, setPreviousImagePath] = useState();
     const [deletedImagePath, setDeletedImagepath] = useState([]);
     const [totalGalleryImage, setTotalGalleryImage] = useState(null);
+    const [profileImage, setProfileImage] = useState();
+    const [profileImagePreview, setProfileImagePreview] = useState();
+    const [prevProfileImage, setPrevProfileImage] = useState();
+    const [showCoverImage, setShowCoverImage] = useState();
+    const [showImageCropper, setImageCropper] = useState(false);
+    const [imageDestination, setImageDestination] = useState();
+    const [prevCoverImage, setPrevCoverImage] = useState();
+    const [targetFile, setTargetFile] = useState();
 
     const style = width > 600 ? { width: "30%" } : { width: "100%" };
     const SUPPORTED_FORMATS = [
@@ -69,6 +84,8 @@ function CreateProjectForm(props) {
         if (currentUserData) setAuthor(currentUserData);
     }, [currentUserData]);
 
+    console.log(formRef.current && formRef.current.values, "values");
+
     const handleSubmit = (values) => {
         const coverImage = values.coverImage;
         const pdfFile = values.pdfFile;
@@ -80,13 +97,14 @@ function CreateProjectForm(props) {
 
         const restDetails = {
             projectTitle: values.projectTitle,
-            productionDetails: values.productionDetails,
+            materials: values.materials,
+            category: values.category,
             description: values.description,
             termsCondition: values.termsCondition,
         };
 
         const formData = new FormData();
-        formData.append("coverImage", coverImage);
+        formData.append("coverImage", coverImage, targetFile.name);
         formData.append("pdfFile", pdfFile);
         formData.append("contents", JSON.stringify(contents));
         formData.append("restDetails", JSON.stringify(restDetails));
@@ -102,22 +120,26 @@ function CreateProjectForm(props) {
         postDataWithFormData(
             createProject,
             formData,
-            (onSuccess) => {},
-            (onFail) => {}
+            (onSuccess) => {
+                if (onSuccess.data.create === "success") {
+                    history.push({
+                        pathname: "/projects",
+                        state: {
+                            message:
+                                "Thank you for sharing your project/innovation with MAKERKO.",
+                        },
+                    });
+                }
+            },
+            (onFail) => {
+                console.log(onFail);
+            }
         );
-        console.log("Values", values);
     };
 
     const onCancel = () => {
         window.location.href = "/";
     };
-
-    useEffect(() => {
-        console.log(
-            formRef.current && formRef.current.setFieldValue("pdfFile", "file"),
-            "formref"
-        );
-    }, [formRef]);
 
     const onDeleteClick = (img) => {
         const filterData = imagePreview.filter(
@@ -164,6 +186,32 @@ function CreateProjectForm(props) {
         }
     };
 
+    const onCroppedImageSave = () => {
+        const blob = dataURItoBlob(imageDestination);
+        console.log(blob, "blob");
+        formRef.current.setFieldValue("coverImage", blob);
+        const url = URL.createObjectURL(blob);
+        setShowCoverImage(url);
+        setImageCropper(false);
+        // window.location.reload();
+    };
+
+    const onImageCropCancel = () => {
+        setImageCropper(false);
+        setImageDestination(profileImagePreview);
+        setShowCoverImage();
+    };
+
+    const onCoverImageUpload = (e) => {
+        const file = e.target.files[0];
+        setImageCropper(true);
+
+        if (file) {
+            setShowCoverImage(URL.createObjectURL(file));
+            setTargetFile(file);
+        }
+    };
+
     return (
         <WrapperComponent>
             <div
@@ -183,34 +231,70 @@ function CreateProjectForm(props) {
                         validationSchema={ProjectValidationSchema}
                         formRef={formRef}
                     >
+                        <div className="cover-image my-4">
+                            {showImageCropper ? (
+                                <ImageCropper
+                                    src={showCoverImage}
+                                    aspectRatio={16 / 6}
+                                    setImageDestination={setImageDestination}
+                                    onSaveClick={onCroppedImageSave}
+                                    onCancelClick={onImageCropCancel}
+                                />
+                            ) : (
+                                <>
+                                    <img
+                                        className="cover-image-profile"
+                                        src={
+                                            showCoverImage
+                                                ? showCoverImage
+                                                : "http://localhost:3000/assests/cover.jpg"
+                                        }
+                                        alt=""
+                                    />
+                                </>
+                            )}
+                        </div>
+
                         <FormikController
                             control="file"
                             label="Choose Main Photo of Project:"
                             name="coverImage"
                             title="Choose File"
                             accept={SUPPORTED_FORMATS}
-                            image
+                            onChange={onCoverImageUpload}
                         />
+
+                        <div className="row">
+                            <div className="col-lg-6">
+                                <FormikController
+                                    control="input"
+                                    label="Title of Project:"
+                                    placeholder="Enter Title of Project"
+                                    name="projectTitle"
+                                />
+                            </div>
+                            <div className="col-lg-6">
+                                <FormikController
+                                    control="input"
+                                    label="Materials:"
+                                    name="materials"
+                                    placeholder="Ex. Polypropylene(PP),PVC"
+                                />
+                            </div>
+                        </div>
 
                         <FormikController
                             control="input"
-                            label="Title of Project:"
-                            placeholder="Enter Title of Project"
-                            name="projectTitle"
-                        />
-
-                        <FormikController
-                            control="input"
-                            label="Production Detail:"
-                            name="productionDetails"
-                            placeholder="Ex. Polypropylene(PP),PVC"
+                            label="Selector/Category:"
+                            name="category"
+                            placeholder="Ex. #CNC, #Handicraft"
                         />
 
                         <FormikController
                             control="textarea"
                             label="Description:"
                             name="description"
-                            placeholder="Ex. #CNC, #Handicraft"
+                            placeholder="Add Summary of Project"
                         />
 
                         <div
@@ -262,7 +346,7 @@ function CreateProjectForm(props) {
                                             <div className="d-flex justify-content-end">
                                                 {addMore === index && (
                                                     <>
-                                                        {!showPreview ? (
+                                                        {/* {!showPreview ? (
                                                             <Button
                                                                 buttonStyle="button--primary--solid"
                                                                 buttonSize="button--medium"
@@ -296,7 +380,7 @@ function CreateProjectForm(props) {
                                                             >
                                                                 Hide Preview
                                                             </Button>
-                                                        )}
+                                                        )} */}
                                                         <Button
                                                             buttonStyle="button--primary--solid"
                                                             buttonSize="button--medium"

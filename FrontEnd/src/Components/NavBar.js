@@ -10,11 +10,13 @@ import { colors } from "../Values/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { useWindowDimensions } from "../functions/Functions";
 import { SET_LOCATION_PATHNAME } from "./Redux/Actions/Types";
+import Button from "./Button";
 
 function NavBar({ isAuth, currentUser, userType, setPathname }) {
     const { width, height } = useWindowDimensions();
     const [hambergerClicked, isHambergerClicked] = useState(false);
     const [path, setPath] = useState(window.location.pathname);
+    const [showModal, setShowModal] = useState(false);
     // const [currentUserData, setCurrentUserData] = useState();
 
     useEffect(() => {
@@ -32,6 +34,22 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
 
     const handleChangePath = (event) => {
         setPath(event.target.dataset.name);
+    };
+
+    const showModalChoice = () => {
+        setShowModal(true);
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
+    };
+
+    const onClickHaveDesign = () => {
+        window.location.href = "/get-quote";
+    };
+
+    const onClickRequestDesign = () => {
+        window.location.href = "/request-design";
     };
 
     useEffect(() => {
@@ -57,7 +75,11 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                         className={path !== "/" ? "text-white" : ""}
                     >
                         <img
-                            src={`${webDomain}/assests/logo-05@2x.png`}
+                            src={
+                                path === undefined || path === "/"
+                                    ? `${webDomain}/assests/logo-05@2x.png`
+                                    : `${webDomain}/assests/variationwhite-05 1.png`
+                            }
                             style={{ width: 200 }}
                             alt=""
                         />
@@ -162,6 +184,36 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                         </Link>
                     </li>
                 </ul>
+
+                <div className="navbar-button">
+                    <Button
+                        buttonStyle={
+                            path === undefined || path === "/"
+                                ? "button--primary--solid"
+                                : "button--white--solid"
+                        }
+                        buttonSize={
+                            width <= 1230 ? "button--small" : "button--medium"
+                        }
+                        style={
+                            width <= 1230
+                                ? { fontWeight: "bold" }
+                                : { fontWeight: "bold", fontSize: "1.2rem" }
+                        }
+                        onClick={showModalChoice}
+                    >
+                        Get a Quote
+                    </Button>
+                    <ModalChoice
+                        show={showModal}
+                        handleClose={handleClose}
+                        onClickButton1={onClickHaveDesign}
+                        onClickButton2={onClickRequestDesign}
+                        title="Get a quote"
+                        btnTitle1="Have a Design"
+                        btnTitle2="Request a Desgin"
+                    />
+                </div>
 
                 <div>
                     {isAuth && currentUserData !== null ? (

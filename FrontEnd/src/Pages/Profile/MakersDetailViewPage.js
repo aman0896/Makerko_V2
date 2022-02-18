@@ -133,12 +133,14 @@ export default function MakersDetailViewPage() {
                         //otherservices
                         let otherServiceNameList = [];
                         const otherServices = JSON.parse(maker.Other_Services);
-                        for (let i = 0; i < otherServices.length; i++) {
-                            otherServiceNameList.push({
-                                name: otherServices[i].serviceName,
-                            });
+                        if (otherServices !== null) {
+                            for (let i = 0; i < otherServices.length; i++) {
+                                otherServiceNameList.push({
+                                    name: otherServices[i].serviceName,
+                                });
+                            }
+                            setOtherServices(otherServiceNameList);
                         }
-                        setOtherServices(otherServiceNameList);
                     }
                 });
 
@@ -372,10 +374,10 @@ export default function MakersDetailViewPage() {
                                         header="Fabrication Services"
                                         services={methodsName}
                                     />
-                                    <ServicesComponent
+                                    {/* <ServicesComponent
                                         header="Other Services"
                                         services={otherServices}
-                                    />
+                                    /> */}
                                     <>
                                         <div className="heading my-3 mt-5">
                                             Contact
@@ -680,25 +682,58 @@ const cardStyle = {
     width: "98%",
 };
 
+// const column = [
+//     {
+//         field: "material",
+//         subField: "Material_Name",
+//         header: "Materials",
+//     },
+//     {
+//         field: "thickness",
+//         header: "Thickness",
+//     },
+//     {
+//         field: "costUnit",
+//         subField: "label",
+//         header: "Cost Unit",
+//     },
+//     {
+//         field: "unitRate",
+//         header: "Unit Rate",
+//     },
+//     {
+//         field: "leadTime",
+//         header: "Lead Time",
+//     },
+// ];
+
 const column = [
     {
-        field: "selectedMaterial",
+        field: "material",
         subField: "Material_Name",
         header: "Materials",
     },
     {
-        field: "thickness",
-        header: "Thickness",
+        field: "materialDetails",
+        header: "Material Details",
     },
     {
-        field: "costUnit",
-        subField: "label",
-        header: "Cost Unit",
+        field: "pricing",
+        header: "Pricing/Costing",
     },
-    {
-        field: "unitRate",
-        header: "Unit Rate",
-    },
+    // {
+    //     field: "thickness",
+    //     header: "Thickness",
+    // },
+    // {
+    //     field: "costUnit",
+    //     subField: "type",
+    //     header: "Cost Unit",
+    // },
+    // {
+    //     field: "unitRate",
+    //     header: "Unit Rate",
+    // },
     {
         field: "leadTime",
         header: "Lead Time",

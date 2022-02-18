@@ -13,6 +13,7 @@ import { Toast } from "../../Components/ReactToastify";
 import ImageCropper, {
     dataURItoBlob,
 } from "../../Components/imageCropper/ImageCropper";
+import { useLocation } from "react-router-dom";
 
 const InitialValues = {
     firstName: "",
@@ -27,6 +28,9 @@ function CustomerProfile() {
     const currentUserData = useSelector(
         (state) => state.currentUserdata.currentUserdata
     );
+
+    const location = useLocation();
+    const { state } = location;
 
     const { width } = useWindowDimensions();
 
@@ -73,7 +77,6 @@ function CustomerProfile() {
     }, [currentUserData]);
 
     const handleSubmit = (values) => {
-        console.log(profileImage, "check");
         const formData = new FormData();
         formData.append("userUpdates", JSON.stringify(values));
         formData.append("currentUser", JSON.stringify(currentUserData));
@@ -133,6 +136,12 @@ function CustomerProfile() {
         setImageDestination(profileImagePreview);
         setShowCoverImage();
     };
+
+    useEffect(() => {
+        if (state !== undefined && state !== null) {
+            Toast(state.message, "success");
+        }
+    }, [state]);
 
     return (
         <div

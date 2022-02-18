@@ -3,9 +3,15 @@ import CardViewVerticalComponent from "../../Components/card/CardViewVerticalCom
 import { useDispatch, useSelector } from "react-redux";
 import { FeatureProjectList } from "../../Components/Redux/Actions/FeatureProjectList";
 import { FileDownload } from "../../commonApi/CommonApi";
+import { useLocation } from "react-router-dom";
+import { Toast } from "../../Components/ReactToastify";
 
 function Projects() {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const { state } = location;
+    console.log(state, "state");
+
     const projectList = useSelector((state) => state.projectList.projectList);
 
     const [projects, setProjects] = useState(null);
@@ -19,6 +25,12 @@ function Projects() {
             SetCoverImage(projectList);
         }
     }, [projectList]);
+
+    useEffect(() => {
+        if (state !== undefined && state !== null) {
+            Toast(state.message, "success");
+        }
+    }, [state]);
 
     async function SetCoverImage(projectList) {
         if (projectList) {
@@ -44,9 +56,12 @@ function Projects() {
         projects.map((project, index) => {
             return (
                 <CardViewVerticalComponent
+                    type="project"
                     index={index}
                     name={project.Title}
                     image={project.Cover_Image}
+                    category={project.Category}
+                    materials={project.Materials}
                     data={project}
                     description={project.Description}
                     onPress={onProjectClick}
@@ -60,7 +75,7 @@ function Projects() {
                 <div className="d-flex justify-content-between align-items-center flex-wrap">
                     <span
                         className="heading text-uppercase"
-                        style={{ fontSize: "36px", color: "black" }}
+                        style={{ fontSize: "2rem" }}
                     >
                         PROJECTS
                     </span>
@@ -87,7 +102,7 @@ function Projects() {
                         </div>
                     </form>
                 </div>
-                <div className="row justify-content-around mt-4">
+                <div className="row justify-content-around mt-3">
                     {showProjects}
                 </div>
             </div>

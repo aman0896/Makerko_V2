@@ -67,9 +67,8 @@ const SUPPORTED_FORMATS_PDF = ["application/pdf"];
 export const ProjectValidationSchema = Yup.object().shape({
     projectTitle: Yup.string().required("Title is required"),
 
-    productionDetails: Yup.string().required(
-        "Production Details process is required"
-    ),
+    materials: Yup.string().required("Materials is required"),
+    category: Yup.string().required("Selector/Category is required"),
     description: Yup.string().required("Description is required"),
     contents: Yup.array()
         .of(
@@ -114,9 +113,9 @@ export const ProjectValidationSchema = Yup.object().shape({
 //Get quote Validation Schema
 export const GetAQuoteValidationSchema = Yup.object().shape({
     method: Yup.object().required("Method is required"),
-
     material: Yup.object().required("Material is required"),
-    thickness: Yup.string().required("Thickness is required"),
+    // thickness: Yup.string().required("Thickness is required"),
+    materialDetails: Yup.string().required("Material Details are required"),
     quantity: Yup.string().required("Quantity is required"),
     file: Yup.object().required("No file Uploaded"),
     description: Yup.string().required("Brief Description is required"),

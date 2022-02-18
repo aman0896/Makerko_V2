@@ -49,7 +49,7 @@ function AdditionalDetailsFillUp() {
 
     useEffect(() => {
         if (hub) {
-            setOldOtherServices(JSON.parse(hub.Other_Services));
+            // setOldOtherServices(JSON.parse(hub.Other_Services));
             async function GetMultipleImage() {
                 if (hub.Additional_Images) {
                     let filesUrl = [];
@@ -135,7 +135,10 @@ function AdditionalDetailsFillUp() {
             (onSuccess) => {
                 console.log(onSuccess.data, "onsuccess");
 
-                Toast("Profile Updated Successfully", "success");
+                Toast(
+                    "Thank you for sharing your HUB details with MAKERKO. Your details has been sent for review. You can always update your details by visiting your profile. Keep Innovating! ",
+                    "success"
+                );
             },
             (onFail) => {
                 console.log(onFail, "failed");

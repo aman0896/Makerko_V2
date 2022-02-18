@@ -29,7 +29,7 @@ function AboutUs({ data, aboutRef }) {
     return (
         <div className="aboutus-container" ref={aboutRef}>
             <div className="aboutus-sub-container">
-                <h2 className="aboutus-heading">AboutUs</h2>
+                <h2 className="aboutus-heading">About Us</h2>
                 <SlideView
                     path="aboutUs"
                     cardStyle={cardStyle}

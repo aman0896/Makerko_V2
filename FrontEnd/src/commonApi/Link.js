@@ -1,18 +1,18 @@
 import Axios from "axios";
 
 //file-upload-link
-export const File_Server = "https://images.makerko.com";
+// export const File_Server = "https://images.makerko.com";
 
 //web domain
-export const webDomain = "https://makerko.com";
-// export const webDomain = "http://localhost:3000/";
+// export const webDomain = "https://makerko.com";
+export const webDomain = "http://localhost:3000/";
 
 // "https://api.makerko.com"; //API HOST URL
 // "https://makerko.com"; //WEB HOST URL
 
 //host api
-export const mainHost = "https://api.makerko.com/";
-// export const mainHost = "http://localhost:3001/";
+// export const mainHost = "https://api.makerko.com/";
+export const mainHost = "http://localhost:3001/";
 
 export const hostApi = Axios.create({ baseURL: mainHost });
 
@@ -91,7 +91,7 @@ export const makerCoverImage = "profile/maker-cover-edit";
 export const makerMapEdit = "profile/maker-map-edit";
 
 // maker password edit
-export const makerPasswordEdit = "profile/maker-password-edit";
+export const passwordEdit = "profile/password-edit";
 
 // makers list
 export const makersList = "account/makers";

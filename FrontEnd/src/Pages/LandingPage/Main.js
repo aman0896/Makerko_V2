@@ -1,6 +1,7 @@
 import React, { createRef, useEffect, useRef } from "react";
 import Carousel from "../../Components/LandingPage/Carousel";
-import data from "../../config/SlliderImageData.json";
+// import data from "../../config/SlliderImageData.json";
+import { slideData } from "../../Components/LandingPage/data";
 // import MakerkoGIF from "../../Components/LandingPage/MakerkoGIF";
 import { colors } from "../../Values/colors";
 import ProductionCapabilities from "../../Components/LandingPage/ProductionCapabilities";
@@ -12,13 +13,15 @@ import partners from "../../config/Partners.json";
 import PartnersAndCollaboration from "../../Components/LandingPage/PartnersAndCollaboration";
 import { Button2 } from "../../Components/Button";
 import { useHistory, useLocation } from "react-router-dom";
+import { useWindowDimensions } from "../../Functions";
 
 function Main() {
     const history = useHistory();
     const location = useLocation();
     console.log(location, "location");
-    const slides = data;
+    const slides = slideData;
     const aboutRef = useRef(null);
+    const { width } = useWindowDimensions();
 
     useEffect(() => {
         if (location.state && location.state.toScroll === "aboutUs")
@@ -56,7 +59,8 @@ function Main() {
                         color: colors.primary,
                         textDecoration: "underline",
                     }}
-                    href="https://www.google.com"
+                    href="/how-it-works"
+                    target="_blank"
                 >
                     Learn How to Place Orders
                 </a>
@@ -88,7 +92,7 @@ function Main() {
                             </span>
                         </Button2>
 
-                        <a href="#">
+                        <a href="/account/makers-signup">
                             Are you a Maker? Sign Up to build your portfolio
                         </a>
                     </div>
@@ -115,7 +119,7 @@ function Main() {
                                 PROJECTS
                             </span>
                         </Button2>
-                        <a href="#">
+                        <a href="/create-project">
                             Share your innovation/ product/ project to feature
                             in our platform.
                         </a>
@@ -138,9 +142,9 @@ function Main() {
                     style={{
                         position: "absolute",
                         width: "80%",
-                        fontSize: "2rem",
                         textAlign: "center",
                         color: colors.white,
+                        fontSize: width <= 500 ? "1.5rem" : "2rem",
                     }}
                 >
                     "Distributed Manufacturing is the Future of Production. It

@@ -300,50 +300,81 @@ router.post("/maker-map-edit", async (req, res) => {
     }
 });
 
-router.post("/maker-password-edit", async (req, res) => {
+router.post("/password-edit", async (req, res) => {
     try {
-        const {
-            Manufacturer_ID,
-            old_password,
-            new_password,
-            confirm_password,
-        } = req.body;
+        const { userID, old_password, new_password, confirm_password } =
+            req.body;
         console.log(
             old_password,
             new_password,
             confirm_password,
             "password body"
         );
-        const getUserSql =
+        const getMakerSql =
             "SELECT Password FROM manufacturer WHERE Manufacturer_ID = ?";
-        const userData = [Manufacturer_ID];
-        const currentPassword = await GetUserData(getUserSql, userData);
-        console.log(currentPassword[0].Password, "current password");
-        const checkPassword = await PasswordCheck(
-            old_password,
-            currentPassword[0].Password
-        );
-        if (checkPassword) {
-            PasswordEncryption(new_password, (err, hash) => {
-                try {
-                    const sqlQuery =
-                        "UPDATE manufacturer SET Password=? WHERE Manufacturer_ID = ?";
-                    const data = [hash, Manufacturer_ID];
-                    DBQuery(sqlQuery, data, (err, result) => {
-                        if (err) {
-                            return console.log(
-                                err,
-                                "Password update failed. Something went wrong. please try again later"
-                            );
-                        } else {
-                            res.json(result);
-                            return;
-                        }
-                    });
-                } catch {}
-            });
-        } else {
-            res.json(false);
+        const getCustomerSql =
+            "SELECT Password FROM customer WHERE Customer_ID = ?";
+        const userData = [userID];
+        console.log(userID, "Id");
+        const makerData = await GetUserData(getMakerSql, userData);
+        const customerData = await GetUserData(getCustomerSql, userData);
+        console.log(makerData, customerData, "Datas");
+        if (makerData && makerData.length > 0) {
+            console.log(makerData[0].Password, "current password");
+            const checkPassword = await PasswordCheck(
+                old_password,
+                makerData[0].Password
+            );
+            if (checkPassword) {
+                PasswordEncryption(new_password, (err, hash) => {
+                    try {
+                        const sqlQuery =
+                            "UPDATE manufacturer SET Password=? WHERE Manufacturer_ID = ?";
+                        const data = [hash, userID];
+                        DBQuery(sqlQuery, data, (err, result) => {
+                            if (err) {
+                                return console.log(
+                                    err,
+                                    "Password update failed. Something went wrong. please try again later"
+                                );
+                            } else {
+                                res.json(result);
+                                return;
+                            }
+                        });
+                    } catch {}
+                });
+            } else {
+                res.json(false);
+            }
+        } else if (customerData && customerData.length > 0) {
+            console.log(customerData[0].Password, "current password");
+            const checkPassword = await PasswordCheck(
+                old_password,
+                customerData[0].Password
+            );
+            if (checkPassword) {
+                PasswordEncryption(new_password, (err, hash) => {
+                    try {
+                        const sqlQuery =
+                            "UPDATE customer SET Password=? WHERE Customer_ID = ?";
+                        const data = [hash, userID];
+                        DBQuery(sqlQuery, data, (err, result) => {
+                            if (err) {
+                                return console.log(
+                                    err,
+                                    "Password update failed. Something went wrong. please try again later"
+                                );
+                            } else {
+                                res.json(result);
+                                return;
+                            }
+                        });
+                    } catch {}
+                });
+            } else {
+                res.json(false);
+            }
         }
     } catch {}
 });

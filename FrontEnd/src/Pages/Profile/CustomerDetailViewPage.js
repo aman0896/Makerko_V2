@@ -214,7 +214,7 @@ export default function CustomerDetailViewPage() {
                                 <FontAwesomeIcon
                                     style={{ marginRight: 2 }}
                                     icon={faEdit}
-                                    size="xl"
+                                    size="1x"
                                 />
                                 Edit Profile
                             </Button>
@@ -320,7 +320,7 @@ export default function CustomerDetailViewPage() {
                                 </div>
                             </div>
 
-                            <div>
+                            {/* <div>
                                 <p
                                     className="text-center mt-5"
                                     style={{
@@ -339,7 +339,7 @@ export default function CustomerDetailViewPage() {
                                 >
                                     <b>Get A Quote</b>
                                 </Button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
