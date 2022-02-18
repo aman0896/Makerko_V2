@@ -117,7 +117,9 @@ export default function BrowseFileComponent(props) {
                         accept={props.accept}
                         hidden
                         onChange={(event) => {
-                            handleChange(event);
+                            props.onChange
+                                ? props.onChange(event)
+                                : handleChange(event);
                         }}
                         onBlur={() => {
                             if (props.handleBlur) {
