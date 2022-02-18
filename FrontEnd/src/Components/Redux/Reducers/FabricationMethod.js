@@ -1,7 +1,7 @@
 import { GET_METHOD } from "../Actions/Types";
 
 const initialState = {
-    method: {},
+    method: null,
 };
 
 export const GetMethod = (state = initialState, action) => {
