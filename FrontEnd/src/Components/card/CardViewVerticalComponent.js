@@ -3,9 +3,13 @@ import { FileDownload } from "../../commonApi/CommonApi";
 import { colors } from "../../Values/colors";
 
 const CardViewVerticalComponent = ({
+    type,
     index,
     name,
     description,
+    serviceName,
+    category,
+    materials,
     image,
     imageFit,
     setSelectedHub,
@@ -74,6 +78,63 @@ const CardViewVerticalComponent = ({
                         >
                             {description}
                         </p>
+                        {type === "hub" && (
+                            <>
+                                {" "}
+                                <p
+                                    style={{
+                                        display: "-webkit-box",
+                                        WebkitBoxOrient: "vertical",
+                                        textOverflow: "ellipsis",
+                                        overflow: "hidden",
+                                        WebkitLineClamp: 5,
+                                    }}
+                                    className="text-left text-white mt-2"
+                                >
+                                    {serviceName}
+                                </p>
+                                <p
+                                    style={{
+                                        display: "-webkit-box",
+                                        WebkitBoxOrient: "vertical",
+                                        textOverflow: "ellipsis",
+                                        overflow: "hidden",
+                                        WebkitLineClamp: 5,
+                                    }}
+                                    className="text-left text-white mt-2"
+                                >
+                                    {materials}
+                                </p>
+                            </>
+                        )}
+                        {type === "project" && (
+                            <>
+                                <p
+                                    style={{
+                                        display: "-webkit-box",
+                                        WebkitBoxOrient: "vertical",
+                                        textOverflow: "ellipsis",
+                                        overflow: "hidden",
+                                        WebkitLineClamp: 5,
+                                    }}
+                                    className="text-left text-white mt-2"
+                                >
+                                    Materials : {materials}
+                                </p>
+                                <p
+                                    style={{
+                                        display: "-webkit-box",
+                                        WebkitBoxOrient: "vertical",
+                                        textOverflow: "ellipsis",
+                                        overflow: "hidden",
+                                        WebkitLineClamp: 5,
+                                    }}
+                                    className="text-left text-white mt-2"
+                                >
+                                    {category}
+                                </p>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
