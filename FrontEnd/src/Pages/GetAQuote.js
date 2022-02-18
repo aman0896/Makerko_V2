@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { FileDownload, postData } from "../commonApi/CommonApi";
 import { getAQuote } from "../commonApi/Link";
 import CardViewVerticalComponent from "../Components/card/CardViewVerticalComponent";
+import { useHistory } from "react-router-dom";
 
 const InitialValues = {
     method: "",
@@ -24,11 +25,13 @@ const InitialValues = {
 
 function GetAQuote() {
     const formRef = useRef();
+    const history = useHistory();
+
     const [selectedHub, setSelectedHub] = useState();
     const [hub, setHubs] = useState(null);
     const [filteredHub, setHubList] = useState();
-    const makersList = useSelector((state) => state.makersList.makersList);
 
+    const makersList = useSelector((state) => state.makersList.makersList);
     const methods = useSelector((state) => state.method.method);
     const materials = useSelector((state) => state.material.material);
     const makersServices = useSelector(
@@ -37,6 +40,7 @@ function GetAQuote() {
     const currentUserData = useSelector(
         (state) => state.currentUserdata.currentUserdata
     );
+    console.log(currentUserData, "userData");
     const [filteredMaterial, setFilteredMaterial] = useState();
     const [selectedMaterial, setSelectedMaterial] = useState();
     const [selectedMethod, setSelectedMethod] = useState();
@@ -163,6 +167,23 @@ function GetAQuote() {
                     onSuccess.data.mailSent[2].requestQuotation === true
                 ) {
                     Toast("Your order request has been sent!", "success");
+                    if (
+                        Object.keys(currentUserData).includes("Manufacturer_ID")
+                    ) {
+                        history.push({
+                            pathname: "/profile/maker/order",
+                            state: {
+                                message: "Your order request has been sent!",
+                            },
+                        });
+                    } else {
+                        history.push({
+                            pathname: "/profile/order",
+                            state: {
+                                message: "Your order request has been sent!",
+                            },
+                        });
+                    }
                 }
             },
             (onFail) => {}
