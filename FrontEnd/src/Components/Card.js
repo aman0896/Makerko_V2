@@ -39,6 +39,17 @@ function Card({
             <p className="m-1" style={descriptionStyle}>
                 {data.description}
             </p>
+            <p
+                className="m-1"
+                style={{
+                    textAlign: "start",
+                    color: colors.primary,
+                    fontSize: "1rem",
+                    padding: "0px 10px",
+                }}
+            >
+                {data.hashTag}
+            </p>
         </div>
     );
 }
