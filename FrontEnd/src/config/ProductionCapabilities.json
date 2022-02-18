@@ -1,22 +1,26 @@
 [
     {
         "name": "CNC Cutting",
-        "description": "Effective both for 2D and 3D model making in versatile materials - wood, composite, metal and styrofoam. #Furniture #Signage #Interior #Decoration #Architecture #Prototyping",
-        "image": "./assests/productioncapabilities/cnccutting.png"
+        "description": "Effective both for 2D and 3D model making in versatile materials - wood, composite, metal and styrofoam.",
+        "image": "./assests/productioncapabilities/cnccutting.png",
+        "hashTag": "#Furniture #Signage #Interior #Decoration #Architecture #Prototyping"
     },
     {
         "name": "Laser Cutting",
-        "description": "For precision 2D profile cutting, template and decoration items. #Signage #Garment #Architecture #Art&Craft",
-        "image": "./assests/productioncapabilities/lasecutting.jpg"
+        "description": "For precision 2D profile cutting, template and decoration items.",
+        "image": "./assests/productioncapabilities/lasecutting.jpg",
+        "hashTag": "#Signage #Garment #Architecture #Art&Craft"
     },
     {
         "name": "3D Printing",
-        "description": "Rapid prototyping and customized product development made easy with additive manufacturing. #Medical #Dental #IndustrialProduct #Prototyping #Architecture #Art&Craft ",
-        "image": "./assests/productioncapabilities/3dprinting.webp"
+        "description": "Rapid prototyping and customized product development made easy with additive manufacturing.",
+        "image": "./assests/productioncapabilities/3dprinting.webp",
+        "hashTag": "#Medical #Dental #IndustrialProduct #Prototyping #Architecture #Art&Craft "
     },
     {
         "name": "Plasma Cutting",
-        "description": "Quick and simple way to cut any metal that conducts electricity such as steel, stainless steel, aluminium, copper, brass and other conductive metals. #Signage #MetalCut #Engineering #Construction",
-        "image": "./assests/productioncapabilities/plasmacutting.jpg"
+        "description": "Quick and simple way to cut any metal that conducts electricity such as steel, stainless steel, aluminium, copper, brass and other conductive metals.",
+        "image": "./assests/productioncapabilities/plasmacutting.jpg",
+        "hashTag": "#Signage #MetalCut #Engineering #Construction"
     }
 ]
