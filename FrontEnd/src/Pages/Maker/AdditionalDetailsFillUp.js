@@ -176,12 +176,12 @@ function AdditionalDetailsFillUp() {
         >
             <ManufacturingServices />
 
-            {/* <div className="mt-4">
+            <div className="mt-4">
                 <OtherServices
                     getData={(data) => setOtherServices(data)}
                     oldOtherServices={oldOtherServices}
                 />
-            </div> */}
+            </div>
             <FormikComponent
                 initialValues={InitialValues}
                 onSubmit={handleSubmit}
