@@ -49,9 +49,9 @@ export default function InputComponent(props) {
                                 : "text"
                             : props.type
                     }
-                    aria-controls={props.open ? "composition-menu" : undefined}
-                    aria-expanded={props.open ? "true" : undefined}
-                    aria-haspopup="true"
+                    // aria-controls={props.open ? "composition-menu" : undefined}
+                    // aria-expanded={props.open ? "true" : undefined}
+                    // aria-haspopup="true"
                     className={
                         props.className ? props.className : "form-control"
                     }
@@ -69,8 +69,6 @@ export default function InputComponent(props) {
                     }}
                     style={{
                         borderColor:
-                            props.error &&
-                            props.touched &&
                             props.errors[props.name] &&
                             props.touched[props.name]
                                 ? colors.danger
