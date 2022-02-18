@@ -16,8 +16,8 @@ const projectPath = path.dirname(process.cwd());
 const db = require("./DBController/DBConnect");
 
 //server ip
-// var ipAddress = "172.31.32.139";
-// var hostAddress = "https://makerko.com";
+var ipAddress = "172.31.32.139";
+var hostAddress = "https://makerko.com";
 
 // var ipAddress = "192.168.10.67";
 // var hostAddress = "http://192.168.10.67:3000";
@@ -27,7 +27,7 @@ const db = require("./DBController/DBConnect");
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Credentials", "true");
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.header("Access-Control-Allow-Origin", "https://makerko.com");
     res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept"
@@ -112,9 +112,9 @@ app.get("*", (req, res) => {
     res.sendFile("index.html", { root });
 });
 
-// server.listen(3001, `${ipAddress}`, () => {
-//     console.log("running server");
-// });
-server.listen(3001, () => {
+server.listen(3001, `${ipAddress}`, () => {
     console.log("running server");
 });
+// server.listen(3001, "192.168.10.67", () => {
+//     console.log("running server");
+// });

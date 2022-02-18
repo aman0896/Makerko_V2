@@ -10,7 +10,6 @@ function Projects() {
     const dispatch = useDispatch();
     const location = useLocation();
     const { state } = location;
-    console.log(state, "state");
 
     const projectList = useSelector((state) => state.projectList.projectList);
 
