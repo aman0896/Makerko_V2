@@ -518,7 +518,7 @@ export default function MakersDetailViewPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-5">
+                            {/* <div className="mt-5">
                                 <Button
                                     buttonStyle="button--white--solid"
                                     style={{ fontWeight: 700 }}
@@ -539,7 +539,7 @@ export default function MakersDetailViewPage() {
                                             />
                                         ))}
                                 </div>
-                            </div>
+                            </div> */}
 
                             {!myProfile && (
                                 <div>
