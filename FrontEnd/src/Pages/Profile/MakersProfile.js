@@ -47,6 +47,7 @@ const InitialValues = {
     website: "",
     brief_description: "",
     additional_details: "",
+    slogan: "",
 };
 
 const InitialMapValues = {
@@ -61,6 +62,8 @@ function MakersProfile() {
     const currentUserData = useSelector(
         (state) => state.currentUserdata.currentUserdata
     );
+
+    console.log(currentUserData, "current user data");
 
     const [profileImage, setProfileImage] = useState();
     const [profileImagePreview, setProfileImagePreview] = useState();
@@ -432,6 +435,17 @@ function MakersProfile() {
                                     setInitial={
                                         currentUserData.Brief_Description
                                     }
+                                />
+                            </div>
+                        </div>
+                        <div className="row mt-3">
+                            <div className="col-lg">
+                                <FormikController
+                                    label="Slogan"
+                                    name="slogan"
+                                    control="textarea"
+                                    placeholder="Write your company slogan..."
+                                    setInitial={currentUserData.Slogan}
                                 />
                             </div>
                         </div>

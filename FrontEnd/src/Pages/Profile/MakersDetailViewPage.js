@@ -459,7 +459,13 @@ export default function MakersDetailViewPage() {
                             >
                                 About {maker.Company_Name}
                             </div>
-                            <p>{maker.Additional_Details}</p>
+                            {maker.Additional_Details ? (
+                                <p>{maker.Additional_Details}</p>
+                            ) : (
+                                <a href="/profile/makers/edit">
+                                    Click Here to add Description
+                                </a>
+                            )}
                             <>
                                 <div
                                     className="heading mb-3"
@@ -467,7 +473,16 @@ export default function MakersDetailViewPage() {
                                 >
                                     Manufacturing Services
                                 </div>
-                                {showServices}
+                                {showServices.length > 0 ? (
+                                    showServices
+                                ) : (
+                                    <div>
+                                        <a href="/profile/makers/additionaldetails">
+                                            Click Here to add Manufacturing
+                                            Services
+                                        </a>
+                                    </div>
+                                )}
                                 <div
                                     style={{
                                         display: width < 768 ? "block" : "none",
@@ -577,10 +592,7 @@ export default function MakersDetailViewPage() {
                                     marginRight: width > 768 ? 50 : 10,
                                 }}
                             >
-                                "Wow what great service, I love it! It's is the
-                                most valuable business resource we have EVER
-                                purchased. We can't understand how we've been
-                                living without it."
+                                {maker.Slogan}
                             </label>
                         </div>
                     </div>

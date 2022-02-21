@@ -195,7 +195,7 @@ router.post("/maker-edit", (req, res) => {
                     const filePath = await FileMove(tmp_path, target_path);
                     console.log(userUpdateDetails, "user");
                     const sqlQuery =
-                        "UPDATE manufacturer SET Company_Name=?, Logo=?, Contact_Person=?,Email=?,Phone_Number=?,Website=?, Company_Type=?, Address = ?, Brief_Description = ?, Additional_Details = ? WHERE Manufacturer_ID = ?";
+                        "UPDATE manufacturer SET Company_Name=?, Logo=?, Contact_Person=?,Email=?,Phone_Number=?, Address = ?, Website=?, Company_Type=?, Brief_Description = ?, Additional_Details = ?, Slogan=? WHERE Manufacturer_ID = ?";
                     const data = [
                         userUpdateDetails.companyName,
                         JSON.stringify({
@@ -210,7 +210,7 @@ router.post("/maker-edit", (req, res) => {
                         userUpdateDetails.companyStatus.type,
                         userUpdateDetails.brief_description,
                         userUpdateDetails.additional_details,
-
+                        userUpdateDetails.slogan,
                         userDetails.Manufacturer_ID,
                     ];
                     DBQuery(sqlQuery, data, (err, result) => {
