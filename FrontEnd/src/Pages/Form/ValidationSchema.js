@@ -66,7 +66,9 @@ const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 const SUPPORTED_FORMATS_PDF = ["application/pdf"];
 export const ProjectValidationSchema = Yup.object().shape({
     projectTitle: Yup.string().required("Title is required"),
-
+    manufacturingProcess: Yup.string().required(
+        "Manufacturing Process is required"
+    ),
     materials: Yup.string().required("Materials is required"),
     category: Yup.string().required("Selector/Category is required"),
     description: Yup.string().required("Description is required"),
@@ -147,6 +149,7 @@ export const ValidationSchemaMakerProfile = Yup.object().shape({
     ),
     brief_description: Yup.string().required("Brief Description is required"),
     additional_details: Yup.string().required("Additional Details is required"),
+    slogan: Yup.string().required("Slogan is required"),
 });
 
 //validation schema customer profile

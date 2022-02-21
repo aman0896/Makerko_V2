@@ -20,6 +20,7 @@ import { useHistory } from "react-router-dom";
 const InitialValues = {
     coverImage: "",
     projectTitle: "",
+    manufacturingProcess: "",
     materials: "",
     category: "",
     description: "",
@@ -97,6 +98,7 @@ function CreateProjectForm(props) {
 
         const restDetails = {
             projectTitle: values.projectTitle,
+            manufacturingProcess: values.manufacturingProcess,
             materials: values.materials,
             category: values.category,
             description: values.description,
@@ -276,13 +278,19 @@ function CreateProjectForm(props) {
                             <div className="col-lg-6">
                                 <FormikController
                                     control="input"
-                                    label="Materials:"
-                                    name="materials"
-                                    placeholder="Ex. Polypropylene(PP),PVC"
+                                    label="Manufacturing Process:"
+                                    name="manufacturingProcess"
+                                    placeholder="Ex. CNC, 3D printing, Laser Cutting"
                                 />
                             </div>
                         </div>
 
+                        <FormikController
+                            control="input"
+                            label="Materials:"
+                            name="materials"
+                            placeholder="Ex. Polypropylene(PP),PVC"
+                        />
                         <FormikController
                             control="input"
                             label="Selector/Category:"

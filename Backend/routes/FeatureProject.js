@@ -193,14 +193,20 @@ router.post("/create", (req, res) => {
 
                 //#region data  storing in db
                 const sqlQuery =
-                    "INSERT INTO project(Project_ID, Author_ID, Publish_Date, Materials, Title, Cover_Image, Description, PdfDocument, Gallary, Content, Category) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-                const { materials, projectTitle, description, category } =
-                    restDetails;
+                    "INSERT INTO project(Project_ID, Author_ID, Publish_Date, Manufacturing_Process, Materials, Title, Cover_Image, Description, PdfDocument, Gallary, Content, Category) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+                const {
+                    materials,
+                    projectTitle,
+                    description,
+                    category,
+                    manufacturingProcess,
+                } = restDetails;
 
                 const data = [
                     projectId,
                     authorId,
                     Date.now(),
+                    manufacturingProcess,
                     materials,
                     projectTitle,
                     JSON.stringify({
@@ -417,18 +423,27 @@ router.post("/cover-edit", (req, res) => {
     } catch {}
 });
 
-//project title ,production details & description edit
+//project title ,manufacturing, material, category & description edit
 router.post("/detail-edit", (req, res) => {
     try {
         const projectTitle = req.body.projectTitle;
-        const productionDetails = req.body.productionDetails;
+        const manufacturingProcess = req.body.manufacturingProcess;
+        const materials = req.body.materials;
+        const category = req.body.category;
         const description = req.body.description;
         const projectId = req.body.projectId;
 
         const sqlQuery =
-            "UPDATE project SET Title = ?, Production_Details = ?, Description = ? WHERE Project_ID = ?";
+            "UPDATE project SET Title = ?, Manufacturing_Process = ?, Materials=?, Description = ?, Category=? WHERE Project_ID = ?";
 
-        data = [projectTitle, productionDetails, description, projectId];
+        data = [
+            projectTitle,
+            manufacturingProcess,
+            materials,
+            description,
+            category,
+            projectId,
+        ];
 
         DBQuery(sqlQuery, data, (err, result) => {
             if (err) return console.log(err, "projectDetail updtate fail");

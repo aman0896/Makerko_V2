@@ -29,7 +29,9 @@ import { colors } from "../../Values/colors";
 
 const InitialValues = {
     projectTitle: "",
-    productionDetails: "",
+    manufacturingProcess: "",
+    materials: "",
+    category: "",
     description: "",
 };
 
@@ -386,13 +388,29 @@ function ProjectEditModal(props) {
                                             />
                                             <FormikController
                                                 control="input"
-                                                label="Production Detail:"
-                                                name="productionDetails"
-                                                placeholder="Ex. Polypropylene(PP),PVC"
+                                                label="Manufacturing Process:"
+                                                name="manufacturingProcess"
+                                                placeholder="Ex. CNC, 3D printing, Laser Cutting"
                                                 setInitial={
                                                     props.data
-                                                        .Production_Details
+                                                        .Manufacturing_Process
                                                 }
+                                            />
+                                            <FormikController
+                                                control="input"
+                                                label="Materials:"
+                                                name="materials"
+                                                placeholder="Ex. Polypropylene(PP),PVC"
+                                                setInitial={
+                                                    props.data.Materials
+                                                }
+                                            />
+                                            <FormikController
+                                                control="input"
+                                                label="Selector/Category:"
+                                                name="category"
+                                                placeholder="Ex. #CNC, #Handicraft"
+                                                setInitial={props.data.Category}
                                             />
                                             <FormikController
                                                 control="textarea"
