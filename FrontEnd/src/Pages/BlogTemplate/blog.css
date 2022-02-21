@@ -1,0 +1,87 @@
+.block {
+  background-color: #0000ff;
+  height: 550px;
+}
+@media screen and (max-width: 768px) {
+  .heading {
+    margin-left: 2rem;
+  }
+  .mt-3 {
+    display: flex;
+    justify-content: center;
+    text-align: justify;
+    margin: 2rem;
+    width: 100%;
+  }
+  .d-flex {
+    margin-top: 15px;
+    width: 550px;
+  }
+  .advice {
+    text-align: center;
+  }
+
+  .mt-2 {
+    width: 50%;
+    text-align: justify;
+    font-size: small;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .block {
+    background-color: #0000ff;
+    height: 900px;
+  }
+
+  thead {
+    display: none;
+  }
+  tr,
+  td {
+    display: block;
+  }
+  tr:not(:last-child) {
+    border-bottom: 15px solid #0000ff;
+  }
+  th {
+    text-align: right;
+  }
+  td {
+    padding-left: 54%;
+    position: relative;
+    text-align: right;
+    font-size: 2vw;
+  }
+
+  td::before {
+    position: absolute;
+    padding: 5px;
+    left: 0;
+
+    bottom: 6px;
+    width: 65%;
+    content: attr(data-label);
+    text-align: left;
+    font-weight: bold;
+  }
+  .tabul {
+    width: 420px;
+    padding-right: 3rem;
+  }
+
+  .worker {
+    padding-left: 4.5rem;
+  }
+  .worker2 {
+    padding-right: 3rem;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}

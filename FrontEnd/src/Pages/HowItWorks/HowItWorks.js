@@ -1,11 +1,11 @@
-// import React, { Component } from 'react';
-import "./HowItworks.css";
-import play from "./demo.svg";
 import React from "react";
+import "./HowItWorks.css";
+import play from "./demo.svg";
 import { MdCloudUpload } from "react-icons/md";
 import { GrConfigure } from "react-icons/gr";
 import { BsPersonCheckFill } from "react-icons/bs";
 import { FaDollarSign } from "react-icons/fa";
+import { colors } from "../../Values/colors";
 
 function HowitWorks() {
   return (
@@ -13,7 +13,12 @@ function HowitWorks() {
       <div className="" style={{ width: "80%", margin: "0 10%" }}>
         <div className="row mt-5">
           <div className="col-sm">
-            <div className="heading ">HOW TO GET A QUOTE</div>
+            <div
+              className="heading text-uppercase"
+              style={{ fontSize: "2rem", color: colors.primary }}
+            >
+              HOW TO GET A QUOTE
+            </div>
 
             <span className="quote">
               Learn how to build your first quote, upload your part and specify
@@ -125,8 +130,11 @@ function HowitWorks() {
           <div className="row" style={{ marginTop: "80px" }}>
             <div className="col">
               <div
-                className="title pt-5 pb-5 font-weight-bold "
-                style={{ color: "#0000FF", fontSize: 24 }}
+                className="heading text-uppercase pt-5 pb-5"
+                style={{
+                  color: colors.white,
+                  fontSize: "2rem",
+                }}
               >
                 DEMONSTRATION VIDEO
               </div>
@@ -155,6 +163,7 @@ function HowitWorks() {
                     top: "50%",
                     left: "45%",
                   }}
+                  alt=""
                 />
               </div>
             </div>
