@@ -69,7 +69,9 @@ export default function InputComponent(props) {
                     }}
                     style={{
                         borderColor:
+                            props.error &&
                             props.errors[props.name] &&
+                            props.touched &&
                             props.touched[props.name]
                                 ? colors.danger
                                 : colors.gray,
