@@ -82,7 +82,7 @@ function MakersSignup() {
     return (
         <div
             style={{
-                height: window.innerHeight - 80,
+                minHeight: window.innerHeight - 80,
             }}
         >
             <div className="row m-0 h-100">
@@ -91,8 +91,9 @@ function MakersSignup() {
                         src="/assests/Login.png"
                         style={{
                             width: "100%",
-                            height: "100%",
+                            height: window.innerHeight - 80,
                         }}
+                        alt=""
                     />
                 </div>
                 <div className="col-lg-6 mx-5 section">
@@ -103,6 +104,7 @@ function MakersSignup() {
                                 width: 180,
                                 // height: 19,
                             }}
+                            alt=""
                         />
                         <div className="details">
                             Enter your Company details to get started
@@ -219,7 +221,7 @@ function MakersSignup() {
                                                 <>
                                                     I agree with the
                                                     <a
-                                                        // to="/"
+                                                        href
                                                         className="ml-1"
                                                         style={{
                                                             color: colors.primary,
@@ -245,7 +247,7 @@ function MakersSignup() {
                                             <div className="text-center small">
                                                 Already have an account?
                                                 <a
-                                                    href="/login"
+                                                    href="/account/login"
                                                     type="button"
                                                     className="font-weight-bold ml-1"
                                                     style={{
