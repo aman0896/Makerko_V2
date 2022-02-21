@@ -5,6 +5,10 @@ import "./BlogComponent.css";
 import Button from "../Button";
 import { divIcon } from "leaflet";
 import SlideView from "../slideView/SlideView";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { colors } from "../../Values/colors";
+import { faEdit, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const fontWeignt = { fontWeight: "lighter" };
 const imgWidth = { maxWidth: "400px", maxHeight: "400px" };
@@ -19,10 +23,13 @@ function BlogComponent(props) {
         pdfFile,
         productionDetails,
         publishDate,
+        editable,
+        trashIconClick,
+        editIconClick,
     } = props;
 
     const { width, height } = useWindowDimensions();
-
+    console.log(props, "props");
     const cardStyle = {
         background: "white",
         borderRadius: "5px",
@@ -45,6 +52,22 @@ function BlogComponent(props) {
                 }}
                 alt=""
             />
+            {editable && (
+                <div className="d-flex justify-content-end mx-5 my-2">
+                    <FontAwesomeIcon
+                        style={{ marginRight: 2, color: colors.success }}
+                        icon={faEdit}
+                        size="lg"
+                        onClick={editIconClick}
+                    />
+                    <FontAwesomeIcon
+                        style={{ marginLeft: 5, color: colors.danger }}
+                        icon={faTrashAlt}
+                        size="lg"
+                        onClick={trashIconClick}
+                    />
+                </div>
+            )}
             <div className="contain--80">
                 <div
                     className="heading"
@@ -67,7 +90,7 @@ function BlogComponent(props) {
                 <div className="contain--80 row">
                     <div
                         className={
-                            content.image_position === "right"
+                            content.image_position.direction === "right"
                                 ? "col-xl-6 col-lg-6 col-md-6"
                                 : "col-xl-6 col-lg-6 col-md-6 position_img d-flex justify-content-end"
                         }

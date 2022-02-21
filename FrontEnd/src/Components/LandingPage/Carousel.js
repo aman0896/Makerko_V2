@@ -49,7 +49,7 @@ const CustomSlide = ({ slide }) => {
     const styles = {
         objectFit: "cover",
         width: "100%",
-        height: window.innerHeight / 2,
+        backgroundPosition: "center",
     };
 
     return (
@@ -70,7 +70,7 @@ const CustomSlide = ({ slide }) => {
         //     setSwiping(false);
         // }}
         >
-            <img src={slide.image} style={styles} alt="" />
+            <img src={slide.image} className="carousel" style={styles} alt="" />
         </div>
     );
 };

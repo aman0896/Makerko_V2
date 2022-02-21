@@ -10,3 +10,13 @@
     font-size: 10px;
     color: white;
 }
+
+.carousel {
+    height: 766px;
+}
+
+@media screen and (max-width: 600px) {
+    .carousel {
+        height: 400px;
+    }
+}

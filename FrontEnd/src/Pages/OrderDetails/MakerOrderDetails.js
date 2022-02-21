@@ -12,17 +12,19 @@ import WrapperComponent from "../../Components/WrapperComponent";
 import SimpleModal from "../../Components/modal/SimpleModal";
 import Select from "react-select";
 import { Toast } from "../../Components/ReactToastify";
+import { useSelector } from "react-redux";
 
 function MakerOrderDetails() {
-    const params = useParams();
     const [showModal, setShowModal] = useState(false);
-    const { id } = params;
     const [orderList, setOrderList] = useState();
     const [statusValue, setStatusValue] = useState();
     const [rowIndex, setRowIndex] = useState();
     const [edit, setEdit] = useState(false);
     const [view, setView] = useState(false);
-    console.log(id, "id");
+
+    const currentUserData = useSelector(
+        (state) => state.currentUserdata.currentUserdata
+    );
 
     const handleEdit = (row, index) => {
         setEdit(true);
@@ -43,44 +45,46 @@ function MakerOrderDetails() {
     };
 
     useEffect(() => {
-        getData(
-            makerOrderList,
-            id,
-            (onSuccess) => {
-                if (onSuccess.data) {
-                    const orderList = onSuccess.data.result;
+        if (currentUserData) {
+            getData(
+                makerOrderList,
+                currentUserData.Manufacturer_ID,
+                (onSuccess) => {
+                    if (onSuccess.data) {
+                        const orderList = onSuccess.data.result;
 
-                    for (let i = 0; i < orderList.length; i++) {
-                        const date = new Date(parseInt(orderList[i].Date));
-                        orderList[i].Date = date.toLocaleString();
-                        orderList[i].Status =
-                            orderList[i].Status === "pending" ? (
-                                <span className=" badge badge-warning">
-                                    {orderList[i].Status}
-                                </span>
-                            ) : orderList[i].Status === "completed" ? (
-                                <span className=" badge badge-success">
-                                    {orderList[i].Status}
-                                </span>
-                            ) : orderList[i].Status === "building" ? (
-                                <span className=" badge badge-secondary">
-                                    {orderList[i].Status}
-                                </span>
-                            ) : (
-                                <span className=" badge badge-danger">
-                                    {orderList[i].Status}
-                                </span>
-                            );
+                        for (let i = 0; i < orderList.length; i++) {
+                            const date = new Date(parseInt(orderList[i].Date));
+                            orderList[i].Date = date.toLocaleString();
+                            orderList[i].Status =
+                                orderList[i].Status === "pending" ? (
+                                    <span className=" badge badge-warning">
+                                        {orderList[i].Status}
+                                    </span>
+                                ) : orderList[i].Status === "completed" ? (
+                                    <span className=" badge badge-success">
+                                        {orderList[i].Status}
+                                    </span>
+                                ) : orderList[i].Status === "building" ? (
+                                    <span className=" badge badge-secondary">
+                                        {orderList[i].Status}
+                                    </span>
+                                ) : (
+                                    <span className=" badge badge-danger">
+                                        {orderList[i].Status}
+                                    </span>
+                                );
+                        }
+
+                        setOrderList(orderList);
                     }
-
-                    setOrderList(orderList);
+                },
+                (onFail) => {
+                    console.log(onFail, "fail");
                 }
-            },
-            (onFail) => {
-                console.log(onFail, "fail");
-            }
-        );
-    }, [id]);
+            );
+        }
+    }, [currentUserData]);
 
     const handleClose = () => {
         setShowModal(false);

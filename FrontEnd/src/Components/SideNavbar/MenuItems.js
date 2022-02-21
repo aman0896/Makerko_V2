@@ -3,6 +3,8 @@ import { MdDeviceHub } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
 import { ImFilesEmpty } from "react-icons/im";
 import { CgPlayList } from "react-icons/cg";
+import { FaBlog } from "react-icons/fa";
+import { VscGitPullRequestDraft } from "react-icons/vsc";
 
 export const MakerMenuItems = [
     {
@@ -24,7 +26,7 @@ export const MakerMenuItems = [
     {
         title: "Requested Design",
         path: "/profile/request_design",
-        icon: <ImFilesEmpty size={20} />,
+        icon: <VscGitPullRequestDraft size={20} />,
     },
     {
         title: "My Projects",
@@ -34,7 +36,7 @@ export const MakerMenuItems = [
     {
         title: "My Blogs",
         path: "/profile/makers/myblogs",
-        icon: <ImFilesEmpty size={20} />,
+        icon: <FaBlog size={20} />,
     },
 ];
 
@@ -53,7 +55,7 @@ export const CustomerMenuItems = [
     {
         title: "Requested Design",
         path: "/profile/request_design",
-        icon: <ImFilesEmpty size={20} />,
+        icon: <VscGitPullRequestDraft size={20} />,
     },
     {
         title: "My Projects",
