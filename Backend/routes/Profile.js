@@ -4,16 +4,16 @@ const path = require("path");
 const projectPath = path.dirname(process.cwd());
 var fs = require("fs");
 const {
-    SingleFileUpload,
-    MultipleFileUpload,
+  SingleFileUpload,
+  MultipleFileUpload,
 } = require("../Utils/MultarFileUpload");
 const FileDownload = require("../Utils/FileDownload");
 const { FileMove } = require("../Utils/Operations");
 const { DBQuery } = require("../DBController/DatabaseQuery");
 const { FileDelete } = require("../Utils/FileDelete");
 const {
-    PasswordEncryption,
-    PasswordCheck,
+  PasswordEncryption,
+  PasswordCheck,
 } = require("../Utils/passwordSecurity");
 const { GetUserData } = require("../DBController/DBController");
 const router = express.Router();
@@ -231,34 +231,34 @@ router.post("/maker-edit", (req, res) => {
 });
 
 router.get("/maker-get-map", async (req, res) => {
-    try {
-        console.log("params");
-        console.log(req.query[0], "params");
-        const Manufacturer_ID = req.query[0];
-        const getUserSql = "SELECT * FROM location WHERE Manufacturer_ID = ?";
-        const userData = [Manufacturer_ID];
-        const getLocation = await GetUserData(getUserSql, userData);
+  try {
+    console.log("params");
+    console.log(req.query[0], "params");
+    const Manufacturer_ID = req.query[0];
+    const getUserSql = "SELECT * FROM location WHERE Manufacturer_ID = ?";
+    const userData = [Manufacturer_ID];
+    const getLocation = await GetUserData(getUserSql, userData);
 
-        console.log("getlocation", getLocation);
-        if (getLocation.length > 0) {
-            res.json(getLocation[0]);
-            console.log("getlocation", getLocation);
-            return;
-        } else {
-            console.log("no location set");
-            return false;
-        }
-    } catch {
-        return { msg: "Something Went Wrong" };
+    console.log("getlocation", getLocation);
+    if (getLocation.length > 0) {
+      res.json(getLocation[0]);
+      console.log("getlocation", getLocation);
+      return;
+    } else {
+      console.log("no location set");
+      return false;
     }
+  } catch {
+    return { msg: "Something Went Wrong" };
+  }
 });
 
 router.post("/maker-map-edit", async (req, res) => {
-    try {
-        const { Manufacturer_ID, latitude, longitude } = req.body;
-        const getUserSql = "SELECT * FROM location WHERE Manufacturer_ID = ?";
-        const userData = [Manufacturer_ID];
-        const checkUser = await GetUserData(getUserSql, userData);
+  try {
+    const { Manufacturer_ID, latitude, longitude } = req.body;
+    const getUserSql = "SELECT * FROM location WHERE Manufacturer_ID = ?";
+    const userData = [Manufacturer_ID];
+    const checkUser = await GetUserData(getUserSql, userData);
 
         if (checkUser.length > 0) {
             let sqlQuery =
@@ -423,6 +423,58 @@ router.post("/maker-cover-edit", async (req, res) => {
     } catch (err) {
         console.log(err, "catch line 306 profile.js");
     }
+});
+
+//maker cover image edit
+router.post("/maker-cover-edit", async (req, res) => {
+  try {
+    const upload = SingleFileUpload("cover");
+
+    upload(req, res, async (err) => {
+      try {
+        if (err) return res.status(400).json(err);
+        const coverImage = req.file;
+        console.log(coverImage, "image");
+        const u_Id = req.body.userId;
+        const prevImage =
+          req.body.prevImage !== "undefined"
+            ? JSON.parse(req.body.prevImage)
+            : null;
+        console.log(prevImage, "prevImage");
+        if (coverImage) {
+          console.log("inside if line 309");
+          var dir = `./public/uploads/maker/${u_Id}/`;
+          if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+          }
+          if (prevImage && prevImage.filePath) {
+            FileDelete(prevImage.filePath);
+          }
+        } else {
+          console.log(prevImage, "line 322");
+          coverImage = prevImage;
+        }
+        let tmp_path = coverImage.path;
+        let target_path = dir + coverImage.filename;
+        const filePath = await FileMove(tmp_path, target_path);
+        const sqlQuery =
+          "UPDATE manufacturer SET CoverImage=? WHERE Manufacturer_ID = ?";
+        const data = [
+          JSON.stringify({
+            filename: coverImage.filename,
+            filePath: req.file ? filePath : coverImage.filePath,
+          }),
+          u_Id,
+        ];
+        DBQuery(sqlQuery, data, (err, result) => {
+          if (err) return res.status(304).send(err);
+          res.json({ coverUpdate: "success" });
+        });
+      } catch {}
+    });
+  } catch (err) {
+    console.log(err, "catch line 306 profile.js");
+  }
 });
 
 //#endregion

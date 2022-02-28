@@ -15,6 +15,9 @@ export const webDomain = "http://localhost:3000/";
 export const mainHost = "http://localhost:3001/";
 
 export const hostApi = Axios.create({ baseURL: mainHost });
+//web domain
+// export const webDomain = "https://makerko.com";
+export const webDomain = "http://localhost:3000/";
 
 //login
 export const login = "account/login";
@@ -99,6 +102,8 @@ export const makersList = "account/makers";
 //file download
 export const download = "download";
 
+//maker cover Image
+export const makerCoverImage = "profile/maker-cover-edit";
 // getMakers list
 export const getMakers = "makers/map";
 

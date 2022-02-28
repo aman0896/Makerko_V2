@@ -1,5 +1,5 @@
-import React from "react";
-import "./Button.css";
+import React from 'react';
+import './Button.css';
 
 const STYLES = [
   "button--primary--solid",
@@ -45,7 +45,7 @@ function Button({ children, type, buttonStyle, buttonSize, onClick, style }) {
 
 export default Button;
 
-const button2Sizes = ["button2--medium", "button2--large"];
+const button2Sizes = ['button2--medium', 'button2--large'];
 
 export function Button2({ children, type, buttonSize, onClick }) {
   const checkButtonSize = button2Sizes.includes(buttonSize)

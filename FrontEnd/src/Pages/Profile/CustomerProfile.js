@@ -15,18 +15,18 @@ import ImageCropper, {
 } from "../../Components/imageCropper/ImageCropper";
 
 const InitialValues = {
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    address: "",
-    email: "",
-    bio: "",
+  firstName: "",
+  lastName: "",
+  phoneNumber: "",
+  address: "",
+  email: "",
+  bio: "",
 };
 
 function CustomerProfile() {
-    const currentUserData = useSelector(
-        (state) => state.currentUserdata.currentUserdata
-    );
+  const currentUserData = useSelector(
+    (state) => state.currentUserdata.currentUserdata
+  );
 
     const { width } = useWindowDimensions();
 
@@ -69,8 +69,8 @@ function CustomerProfile() {
             }
         }
 
-        GetProfileImage();
-    }, [currentUserData]);
+    GetProfileImage();
+  }, [currentUserData]);
 
     const handleSubmit = (values) => {
         console.log(profileImage, "check");
@@ -89,11 +89,11 @@ function CustomerProfile() {
         );
     };
 
-    const handleOnChangeImage = (e) => {
-        setProfileImage(e.target.files[0]);
-        const url = URL.createObjectURL(e.target.files[0]);
-        setProfileImagePreview(url);
-    };
+  const handleOnChangeImage = (e) => {
+    setProfileImage(e.target.files[0]);
+    const url = URL.createObjectURL(e.target.files[0]);
+    setProfileImagePreview(url);
+  };
 
     const coverImageUpdate = (e) => {
         const file = e.target.files[0];
@@ -197,99 +197,99 @@ function CustomerProfile() {
                                 alt=""
                             />
 
-                            <div className="icon-edit">
-                                <MdEdit size="24px" />
-                            </div>
+              <div className="icon-edit">
+                <MdEdit size="24px" />
+              </div>
 
-                            <input
-                                className="avatar-file h-100 w-100"
-                                type="file"
-                                name="file"
-                                accept={".jpg, .jpeg, .png"}
-                                onChange={handleOnChangeImage}
-                            />
-                        </div>
+              <input
+                className="avatar-file h-100 w-100"
+                type="file"
+                name="file"
+                accept={".jpg, .jpeg, .png"}
+                onChange={handleOnChangeImage}
+              />
+            </div>
 
-                        <div className="profile-name">
-                            {currentUserData.First_Name}&nbsp;
-                            {currentUserData.Last_Name}
-                        </div>
-                    </div>
-                    <div className="section-heading mb-3">Edit Profile</div>
-                    <FormikComponent
-                        initialValues={InitialValues}
-                        onSubmit={handleSubmit}
-                        validationSchema={ValidationSchemaCustomerProfile}
-                    >
-                        <div className="row">
-                            <div className="col-lg">
-                                <FormikController
-                                    label="First Name"
-                                    name="firstName"
-                                    control="input"
-                                    placeholder="First Name"
-                                    type="text"
-                                    setInitial={currentUserData.First_Name}
-                                />
-                            </div>
-                            <div className="col-lg offset-lg-1">
-                                <FormikController
-                                    label="Last Name"
-                                    name="lastName"
-                                    control="input"
-                                    placeholder="Last Name"
-                                    type="text"
-                                    setInitial={currentUserData.Last_Name}
-                                />
-                            </div>
-                        </div>
-                        <div className="row mt-3">
-                            <div className="col-lg">
-                                <FormikController
-                                    label="Phone Number"
-                                    name="phoneNumber"
-                                    control="input"
-                                    placeholder="Phone Number"
-                                    type="text"
-                                    setInitial={currentUserData.Phone_Number}
-                                />
-                            </div>
-                            <div className="col-lg offset-lg-1">
-                                <FormikController
-                                    label="Address"
-                                    name="address"
-                                    control="input"
-                                    placeholder="Enter Address"
-                                    type="text"
-                                    setInitial={currentUserData.Address}
-                                />
-                            </div>
-                        </div>
-                        <div className="row mt-3">
-                            <div className="col-lg-6">
-                                <FormikController
-                                    label="Email"
-                                    name="email"
-                                    control="input"
-                                    placeholder="Email Address"
-                                    type="email"
-                                    setInitial={currentUserData.Email}
-                                />
-                            </div>
-                            <div className="col-lg offset-lg-1"></div>
-                        </div>
-                        <div className="row mt-3">
-                            <div className="col-lg">
-                                <FormikController
-                                    label="Bio"
-                                    name="bio"
-                                    control="textarea"
-                                    placeholder="Enter Address"
-                                    type="text"
-                                    setInitial={currentUserData.Bio}
-                                />
-                            </div>
-                        </div>
+            <div className="profile-name">
+              {currentUserData.First_Name}&nbsp;
+              {currentUserData.Last_Name}
+            </div>
+          </div>
+          <div className="section-heading mb-3">Edit Profile</div>
+          <FormikComponent
+            initialValues={InitialValues}
+            onSubmit={handleSubmit}
+            validationSchema={ValidationSchemaCustomerProfile}
+          >
+            <div className="row">
+              <div className="col-lg">
+                <FormikController
+                  label="First Name"
+                  name="firstName"
+                  control="input"
+                  placeholder="First Name"
+                  type="text"
+                  setInitial={currentUserData.First_Name}
+                />
+              </div>
+              <div className="col-lg offset-lg-1">
+                <FormikController
+                  label="Last Name"
+                  name="lastName"
+                  control="input"
+                  placeholder="Last Name"
+                  type="text"
+                  setInitial={currentUserData.Last_Name}
+                />
+              </div>
+            </div>
+            <div className="row mt-3">
+              <div className="col-lg">
+                <FormikController
+                  label="Phone Number"
+                  name="phoneNumber"
+                  control="input"
+                  placeholder="Phone Number"
+                  type="text"
+                  setInitial={currentUserData.Phone_Number}
+                />
+              </div>
+              <div className="col-lg offset-lg-1">
+                <FormikController
+                  label="Address"
+                  name="address"
+                  control="input"
+                  placeholder="Enter Address"
+                  type="text"
+                  setInitial={currentUserData.Address}
+                />
+              </div>
+            </div>
+            <div className="row mt-3">
+              <div className="col-lg-6">
+                <FormikController
+                  label="Email"
+                  name="email"
+                  control="input"
+                  placeholder="Email Address"
+                  type="email"
+                  setInitial={currentUserData.Email}
+                />
+              </div>
+              <div className="col-lg offset-lg-1"></div>
+            </div>
+            <div className="row mt-3">
+              <div className="col-lg">
+                <FormikController
+                  label="Bio"
+                  name="bio"
+                  control="textarea"
+                  placeholder="Enter Address"
+                  type="text"
+                  setInitial={currentUserData.Bio}
+                />
+              </div>
+            </div>
 
                         <div className="d-flex justify-content-end mt-4">
                             <FormikController
