@@ -1,17 +1,21 @@
 [
     {
+        "id": "local-production",
         "image": "./assests/aboutus/local_production.png",
         "name": "Local Production"
     },
     {
+        "id": "collaborative-manufacturing",
         "image": "./assests/aboutus/collaborative_manufactring.png",
         "name": "Collaborative Manufacturing"
     },
     {
+        "id": "design-support",
         "image": "./assests/aboutus/design&prototyping.png",
         "name": "Design & Prototyping Support"
     },
     {
+        "id": "design-challanges",
         "image": "./assests/aboutus/design_challenge.png",
         "name": "Design Challenges"
     }

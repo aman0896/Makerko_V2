@@ -86,7 +86,7 @@ function MakersHub() {
             for (let i = 0; i < services.length; i++) {
                 if (services[i].Service_Name)
                     makerServices +=
-                        "Servicess: " + services[i].Service_Name + ", ";
+                        "Services: " + services[i].Service_Name + ", ";
             }
             var sn = makerServices.lastIndexOf(",");
             makerServices = makerServices.substring(0, sn);

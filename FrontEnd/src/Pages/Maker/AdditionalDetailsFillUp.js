@@ -207,7 +207,10 @@ function AdditionalDetailsFillUp() {
                 {imagePreview && (
                     <div className="row m-2">
                         {imagePreview.map((src, index) => (
-                            <div className="col-lg-2 m-3" key={index}>
+                            <div
+                                className="col-lg-2 col-md-3 col-sm-4 col-5   m-3"
+                                key={index}
+                            >
                                 <div className="image-container">
                                     <div>
                                         <img

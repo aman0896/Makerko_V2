@@ -25,7 +25,13 @@
     text-align: center;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 550px) {
+    .headingStyle {
+        text-align: center;
+        font-size: 1.5rem;
+    }
+}
+@media screen and (max-width: 1050px) {
     .headingStyle {
         text-align: center;
         font-size: 1.5rem;

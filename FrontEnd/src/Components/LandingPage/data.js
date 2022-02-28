@@ -1,4 +1,9 @@
 import Button from "../Button";
+import {
+    DesktopMediaQuery,
+    MobileMediaQuery,
+    TabletMediaQuery,
+} from "../ReactResponsize";
 
 export const slideData = [
     {
@@ -7,34 +12,36 @@ export const slideData = [
         description:
             "Climate and Environment Clean Cooking Stove Innovation Challenge ",
     },
-    {
-        image: "./assests/sliderimage/Maker_ko_sustanibility_model.png",
-    },
+    // {
+    //     image: "./assests/sliderimage/Maker_ko_sustanibility_model.png",
+    // },
 ];
 
 function ApplyButton({ link }) {
+    const isDesktop = DesktopMediaQuery();
+    const isTablet = TabletMediaQuery();
+    const isMobile = MobileMediaQuery();
+
     const onBtnClick = () => {
         window.open(link, "_blank");
     };
     return (
-        <span
-        // style={{
-        //     position: "absolute",
-        //     bottom: 0,
-        //     transform: `translate(${-300}px, ${5}px)`,
-        // }}
-        >
+        <span>
             <Button
-                buttonSize="button--large"
+                buttonSize={
+                    isMobile
+                        ? "button--small"
+                        : isTablet
+                        ? "button--medium"
+                        : "button--large"
+                }
                 buttonStyle="button--primary--outline"
                 style={{
                     borderRadius: "50px",
-                    fontSize: "2rem",
-                    height: "70px",
+                    fontSize: isMobile ? "14px" : isTablet ? "1.5rem" : "2rem",
+                    height: isMobile ? "40px" : isTablet ? "50px" : "70px",
                     letterSpacing: "5px",
                     textTransform: "uppercase",
-                    marginTop: "15px",
-                    marginLeft: "15px",
                 }}
                 onClick={onBtnClick}
             >
