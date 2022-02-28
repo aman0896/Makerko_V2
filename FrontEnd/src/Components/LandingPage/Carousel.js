@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Carousel.css";
 import { colors } from "../../Values/colors";
+import { MobileMediaQuery, TabletMediaQuery } from "../ReactResponsize";
 
 function Carousel({ slides }) {
     const settings = {
@@ -53,25 +54,29 @@ const CustomSlide = ({ slide }) => {
         backgroundPosition: "center",
     };
 
+    const isTablet = TabletMediaQuery();
+    const isMobile = MobileMediaQuery();
+
     return (
         <div
-        // className="m-2"
-        // onMouseDown={() => {
-        //     setSwiping(false);
-        // }}
-        // onMouseMove={() => {
-        //     setSwiping(true);
-        // }}
-        // onMouseUp={(e) => {
-        //     if (!isSwiping && e.button === 0) {
-        //         setDrag(true);
-        //     } else {
-        //         setDrag(false);
-        //     }
-        //     setSwiping(false);
-        // }}
+            style={{ position: "relative" }}
+            // className="m-2"
+            // onMouseDown={() => {
+            //     setSwiping(false);
+            // }}
+            // onMouseMove={() => {
+            //     setSwiping(true);
+            // }}
+            // onMouseUp={(e) => {
+            //     if (!isSwiping && e.button === 0) {
+            //         setDrag(true);
+            //     } else {
+            //         setDrag(false);
+            //     }
+            //     setSwiping(false);
+            // }}
         >
-            <img src={slide.image} className="carousel" style={styles} alt="" />
+            <img src={slide.image} className="carousel" alt="" />
             <div
                 style={{
                     position: "absolute",
@@ -79,23 +84,16 @@ const CustomSlide = ({ slide }) => {
                     alignItems: "center",
                     bottom: 0,
                     width: "100%",
-                    height: "100px",
+                    paddingTop: "15px",
+                    height: isMobile ? "auto" : isTablet ? "auto" : "100px",
                     backgroundImage:
                         "linear-gradient(rgb(255, 255, 255, 0.1), rgb(122, 122, 122, 0.8))",
                 }}
             >
-                {slide.description && (
-                    <span
-                        style={{
-                            marginLeft: "100px",
-                            fontSize: "1.5rem",
-                            color: colors.primary,
-                        }}
-                    >
-                        {slide.description}
-                    </span>
-                )}
-                {slide.button && slide.button}
+                <div className="carousel-content">
+                    {slide.description && <p>{slide.description}</p>}
+                    {slide.button && slide.button}
+                </div>
             </div>
         </div>
     );

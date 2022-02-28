@@ -116,7 +116,7 @@ function Routing() {
                             />
                             <Route exact path="/makers" component={Maker} />
                             <Route exact path="/makers/map" component={Map} />
-                            <Route exact path="/blogs" component={AboutUs} />
+                            <Route exact path="/about" component={AboutUs} />
                             <Route
                                 exact
                                 path="/makers/:id/:name"

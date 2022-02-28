@@ -3,6 +3,7 @@ import { useFormikContext, Field } from "formik";
 import { Button } from "@material-ui/core";
 import { colors } from "../../Values/colors";
 import ErrorMessage from "../formik/ErrorMessage";
+import { MobileMediaQuery, TabletMediaQuery } from "../ReactResponsize";
 
 export default function BrowseFileComponent(props) {
     const [file, setFile] = useState(null);
@@ -45,6 +46,7 @@ export default function BrowseFileComponent(props) {
         borderRadius: 5,
         fontSize: 15,
         color: colors.white,
+        marginTop: 8,
     };
 
     return (
@@ -59,7 +61,7 @@ export default function BrowseFileComponent(props) {
             )}
 
             <div
-                className="d-flex  align-items-center m-0 p-0 pl-3 pt-2 w-25"
+                className="col-lg-6 d-flex justify-content-start align-items-center m-0 p-0"
                 style={{
                     border: `0.8px solid ${
                         props.errors &&
@@ -73,7 +75,7 @@ export default function BrowseFileComponent(props) {
                     height: 50,
                 }}
             >
-                <div className=" d-flex align-items-center">
+                <div className="d-flex justify-content-center align-items-center">
                     <label
                         className={
                             "btn" +

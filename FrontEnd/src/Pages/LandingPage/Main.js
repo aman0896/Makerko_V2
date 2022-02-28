@@ -14,6 +14,11 @@ import PartnersAndCollaboration from "../../Components/LandingPage/PartnersAndCo
 import { Button2 } from "../../Components/Button";
 import { useHistory, useLocation } from "react-router-dom";
 import { useWindowDimensions } from "../../Functions";
+import {
+    DesktopMediaQuery,
+    TabletMediaQuery,
+    MobileMediaQuery,
+} from "../../Components/ReactResponsize";
 
 function Main() {
     const history = useHistory();
@@ -23,9 +28,19 @@ function Main() {
     const aboutRef = useRef(null);
     const { width } = useWindowDimensions();
 
+    const isTablet = TabletMediaQuery();
+    const isMobile = MobileMediaQuery();
+
     useEffect(() => {
-        if (location.state && location.state.toScroll === "aboutUs")
+        console.log(location.state, "location line 35 main");
+        if (location.state && location.state.toScroll === "aboutUs") {
             scrollFunction();
+        } else if (location.pathname === "/") {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
+        }
     }, [location]);
 
     const scrollFunction = () => {
@@ -144,7 +159,11 @@ function Main() {
                         width: "80%",
                         textAlign: "center",
                         color: colors.white,
-                        fontSize: width <= 500 ? "1.5rem" : "2rem",
+                        fontSize: isMobile
+                            ? "1.2rem"
+                            : isTablet
+                            ? "1.5rem"
+                            : "2rem",
                     }}
                 >
                     "Distributed Manufacturing is the Future of Production. It

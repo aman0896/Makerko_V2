@@ -80,8 +80,7 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                                     ? `${webDomain}/assests/logo-05@2x.png`
                                     : `${webDomain}/assests/variationwhite-05 1.png`
                             }
-                            style={{ width: 200 }}
-                            alt=""
+                            alt="logo"
                         />
                     </div>
                 </Link>
@@ -183,6 +182,28 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                             <label data-name="/blogs">BLOGS</label>
                         </Link>
                     </li>
+                    <div className="navbar-menu-button">
+                        <Button
+                            buttonStyle={
+                                path === undefined || path === "/"
+                                    ? "button--primary--solid"
+                                    : "button--white--solid"
+                            }
+                            buttonSize={
+                                width <= 1230
+                                    ? "button--small"
+                                    : "button--medium"
+                            }
+                            style={
+                                width <= 1230
+                                    ? { fontWeight: "bold" }
+                                    : { fontWeight: "bold", fontSize: "1.2rem" }
+                            }
+                            onClick={showModalChoice}
+                        >
+                            Get a Quote
+                        </Button>
+                    </div>
                 </ul>
 
                 <div className="navbar-button">
@@ -204,15 +225,6 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                     >
                         Get a Quote
                     </Button>
-                    <ModalChoice
-                        show={showModal}
-                        handleClose={handleClose}
-                        onClickButton1={onClickHaveDesign}
-                        onClickButton2={onClickRequestDesign}
-                        title="Get a quote"
-                        btnTitle1="Have a Design"
-                        btnTitle2="Request a Desgin"
-                    />
                 </div>
 
                 <div>
@@ -235,6 +247,15 @@ function NavBar({ isAuth, currentUser, userType, setPathname }) {
                         />
                     )}
                 </div>
+                <ModalChoice
+                    show={showModal}
+                    handleClose={handleClose}
+                    onClickButton1={onClickHaveDesign}
+                    onClickButton2={onClickRequestDesign}
+                    title="Get a quote"
+                    btnTitle1="Have a Design"
+                    btnTitle2="Request a Desgin"
+                />
             </div>
         </nav>
     );

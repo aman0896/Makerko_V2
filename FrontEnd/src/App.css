@@ -8,11 +8,37 @@
 .heading {
     font-family: "Montserrat", sans-serif;
     font-weight: bold;
+    font-size: 2rem;
 }
 
 .sub-heading {
     font-family: "Syne", sans-serif;
     font-weight: bold;
+}
+
+@media screen and (max-width: 1050px) {
+    .heading {
+        font-family: "Montserrat", sans-serif;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+
+    .sub-heading {
+        font-family: "Syne", sans-serif;
+        font-weight: bold;
+    }
+}
+@media screen and (max-width: 550px) {
+    .heading {
+        font-family: "Montserrat", sans-serif;
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .sub-heading {
+        font-family: "Syne", sans-serif;
+        font-weight: bold;
+    }
 }
 
 :root {

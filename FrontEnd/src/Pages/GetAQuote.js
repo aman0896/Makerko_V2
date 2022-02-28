@@ -250,7 +250,7 @@ function GetAQuote() {
                     </div>
                 </div>
                 <div className="row mt-5 mx-auto heading">
-                    <div className="col-lg-6">
+                    <div className="col-lg">
                         <FormikController
                             name="materialDetails"
                             control="textarea"

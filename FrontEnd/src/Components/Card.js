@@ -1,6 +1,7 @@
 import React from "react";
 import { colors } from "../Values/colors";
 import "./Card.css";
+import { MobileMediaQuery, TabletMediaQuery } from "./ReactResponsize";
 
 function Card({
     data,
@@ -15,14 +16,17 @@ function Card({
     //   selectedCard(data);
     // };
 
+    const isTablet = TabletMediaQuery();
+    const isMobile = MobileMediaQuery();
+
     return (
         <div
             className="card-bank text-center"
             style={cardStyle}
-            onClick={handleClick}
+            onClick={handleClick ? () => handleClick(data) : ""}
         >
             <img
-                className="mb-4"
+                className="mb-1"
                 src={data.image || data.url}
                 style={imageStyle}
                 alt=""
@@ -44,8 +48,9 @@ function Card({
                 style={{
                     textAlign: "start",
                     color: colors.primary,
-                    fontSize: "1rem",
+                    fontSize: isMobile ? "12px" : isTablet ? "14px" : "",
                     padding: "0px 10px",
+                    display: isMobile ? "none" : isTablet ? "none" : "block",
                 }}
             >
                 {data.hashTag}
