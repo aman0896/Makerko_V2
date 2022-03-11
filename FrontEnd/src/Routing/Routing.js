@@ -45,6 +45,7 @@ import HowitWorks from "../Pages/HowItWorks/HowItWorks";
 
 import BlogTemplate from "../Pages/BlogTemplate/BlogTemplate";
 import { otpVerification } from "../commonApi/Link";
+import VacuumTemplate from "../Pages/VaccumTemplate/VacuumTemplate";
 
 function Routing() {
   const auth = useSelector((state) => state.isAuth);
@@ -71,6 +72,7 @@ function Routing() {
             <Switch>
               <Route exact path="/" component={Main} />
               <Route exact path="/blogtemplate" component={BlogTemplate} />
+              <Route exact path="/vacuum" component={VacuumTemplate} />
 
               {/* Test Route*/}
               <Route exact path="/test/creatable" component={ReactSelect} />
