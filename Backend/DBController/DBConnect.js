@@ -10,9 +10,9 @@ const mysql = require("mysql");
 // });
 
 const db = mysql.createConnection({
-    user: "root",
+    user: "ajay",
     host: "localhost",
-    password: "test@123",
+    password: "@Buntu421",
     database: "makerko",
 
     // password: "fabhubs",

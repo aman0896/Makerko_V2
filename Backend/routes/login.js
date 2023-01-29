@@ -29,12 +29,14 @@ router.post("/login", (req, res) => {
                     ) {
                         res.send({ userLoggedIn: false });
                         console.log(err.userLoggedIn, "login");
+                        
                     } else if (!err.emailExist) {
                         res.send({ emailExist: false });
                     }
                 } else {
                     console.log(response, "responsetoken");
                     var accessToken = response.accessToken;
+                    console.log(accessToken);
                     res.status(202)
                         .cookie("u_id", accessToken, {
                             sameSite: "strict",
@@ -70,6 +72,7 @@ module.exports = router;
 //#region user login authentication
 async function UserCheck(inputEmail, inputPassword, sendResponse) {
     try {
+        
         var user = await EmailExistCheck(inputEmail);
         console.log(user, "emailExist");
         if (user.emailExist && user.userType == "customer") {
@@ -82,16 +85,21 @@ async function UserCheck(inputEmail, inputPassword, sendResponse) {
                 if (user.emailVerfication == 1) {
                     let userInfo = {
                         uid: user.uid,
+                        
                         loggedIn: true,
                         userType: user.userType,
+
                     };
                     const accessToken = SignJWt(userInfo);
+                    
                     sendResponse(null, { accessToken: accessToken });
                 } else {
                     sendResponse({ verified: false }, null);
                 }
             } else {
+                
                 sendResponse({ userLoggedIn: false }, null);
+                
             }
         } else if (user.emailExist && user.userType == "maker") {
             const isPasswordMatch = await PasswordCheck(
@@ -107,15 +115,19 @@ async function UserCheck(inputEmail, inputPassword, sendResponse) {
                     };
                     const accessToken = SignJWt(userInfo);
                     sendResponse(null, { accessToken: accessToken });
+                    
                 } else {
                     sendResponse({ verified: false }, null);
                 }
             } else {
                 sendResponse({ userLoggedIn: false }, null);
+                
+
             }
         } else {
+  
             sendResponse({ emailExist: false }, null);
-            console.log("email or password did not match");
+            
         }
     } catch {}
 }
